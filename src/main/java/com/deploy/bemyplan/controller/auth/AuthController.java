@@ -1,6 +1,7 @@
 package com.deploy.bemyplan.controller.auth;
 
 import com.deploy.bemyplan.common.dto.ApiResponse;
+import com.deploy.bemyplan.controller.auth.dto.request.LoginRequestDto;
 import com.deploy.bemyplan.controller.auth.dto.request.SignUpRequestDto;
 import com.deploy.bemyplan.service.auth.AuthService;
 import com.deploy.bemyplan.service.auth.AuthServiceProvider;
@@ -29,6 +30,15 @@ public class AuthController {
     public ApiResponse<LoginResponse> signUp(@Valid @RequestBody SignUpRequestDto request) {
         AuthService authService = authServiceProvider.getAuthService(request.getSocialType());
         Long userId = authService.signUp(request.toServiceDto());
+        httpSession.setAttribute(USER_ID, userId);
+        return ApiResponse.success(LoginResponse.of(httpSession.getId(), userId));
+    }
+
+    @ApiOperation("로그인 페이지 - 로그인을 요청합니다")
+    @PostMapping("/v1/login")
+    public ApiResponse<LoginResponse> login(@Valid @RequestBody LoginRequestDto request) {
+        AuthService authService = authServiceProvider.getAuthService(request.getSocialType());
+        Long userId = authService.login(request);
         httpSession.setAttribute(USER_ID, userId);
         return ApiResponse.success(LoginResponse.of(httpSession.getId(), userId));
     }

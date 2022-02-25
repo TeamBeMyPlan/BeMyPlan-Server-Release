@@ -26,7 +26,7 @@ public class User extends AuditingTimeEntity {
     @Embedded
     private SocialInfo socialInfo;
 
-    @Builder(access = AccessLevel.PACKAGE)
+    @Builder(access = AccessLevel.PUBLIC)
     private User(String socialId, UserSocialType socialType, String nickname, String email) {
         this.socialInfo = SocialInfo.of(socialId, socialType);
         this.nickname = nickname;

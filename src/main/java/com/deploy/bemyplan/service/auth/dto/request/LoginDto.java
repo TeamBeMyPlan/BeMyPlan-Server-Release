@@ -1,7 +1,6 @@
-package com.deploy.bemyplan.controller.auth.dto.request;
+package com.deploy.bemyplan.service.auth.dto.request;
 
 import com.deploy.bemyplan.domain.user.UserSocialType;
-import com.deploy.bemyplan.service.auth.dto.request.LoginDto;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
@@ -11,7 +10,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class LoginRequestDto {
+public class LoginDto {
 
     @NotBlank(message = "{auth.token.notBlank}")
     private String token;
@@ -19,7 +18,7 @@ public class LoginRequestDto {
     @NotNull(message = "{user.socialType.notNull}")
     private UserSocialType socialType;
 
-    public LoginDto toServiceDto() {
-        return LoginDto.of(token, socialType);
+    public static LoginDto of(String token, UserSocialType socialType) {
+        return new LoginDto(token, socialType);
     }
 }

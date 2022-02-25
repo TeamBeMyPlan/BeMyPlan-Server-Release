@@ -38,7 +38,7 @@ public class AuthController {
     @PostMapping("/v1/login")
     public ApiResponse<LoginResponse> login(@Valid @RequestBody LoginRequestDto request) {
         AuthService authService = authServiceProvider.getAuthService(request.getSocialType());
-        Long userId = authService.login(request);
+        Long userId = authService.login(request.toServiceDto());
         httpSession.setAttribute(USER_ID, userId);
         return ApiResponse.success(LoginResponse.of(httpSession.getId(), userId));
     }

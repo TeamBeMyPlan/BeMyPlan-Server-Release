@@ -1,6 +1,7 @@
 package com.deploy.bemyplan.domain.user.repository;
 
 import com.deploy.bemyplan.domain.user.QUser;
+import com.deploy.bemyplan.domain.user.User;
 import com.deploy.bemyplan.domain.user.UserSocialType;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -32,5 +33,14 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom{
                         user.socialInfo.socialId.eq(socialId),
                         user.socialInfo.socialType.eq(socialType)
                 ).fetchFirst() != null;
+    }
+
+    @Override
+    public User findUserBySocialIdAndSocialType(String socialId, UserSocialType socialType) {
+        return queryFactory.selectFrom(user)
+                .where(
+                        user.socialInfo.socialId.eq(socialId),
+                        user.socialInfo.socialType.eq(socialType)
+                ).fetchOne();
     }
 }

@@ -25,7 +25,7 @@ public class AppleAuthService implements AuthService {
     @Override
     public Long signUp(SignUpDto request) {
         String socialId = appleTokenDecoder.getSocialIdFromIdToken(request.getToken());
-        return userService.registerUser(request.toCreateUserDto(socialId);
+        return userService.registerUser(request.toCreateUserDto(socialId));
     }
 
     @Override

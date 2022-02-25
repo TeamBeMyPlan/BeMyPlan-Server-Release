@@ -4,7 +4,7 @@ import com.deploy.bemyplan.common.dto.ApiResponse;
 import com.deploy.bemyplan.controller.auth.dto.request.SignUpRequestDto;
 import com.deploy.bemyplan.service.auth.AuthService;
 import com.deploy.bemyplan.service.auth.AuthServiceProvider;
-import com.deploy.bemyplan.service.auth.dto.response.LoginResponse;
+import com.deploy.bemyplan.controller.auth.dto.response.LoginResponse;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;

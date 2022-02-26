@@ -1,7 +1,7 @@
 package com.deploy.bemyplan.service.post.dto.response;
 
 import com.deploy.bemyplan.common.dto.AuditingTimeResponse;
-import com.deploy.bemyplan.controller.user.dto.response.UserInfoResponse;
+import com.deploy.bemyplan.service.user.dto.response.UserInfoResponse;
 import com.deploy.bemyplan.domain.post.Post;
 import com.deploy.bemyplan.domain.user.User;
 import lombok.*;

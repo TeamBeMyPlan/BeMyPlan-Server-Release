@@ -7,5 +7,6 @@ public interface UserRepositoryCustom {
 
     boolean existsByName(String name);
     boolean existsBySocialIdAndSocialType(String socialId, UserSocialType socialType);
+    User findUserById(Long Id);
     User findUserBySocialIdAndSocialType(String socialId, UserSocialType socialType);
 }

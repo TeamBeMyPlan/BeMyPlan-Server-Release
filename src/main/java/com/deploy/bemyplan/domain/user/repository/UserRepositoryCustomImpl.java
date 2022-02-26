@@ -5,6 +5,7 @@ import com.deploy.bemyplan.domain.user.User;
 import com.deploy.bemyplan.domain.user.UserSocialType;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.Nullable;
 
 import javax.persistence.LockModeType;
 
@@ -33,6 +34,13 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom{
                         user.socialInfo.socialId.eq(socialId),
                         user.socialInfo.socialType.eq(socialType)
                 ).fetchFirst() != null;
+    }
+
+    @Override
+    public User findUserById(Long userId) {
+        return queryFactory.selectFrom(user)
+                .where(user.id.eq(userId))
+                .fetchOne();
     }
 
     @Override

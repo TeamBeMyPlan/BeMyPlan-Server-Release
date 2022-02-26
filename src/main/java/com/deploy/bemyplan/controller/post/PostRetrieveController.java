@@ -23,9 +23,9 @@ public class PostRetrieveController {
     private final PostRetrieveService planRetrieveService;
 
     @Auth
-    @GetMapping("/v1/plan/popular")
-    public ApiResponse<PlansScrollResponse> getPopularPlans(@UserId Long userId, @Valid RetrievePlansRequest request,
-                                                            @AllowedSortProperties({"id", "orderCnt"}) Pageable pageable) {
+    @GetMapping("/v1/plans")
+    public ApiResponse<PlansScrollResponse> getPlans(@UserId Long userId, @Valid RetrievePlansRequest request,
+                                                            @AllowedSortProperties({"id", "createdAt", "orderCnt"}) Pageable pageable) {
         return ApiResponse.success(planRetrieveService.retrievePopularPlans(userId, request.getSize(), request.getLastPlanId(), pageable));
     }
 }

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.validation.ConstraintViolationException;
 import java.util.Objects;
 
 import static com.deploy.bemyplan.common.exception.ErrorCode.*;
@@ -78,7 +79,8 @@ public class ControllerExceptionAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({
             InvalidFormatException.class,
-            ServletRequestBindingException.class
+            ServletRequestBindingException.class,
+            ConstraintViolationException.class
     })
     protected ApiResponse<Object> handleInvalidFormatException(final Exception e) {
         log.error(e.getMessage());

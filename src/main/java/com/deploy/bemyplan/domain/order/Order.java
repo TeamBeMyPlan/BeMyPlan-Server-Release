@@ -18,7 +18,7 @@ public class Order extends AuditingTimeEntity {
     private Long id;
 
     @Column(nullable = false)
-    private Long postId;
+    private Long planId;
 
     @Column(nullable = false)
     private Long userId;

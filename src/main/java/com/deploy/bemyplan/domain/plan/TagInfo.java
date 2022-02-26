@@ -1,4 +1,4 @@
-package com.deploy.bemyplan.domain.post;
+package com.deploy.bemyplan.domain.plan;
 
 import com.deploy.bemyplan.domain.common.Money;
 import lombok.AccessLevel;

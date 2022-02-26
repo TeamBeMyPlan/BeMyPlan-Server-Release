@@ -31,7 +31,7 @@ public class ScrapRepositoryCustomImpl implements ScrapRepositoryCustom{
                 .from(scrap)
                 .where(
                         scrap.userId.eq(userId),
-                        scrap.postId.in(planIds)
+                        scrap.planId.in(planIds)
                 )
                 .fetch();
         return findAllByIds(scrapIds);

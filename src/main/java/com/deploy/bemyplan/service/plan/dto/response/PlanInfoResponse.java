@@ -1,8 +1,8 @@
-package com.deploy.bemyplan.service.post.dto.response;
+package com.deploy.bemyplan.service.plan.dto.response;
 
 import com.deploy.bemyplan.common.dto.AuditingTimeResponse;
+import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.service.user.dto.response.UserInfoResponse;
-import com.deploy.bemyplan.domain.post.Post;
 import com.deploy.bemyplan.domain.user.User;
 import lombok.*;
 import org.jetbrains.annotations.NotNull;
@@ -30,7 +30,7 @@ public class PlanInfoResponse extends AuditingTimeResponse {
         this.orderStatus = orderStatus;
     }
 
-    public static PlanInfoResponse of(@NotNull Post plan, @NotNull User user, boolean scrapStatus, boolean orderStatus) {
+    public static PlanInfoResponse of(@NotNull Plan plan, @NotNull User user, boolean scrapStatus, boolean orderStatus) {
         return PlanInfoResponse.builder()
                 .planId(plan.getId())
                 .thumbnailUrl(plan.getThumbnailUrl())

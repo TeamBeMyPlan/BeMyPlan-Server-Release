@@ -1,4 +1,4 @@
-package com.deploy.bemyplan.domain.post;
+package com.deploy.bemyplan.domain.plan;
 
 import com.deploy.bemyplan.domain.common.AuditingTimeEntity;
 import com.deploy.bemyplan.domain.common.Money;
@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Post extends AuditingTimeEntity {
+public class Plan extends AuditingTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,12 +49,12 @@ public class Post extends AuditingTimeEntity {
 
     @Column(nullable = false, length = 30)
     @Enumerated(EnumType.STRING)
-    private PostStatus status;
+    private PlanStatus status;
 
     @Column(nullable = false, length = 30)
     @Enumerated(EnumType.STRING)
     private RcmndStatus rcmndStatus;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "plan", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<DailySchedule> schedules = new ArrayList<>();
 }

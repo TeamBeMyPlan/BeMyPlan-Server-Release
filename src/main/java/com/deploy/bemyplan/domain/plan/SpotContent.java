@@ -1,4 +1,4 @@
-package com.deploy.bemyplan.domain.post;
+package com.deploy.bemyplan.domain.plan;
 
 import com.deploy.bemyplan.common.type.JsonValueType;
 import lombok.AccessLevel;

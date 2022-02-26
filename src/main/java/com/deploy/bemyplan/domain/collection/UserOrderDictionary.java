@@ -18,7 +18,7 @@ public class UserOrderDictionary {
 
     public static UserOrderDictionary of(List<Order> orders) {
         return new UserOrderDictionary(orders.stream()
-                .collect(Collectors.toMap(Order::getPostId, order -> order)));
+                .collect(Collectors.toMap(Order::getPlanId, order -> order)));
     }
 
     public boolean existByPlanId(Long planId) {

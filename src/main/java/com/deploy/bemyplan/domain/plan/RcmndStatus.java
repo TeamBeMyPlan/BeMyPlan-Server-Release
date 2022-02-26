@@ -1,4 +1,4 @@
-package com.deploy.bemyplan.domain.post;
+package com.deploy.bemyplan.domain.plan;
 
 public enum RcmndStatus {
     RECOMMENDED,

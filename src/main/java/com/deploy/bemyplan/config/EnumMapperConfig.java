@@ -1,7 +1,7 @@
 package com.deploy.bemyplan.config;
 
 import com.deploy.bemyplan.common.util.EnumMapper;
-import com.deploy.bemyplan.domain.post.*;
+import com.deploy.bemyplan.domain.plan.*;
 import com.deploy.bemyplan.domain.user.UserSocialType;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +16,7 @@ public class EnumMapperConfig {
         //user
         enumMapper.put("UserSocialType", UserSocialType.class);
 
-        //post
+        //plan
         enumMapper.put("TravelTheme", TravelTheme.class);
         enumMapper.put("TravelPartner", TravelPartner.class);
         enumMapper.put("TravelMobility", TravelMobility.class);

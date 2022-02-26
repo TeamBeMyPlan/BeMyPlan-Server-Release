@@ -1,9 +1,9 @@
-package com.deploy.bemyplan.service.post.dto.response;
+package com.deploy.bemyplan.service.plan.dto.response;
 
 import com.deploy.bemyplan.domain.common.collection.ScrollPaginationCollection;
 import com.deploy.bemyplan.domain.collection.UserOrderDictionary;
 import com.deploy.bemyplan.domain.collection.UserScrapDictionary;
-import com.deploy.bemyplan.domain.post.Post;
+import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.user.User;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -30,29 +30,29 @@ public class PlansScrollResponse {
         this.nextCursor = nextCursor;
     }
 
-    public static PlansScrollResponse of(ScrollPaginationCollection<Post> plansScroll, UserScrapDictionary userScrapDictionary, UserOrderDictionary userOrderDictionary, User user) {
+    public static PlansScrollResponse of(ScrollPaginationCollection<Plan> plansScroll, UserScrapDictionary userScrapDictionary, UserOrderDictionary userOrderDictionary, User user) {
         if (plansScroll.isLastScroll()) {
             return newLastCursor(plansScroll.getCurrentScrollItems(), userScrapDictionary, userOrderDictionary, user);
         }
         return newCursorHasNext(plansScroll.getCurrentScrollItems(), userScrapDictionary, userOrderDictionary, user, plansScroll.getNextCursor().getId());
     }
 
-    private static PlansScrollResponse newLastCursor(List<Post> plans, UserScrapDictionary userScrapDictionary, UserOrderDictionary userOrderDictionary, @NotNull User user) {
+    private static PlansScrollResponse newLastCursor(List<Plan> plans, UserScrapDictionary userScrapDictionary, UserOrderDictionary userOrderDictionary, @NotNull User user) {
         return newCursorHasNext(plans, userScrapDictionary, userOrderDictionary, user, LAST_CURSOR);
     }
 
-    private static PlansScrollResponse newCursorHasNext(List<Post> plans, UserScrapDictionary userScrapDictionary, UserOrderDictionary userOrderDictionary, User user, long nextCursor) {
+    private static PlansScrollResponse newCursorHasNext(List<Plan> plans, UserScrapDictionary userScrapDictionary, UserOrderDictionary userOrderDictionary, User user, long nextCursor) {
         List<PlanInfoResponse> contents = plans.stream()
                 .map(plan -> PlanInfoResponse.of(plan, user, getScarpStatus(plan, userScrapDictionary), getOrderStatus(plan, userOrderDictionary)))
                 .collect(Collectors.toList());
         return new PlansScrollResponse(contents, nextCursor);
     }
 
-    private static boolean getScarpStatus(Post plan, UserScrapDictionary userScrapDictionary) {
+    private static boolean getScarpStatus(Plan plan, UserScrapDictionary userScrapDictionary) {
         return userScrapDictionary.existByPlanId(plan.getId());
     }
 
-    private static boolean getOrderStatus(Post plan, UserOrderDictionary userOrderDictionary) {
+    private static boolean getOrderStatus(Plan plan, UserOrderDictionary userOrderDictionary) {
         return userOrderDictionary.existByPlanId(plan.getId());
     }
 }

@@ -1,12 +1,12 @@
-package com.deploy.bemyplan.controller.post;
+package com.deploy.bemyplan.controller.plan;
 
 import com.deploy.bemyplan.common.dto.ApiResponse;
 import com.deploy.bemyplan.config.interceptor.Auth;
 import com.deploy.bemyplan.config.resolver.UserId;
 import com.deploy.bemyplan.config.validator.AllowedSortProperties;
-import com.deploy.bemyplan.controller.post.dto.request.RetrievePlansRequest;
-import com.deploy.bemyplan.service.post.dto.response.PlansScrollResponse;
-import com.deploy.bemyplan.service.post.PostRetrieveService;
+import com.deploy.bemyplan.controller.plan.dto.request.RetrievePlansRequest;
+import com.deploy.bemyplan.service.plan.dto.response.PlansScrollResponse;
+import com.deploy.bemyplan.service.plan.PlanRetrieveService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.validation.annotation.Validated;
@@ -18,9 +18,9 @@ import javax.validation.Valid;
 @Validated
 @RequiredArgsConstructor
 @RestController
-public class PostRetrieveController {
+public class PlanRetrieveController {
 
-    private final PostRetrieveService planRetrieveService;
+    private final PlanRetrieveService planRetrieveService;
 
     @Auth
     @GetMapping("/v1/plans")

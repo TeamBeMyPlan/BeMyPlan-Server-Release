@@ -1,4 +1,4 @@
-package com.deploy.bemyplan.domain.post;
+package com.deploy.bemyplan.domain.plan;
 
 import com.deploy.bemyplan.common.model.EnumModel;
 import lombok.AccessLevel;
@@ -7,10 +7,10 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public enum SpotCategoryType implements EnumModel {
-    RESTAURANT("식당"),
-    CAFE("카페"),
-    MUSEUM("박물관"),
+public enum TravelPartner implements EnumModel {
+    FAMILY("가족"),
+    FRIEND("친구"),
+    COUPLE("연인"),
     ;
 
     private final String value;
@@ -25,3 +25,4 @@ public enum SpotCategoryType implements EnumModel {
         return value;
     }
 }
+

@@ -1,4 +1,4 @@
-package com.deploy.bemyplan.domain.post;
+package com.deploy.bemyplan.domain.plan;
 
 import com.deploy.bemyplan.common.model.EnumModel;
 import lombok.AccessLevel;
@@ -7,9 +7,10 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public enum SpotContentType implements EnumModel {
-    HONEY_TIP("꿀팁"),
-    REAL_REVIEW("솔직후기")
+public enum TravelTheme implements EnumModel {
+    HEALING("힐링"),
+    LEISURE("레저"),
+    EATING("먹방"),
     ;
 
     private final String value;
@@ -24,4 +25,3 @@ public enum SpotContentType implements EnumModel {
         return value;
     }
 }
-

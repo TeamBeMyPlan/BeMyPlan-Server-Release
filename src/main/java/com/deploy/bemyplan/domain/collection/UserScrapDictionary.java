@@ -18,7 +18,7 @@ public class UserScrapDictionary {
 
     public static UserScrapDictionary of(List<Scrap> scraps) {
         return new UserScrapDictionary(scraps.stream()
-                .collect(Collectors.toMap(Scrap::getPostId, scrap -> scrap)));
+                .collect(Collectors.toMap(Scrap::getPlanId, scrap -> scrap)));
     }
 
     public boolean existByPlanId(Long planId) {

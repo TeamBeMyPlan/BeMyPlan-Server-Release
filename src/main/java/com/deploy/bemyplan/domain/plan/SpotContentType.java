@@ -1,4 +1,4 @@
-package com.deploy.bemyplan.domain.post;
+package com.deploy.bemyplan.domain.plan;
 
 import com.deploy.bemyplan.common.model.EnumModel;
 import lombok.AccessLevel;
@@ -7,11 +7,9 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public enum TravelMobility implements EnumModel {
-    CAR("승용차"),
-    PUBLIC("대중교통"),
-    WALK("도보"),
-    BICYCLE("자전거")
+public enum SpotContentType implements EnumModel {
+    HONEY_TIP("꿀팁"),
+    REAL_REVIEW("솔직후기")
     ;
 
     private final String value;
@@ -26,3 +24,4 @@ public enum TravelMobility implements EnumModel {
         return value;
     }
 }
+

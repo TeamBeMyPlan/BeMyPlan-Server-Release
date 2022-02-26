@@ -1,4 +1,4 @@
-package com.deploy.bemyplan.controller.post.dto.request;
+package com.deploy.bemyplan.controller.plan.dto.request;
 
 import lombok.*;
 import org.jetbrains.annotations.Nullable;

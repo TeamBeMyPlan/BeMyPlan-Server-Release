@@ -31,7 +31,7 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom{
                 .from(order)
                 .where(
                         order.userId.eq(userId),
-                        order.postId.in(planIds)
+                        order.planId.in(planIds)
                 )
                 .fetch();
         return findAllByIds(orderIds);

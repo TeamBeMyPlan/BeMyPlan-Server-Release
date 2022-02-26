@@ -1,7 +1,7 @@
-package com.deploy.bemyplan.domain.post.repository;
+package com.deploy.bemyplan.domain.plan.repository;
 
-import com.deploy.bemyplan.domain.post.Post;
-import com.deploy.bemyplan.domain.post.PostStatus;
+import com.deploy.bemyplan.domain.plan.Plan;
+import com.deploy.bemyplan.domain.plan.PlanStatus;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -14,34 +14,34 @@ import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
-import static com.deploy.bemyplan.domain.post.QPost.post;
+import static com.deploy.bemyplan.domain.plan.QPlan.plan;
 
 @RequiredArgsConstructor
-public class PostRepositoryCustomImpl implements PostRepositoryCustom{
+public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<Post> findAllByIds(List<Long> postIds) {
+    public List<Plan> findAllByIds(List<Long> planIds) {
         return queryFactory
-                .selectFrom(post).distinct()
+                .selectFrom(plan).distinct()
                 .where(
-                        post.id.in(postIds)
+                        plan.id.in(planIds)
                 )
-                .orderBy(post.id.desc())
+                .orderBy(plan.id.desc())
                 .fetch();
     }
 
     @Override
-    public List<Post> findPopularsUsingCursor(int size, Long lastPlanId, Pageable pageable) {
-        JPAQuery<Post> query = queryFactory
-                .select(post).distinct()
-                .from(post)
+    public List<Plan> findPopularsUsingCursor(int size, Long lastPlanId, Pageable pageable) {
+        JPAQuery<Plan> query = queryFactory
+                .select(plan).distinct()
+                .from(plan)
                 .where(
                         lessThanId(lastPlanId),
-                        post.status.eq(PostStatus.ACTIVE)
+                        plan.status.eq(PlanStatus.ACTIVE)
                 )
-                .orderBy(post.id.desc())
+                .orderBy(plan.id.desc())
                 .limit(size);
 
         if (pageable != null) {
@@ -59,6 +59,6 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom{
         if (lastPlanId == null) {
             return null;
         }
-        return post.id.lt(lastPlanId);
+        return plan.id.lt(lastPlanId);
     }
 }

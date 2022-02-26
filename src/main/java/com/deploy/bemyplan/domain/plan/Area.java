@@ -1,4 +1,4 @@
-package com.deploy.bemyplan.domain.post;
+package com.deploy.bemyplan.domain.plan;
 
 import com.deploy.bemyplan.domain.common.AuditingTimeEntity;
 import lombok.AccessLevel;
@@ -29,5 +29,5 @@ public class Area extends AuditingTimeEntity {
     private AreaStatus status;
 
     @OneToMany(mappedBy = "area", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<Post> posts = new ArrayList<>();
+    private final List<Plan> plans = new ArrayList<>();
 }

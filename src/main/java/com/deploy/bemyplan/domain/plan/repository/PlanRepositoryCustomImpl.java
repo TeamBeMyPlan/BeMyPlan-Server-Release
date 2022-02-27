@@ -2,6 +2,7 @@ package com.deploy.bemyplan.domain.plan.repository;
 
 import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.plan.PlanStatus;
+import com.deploy.bemyplan.domain.plan.RcmndStatus;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -33,13 +34,14 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
     }
 
     @Override
-    public List<Plan> findPopularsUsingCursor(int size, Long lastPlanId, Pageable pageable) {
+    public List<Plan> findPopularsUsingCursor(int size, Long lastPlanId, Pageable pageable, RcmndStatus rcmndStatus) {
         JPAQuery<Plan> query = queryFactory
                 .select(plan).distinct()
                 .from(plan)
                 .where(
                         lessThanId(lastPlanId),
-                        plan.status.eq(PlanStatus.ACTIVE)
+                        plan.status.eq(PlanStatus.ACTIVE),
+                        plan.rcmndStatus.eq(rcmndStatus)
                 )
                 .orderBy(plan.id.desc())
                 .limit(size);

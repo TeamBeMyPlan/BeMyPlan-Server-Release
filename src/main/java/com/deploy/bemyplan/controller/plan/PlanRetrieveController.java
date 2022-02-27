@@ -5,6 +5,7 @@ import com.deploy.bemyplan.config.interceptor.Auth;
 import com.deploy.bemyplan.config.resolver.UserId;
 import com.deploy.bemyplan.config.validator.AllowedSortProperties;
 import com.deploy.bemyplan.controller.plan.dto.request.RetrievePlansRequest;
+import com.deploy.bemyplan.domain.plan.RcmndStatus;
 import com.deploy.bemyplan.service.plan.dto.response.PlansScrollResponse;
 import com.deploy.bemyplan.service.plan.PlanRetrieveService;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ public class PlanRetrieveController {
     @GetMapping("/v1/plans")
     public ApiResponse<PlansScrollResponse> getPlans(@UserId Long userId, @Valid RetrievePlansRequest request,
                                                             @AllowedSortProperties({"id", "createdAt", "orderCnt"}) Pageable pageable) {
-        return ApiResponse.success(planRetrieveService.retrievePopularPlans(userId, request.getSize(), request.getLastPlanId(), pageable));
+        RcmndStatus rcmndStatus = request.isRcmnd() ? RcmndStatus.RECOMMENDED : RcmndStatus.NONE;
+        return ApiResponse.success(planRetrieveService.retrievePopularPlans(userId, request.getSize(), request.getLastPlanId(), pageable, rcmndStatus));
     }
 }

@@ -11,6 +11,8 @@ import javax.validation.constraints.Min;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class RetrievePlansRequest {
+    
+    private boolean rcmnd = false;
 
     @Min(value = 1, message = "{common.size.min}")
     @Max(value = 100, message = "{common.size.max}")

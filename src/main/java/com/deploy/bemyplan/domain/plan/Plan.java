@@ -36,6 +36,9 @@ public class Plan extends AuditingTimeEntity {
     private String description;
 
     @Embedded
+    private TagInfo tagInfo;
+
+    @Embedded
     private Money price;
 
     @Embedded

@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.deploy.bemyplan.domain.plan.QPlan.plan;
+import static com.deploy.bemyplan.domain.user.QUser.user;
 
 @RequiredArgsConstructor
 public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
@@ -34,6 +35,13 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
                 )
                 .orderBy(plan.id.desc())
                 .fetch();
+    }
+
+    @Override
+    public Plan findPlanById(Long planId) {
+        return queryFactory.selectFrom(plan)
+                .where(plan.id.eq(planId))
+                .fetchOne();
     }
 
     @Override

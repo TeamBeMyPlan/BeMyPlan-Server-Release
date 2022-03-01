@@ -10,5 +10,6 @@ import java.util.List;
 public interface PlanRepositoryCustom {
 
     List<Plan> findAllByIds(List<Long> planIds);
+    Plan findPlanById(Long id);
     List<Plan> findPlansUsingCursor(int size, Long lastPlanId, Pageable pageable, RegionType region, RcmndStatus rcmndStatus);
 }

@@ -8,6 +8,7 @@ import com.deploy.bemyplan.controller.plan.dto.request.RetrievePlansRequest;
 import com.deploy.bemyplan.domain.plan.RcmndStatus;
 import com.deploy.bemyplan.service.plan.dto.response.PlansScrollResponse;
 import com.deploy.bemyplan.service.plan.PlanRetrieveService;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.validation.annotation.Validated;
@@ -23,6 +24,7 @@ public class PlanRetrieveController {
 
     private final PlanRetrieveService planRetrieveService;
 
+    @ApiOperation("[인증] 여행일정 목록들을 스크롤 페이지네이션으로 조회합니다 (추천여부 O, 정렬 O)")
     @Auth
     @GetMapping("/v1/plans")
     public ApiResponse<PlansScrollResponse> getPlans(@UserId Long userId, @Valid RetrievePlansRequest request,

@@ -3,6 +3,7 @@ package com.deploy.bemyplan.service.plan;
 import com.deploy.bemyplan.domain.common.collection.ScrollPaginationCollection;
 import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.plan.RcmndStatus;
+import com.deploy.bemyplan.domain.plan.RegionType;
 import com.deploy.bemyplan.service.plan.dto.response.PlansScrollResponse;
 import com.deploy.bemyplan.domain.collection.UserOrderDictionary;
 import com.deploy.bemyplan.domain.collection.UserScrapDictionary;
@@ -30,9 +31,9 @@ public class PlanRetrieveService {
     private final OrderRepository orderRepository;
 
     @Transactional(readOnly = true)
-    public PlansScrollResponse retrievePopularPlans(Long userId, int size, Long lastPlanId, Pageable pageable, RcmndStatus rcmndStatus) {
+    public PlansScrollResponse retrievePlans(Long userId, int size, Long lastPlanId, Pageable pageable, RegionType region, RcmndStatus rcmndStatus) {
         User user = UserServiceUtils.findUserById(userRepository, userId);
-        List<Plan> planWithNextCursor = planRepository.findPopularsUsingCursor(size+1, lastPlanId, pageable, rcmndStatus);
+        List<Plan> planWithNextCursor = planRepository.findPlansUsingCursor(size+1, lastPlanId, pageable, region, rcmndStatus);
         ScrollPaginationCollection<Plan> plansCursor = ScrollPaginationCollection.of(planWithNextCursor, size);
 
         UserScrapDictionary userScrapDictionary = findScrapByUserIdAndPlans(userId, planWithNextCursor);

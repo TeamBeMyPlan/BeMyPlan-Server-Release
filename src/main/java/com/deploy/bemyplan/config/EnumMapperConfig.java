@@ -21,6 +21,9 @@ public class EnumMapperConfig {
         enumMapper.put("TravelPartner", TravelPartner.class);
         enumMapper.put("TravelMobility", TravelMobility.class);
 
+        //region
+        enumMapper.put("RegionType", RegionType.class);
+
         //spot
         enumMapper.put("SpotCategoryType", SpotCategoryType.class);
         enumMapper.put("SpotContentType", SpotContentType.class);

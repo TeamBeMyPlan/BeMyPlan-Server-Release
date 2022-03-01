@@ -9,5 +9,5 @@ import java.util.List;
 public interface PlanRepositoryCustom {
 
     List<Plan> findAllByIds(List<Long> planIds);
-    List<Plan> findPopularsUsingCursor(int size, Long lastPlanId, Pageable pageable, RcmndStatus rcmndStatus);
+    List<Plan> findPlansUsingCursor(int size, Long lastPlanId, Pageable pageable, RcmndStatus rcmndStatus);
 }

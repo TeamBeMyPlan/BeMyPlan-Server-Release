@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
+import java.util.Objects;
 
 import static com.deploy.bemyplan.domain.plan.QPlan.plan;
 
@@ -34,7 +35,7 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
     }
 
     @Override
-    public List<Plan> findPopularsUsingCursor(int size, Long lastPlanId, Pageable pageable, RcmndStatus rcmndStatus) {
+    public List<Plan> findPlansUsingCursor(int size, Long lastPlanId, Pageable pageable, RcmndStatus rcmndStatus) {
         JPAQuery<Plan> query = queryFactory
                 .select(plan).distinct()
                 .from(plan)
@@ -46,7 +47,7 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
                 .orderBy(plan.id.desc())
                 .limit(size);
 
-        if (pageable != null) {
+        if (Objects.isNull(pageable)) {
             for (Sort.Order o : pageable.getSort()) {
                 System.out.println(o.getClass());
                 System.out.println(o.getProperty());

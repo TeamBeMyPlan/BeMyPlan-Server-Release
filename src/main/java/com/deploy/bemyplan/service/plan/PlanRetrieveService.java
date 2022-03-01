@@ -30,9 +30,9 @@ public class PlanRetrieveService {
     private final OrderRepository orderRepository;
 
     @Transactional(readOnly = true)
-    public PlansScrollResponse retrievePopularPlans(Long userId, int size, Long lastPlanId, Pageable pageable, RcmndStatus rcmndStatus) {
+    public PlansScrollResponse retrievePlans(Long userId, int size, Long lastPlanId, Pageable pageable, RcmndStatus rcmndStatus) {
         User user = UserServiceUtils.findUserById(userRepository, userId);
-        List<Plan> planWithNextCursor = planRepository.findPopularsUsingCursor(size+1, lastPlanId, pageable, rcmndStatus);
+        List<Plan> planWithNextCursor = planRepository.findPlansUsingCursor(size+1, lastPlanId, pageable, rcmndStatus);
         ScrollPaginationCollection<Plan> plansCursor = ScrollPaginationCollection.of(planWithNextCursor, size);
 
         UserScrapDictionary userScrapDictionary = findScrapByUserIdAndPlans(userId, planWithNextCursor);

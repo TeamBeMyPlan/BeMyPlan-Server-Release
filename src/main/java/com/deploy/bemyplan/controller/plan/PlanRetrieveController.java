@@ -30,6 +30,6 @@ public class PlanRetrieveController {
     public ApiResponse<PlansScrollResponse> getPlans(@UserId Long userId, @Valid RetrievePlansRequest request,
                                                             @AllowedSortProperties({"id", "createdAt", "orderCnt"}) Pageable pageable) {
         RcmndStatus rcmndStatus = request.isRcmnd() ? RcmndStatus.RECOMMENDED : RcmndStatus.NONE;
-        return ApiResponse.success(planRetrieveService.retrievePopularPlans(userId, request.getSize(), request.getLastPlanId(), pageable, rcmndStatus));
+        return ApiResponse.success(planRetrieveService.retrievePlans(userId, request.getSize(), request.getLastPlanId(), pageable, rcmndStatus));
     }
 }

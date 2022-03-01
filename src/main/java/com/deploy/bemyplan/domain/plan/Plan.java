@@ -22,9 +22,9 @@ public class Plan extends AuditingTimeEntity {
     @Column(nullable = false)
     private Long userId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "area_id", nullable = false)
-    private Area area;
+    @Column(nullable = false, length = 30)
+    @Enumerated(EnumType.STRING)
+    private RegionType region;
 
     @Column(nullable = false)
     private String thumbnailUrl;

@@ -1,5 +1,6 @@
 package com.deploy.bemyplan.controller.plan.dto.request;
 
+import com.deploy.bemyplan.domain.plan.RegionType;
 import lombok.*;
 import org.jetbrains.annotations.Nullable;
 
@@ -11,6 +12,9 @@ import javax.validation.constraints.Min;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class RetrievePlansRequest {
+
+    @Nullable
+    private RegionType region;
 
     @Nullable
     private Boolean rcmnd = Boolean.FALSE;

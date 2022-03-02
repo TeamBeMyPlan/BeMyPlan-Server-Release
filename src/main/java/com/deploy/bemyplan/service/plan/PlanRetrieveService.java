@@ -1,14 +1,14 @@
 package com.deploy.bemyplan.service.plan;
 
 import com.deploy.bemyplan.domain.common.collection.ScrollPaginationCollection;
-import com.deploy.bemyplan.domain.plan.Plan;
-import com.deploy.bemyplan.domain.plan.RcmndStatus;
-import com.deploy.bemyplan.domain.plan.RegionType;
+import com.deploy.bemyplan.domain.plan.*;
+import com.deploy.bemyplan.service.plan.dto.response.PlanPreviewInfoResponse;
+import com.deploy.bemyplan.service.plan.dto.response.PlanDetailResponse;
+import com.deploy.bemyplan.service.plan.dto.response.PlanPreviewResponse;
 import com.deploy.bemyplan.service.plan.dto.response.PlansScrollResponse;
 import com.deploy.bemyplan.domain.collection.UserOrderDictionary;
 import com.deploy.bemyplan.domain.collection.UserScrapDictionary;
 import com.deploy.bemyplan.domain.order.OrderRepository;
-import com.deploy.bemyplan.domain.plan.PlanRepository;
 import com.deploy.bemyplan.domain.scrap.ScrapRepository;
 import com.deploy.bemyplan.domain.user.User;
 import com.deploy.bemyplan.domain.user.UserRepository;
@@ -54,5 +54,13 @@ public class PlanRetrieveService {
                 .map(Plan::getId)
                 .collect(Collectors.toList());
         return UserOrderDictionary.of(orderRepository.findByUserIdAndPlanIds(planIds, userId));
+    }
+
+    @Transactional(readOnly = true)
+    public PlanPreviewResponse getPreviewPlanInfo(Long planId) {
+        Plan plan = PlanServiceUtils.findPlanByIdFetchJoinSchedule(planRepository, planId);
+        List<PreviewContent> previewContents = planRepository.findPreviewContentsByPlanId(plan.getId());
+
+        return PlanPreviewResponse.of(plan, previewContents);
     }
 }

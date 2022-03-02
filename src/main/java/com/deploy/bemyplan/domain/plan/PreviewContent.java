@@ -10,19 +10,15 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class SpotContent {
+public class PreviewContent {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "spot_id", nullable = false)
-    private Spot spot;
-
-    @Column(nullable = false, length = 30)
-    @Enumerated(EnumType.STRING)
-    private SpotContentType contentType;
+    @JoinColumn(name = "plan_id", nullable = false)
+    private Plan plan;
 
     @Column(nullable = false, length = 30)
     @Enumerated(EnumType.STRING)
@@ -30,4 +26,8 @@ public class SpotContent {
 
     @Column(nullable = false)
     private String value;
+
+    @Column(nullable = false, length = 30)
+    @Enumerated(EnumType.STRING)
+    private PreviewContentStatus status;
 }

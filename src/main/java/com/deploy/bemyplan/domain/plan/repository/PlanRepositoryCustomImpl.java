@@ -1,9 +1,6 @@
 package com.deploy.bemyplan.domain.plan.repository;
 
-import com.deploy.bemyplan.domain.plan.Plan;
-import com.deploy.bemyplan.domain.plan.PlanStatus;
-import com.deploy.bemyplan.domain.plan.RcmndStatus;
-import com.deploy.bemyplan.domain.plan.RegionType;
+import com.deploy.bemyplan.domain.plan.*;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -18,7 +15,12 @@ import org.springframework.data.domain.Sort;
 import java.util.List;
 import java.util.Objects;
 
+import static com.deploy.bemyplan.domain.plan.QDailySchedule.dailySchedule;
 import static com.deploy.bemyplan.domain.plan.QPlan.plan;
+import static com.deploy.bemyplan.domain.plan.QPreviewContent.previewContent;
+import static com.deploy.bemyplan.domain.plan.QSpot.spot;
+import static com.deploy.bemyplan.domain.plan.QSpotContent.spotContent;
+import static com.deploy.bemyplan.domain.user.QUser.user;
 
 @RequiredArgsConstructor
 public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
@@ -34,6 +36,25 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
                 )
                 .orderBy(plan.id.desc())
                 .fetch();
+    }
+
+    @Override
+    public Plan findPlanById(Long planId) {
+        return queryFactory.selectFrom(plan)
+                .where(plan.id.eq(planId))
+                .fetchOne();
+    }
+
+    @Override
+    public Plan findPlanByIdFetchJoinSchedule(Long planId) {
+        return queryFactory.selectFrom(plan).distinct()
+                .innerJoin(plan.schedules, dailySchedule).fetchJoin()
+//                .innerJoin(dailySchedule.spots, spot).fetchJoin()
+//                .innerJoin(spot.contents, spotContent).fetchJoin()
+                .where(
+                        plan.id.eq(planId),
+                        plan.status.eq(PlanStatus.ACTIVE)
+                ).fetchOne();
     }
 
     @Override
@@ -59,6 +80,18 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
             }
         }
         return query.fetch();
+    }
+
+    @Override
+    public List<PreviewContent> findPreviewContentsByPlanId(Long planId) {
+        return queryFactory
+                .selectFrom(previewContent)
+                .where(
+                        previewContent.plan.id.eq(planId),
+                        previewContent.status.eq(PreviewContentStatus.ACTIVE)
+                )
+                .orderBy(previewContent.id.asc())
+                .fetch();
     }
 
     private BooleanExpression lessThanId(Long lastPlanId) {

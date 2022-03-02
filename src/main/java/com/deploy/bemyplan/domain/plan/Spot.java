@@ -23,9 +23,6 @@ public class Spot extends AuditingTimeEntity {
     @JoinColumn(name = "schedule_id", nullable = false)
     private DailySchedule schedule;
 
-    @Embedded
-    private TagInfo tagInfo;
-
     private String title;
 
     @Column(nullable = false, length = 30)

@@ -36,7 +36,7 @@ public class Plan extends AuditingTimeEntity {
     private String description;
 
     @Embedded
-    private Money price;
+    private TagInfo tagInfo;
 
     @Embedded
     private TravelPeriod period;
@@ -57,4 +57,7 @@ public class Plan extends AuditingTimeEntity {
 
     @OneToMany(mappedBy = "plan", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<DailySchedule> schedules = new ArrayList<>();
+
+    @OneToMany(mappedBy = "plan", cascade = CascadeType.ALL, orphanRemoval = true)
+    private final List<PreviewContent> previews = new ArrayList<>();
 }

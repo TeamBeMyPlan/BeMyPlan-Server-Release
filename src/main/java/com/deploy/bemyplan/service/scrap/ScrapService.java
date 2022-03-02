@@ -28,8 +28,8 @@ public class ScrapService {
     @Transactional
     public void deleteScrap(Long userId, Long planId){
         Optional<Scrap> scrap = scrapRepository.findByUserIdAndPlanId(userId, planId);
-        if (scrap.get().getStatus() == ScrapStatus.INACTIVE){
-            scrap.get().updateToActive();
+        if (scrap.get().getStatus() == ScrapStatus.ACTIVE){
+            scrap.get().updateToInActive();
         };
     }
 

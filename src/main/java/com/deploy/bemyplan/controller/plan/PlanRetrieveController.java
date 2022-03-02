@@ -6,6 +6,8 @@ import com.deploy.bemyplan.config.resolver.UserId;
 import com.deploy.bemyplan.config.validator.AllowedSortProperties;
 import com.deploy.bemyplan.controller.plan.dto.request.RetrievePlansRequest;
 import com.deploy.bemyplan.domain.plan.RcmndStatus;
+import com.deploy.bemyplan.service.plan.dto.response.PlanDetailResponse;
+import com.deploy.bemyplan.service.plan.dto.response.PlanPreviewResponse;
 import com.deploy.bemyplan.service.plan.dto.response.PlansScrollResponse;
 import com.deploy.bemyplan.service.plan.PlanRetrieveService;
 import io.swagger.annotations.ApiOperation;
@@ -13,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -40,5 +43,11 @@ public class PlanRetrieveController {
                 pageable,
                 request.getRegion(),
                 rcmndStatus));
+    }
+
+    @ApiOperation("여행일정 페이지 - 특정 여행일정의 미리보기 정보를 조회합니다")
+    @GetMapping("/v1/plan/{planId}/preview")
+    public ApiResponse<PlanPreviewResponse> getPreviewPlanInfo(@PathVariable Long planId) {
+        return ApiResponse.success(planRetrieveService.getPreviewPlanInfo(planId));
     }
 }

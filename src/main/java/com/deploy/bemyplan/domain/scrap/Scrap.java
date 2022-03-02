@@ -2,6 +2,7 @@ package com.deploy.bemyplan.domain.scrap;
 
 import com.deploy.bemyplan.domain.common.AuditingTimeEntity;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -32,5 +33,12 @@ public class Scrap extends AuditingTimeEntity {
 
     public void updateToInActive() {
         this.status = ScrapStatus.INACTIVE;
+    }
+
+    @Builder
+    public Scrap(Long userId, Long planId, ScrapStatus status){
+        this.userId = userId;
+        this.planId = planId;
+        this.status = status;
     }
 }

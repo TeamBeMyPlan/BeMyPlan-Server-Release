@@ -1,5 +1,6 @@
 package com.deploy.bemyplan.service.plan.dto.response;
 
+import com.deploy.bemyplan.common.dto.AuditingTimeResponse;
 import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.plan.PreviewContent;
 import lombok.*;
@@ -12,22 +13,23 @@ import java.util.stream.Collectors;
 @ToString
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class PlanPreviewResponse {
+public class PlanPreviewResponse extends AuditingTimeResponse {
 
     private PlanPreviewInfoResponse previewInfo;
 
-    private List<PlanPreviewContentsResponse> contents = new ArrayList<>();
+    private List<PlanPreviewContentsResponse> previewContents = new ArrayList<>();
 
     @Builder(access = AccessLevel.PRIVATE)
     private PlanPreviewResponse(PlanPreviewInfoResponse previewInfo) {
         this.previewInfo = previewInfo;
     }
 
-    public static PlanPreviewResponse of(@NotNull Plan plan, @NotNull List<PreviewContent> contents) {
+    public static PlanPreviewResponse of(@NotNull Plan plan, List<PreviewContent> contents) {
         PlanPreviewResponse response = PlanPreviewResponse.builder()
                 .previewInfo(PlanPreviewInfoResponse.of(plan))
                 .build();
-        response.contents.addAll(toPreviewContentsResponse(contents));
+        response.previewContents.addAll(toPreviewContentsResponse(contents));
+        response.setBaseTime(plan);
         return response;
     }
 

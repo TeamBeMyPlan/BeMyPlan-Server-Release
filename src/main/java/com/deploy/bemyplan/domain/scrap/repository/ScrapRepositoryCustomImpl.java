@@ -1,13 +1,10 @@
 package com.deploy.bemyplan.domain.scrap.repository;
 
-import com.deploy.bemyplan.domain.scrap.QScrap;
 import com.deploy.bemyplan.domain.scrap.Scrap;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
-import javax.swing.text.html.Option;
 import java.util.List;
-import java.util.Optional;
 
 import static com.deploy.bemyplan.domain.scrap.QScrap.scrap;
 
@@ -41,13 +38,11 @@ public class ScrapRepositoryCustomImpl implements ScrapRepositoryCustom{
     }
 
     @Override
-    public Optional<Scrap> findByUserIdAndPlanId(Long planId, Long userId){
-        QScrap qScrap = scrap;
-        Scrap scrap = queryFactory
-                .selectFrom(qScrap)
-                .where(qScrap.userId.eq(userId),
-                        qScrap.planId.eq(planId))
+    public Scrap findByUserIdAndPlanId(Long planId, Long userId){
+        return queryFactory
+                .selectFrom(scrap)
+                .where(scrap.userId.eq(userId),
+                        scrap.planId.eq(planId))
                 .fetchOne();
-        return Optional.ofNullable(scrap);
     }
 }

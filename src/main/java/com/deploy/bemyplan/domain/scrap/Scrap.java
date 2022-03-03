@@ -36,9 +36,9 @@ public class Scrap extends AuditingTimeEntity {
     }
 
     @Builder
-    public Scrap(Long userId, Long planId, ScrapStatus status){
+    private Scrap(Long userId, Long planId){
         this.userId = userId;
         this.planId = planId;
-        this.status = status;
+        this.status = ScrapStatus.ACTIVE;
     }
 }

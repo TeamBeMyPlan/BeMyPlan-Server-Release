@@ -14,12 +14,12 @@ public class ScrapService {
     private final ScrapRepository scrapRepository;
 
     @Transactional
-    public void CreateOrAddScrap(Long userId, Long planId){
+    public void CreateOrAddScrap(Long planId, Long userId){
         Scrap scrap = scrapRepository.findByUserIdAndPlanId(planId, userId);
         if (scrap.getStatus() == ScrapStatus.INACTIVE){
             scrap.updateToActive();
         } else {
-            scrapRepository.save(new Scrap(userId, planId, ScrapStatus.ACTIVE));
+            scrapRepository.save(Scrap.builder().build());
         }
     }
 

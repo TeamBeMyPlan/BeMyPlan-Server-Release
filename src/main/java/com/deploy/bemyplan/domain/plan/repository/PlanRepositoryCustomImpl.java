@@ -94,6 +94,17 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
                 .fetch();
     }
 
+    @Override
+    public List<DailySchedule> findSchedulesByPlanId(Long planId) {
+        return queryFactory
+                .selectFrom(dailySchedule)
+                .where(
+                        dailySchedule.plan.id.eq(planId)
+                )
+                .orderBy(dailySchedule.day.asc())
+                .fetch();
+    }
+
     private BooleanExpression lessThanId(Long lastPlanId) {
         if (lastPlanId == null) {
             return null;

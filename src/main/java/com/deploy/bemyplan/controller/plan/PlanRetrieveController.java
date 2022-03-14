@@ -7,6 +7,7 @@ import com.deploy.bemyplan.config.validator.AllowedSortProperties;
 import com.deploy.bemyplan.controller.plan.dto.request.RetrievePlansRequest;
 import com.deploy.bemyplan.domain.plan.RcmndStatus;
 import com.deploy.bemyplan.service.plan.dto.request.RetrieveMyPlanBookmarksRequestDto;
+import com.deploy.bemyplan.service.plan.dto.request.RetrieveMyPlansOrdered;
 import com.deploy.bemyplan.service.plan.dto.response.PlanDetailResponse;
 import com.deploy.bemyplan.service.plan.dto.response.PlanPreviewResponse;
 import com.deploy.bemyplan.service.plan.dto.response.PlansScrollResponse;
@@ -60,9 +61,17 @@ public class PlanRetrieveController {
 
     @ApiOperation("[인증] 내가 스크랩한 여행일정 목록들을 스크롤 페이지네이션으로 조회합니다.")
     @Auth
-    @GetMapping("/v1/plan/scraps")
+    @GetMapping("/v1/plan/bookmark")
     public ApiResponse<PlansScrollResponse> retrieveMyPlanBookmarks(@UserId Long userId, @Valid RetrieveMyPlanBookmarksRequestDto request,
                                                                     @AllowedSortProperties({"id", "createdAt", "orderCnt"}) Pageable pageable) {
         return ApiResponse.success(planRetrieveService.retrieveMyPlanBookmarks(request, userId, pageable));
+    }
+
+    @ApiOperation("[인증] 내가 구매한 여행일정 목록들을 스크롤 페이지네이션으로 조회합니다.")
+    @Auth
+    @GetMapping("/v1/plan/orders")
+    public ApiResponse<PlansScrollResponse> retrievePlansOrdered(@UserId Long userId, @Valid RetrieveMyPlansOrdered request,
+                                                                 @AllowedSortProperties({"id", "createdAt", "orderCnt"}) Pageable pageable) {
+        return ApiResponse.success(planRetrieveService.retrieveMyPlansOrdered(request, userId, pageable));
     }
 }

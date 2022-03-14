@@ -5,6 +5,7 @@ import com.deploy.bemyplan.domain.common.collection.ScrollPaginationCollection;
 import com.deploy.bemyplan.domain.plan.*;
 import com.deploy.bemyplan.domain.scrap.Scrap;
 import com.deploy.bemyplan.service.plan.dto.request.RetrieveMyPlanBookmarksRequestDto;
+import com.deploy.bemyplan.service.plan.dto.request.RetrieveMyPlansOrdered;
 import com.deploy.bemyplan.service.plan.dto.response.PlanDetailResponse;
 import com.deploy.bemyplan.service.plan.dto.response.PlanInfoResponse;
 import com.deploy.bemyplan.service.plan.dto.response.PlanPreviewResponse;
@@ -79,7 +80,20 @@ public class PlanRetrieveService {
 
     @Transactional(readOnly = true)
     public PlansScrollResponse retrieveMyPlanBookmarks(RetrieveMyPlanBookmarksRequestDto request, Long userId, Pageable pageable) {
-        List<Plan> planWithNextCursor = planRepository.findMyPlanBookmarksUsingCursor(userId, pageable, request.getSize()+1, request.getLastPlanId());
+        List<Plan> planWithNextCursor = planRepository.findMyPlanBookmarksUsingCursor(userId, pageable, request.getSize()+1, request.getLastScrapId());
+        ScrollPaginationCollection<Plan> plansCursor = ScrollPaginationCollection.of(planWithNextCursor, request.getSize());
+
+        AuthorDictionary authors = AuthorDictionary.of(planWithNextCursor, userRepository);
+
+        UserScrapDictionary userScrapDictionary = findScrapByUserIdAndPlans(userId, planWithNextCursor);
+        UserOrderDictionary userOrderDictionary = findOrderByUserIdAndPlans(userId, planWithNextCursor);
+
+        return PlansScrollResponse.of(plansCursor, userScrapDictionary, userOrderDictionary, authors);
+    }
+
+    @Transactional(readOnly = true)
+    public PlansScrollResponse retrieveMyPlansOrdered(RetrieveMyPlansOrdered request, Long userId, Pageable pageable) {
+        List<Plan> planWithNextCursor = planRepository.findMyPlansOrderedUsingCursor(userId, pageable, request.getSize() + 1, request.getLastOrderId());
         ScrollPaginationCollection<Plan> plansCursor = ScrollPaginationCollection.of(planWithNextCursor, request.getSize());
 
         AuthorDictionary authors = AuthorDictionary.of(planWithNextCursor, userRepository);

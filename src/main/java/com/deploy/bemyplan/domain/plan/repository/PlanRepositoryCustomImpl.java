@@ -1,5 +1,6 @@
 package com.deploy.bemyplan.domain.plan.repository;
 
+import com.deploy.bemyplan.domain.order.QOrder;
 import com.deploy.bemyplan.domain.plan.*;
 import com.deploy.bemyplan.domain.scrap.QScrap;
 import com.deploy.bemyplan.domain.scrap.ScrapStatus;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.Sort;
 import java.util.List;
 import java.util.Objects;
 
+import static com.deploy.bemyplan.domain.order.QOrder.order;
 import static com.deploy.bemyplan.domain.plan.QDailySchedule.dailySchedule;
 import static com.deploy.bemyplan.domain.plan.QPlan.plan;
 import static com.deploy.bemyplan.domain.plan.QPreviewContent.previewContent;
@@ -75,6 +77,27 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
                                         lessThanScrapId(lastScrapId)
                                 )
                                 .orderBy(scrap.id.desc())
+                                .limit(size)
+                                .fetch()
+                        )
+                );
+        setDynamicSortCondition(pageable, query);
+        return query.fetch();
+    }
+
+    @Override
+    public List<Plan> findMyPlansOrderedUsingCursor(Long userId, @Nullable Pageable pageable, int size, @Nullable Long lastOrderId) {
+        JPAQuery<Plan> query = queryFactory
+                .select(plan).distinct()
+                .where(
+                        plan.id.in(JPAExpressions
+                                .select(order.planId).distinct()
+                                .from(order)
+                                .where(
+                                        order.userId.eq(userId),
+                                        lessThanOrderId(lastOrderId)
+                                )
+                                .orderBy(order.id.desc())
                                 .limit(size)
                                 .fetch()
                         )
@@ -147,6 +170,13 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
             return null;
         }
         return scrap.id.lt(lastScrapId);
+    }
+
+    private BooleanExpression lessThanOrderId(Long lastOrderId) {
+        if (lastOrderId == null) {
+            return null;
+        }
+        return order.id.lt(lastOrderId);
     }
 
     private BooleanExpression eqRegion(@Nullable RegionType regionType) {

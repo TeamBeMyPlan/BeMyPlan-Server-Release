@@ -5,7 +5,7 @@ import com.deploy.bemyplan.domain.user.UserRepository;
 import com.deploy.bemyplan.domain.user.WithdrawalUser;
 import com.deploy.bemyplan.domain.user.WithdrawalUserRepository;
 import com.deploy.bemyplan.service.user.dto.request.CreateUserDto;
-import com.deploy.bemyplan.service.user.mapper.UserMapper;
+import com.deploy.bemyplan.common.mapper.user.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

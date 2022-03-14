@@ -2,10 +2,19 @@ package com.deploy.bemyplan.domain.scrap.repository;
 
 import com.deploy.bemyplan.domain.scrap.Scrap;
 import com.deploy.bemyplan.domain.scrap.ScrapStatus;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.PathBuilder;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.Nullable;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
+import java.util.Objects;
 
 import static com.deploy.bemyplan.domain.scrap.QScrap.scrap;
 
@@ -47,5 +56,12 @@ public class ScrapRepositoryCustomImpl implements ScrapRepositoryCustom{
                         scrap.planId.eq(planId)
                 )
                 .fetchOne();
+    }
+
+    private BooleanExpression lessThanId(Long lastScrapId) {
+        if (lastScrapId == null) {
+            return null;
+        }
+        return scrap.id.lt(lastScrapId);
     }
 }

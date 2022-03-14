@@ -1,10 +1,13 @@
 package com.deploy.bemyplan.domain.plan.repository;
 
 import com.deploy.bemyplan.domain.plan.*;
+import com.deploy.bemyplan.domain.scrap.QScrap;
+import com.deploy.bemyplan.domain.scrap.ScrapStatus;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.PathBuilder;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +23,7 @@ import static com.deploy.bemyplan.domain.plan.QPlan.plan;
 import static com.deploy.bemyplan.domain.plan.QPreviewContent.previewContent;
 import static com.deploy.bemyplan.domain.plan.QSpot.spot;
 import static com.deploy.bemyplan.domain.plan.QSpotContent.spotContent;
+import static com.deploy.bemyplan.domain.scrap.QScrap.scrap;
 import static com.deploy.bemyplan.domain.user.QUser.user;
 
 @RequiredArgsConstructor
@@ -58,6 +62,39 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
     }
 
     @Override
+    public List<Plan> findMyPlanBookmarksUsingCursor(Long userId, @Nullable Pageable pageable, int size, @Nullable Long lastScrapId) {
+        JPAQuery<Plan> query = queryFactory
+                .select(plan).distinct()
+                .where(
+                        plan.id.in(JPAExpressions
+                                .select(scrap.planId).distinct()
+                                .from(scrap)
+                                .where(
+                                        scrap.userId.eq(userId),
+                                        scrap.status.eq(ScrapStatus.ACTIVE),
+                                        lessThanScrapId(lastScrapId)
+                                )
+                                .orderBy(scrap.id.desc())
+                                .limit(size)
+                                .fetch()
+                        )
+                );
+        setDynamicSortCondition(pageable, query);
+        return query.fetch();
+    }
+
+    private void setDynamicSortCondition(@Nullable Pageable pageable, JPAQuery<Plan> query) {
+        if (Objects.isNull(pageable)) {
+            for (Sort.Order o : pageable.getSort()) {
+                System.out.println(o.getClass());
+                System.out.println(o.getProperty());
+                PathBuilder<Object> orderByExpression = new PathBuilder<Object>(Object.class, o.getProperty());
+                query.orderBy(new OrderSpecifier(o.isAscending() ? Order.ASC : Order.DESC, orderByExpression.get(o.getProperty())));
+            }
+        }
+    }
+
+    @Override
     public List<Plan> findPlansUsingCursor(int size, Long lastPlanId, Pageable pageable, RegionType region, RcmndStatus rcmndStatus) {
         JPAQuery<Plan> query = queryFactory
                 .select(plan).distinct()
@@ -71,14 +108,7 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
                 .orderBy(plan.id.desc())
                 .limit(size);
 
-        if (Objects.isNull(pageable)) {
-            for (Sort.Order o : pageable.getSort()) {
-                System.out.println(o.getClass());
-                System.out.println(o.getProperty());
-                PathBuilder<Object> orderByExpression = new PathBuilder<Object>(Object.class, o.getProperty());
-                query.orderBy(new OrderSpecifier(o.isAscending() ? Order.ASC : Order.DESC, orderByExpression.get(o.getProperty())));
-            }
-        }
+        setDynamicSortCondition(pageable, query);
         return query.fetch();
     }
 
@@ -110,6 +140,13 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
             return null;
         }
         return plan.id.lt(lastPlanId);
+    }
+
+    private BooleanExpression lessThanScrapId(Long lastScrapId) {
+        if (lastScrapId == null) {
+            return null;
+        }
+        return scrap.id.lt(lastScrapId);
     }
 
     private BooleanExpression eqRegion(@Nullable RegionType regionType) {

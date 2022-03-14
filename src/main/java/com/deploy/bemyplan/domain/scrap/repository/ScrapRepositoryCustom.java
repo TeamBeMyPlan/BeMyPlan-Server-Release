@@ -1,6 +1,8 @@
 package com.deploy.bemyplan.domain.scrap.repository;
 
 import com.deploy.bemyplan.domain.scrap.Scrap;
+import org.jetbrains.annotations.Nullable;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 

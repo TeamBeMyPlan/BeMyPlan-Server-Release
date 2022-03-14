@@ -1,8 +1,12 @@
 package com.deploy.bemyplan.service.plan;
 
+import com.deploy.bemyplan.domain.collection.AuthorDictionary;
 import com.deploy.bemyplan.domain.common.collection.ScrollPaginationCollection;
 import com.deploy.bemyplan.domain.plan.*;
+import com.deploy.bemyplan.domain.scrap.Scrap;
+import com.deploy.bemyplan.service.plan.dto.request.RetrieveMyPlanBookmarksRequestDto;
 import com.deploy.bemyplan.service.plan.dto.response.PlanDetailResponse;
+import com.deploy.bemyplan.service.plan.dto.response.PlanInfoResponse;
 import com.deploy.bemyplan.service.plan.dto.response.PlanPreviewResponse;
 import com.deploy.bemyplan.service.plan.dto.response.PlansScrollResponse;
 import com.deploy.bemyplan.domain.collection.UserOrderDictionary;
@@ -13,6 +17,7 @@ import com.deploy.bemyplan.domain.user.User;
 import com.deploy.bemyplan.domain.user.UserRepository;
 import com.deploy.bemyplan.service.user.UserServiceUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,14 +36,15 @@ public class PlanRetrieveService {
 
     @Transactional(readOnly = true)
     public PlansScrollResponse retrievePlans(Long userId, int size, Long lastPlanId, Pageable pageable, RegionType region, RcmndStatus rcmndStatus) {
-        User user = UserServiceUtils.findUserById(userRepository, userId);
         List<Plan> planWithNextCursor = planRepository.findPlansUsingCursor(size+1, lastPlanId, pageable, region, rcmndStatus);
         ScrollPaginationCollection<Plan> plansCursor = ScrollPaginationCollection.of(planWithNextCursor, size);
+
+        AuthorDictionary authors = AuthorDictionary.of(planWithNextCursor, userRepository);
 
         UserScrapDictionary userScrapDictionary = findScrapByUserIdAndPlans(userId, planWithNextCursor);
         UserOrderDictionary userOrderDictionary = findOrderByUserIdAndPlans(userId, planWithNextCursor);
 
-        return PlansScrollResponse.of(plansCursor, userScrapDictionary, userOrderDictionary, user);
+        return PlansScrollResponse.of(plansCursor, userScrapDictionary, userOrderDictionary, authors);
     }
 
     private UserScrapDictionary findScrapByUserIdAndPlans(Long userId, List<Plan> plans) {
@@ -69,5 +75,18 @@ public class PlanRetrieveService {
         User user = UserServiceUtils.findUserById(userRepository, plan.getUserId());
         List<DailySchedule> schedules = planRepository.findSchedulesByPlanId(planId);
         return PlanDetailResponse.of(plan, user, schedules);
+    }
+
+    @Transactional(readOnly = true)
+    public PlansScrollResponse retrieveMyPlanBookmarks(RetrieveMyPlanBookmarksRequestDto request, Long userId, Pageable pageable) {
+        List<Plan> planWithNextCursor = planRepository.findMyPlanBookmarksUsingCursor(userId, pageable, request.getSize()+1, request.getLastPlanId());
+        ScrollPaginationCollection<Plan> plansCursor = ScrollPaginationCollection.of(planWithNextCursor, request.getSize());
+
+        AuthorDictionary authors = AuthorDictionary.of(planWithNextCursor, userRepository);
+
+        UserScrapDictionary userScrapDictionary = findScrapByUserIdAndPlans(userId, planWithNextCursor);
+        UserOrderDictionary userOrderDictionary = findOrderByUserIdAndPlans(userId, planWithNextCursor);
+
+        return PlansScrollResponse.of(plansCursor, userScrapDictionary, userOrderDictionary, authors);
     }
 }

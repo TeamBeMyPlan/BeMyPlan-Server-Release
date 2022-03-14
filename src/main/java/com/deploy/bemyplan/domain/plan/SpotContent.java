@@ -30,4 +30,8 @@ public class SpotContent {
 
     @Column(nullable = false)
     private String value;
+
+    @Column(nullable = false, length = 30)
+    @Enumerated(EnumType.STRING)
+    private SpotContentStatus status;
 }

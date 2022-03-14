@@ -2,7 +2,6 @@ package com.deploy.bemyplan.service.plan;
 
 import com.deploy.bemyplan.domain.common.collection.ScrollPaginationCollection;
 import com.deploy.bemyplan.domain.plan.*;
-import com.deploy.bemyplan.service.plan.dto.response.PlanPreviewInfoResponse;
 import com.deploy.bemyplan.service.plan.dto.response.PlanDetailResponse;
 import com.deploy.bemyplan.service.plan.dto.response.PlanPreviewResponse;
 import com.deploy.bemyplan.service.plan.dto.response.PlansScrollResponse;
@@ -62,5 +61,13 @@ public class PlanRetrieveService {
         List<PreviewContent> previewContents = planRepository.findPreviewContentsByPlanId(plan.getId());
 
         return PlanPreviewResponse.of(plan, previewContents);
+    }
+
+    @Transactional(readOnly = true)
+    public PlanDetailResponse getPlanDetailInfo(Long planId) {
+        Plan plan = PlanServiceUtils.findPlanByIdFetchJoinSchedule(planRepository, planId);
+        User user = UserServiceUtils.findUserById(userRepository, plan.getUserId());
+        List<DailySchedule> schedules = planRepository.findSchedulesByPlanId(planId);
+        return PlanDetailResponse.of(plan, user, schedules);
     }
 }

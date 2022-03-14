@@ -1,5 +1,6 @@
 package com.deploy.bemyplan.service.plan.dto.response;
 
+import com.deploy.bemyplan.domain.collection.AuthorDictionary;
 import com.deploy.bemyplan.domain.common.collection.ScrollPaginationCollection;
 import com.deploy.bemyplan.domain.collection.UserOrderDictionary;
 import com.deploy.bemyplan.domain.collection.UserScrapDictionary;
@@ -30,20 +31,21 @@ public class PlansScrollResponse {
         this.nextCursor = nextCursor;
     }
 
-    public static PlansScrollResponse of(ScrollPaginationCollection<Plan> plansScroll, UserScrapDictionary userScrapDictionary, UserOrderDictionary userOrderDictionary, User user) {
+    public static PlansScrollResponse of(ScrollPaginationCollection<Plan> plansScroll, UserScrapDictionary userScrapDictionary, UserOrderDictionary userOrderDictionary, AuthorDictionary authors) {
         if (plansScroll.isLastScroll()) {
-            return newLastCursor(plansScroll.getCurrentScrollItems(), userScrapDictionary, userOrderDictionary, user);
+            return newLastCursor(plansScroll.getCurrentScrollItems(), userScrapDictionary, userOrderDictionary, authors);
         }
-        return newCursorHasNext(plansScroll.getCurrentScrollItems(), userScrapDictionary, userOrderDictionary, user, plansScroll.getNextCursor().getId());
+        return newCursorHasNext(plansScroll.getCurrentScrollItems(), userScrapDictionary, userOrderDictionary, authors, plansScroll.getNextCursor().getId());
     }
 
-    private static PlansScrollResponse newLastCursor(List<Plan> plans, UserScrapDictionary userScrapDictionary, UserOrderDictionary userOrderDictionary, @NotNull User user) {
-        return newCursorHasNext(plans, userScrapDictionary, userOrderDictionary, user, LAST_CURSOR);
+    private static PlansScrollResponse newLastCursor(List<Plan> plans, UserScrapDictionary userScrapDictionary, UserOrderDictionary userOrderDictionary, AuthorDictionary authors) {
+        return newCursorHasNext(plans, userScrapDictionary, userOrderDictionary, authors, LAST_CURSOR);
     }
 
-    private static PlansScrollResponse newCursorHasNext(List<Plan> plans, UserScrapDictionary userScrapDictionary, UserOrderDictionary userOrderDictionary, User user, long nextCursor) {
+    private static PlansScrollResponse newCursorHasNext(List<Plan> plans, UserScrapDictionary userScrapDictionary, UserOrderDictionary userOrderDictionary, AuthorDictionary authors, long nextCursor) {
         List<PlanInfoResponse> contents = plans.stream()
-                .map(plan -> PlanInfoResponse.of(plan, user, getScarpStatus(plan, userScrapDictionary), getOrderStatus(plan, userOrderDictionary)))
+                .map(plan -> PlanInfoResponse.of(plan, authors.getAuthorByPlanId(plan.getId()),
+                        getScarpStatus(plan, userScrapDictionary), getOrderStatus(plan, userOrderDictionary)))
                 .collect(Collectors.toList());
         return new PlansScrollResponse(contents, nextCursor);
     }

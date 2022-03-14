@@ -6,6 +6,7 @@ import com.deploy.bemyplan.config.resolver.UserId;
 import com.deploy.bemyplan.config.validator.AllowedSortProperties;
 import com.deploy.bemyplan.controller.plan.dto.request.RetrievePlansRequest;
 import com.deploy.bemyplan.domain.plan.RcmndStatus;
+import com.deploy.bemyplan.service.plan.dto.request.RetrieveMyPlanBookmarksRequestDto;
 import com.deploy.bemyplan.service.plan.dto.response.PlanDetailResponse;
 import com.deploy.bemyplan.service.plan.dto.response.PlanPreviewResponse;
 import com.deploy.bemyplan.service.plan.dto.response.PlansScrollResponse;
@@ -55,5 +56,13 @@ public class PlanRetrieveController {
     @GetMapping("/v1/plan/{planId}")
     public ApiResponse<PlanDetailResponse> getPlanDetailInfo(@PathVariable Long planId) {
         return ApiResponse.success(planRetrieveService.getPlanDetailInfo(planId));
+    }
+
+    @ApiOperation("[인증] 내가 스크랩한 여행일정 목록들을 스크롤 페이지네이션으로 조회합니다.")
+    @Auth
+    @GetMapping("/v1/plan/scraps")
+    public ApiResponse<PlansScrollResponse> retrieveMyPlanBookmarks(@UserId Long userId, @Valid RetrieveMyPlanBookmarksRequestDto request,
+                                                                    @AllowedSortProperties({"id", "createdAt", "orderCnt"}) Pageable pageable) {
+        return ApiResponse.success(planRetrieveService.retrieveMyPlanBookmarks(request, userId, pageable));
     }
 }

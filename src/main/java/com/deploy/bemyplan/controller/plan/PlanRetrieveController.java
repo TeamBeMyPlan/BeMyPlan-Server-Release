@@ -50,4 +50,10 @@ public class PlanRetrieveController {
     public ApiResponse<PlanPreviewResponse> getPreviewPlanInfo(@PathVariable Long planId) {
         return ApiResponse.success(planRetrieveService.getPreviewPlanInfo(planId));
     }
+
+    @ApiOperation("여행일정 페이지 - 특정 여행일정의 내용을 상세조회합니다.")
+    @GetMapping("/v1/plan/{planId}")
+    public ApiResponse<PlanDetailResponse> getPlanDetailInfo(@PathVariable Long planId) {
+        return ApiResponse.success(planRetrieveService.getPlanDetailInfo(planId));
+    }
 }

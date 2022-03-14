@@ -12,6 +12,7 @@ public interface PlanRepositoryCustom {
     Plan findPlanById(Long id);
     Plan findPlanByIdFetchJoinSchedule(Long id);
     List<Plan> findMyPlanBookmarksUsingCursor(Long userId, @Nullable Pageable pageable, int size, @Nullable Long lastScrapId);
+    List<Plan> findMyPlansOrderedUsingCursor(Long userId, @Nullable Pageable pageable, int size, @Nullable Long lastOrderId);
     List<Plan> findPlansUsingCursor(int size, Long lastPlanId, Pageable pageable, RegionType region, RcmndStatus rcmndStatus);
     List<PreviewContent> findPreviewContentsByPlanId(Long planId);
     List<DailySchedule> findSchedulesByPlanId(Long planId);

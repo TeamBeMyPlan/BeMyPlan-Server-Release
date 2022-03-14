@@ -2,6 +2,7 @@ package com.deploy.bemyplan.domain.order;
 
 import com.deploy.bemyplan.domain.common.AuditingTimeEntity;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,4 +23,17 @@ public class Order extends AuditingTimeEntity {
 
     @Column(nullable = false)
     private Long userId;
+
+    @Builder(access = AccessLevel.PRIVATE)
+    private Order(Long planId, Long userId) {
+        this.planId = planId;
+        this.userId = userId;
+    }
+
+    public static Order of(Long planId, Long userId) {
+        return Order.builder()
+                .planId(planId)
+                .userId(userId)
+                .build();
+    }
 }

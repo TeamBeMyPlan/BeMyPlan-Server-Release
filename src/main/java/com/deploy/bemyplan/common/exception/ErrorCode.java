@@ -29,6 +29,7 @@ public enum ErrorCode {
     NOT_FOUND_EXCEPTION(NOT_FOUND, "존재하지 않습니다"),
     NOT_FOUND_USER_EXCEPTION(NOT_FOUND, "탈퇴하거나 존재하지 않는 유저입니다"),
     NOT_FOUND_PLAN_EXCEPTION(NOT_FOUND, "존재하지 않는 여행일정입니다"),
+    NOT_FOUND_SCRAP_EXCEPTION(NOT_FOUND, "스크랩 정보가 존재하지 않습니다."),
 
     // 405 Method Not Allowed
     METHOD_NOT_ALLOWED_EXCEPTION(METHOD_NOT_ALLOWED, "지원하지 않는 메소드 입니다"),

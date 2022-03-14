@@ -36,4 +36,13 @@ public class ScrapRepositoryCustomImpl implements ScrapRepositoryCustom{
                 .fetch();
         return findAllByIds(scrapIds);
     }
+
+    @Override
+    public Scrap findByUserIdAndPlanId(Long planId, Long userId){
+        return queryFactory
+                .selectFrom(scrap)
+                .where(scrap.userId.eq(userId),
+                        scrap.planId.eq(planId))
+                .fetchOne();
+    }
 }

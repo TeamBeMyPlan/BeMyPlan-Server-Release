@@ -17,5 +17,5 @@ public class RetrieveMyPlanBookmarksRequestDto {
     private int size;
 
     @Nullable
-    private Long lastPlanId;
+    private Long lastScrapId;
 }

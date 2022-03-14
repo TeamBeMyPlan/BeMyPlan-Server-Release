@@ -1,6 +1,7 @@
 package com.deploy.bemyplan.domain.scrap.repository;
 
 import com.deploy.bemyplan.domain.scrap.Scrap;
+import com.deploy.bemyplan.domain.scrap.ScrapStatus;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
@@ -41,8 +42,10 @@ public class ScrapRepositoryCustomImpl implements ScrapRepositoryCustom{
     public Scrap findByUserIdAndPlanId(Long planId, Long userId){
         return queryFactory
                 .selectFrom(scrap)
-                .where(scrap.userId.eq(userId),
-                        scrap.planId.eq(planId))
+                .where(
+                        scrap.userId.eq(userId),
+                        scrap.planId.eq(planId)
+                )
                 .fetchOne();
     }
 }

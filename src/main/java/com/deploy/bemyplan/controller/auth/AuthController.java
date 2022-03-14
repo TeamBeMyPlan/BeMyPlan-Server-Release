@@ -1,6 +1,7 @@
 package com.deploy.bemyplan.controller.auth;
 
 import com.deploy.bemyplan.common.dto.ApiResponse;
+import com.deploy.bemyplan.config.interceptor.Auth;
 import com.deploy.bemyplan.controller.auth.dto.request.LoginRequestDto;
 import com.deploy.bemyplan.controller.auth.dto.request.SignUpRequestDto;
 import com.deploy.bemyplan.service.auth.AuthService;
@@ -41,5 +42,13 @@ public class AuthController {
         Long userId = authService.login(request.toServiceDto());
         httpSession.setAttribute(USER_ID, userId);
         return ApiResponse.success(LoginResponse.of(httpSession.getId(), userId));
+    }
+
+    @ApiOperation("[인증] 로그아웃을 요청합니다.")
+    @Auth
+    @PostMapping("/v1/logout")
+    public ApiResponse<String> logout() {
+        httpSession.removeAttribute(USER_ID);
+        return ApiResponse.SUCCESS;
     }
 }

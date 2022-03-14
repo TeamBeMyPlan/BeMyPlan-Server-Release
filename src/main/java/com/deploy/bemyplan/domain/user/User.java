@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.*;
 
@@ -40,5 +41,15 @@ public class User extends AuditingTimeEntity {
                 .nickname(name)
                 .email(email)
                 .build();
+    }
+
+    @NotNull
+    public String getSocialId() {
+        return this.socialInfo.getSocialId();
+    }
+
+    @NotNull
+    public UserSocialType getSocialType() {
+        return this.socialInfo.getSocialType();
     }
 }

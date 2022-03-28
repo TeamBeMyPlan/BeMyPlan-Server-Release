@@ -33,6 +33,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	implementation 'org.springframework.session:spring-session-data-redis'
 	implementation "org.springframework.cloud:spring-cloud-starter-openfeign"
+	implementation 'mysql:mysql-connector-java'
 	implementation 'com.querydsl:querydsl-jpa'
 	implementation 'com.querydsl:querydsl-apt'
 	implementation 'org.jetbrains:annotations:20.1.0'

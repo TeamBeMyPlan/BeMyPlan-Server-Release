@@ -10,12 +10,10 @@ import com.deploy.bemyplan.service.auth.AuthServiceProvider;
 import com.deploy.bemyplan.controller.auth.dto.response.LoginResponse;
 import com.deploy.bemyplan.service.user.UserService;
 import com.deploy.bemyplan.controller.auth.dto.request.SignOutUserRequest;
+import com.deploy.bemyplan.service.user.dto.request.CheckAvailableNameRequestDto;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -64,6 +62,13 @@ public class AuthController {
     public ApiResponse<String> signOut(@Valid @RequestBody SignOutUserRequest request, @UserId Long userId) {
         userService.signOut(userId, request.getReasonForWithdrawal());
         httpSession.invalidate();
+        return ApiResponse.SUCCESS;
+    }
+
+    @ApiOperation("회원가입 시 닉네임 중복 여부를 요청합니다. (중복된 닉네임 409 오류)" )
+    @GetMapping("/v1/user/name/check")
+    public ApiResponse<String> checkAvailableName(CheckAvailableNameRequestDto request){
+        userService.checkIsAvailableName(request);
         return ApiResponse.SUCCESS;
     }
 }

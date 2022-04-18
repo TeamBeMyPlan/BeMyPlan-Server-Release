@@ -31,7 +31,7 @@ public class PlanInfoResponse extends AuditingTimeResponse {
     }
 
     public static PlanInfoResponse of(@NotNull Plan plan, @NotNull User user, boolean scrapStatus, boolean orderStatus) {
-        return PlanInfoResponse.builder()
+        PlanInfoResponse response = PlanInfoResponse.builder()
                 .planId(plan.getId())
                 .thumbnailUrl(plan.getThumbnailUrl())
                 .title(plan.getTitle())
@@ -39,5 +39,7 @@ public class PlanInfoResponse extends AuditingTimeResponse {
                 .scrapStatus(scrapStatus)
                 .orderStatus(orderStatus)
                 .build();
+        response.setBaseTime(plan);
+        return response;
     }
 }

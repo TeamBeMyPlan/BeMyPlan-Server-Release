@@ -1,7 +1,8 @@
 package com.deploy.bemyplan.domain.plan;
 
-public enum SpotContentStatus {
+public enum SpotImageStatus {
+
     ACTIVE,
-    DELETED,
+    INACTIVE,
     ;
 }

@@ -26,7 +26,6 @@ public class EnumMapperConfig {
 
         //spot
         enumMapper.put("SpotCategoryType", SpotCategoryType.class);
-        enumMapper.put("SpotContentType", SpotContentType.class);
 
         return enumMapper;
     }

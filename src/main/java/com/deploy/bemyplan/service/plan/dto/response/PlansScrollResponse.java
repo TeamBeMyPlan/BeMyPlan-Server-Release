@@ -2,15 +2,13 @@ package com.deploy.bemyplan.service.plan.dto.response;
 
 import com.deploy.bemyplan.domain.collection.AuthorDictionary;
 import com.deploy.bemyplan.domain.common.collection.ScrollPaginationCollection;
-import com.deploy.bemyplan.domain.collection.UserOrderDictionary;
-import com.deploy.bemyplan.domain.collection.UserScrapDictionary;
+import com.deploy.bemyplan.domain.collection.OrderDictionary;
+import com.deploy.bemyplan.domain.collection.ScrapDictionary;
 import com.deploy.bemyplan.domain.plan.Plan;
-import com.deploy.bemyplan.domain.user.User;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,30 +29,30 @@ public class PlansScrollResponse {
         this.nextCursor = nextCursor;
     }
 
-    public static PlansScrollResponse of(ScrollPaginationCollection<Plan> plansScroll, UserScrapDictionary userScrapDictionary, UserOrderDictionary userOrderDictionary, AuthorDictionary authors) {
+    public static PlansScrollResponse of(ScrollPaginationCollection<Plan> plansScroll, ScrapDictionary scrapDictionary, OrderDictionary orderDictionary, AuthorDictionary authors) {
         if (plansScroll.isLastScroll()) {
-            return newLastCursor(plansScroll.getCurrentScrollItems(), userScrapDictionary, userOrderDictionary, authors);
+            return newLastCursor(plansScroll.getCurrentScrollItems(), scrapDictionary, orderDictionary, authors);
         }
-        return newCursorHasNext(plansScroll.getCurrentScrollItems(), userScrapDictionary, userOrderDictionary, authors, plansScroll.getNextCursor().getId());
+        return newCursorHasNext(plansScroll.getCurrentScrollItems(), scrapDictionary, orderDictionary, authors, plansScroll.getNextCursor().getId());
     }
 
-    private static PlansScrollResponse newLastCursor(List<Plan> plans, UserScrapDictionary userScrapDictionary, UserOrderDictionary userOrderDictionary, AuthorDictionary authors) {
-        return newCursorHasNext(plans, userScrapDictionary, userOrderDictionary, authors, LAST_CURSOR);
+    private static PlansScrollResponse newLastCursor(List<Plan> plans, ScrapDictionary scrapDictionary, OrderDictionary orderDictionary, AuthorDictionary authors) {
+        return newCursorHasNext(plans, scrapDictionary, orderDictionary, authors, LAST_CURSOR);
     }
 
-    private static PlansScrollResponse newCursorHasNext(List<Plan> plans, UserScrapDictionary userScrapDictionary, UserOrderDictionary userOrderDictionary, AuthorDictionary authors, long nextCursor) {
+    private static PlansScrollResponse newCursorHasNext(List<Plan> plans, ScrapDictionary scrapDictionary, OrderDictionary orderDictionary, AuthorDictionary authors, long nextCursor) {
         List<PlanInfoResponse> contents = plans.stream()
                 .map(plan -> PlanInfoResponse.of(plan, authors.getAuthorByPlanId(plan.getId()),
-                        getScarpStatus(plan, userScrapDictionary), getOrderStatus(plan, userOrderDictionary)))
+                        getScarpStatus(plan, scrapDictionary), getOrderStatus(plan, orderDictionary)))
                 .collect(Collectors.toList());
         return new PlansScrollResponse(contents, nextCursor);
     }
 
-    private static boolean getScarpStatus(Plan plan, UserScrapDictionary userScrapDictionary) {
-        return userScrapDictionary.existByPlanId(plan.getId());
+    private static boolean getScarpStatus(Plan plan, ScrapDictionary scrapDictionary) {
+        return scrapDictionary.existByPlanId(plan.getId());
     }
 
-    private static boolean getOrderStatus(Plan plan, UserOrderDictionary userOrderDictionary) {
-        return userOrderDictionary.existByPlanId(plan.getId());
+    private static boolean getOrderStatus(Plan plan, OrderDictionary orderDictionary) {
+        return orderDictionary.existByPlanId(plan.getId());
     }
 }

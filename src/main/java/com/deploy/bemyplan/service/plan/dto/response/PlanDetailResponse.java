@@ -30,15 +30,16 @@ public class PlanDetailResponse extends AuditingTimeResponse {
         this.user = user;
     }
 
-    public static PlanDetailResponse of(@NotNull Plan plan, @NotNull User user, List<DailySchedule> schedules) {
+    public static PlanDetailResponse of(@NotNull Plan plan, @NotNull User user) {
         PlanDetailResponse response = PlanDetailResponse.builder()
                 .planId(plan.getId())
                 .title(plan.getTitle())
                 .user(UserInfoResponse.of(user))
                 .build();
 
-        for (DailySchedule schedule : schedules) {
-            response.contents.add(ScheduleDetailResponse.of(schedule.getSpots()));
+        for (DailySchedule schedule : plan.getSchedules()) {
+            ScheduleDetailResponse content = ScheduleDetailResponse.of(schedule.getSpots());
+            response.contents.add(content);
         }
         response.setBaseTime(plan);
         return response;

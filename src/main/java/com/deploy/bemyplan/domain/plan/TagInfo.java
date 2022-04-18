@@ -1,10 +1,7 @@
 package com.deploy.bemyplan.domain.plan;
 
 import com.deploy.bemyplan.domain.common.Money;
-import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -28,4 +25,12 @@ public class TagInfo {
 
     @Embedded
     private Money budget;
+
+    @Builder(builderMethodName = "testBuilder", access = AccessLevel.PUBLIC)
+    private TagInfo(TravelTheme theme, TravelPartner partner, TravelMobility mobility, Money budget) {
+        this.theme = theme;
+        this.partner = partner;
+        this.mobility = mobility;
+        this.budget = budget;
+    }
 }

@@ -1,8 +1,6 @@
 package com.deploy.bemyplan.domain.plan.repository;
 
-import com.deploy.bemyplan.domain.order.QOrder;
 import com.deploy.bemyplan.domain.plan.*;
-import com.deploy.bemyplan.domain.scrap.QScrap;
 import com.deploy.bemyplan.domain.scrap.ScrapStatus;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
@@ -23,10 +21,7 @@ import static com.deploy.bemyplan.domain.order.QOrder.order;
 import static com.deploy.bemyplan.domain.plan.QDailySchedule.dailySchedule;
 import static com.deploy.bemyplan.domain.plan.QPlan.plan;
 import static com.deploy.bemyplan.domain.plan.QPreviewContent.previewContent;
-import static com.deploy.bemyplan.domain.plan.QSpot.spot;
-import static com.deploy.bemyplan.domain.plan.QSpotContent.spotContent;
 import static com.deploy.bemyplan.domain.scrap.QScrap.scrap;
-import static com.deploy.bemyplan.domain.user.QUser.user;
 
 @RequiredArgsConstructor
 public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
@@ -55,8 +50,6 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
     public Plan findPlanByIdFetchJoinSchedule(Long planId) {
         return queryFactory.selectFrom(plan).distinct()
                 .innerJoin(plan.schedules, dailySchedule).fetchJoin()
-//                .innerJoin(dailySchedule.spots, spot).fetchJoin()
-//                .innerJoin(spot.contents, spotContent).fetchJoin()
                 .where(
                         plan.id.eq(planId),
                         plan.status.eq(PlanStatus.ACTIVE)
@@ -144,17 +137,6 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
                         previewContent.status.eq(PreviewContentStatus.ACTIVE)
                 )
                 .orderBy(previewContent.id.asc())
-                .fetch();
-    }
-
-    @Override
-    public List<DailySchedule> findSchedulesByPlanId(Long planId) {
-        return queryFactory
-                .selectFrom(dailySchedule)
-                .where(
-                        dailySchedule.plan.id.eq(planId)
-                )
-                .orderBy(dailySchedule.day.asc())
                 .fetch();
     }
 

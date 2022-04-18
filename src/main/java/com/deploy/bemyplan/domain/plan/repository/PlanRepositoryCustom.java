@@ -15,5 +15,4 @@ public interface PlanRepositoryCustom {
     List<Plan> findMyPlansOrderedUsingCursor(Long userId, @Nullable Pageable pageable, int size, @Nullable Long lastOrderId);
     List<Plan> findPlansUsingCursor(int size, Long lastPlanId, Pageable pageable, RegionType region, RcmndStatus rcmndStatus);
     List<PreviewContent> findPreviewContentsByPlanId(Long planId);
-    List<DailySchedule> findSchedulesByPlanId(Long planId);
 }

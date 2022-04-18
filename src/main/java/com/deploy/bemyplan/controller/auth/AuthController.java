@@ -65,9 +65,9 @@ public class AuthController {
         return ApiResponse.SUCCESS;
     }
 
-    @ApiOperation("회원가입 시 닉네임 중복 여부를 요청합니다. (중복된 닉네임 409 오류)" )
+    @ApiOperation("회원가입 시 닉네임 중복 여부를 요청합니다. (중복된 닉네임 409 or 사용 불가능한 닉네임 400)" )
     @GetMapping("/v1/user/name/check")
-    public ApiResponse<String> checkAvailableName(CheckAvailableNameRequestDto request){
+    public ApiResponse<String> checkAvailableName(@Valid CheckAvailableNameRequestDto request){
         userService.checkIsAvailableName(request);
         return ApiResponse.SUCCESS;
     }

@@ -10,6 +10,6 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class CreateOrderRequest {
 
-    @NotNull(message = "{plan.id.notNull")
+    @NotNull(message = "{plan.id.notNull}")
     private Long planId;
 }

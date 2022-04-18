@@ -2,6 +2,7 @@ package com.deploy.bemyplan.domain.plan;
 
 import com.deploy.bemyplan.domain.common.AuditingTimeEntity;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -27,4 +28,13 @@ public class DailySchedule extends AuditingTimeEntity {
 
     @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<Spot> spots = new ArrayList<>();
+
+    @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL, orphanRemoval = true)
+    private final List<SpotMoveInfo> moveInfos = new ArrayList<>();
+
+    @Builder(builderMethodName = "testBuilder", access = AccessLevel.PUBLIC)
+    private DailySchedule(Plan plan, int day) {
+        this.plan = plan;
+        this.day = day;
+    }
 }

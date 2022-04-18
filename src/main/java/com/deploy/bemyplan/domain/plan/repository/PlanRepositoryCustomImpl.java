@@ -57,7 +57,22 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
     }
 
     @Override
-    public List<Plan> findMyPlanBookmarksUsingCursor(Long userId, @Nullable Pageable pageable, int size, @Nullable Long lastScrapId) {
+    public List<Plan> findPickListUsingCursor(int size, Long lastPlanId) {
+        return queryFactory
+                .select(plan).distinct()
+                .from(plan)
+                .where(
+                        lessThanId(lastPlanId),
+                        plan.status.eq(PlanStatus.ACTIVE),
+                        plan.rcmndStatus.eq(RcmndStatus.RECOMMENDED)
+                )
+                .orderBy(plan.id.desc())
+                .limit(size)
+                .fetch();
+    }
+
+    @Override
+    public List<Plan> findMyBookmarkListUsingCursor(Long userId, @Nullable Pageable pageable, int size, @Nullable Long lastScrapId) {
         JPAQuery<Plan> query = queryFactory
                 .select(plan).distinct()
                 .where(
@@ -79,7 +94,7 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
     }
 
     @Override
-    public List<Plan> findMyPlansOrderedUsingCursor(Long userId, @Nullable Pageable pageable, int size, @Nullable Long lastOrderId) {
+    public List<Plan> findMyOrderListUsingCursor(Long userId, @Nullable Pageable pageable, int size, @Nullable Long lastOrderId) {
         JPAQuery<Plan> query = queryFactory
                 .select(plan).distinct()
                 .where(
@@ -111,15 +126,14 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
     }
 
     @Override
-    public List<Plan> findPlansUsingCursor(int size, Long lastPlanId, Pageable pageable, RegionType region, RcmndStatus rcmndStatus) {
+    public List<Plan> findPlansUsingCursor(int size, Long lastPlanId, Pageable pageable, RegionType region) {
         JPAQuery<Plan> query = queryFactory
                 .select(plan).distinct()
                 .from(plan)
                 .where(
                         lessThanId(lastPlanId),
                         eqRegion(region),
-                        plan.status.eq(PlanStatus.ACTIVE),
-                        plan.rcmndStatus.eq(rcmndStatus)
+                        plan.status.eq(PlanStatus.ACTIVE)
                 )
                 .orderBy(plan.id.desc())
                 .limit(size);

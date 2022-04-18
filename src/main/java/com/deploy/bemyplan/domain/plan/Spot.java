@@ -34,7 +34,7 @@ public class Spot extends AuditingTimeEntity {
     @Embedded
     private Location location;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String tip;
 
     @Column(nullable = false)

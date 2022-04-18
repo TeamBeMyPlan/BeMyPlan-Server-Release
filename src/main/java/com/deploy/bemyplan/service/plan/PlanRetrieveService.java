@@ -5,6 +5,7 @@ import com.deploy.bemyplan.domain.common.collection.ScrollPaginationCollection;
 import com.deploy.bemyplan.domain.plan.*;
 import com.deploy.bemyplan.service.plan.dto.request.RetrieveMyBookmarkListRequestDto;
 import com.deploy.bemyplan.service.plan.dto.request.RetrieveMyOrderListRequestDto;
+import com.deploy.bemyplan.service.plan.dto.request.RetrievePickListRequestDto;
 import com.deploy.bemyplan.service.plan.dto.response.PlanDetailResponse;
 import com.deploy.bemyplan.service.plan.dto.response.PlanPreviewResponse;
 import com.deploy.bemyplan.service.plan.dto.response.PlansScrollResponse;
@@ -35,9 +36,14 @@ public class PlanRetrieveService {
     private final ScrapRepository scrapRepository;
     private final OrderRepository orderRepository;
 
-    public PlansScrollResponse retrievePlans(Long userId, int size, Long lastPlanId, Pageable pageable, RegionType region, RcmndStatus rcmndStatus) {
-        List<Plan> planWithNextCursor = planRepository.findPlansUsingCursor(size + 1, lastPlanId, pageable, region, rcmndStatus);
+    public PlansScrollResponse retrievePlans(Long userId, int size, Long lastPlanId, Pageable pageable, RegionType region) {
+        List<Plan> planWithNextCursor = planRepository.findPlansUsingCursor(size + 1, lastPlanId, pageable, region);
         return getPlanListWithPersonalStatusUsingCursor(planWithNextCursor, userId, size);
+    }
+
+    public PlansScrollResponse getPickList(RetrievePickListRequestDto request, Long userId) {
+        List<Plan> planWithNextCursor = planRepository.findPickListUsingCursor(request.getSize() + 1, request.getLastPlanId());
+        return getPlanListWithPersonalStatusUsingCursor(planWithNextCursor, userId, request.getSize());
     }
 
     public PlanPreviewResponse getPreviewPlanInfo(Long planId) {

@@ -9,15 +9,15 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class UserScrapDictionary {
+public class ScrapDictionary {
 
     /**
      * 특정 여행일정 게시글에 대한 스크랩 존재여부 판단
      */
     private final Map<Long, Scrap> dictionary;
 
-    public static UserScrapDictionary of(List<Scrap> scraps) {
-        return new UserScrapDictionary(scraps.stream()
+    public static ScrapDictionary of(List<Scrap> scraps) {
+        return new ScrapDictionary(scraps.stream()
                 .collect(Collectors.toMap(Scrap::getPlanId, scrap -> scrap)));
     }
 

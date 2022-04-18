@@ -10,12 +10,12 @@ import javax.validation.constraints.Min;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class RetrieveMyPlansOrdered {
+public class RetrieveMyBookmarkListRequestDto {
 
     @Min(value = 1, message = "{common.size.min}")
     @Max(value = 100, message = "{common.size.max}")
     private int size;
 
     @Nullable
-    private Long lastOrderId;
+    private Long lastScrapId;
 }

@@ -63,12 +63,12 @@ public class PlanRetrieveService {
     }
 
     public PlansScrollResponse retrieveMyBookmarkList(RetrieveMyBookmarkListRequestDto request, Long userId, Pageable pageable) {
-        List<Plan> planWithNextCursor = planRepository.findMyPlanBookmarksUsingCursor(userId, pageable, request.getSize() + 1, request.getLastScrapId());
+        List<Plan> planWithNextCursor = planRepository.findMyBookmarkListUsingCursor(userId, pageable, request.getSize() + 1, request.getLastScrapId());
         return getPlanListWithPersonalStatusUsingCursor(planWithNextCursor, userId, request.getSize());
     }
 
     public PlansScrollResponse retrieveMyOrderList(RetrieveMyOrderListRequestDto request, Long userId, Pageable pageable) {
-        List<Plan> planWithNextCursor = planRepository.findMyPlansOrderedUsingCursor(userId, pageable, request.getSize() + 1, request.getLastOrderId());
+        List<Plan> planWithNextCursor = planRepository.findMyOrderListUsingCursor(userId, pageable, request.getSize() + 1, request.getLastOrderId());
         return getPlanListWithPersonalStatusUsingCursor(planWithNextCursor, userId, request.getSize());
     }
 

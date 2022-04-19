@@ -33,6 +33,17 @@ deploy:
     wait-until-deployed: true
     on:
       all_branches: true
+
+  - provider: codedeploy
+      access_key_id: $AWS_ACCESS_KEY
+      secret_access_key: $AWS_SECRET_KEY
+      bucket: bemyplan-deploy
+      key: bemyplan.zip                    # 빌드 파일 압축해서 전달
+      bundle_type: zip                        # 압축 확장자
+      application: bemyplan                # CodeDeploy 애프리케이션 이름
+      deployment_group: bemyplan-deploy        # CodeDeploy 배포 그룹
+      region: ap-northeast-2
+      wait-until-deployed: true
 ### S3 설정 추가 끝 ###
 
 notifications:

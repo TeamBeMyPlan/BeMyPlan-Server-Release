@@ -9,7 +9,10 @@ cache:
     - '$HOME/.m2/repository'
     - '$HOME/.gradle'
 
-script: "./gradlew clean build"
+script: "./gradlew clean build -Pprofile=prod"
+
+before_install:
+  - openssl aes-256-cbc -K $encrypted_c27f626e2aa6_key -iv $encrypted_c27f626e2aa6_iv -in ./src/main/resources/application-prod.yml.enc -out ./src/main/resources/application-prod.yml -d
 
 ### S3 설정 추가 시작 ###
 before_deploy:

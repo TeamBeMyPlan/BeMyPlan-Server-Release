@@ -15,7 +15,6 @@ before_install:
   - chmod +x gradlew
   - openssl aes-256-cbc -K $encrypted_c27f626e2aa6_key -iv $encrypted_c27f626e2aa6_iv -in ./src/main/resources/application-prod.yml.enc -out ./src/main/resources/application-prod.yml -d
 
-### S3 설정 추가 시작 ###
 before_deploy:
   - zip -r bemyplan *                    # 프로젝트 파일 압축
   - mkdir -p deploy                       # 배포 폴더 생성
@@ -46,7 +45,6 @@ deploy:
       wait-until-deployed: true
       on:
         all_branches: true
-### S3 설정 추가 끝 ###
 
 notifications:
   email: zxzimin@naver.com

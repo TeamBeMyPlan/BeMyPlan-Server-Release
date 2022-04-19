@@ -21,6 +21,7 @@ before_deploy:
   - mv bemyplan.zip deploy/bemyplan.zip   # 압축한 파일을 배포할 대상 디렉토리로 이동
 
 deploy:
+  # S3 배포
   - provider: s3
     access_key_id: $AWS_ACCESS_KEY
     secret_access_key: $AWS_SECRET_KEY
@@ -33,18 +34,19 @@ deploy:
     on:
       all_branches: true
 
+  # CodeDeploy 배포
   - provider: codedeploy
-      access_key_id: $AWS_ACCESS_KEY
-      secret_access_key: $AWS_SECRET_KEY
-      bucket: bemyplan-deploy
-      key: bemyplan.zip                    # 빌드 파일 압축해서 전달
-      bundle_type: zip                        # 압축 확장자
-      application: bemyplan                # CodeDeploy 애프리케이션 이름
-      deployment_group: bemyplan-deploy        # CodeDeploy 배포 그룹
-      region: ap-northeast-2
-      wait-until-deployed: true
-      on:
-        all_branches: true
+    access_key_id: $AWS_ACCESS_KEY # Travis repo settings에 설정된 값
+    secret_access_key: $AWS_SECRET_KEY # Travis repos settings에 설정된 값
+    bucket: bemyplan-deploy # s3 버킷
+    key: bemyplan.zip # 빌드 파일 압축해서 전달
+    bundle_type: zip # 압축 확장자
+    application: bemyplan # 웹 콘솔에서 등록한 CodeDelpoy 애플리케이션 이름
+    deployment_group: bemyplan-deploy # 웹 콘솔에서 등록한 CodeDelpoy 배포 그룹 이름
+    region: ap-northeast-2
+    wait-until-deployed: true
+    on:
+      all_branches: true # master말고 다른 모든 브런치 허용
 
 notifications:
   email: zxzimin@naver.com

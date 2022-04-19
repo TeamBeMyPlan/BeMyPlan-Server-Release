@@ -1,0 +1,33 @@
+language: java
+jdk: openjdk11
+branches:
+  only:
+    - develop
+
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+    - '$HOME/.gradle'
+
+script: "./gradlew clean build"
+
+### S3 설정 추가 시작 ###
+before_deploy:
+  - zip -r  bemyplan *                    # 프로젝트 파일 압축
+  - mkdir -p deploy                       # 배포 폴더 생성
+  - mv bemyplan.zip deploy/bemyplan.zip   # 압축한 파일을 배포할 대상 디렉토리로 이동
+
+deploy:
+  - provider: s3
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: bemyplan-deploy
+    region: ap-northeast-2
+    skip_cleanup: true
+    acl: private
+    local_dir: deploy
+    wait-until-deployed: true
+### S3 설정 추가 끝 ###
+
+notifications:
+  email: zxzimin@naver.com

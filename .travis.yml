@@ -9,7 +9,7 @@ cache:
     - '$HOME/.m2/repository'
     - '$HOME/.gradle'
 
-script: "./gradlew clean build"
+script: "./gradlew --debug clean build"
 
 ### S3 설정 추가 시작 ###
 before_deploy:

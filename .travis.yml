@@ -44,6 +44,8 @@ deploy:
       deployment_group: bemyplan-deploy        # CodeDeploy 배포 그룹
       region: ap-northeast-2
       wait-until-deployed: true
+      on:
+        all_branches: true
 ### S3 설정 추가 끝 ###
 
 notifications:

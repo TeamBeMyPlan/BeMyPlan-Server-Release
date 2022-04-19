@@ -12,11 +12,12 @@ cache:
 script: "./gradlew clean build -Pprofile=prod"
 
 before_install:
+  - chmod +x gradlew
   - openssl aes-256-cbc -K $encrypted_c27f626e2aa6_key -iv $encrypted_c27f626e2aa6_iv -in ./src/main/resources/application-prod.yml.enc -out ./src/main/resources/application-prod.yml -d
 
 ### S3 설정 추가 시작 ###
 before_deploy:
-  - zip -r  bemyplan *                    # 프로젝트 파일 압축
+  - zip -r bemyplan *                    # 프로젝트 파일 압축
   - mkdir -p deploy                       # 배포 폴더 생성
   - mv bemyplan.zip deploy/bemyplan.zip   # 압축한 파일을 배포할 대상 디렉토리로 이동
 

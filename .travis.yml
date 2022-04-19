@@ -16,9 +16,13 @@ before_install:
   - openssl aes-256-cbc -K $encrypted_c27f626e2aa6_key -iv $encrypted_c27f626e2aa6_iv -in ./src/main/resources/application-prod.yml.enc -out ./src/main/resources/application-prod.yml -d
 
 before_deploy:
-  - zip -r bemyplan *                    # 프로젝트 파일 압축
-  - mkdir -p deploy                       # 배포 폴더 생성
-  - mv bemyplan.zip deploy/bemyplan.zip   # 압축한 파일을 배포할 대상 디렉토리로 이동
+  - mkdir -p before-deploy # zip에 포함시킬 파일들을 담을 디렉토리 생성
+  - cp scripts/*.sh before-deploy/ # scripts파일 추가
+  - cp appspec.yml before-deploy/ # appsepc.yml 추가
+  - cp build/libs/*.jar before-deploy/ # build/libs 목록 추가
+  - cd before-deploy && zip -r before-deploy * # before-deploy로 이동 후 전체 압축
+  - cd ../ && mkdir -p deploy # 상위 디렉토리 이동 후 deploy 디렉토리 생성
+  - mv before-deploy/before-deploy.zip deploy/bemyplan.zip # deploy로 zip파일 이동
 
 deploy:
   # S3 배포

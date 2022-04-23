@@ -16,8 +16,10 @@ public class PlanPreviewInfoResponse {
     private String description;
     private int spotCnt;
     private int rstrnCnt;
-    private TravelPeriod period;
+//    private TravelPeriod period;
     private Money budget;
+    private int month;
+    private int totalDay;
     private TravelTheme theme;
     private TravelPartner partner;
     private TravelMobility mobility;
@@ -38,8 +40,10 @@ public class PlanPreviewInfoResponse {
                 plan.getDescription(),
                 spotCnt,
                 rstrnCnt,
-                plan.getPeriod(),
+//                plan.getPeriod(),
                 plan.getTagInfo().getBudget(),
+                plan.getTagInfo().getMonth(),
+                plan.getTagInfo().getTotalDay(),
                 plan.getTagInfo().getTheme(),
                 plan.getTagInfo().getPartner(),
                 plan.getTagInfo().getMobility()

@@ -26,6 +26,12 @@ public class TagInfo {
     @Embedded
     private Money budget;
 
+    @Column(nullable = false)
+    private int month;
+
+    @Column(nullable = false)
+    private int totalDay;
+
     @Builder(builderMethodName = "testBuilder", access = AccessLevel.PUBLIC)
     private TagInfo(TravelTheme theme, TravelPartner partner, TravelMobility mobility, Money budget) {
         this.theme = theme;

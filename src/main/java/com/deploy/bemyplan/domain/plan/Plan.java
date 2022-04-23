@@ -39,8 +39,8 @@ public class Plan extends AuditingTimeEntity {
     @Embedded
     private TagInfo tagInfo;
 
-    @Embedded
-    private TravelPeriod period;
+//    @Embedded
+//    private TravelPeriod period;
 
     @Column(nullable = false)
     private int orderCnt;
@@ -63,14 +63,13 @@ public class Plan extends AuditingTimeEntity {
     private final List<PreviewContent> previews = new ArrayList<>();
 
     @Builder(builderMethodName = "testBuilder", access = AccessLevel.PUBLIC)
-    private Plan(Long userId, RegionType region, String thumbnailUrl, String title, String description, TagInfo tagInfo, TravelPeriod period, int orderCnt, int viewCnt, PlanStatus status, RcmndStatus rcmndStatus) {
+    private Plan(Long userId, RegionType region, String thumbnailUrl, String title, String description, TagInfo tagInfo, int orderCnt, int viewCnt, PlanStatus status, RcmndStatus rcmndStatus) {
         this.userId = userId;
         this.region = region;
         this.thumbnailUrl = thumbnailUrl;
         this.title = title;
         this.description = description;
         this.tagInfo = tagInfo;
-        this.period = period;
         this.orderCnt = orderCnt;
         this.viewCnt = viewCnt;
         this.status = status;

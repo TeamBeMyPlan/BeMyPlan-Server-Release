@@ -12,12 +12,12 @@ import static com.deploy.bemyplan.domain.plan.RegionType.RegionTypeStatus.LOCKED
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public enum RegionType implements EnumModel {
 
-    JEJU("제주", "thumbnail", ACTIVE, 1),
-    BUSAN("부산", "thumbnail", ACTIVE, 2),
-    GANGNEUNG("강릉", "thumbnail", LOCKED, 3),
-    YEOSU("여수", "thumbnail", LOCKED, 4),
-    GYEONGJU("경주", "thumbnail", ACTIVE, 5),
-    TONGYEONG_GEOJE("통영/거제", "thumbnail1", LOCKED, 6)
+    JEJU("제주", "https://bemyplan-deploy.s3.ap-northeast-2.amazonaws.com/%EC%97%AC%ED%96%89%EC%A7%80%EC%82%AC%EC%A7%84/%EC%A0%9C%EC%A3%BC.png", ACTIVE, 1),
+    BUSAN("부산", "https://bemyplan-deploy.s3.ap-northeast-2.amazonaws.com/%EC%97%AC%ED%96%89%EC%A7%80%EC%82%AC%EC%A7%84/%EB%B6%80%EC%82%B0.png", ACTIVE, 2),
+    GANGNEUNG("강릉", "https://bemyplan-deploy.s3.ap-northeast-2.amazonaws.com/%EC%97%AC%ED%96%89%EC%A7%80%EC%82%AC%EC%A7%84/%EA%B0%95%EB%A6%89.png", LOCKED, 3),
+    YEOSU("여수", "https://bemyplan-deploy.s3.ap-northeast-2.amazonaws.com/%EC%97%AC%ED%96%89%EC%A7%80%EC%82%AC%EC%A7%84/%EC%97%AC%EC%88%98.png", LOCKED, 4),
+    GYEONGJU("경주", "https://bemyplan-deploy.s3.ap-northeast-2.amazonaws.com/%EC%97%AC%ED%96%89%EC%A7%80%EC%82%AC%EC%A7%84/%EA%B2%BD%EC%A3%BC.png", ACTIVE, 5),
+    TONGYEONG_GEOJE("통영/거제", "https://bemyplan-deploy.s3.ap-northeast-2.amazonaws.com/%EC%97%AC%ED%96%89%EC%A7%80%EC%82%AC%EC%A7%84/%ED%86%B5%EC%98%81_%EA%B1%B0%EC%A0%9C.png", LOCKED, 6)
     ;
 
     private final String regionName;

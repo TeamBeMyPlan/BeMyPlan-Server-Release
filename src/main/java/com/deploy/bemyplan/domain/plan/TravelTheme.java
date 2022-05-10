@@ -10,7 +10,11 @@ import lombok.RequiredArgsConstructor;
 public enum TravelTheme implements EnumModel {
     HEALING("힐링"),
     LEISURE("레저"),
-    EATING("먹방"),
+    EATING("맛집"),
+    HOTPLACE("핫플"),
+    LIFESHOT("인생샷"),
+    LOCAL("로컬"),
+
     ;
 
     private final String value;

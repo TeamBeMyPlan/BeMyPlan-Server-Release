@@ -59,35 +59,35 @@ public class ScrapRepositoryCustomImpl implements ScrapRepositoryCustom{
     }
 
     private BooleanExpression lessThanId(Long lastScrapId) {
-        if (lastScrapId == null) {
+        if (Objects.isNull(lastScrapId)) {
             return null;
         }
         return scrap.id.lt(lastScrapId);
     }
 
     private BooleanExpression eqUserId(Long userId) {
-        if (userId == null) {
+        if (Objects.isNull(userId)) {
             return null;
         }
         return scrap.userId.eq(userId);
     }
 
     private BooleanExpression eqPlanId(Long planId) {
-        if (planId == null) {
+        if (Objects.isNull(planId)) {
             return null;
         }
         return scrap.planId.eq(planId);
     }
 
     private BooleanExpression inScrapIds(List<Long> scrapIds) {
-        if (scrapIds == null) {
+        if (Objects.isNull(scrapIds)) {
             return null;
         }
         return scrap.id.in(scrapIds);
     }
 
     private BooleanExpression inPlanIds(List<Long> planIds) {
-        if (planIds == null) {
+        if (Objects.isNull(planIds)) {
             return null;
         }
         return scrap.planId.in(planIds);

@@ -155,28 +155,28 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
     }
 
     private BooleanExpression lessThanId(Long lastPlanId) {
-        if (lastPlanId == null) {
+        if (Objects.isNull(lastPlanId)) {
             return null;
         }
         return plan.id.lt(lastPlanId);
     }
 
     private BooleanExpression lessThanScrapId(Long lastScrapId) {
-        if (lastScrapId == null) {
+        if (Objects.isNull(lastScrapId)) {
             return null;
         }
         return scrap.id.lt(lastScrapId);
     }
 
     private BooleanExpression lessThanOrderId(Long lastOrderId) {
-        if (lastOrderId == null) {
+        if (Objects.isNull(lastOrderId)) {
             return null;
         }
         return order.id.lt(lastOrderId);
     }
 
     private BooleanExpression eqRegion(@Nullable RegionType regionType) {
-        if (regionType == null) {
+        if (Objects.isNull(regionType)) {
             return null;
         }
         return plan.region.eq(regionType);

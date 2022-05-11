@@ -1,12 +1,14 @@
 package com.deploy.bemyplan.domain.order.repository;
 
 import com.deploy.bemyplan.domain.order.Order;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 import static com.deploy.bemyplan.domain.order.QOrder.order;
+import static com.deploy.bemyplan.domain.scrap.QScrap.scrap;
 
 @RequiredArgsConstructor
 public class OrderRepositoryCustomImpl implements OrderRepositoryCustom{
@@ -30,10 +32,17 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom{
                 .select(order.id).distinct()
                 .from(order)
                 .where(
-                        order.userId.eq(userId),
+                        eqUserId(userId),
                         order.planId.in(planIds)
                 )
                 .fetch();
         return findAllByIds(orderIds);
+    }
+
+    private BooleanExpression eqUserId(Long userId) {
+        if (userId == null) {
+            return null;
+        }
+        return scrap.userId.eq(userId);
     }
 }

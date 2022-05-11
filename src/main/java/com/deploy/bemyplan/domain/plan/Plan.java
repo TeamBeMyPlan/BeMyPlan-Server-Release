@@ -48,6 +48,9 @@ public class Plan extends AuditingTimeEntity {
     @Column(nullable = false)
     private int viewCnt;
 
+    @Column(nullable = false)
+    private int price;
+
     @Column(nullable = false, length = 30)
     @Enumerated(EnumType.STRING)
     private PlanStatus status;
@@ -63,7 +66,7 @@ public class Plan extends AuditingTimeEntity {
     private final List<PreviewContent> previews = new ArrayList<>();
 
     @Builder(builderMethodName = "testBuilder", access = AccessLevel.PUBLIC)
-    private Plan(Long userId, RegionType region, String thumbnailUrl, String title, String description, TagInfo tagInfo, int orderCnt, int viewCnt, PlanStatus status, RcmndStatus rcmndStatus) {
+    private Plan(Long userId, RegionType region, String thumbnailUrl, String title, String description, TagInfo tagInfo, int orderCnt, int viewCnt, int price, PlanStatus status, RcmndStatus rcmndStatus) {
         this.userId = userId;
         this.region = region;
         this.thumbnailUrl = thumbnailUrl;
@@ -72,6 +75,7 @@ public class Plan extends AuditingTimeEntity {
         this.tagInfo = tagInfo;
         this.orderCnt = orderCnt;
         this.viewCnt = viewCnt;
+        this.price = price;
         this.status = status;
         this.rcmndStatus = rcmndStatus;
     }

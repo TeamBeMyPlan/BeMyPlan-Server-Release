@@ -40,7 +40,7 @@ public class ScrapRepositoryCustomImpl implements ScrapRepositoryCustom{
                 .select(scrap.id).distinct()
                 .from(scrap)
                 .where(
-                        scrap.userId.eq(userId),
+                        eqUserId(userId),
                         scrap.planId.in(planIds)
                 )
                 .fetch();

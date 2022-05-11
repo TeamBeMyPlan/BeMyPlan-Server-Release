@@ -52,7 +52,7 @@ public class ScrapRepositoryCustomImpl implements ScrapRepositoryCustom{
         return queryFactory
                 .selectFrom(scrap)
                 .where(
-                        scrap.userId.eq(userId),
+                        eqUserId(userId),
                         scrap.planId.eq(planId)
                 )
                 .fetchOne();
@@ -63,5 +63,12 @@ public class ScrapRepositoryCustomImpl implements ScrapRepositoryCustom{
             return null;
         }
         return scrap.id.lt(lastScrapId);
+    }
+
+    private BooleanExpression eqUserId(Long userId) {
+        if (userId == null) {
+            return null;
+        }
+        return scrap.userId.eq(userId);
     }
 }

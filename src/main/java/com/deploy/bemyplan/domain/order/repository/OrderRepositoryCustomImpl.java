@@ -34,7 +34,7 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom{
                 .from(order)
                 .where(
                         eqUserId(userId),
-                        order.planId.in(planIds)
+                        inPlanIds(planIds)
                 )
                 .fetch();
         return findAllByIds(orderIds);
@@ -44,7 +44,7 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom{
         if (userId == null) {
             return null;
         }
-        return scrap.userId.eq(userId);
+        return order.userId.eq(userId);
     }
 
     private BooleanExpression inOrderIds(List<Long> orderIds) {
@@ -52,5 +52,12 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom{
             return null;
         }
         return order.id.in(orderIds);
+    }
+
+    private BooleanExpression inPlanIds(List<Long> planIds) {
+        if (planIds == null) {
+            return null;
+        }
+        return order.planId.in(planIds);
     }
 }

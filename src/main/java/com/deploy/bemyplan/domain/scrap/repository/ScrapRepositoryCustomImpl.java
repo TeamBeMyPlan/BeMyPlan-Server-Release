@@ -41,7 +41,7 @@ public class ScrapRepositoryCustomImpl implements ScrapRepositoryCustom{
                 .from(scrap)
                 .where(
                         eqUserId(userId),
-                        scrap.planId.in(planIds)
+                        inPlanIds(planIds)
                 )
                 .fetch();
         return findAllByIds(scrapIds);
@@ -53,7 +53,7 @@ public class ScrapRepositoryCustomImpl implements ScrapRepositoryCustom{
                 .selectFrom(scrap)
                 .where(
                         eqUserId(userId),
-                        scrap.planId.eq(planId)
+                        eqPlanId(planId)
                 )
                 .fetchOne();
     }
@@ -72,10 +72,24 @@ public class ScrapRepositoryCustomImpl implements ScrapRepositoryCustom{
         return scrap.userId.eq(userId);
     }
 
+    private BooleanExpression eqPlanId(Long planId) {
+        if (planId == null) {
+            return null;
+        }
+        return scrap.planId.eq(planId);
+    }
+
     private BooleanExpression inScrapIds(List<Long> scrapIds) {
         if (scrapIds == null) {
             return null;
         }
         return scrap.id.in(scrapIds);
+    }
+
+    private BooleanExpression inPlanIds(List<Long> planIds) {
+        if (planIds == null) {
+            return null;
+        }
+        return scrap.planId.in(planIds);
     }
 }

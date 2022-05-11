@@ -28,14 +28,14 @@ public class ScrapRepositoryCustomImpl implements ScrapRepositoryCustom{
         return queryFactory
                 .selectFrom(scrap).distinct()
                 .where(
-                        scrap.id.in(scrapIds)
+                        inScrapIds(scrapIds)
                 )
                 .orderBy(scrap.id.desc())
                 .fetch();
     }
 
     @Override
-    public List<Scrap> findByUserIdAndPlanIds(List<Long> planIds, Long userId) {
+    public List<Scrap> findByUserIdAndPlanIds(List<Long> planIds, @Nullable Long userId) {
         List<Long> scrapIds = queryFactory
                 .select(scrap.id).distinct()
                 .from(scrap)
@@ -70,5 +70,12 @@ public class ScrapRepositoryCustomImpl implements ScrapRepositoryCustom{
             return null;
         }
         return scrap.userId.eq(userId);
+    }
+
+    private BooleanExpression inScrapIds(List<Long> scrapIds) {
+        if (scrapIds == null) {
+            return null;
+        }
+        return scrap.id.in(scrapIds);
     }
 }

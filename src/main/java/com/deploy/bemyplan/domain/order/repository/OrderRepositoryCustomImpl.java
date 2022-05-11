@@ -4,6 +4,7 @@ import com.deploy.bemyplan.domain.order.Order;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -20,14 +21,14 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom{
         return queryFactory
                 .selectFrom(order).distinct()
                 .where(
-                        order.id.in(orderIds)
+                        inOrderIds(orderIds)
                 )
                 .orderBy(order.id.desc())
                 .fetch();
     }
 
     @Override
-    public List<Order> findByUserIdAndPlanIds(List<Long> planIds, Long userId) {
+    public List<Order> findByUserIdAndPlanIds(List<Long> planIds, @Nullable Long userId) {
         List<Long> orderIds = queryFactory
                 .select(order.id).distinct()
                 .from(order)
@@ -44,5 +45,12 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom{
             return null;
         }
         return scrap.userId.eq(userId);
+    }
+
+    private BooleanExpression inOrderIds(List<Long> orderIds) {
+        if (orderIds == null) {
+            return null;
+        }
+        return order.id.in(orderIds);
     }
 }

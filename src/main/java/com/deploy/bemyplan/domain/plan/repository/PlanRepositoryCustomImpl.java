@@ -74,7 +74,7 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
     @Override
     public List<Plan> findMyBookmarkListUsingCursor(Long userId, @Nullable Pageable pageable, int size, @Nullable Long lastScrapId) {
         JPAQuery<Plan> query = queryFactory
-                .select(plan).distinct()
+                .selectFrom(plan).distinct()
                 .where(
                         inPlanIdsWithScrap(userId, lastScrapId, size)
                 );
@@ -85,7 +85,7 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
     @Override
     public List<Plan> findMyOrderListUsingCursor(Long userId, @Nullable Pageable pageable, int size, @Nullable Long lastOrderId) {
         JPAQuery<Plan> query = queryFactory
-                .select(plan).distinct()
+                .selectFrom(plan).distinct()
                 .where(
                         inPlanIdsWithOrder(userId, lastOrderId, size)
                 );

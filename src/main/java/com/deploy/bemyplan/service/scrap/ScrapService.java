@@ -20,6 +20,7 @@ public class ScrapService {
     public void addScrap(Long planId, Long userId) {
         Scrap scrap = ScrapServiceUtils.findScrapByPlanIdAndUserId(scrapRepository, planId, userId);
         scrap.updateToActive();
+        scrapRepository.save(scrap);
     }
 
     @Transactional
@@ -28,7 +29,8 @@ public class ScrapService {
         if (scrap == null) {
             throw new NotFoundException(String.format("해당 여행일정을 찜한 상태 (%s - %s) 가 아닙니다.", userId, planId), NOT_FOUND_SCRAP_EXCEPTION);
         }
-        scrap.updateToInActive();
+        scrap.updateToActive();
+        scrapRepository.save(scrap);
     }
 }
 

@@ -11,6 +11,7 @@ public enum SpotCategoryType implements EnumModel {
     RESTAURANT("식당"),
     CAFE("카페"),
     MUSEUM("박물관"),
+    HEALING("힐링"),
     EATING("맛집"),
     HOTPLACE("핫플"),
     LIFESHOT("인생샷"),

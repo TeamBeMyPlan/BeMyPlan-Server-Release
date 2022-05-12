@@ -84,7 +84,6 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
                                         scrap.status.eq(ScrapStatus.ACTIVE),
                                         lessThanScrapId(lastScrapId)
                                 )
-                                .orderBy(scrap.id.desc())
                                 .limit(size)
                                 .fetch()
                         )
@@ -105,7 +104,6 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
                                         order.userId.eq(userId),
                                         lessThanOrderId(lastOrderId)
                                 )
-                                .orderBy(order.id.desc())
                                 .limit(size)
                                 .fetch()
                         )

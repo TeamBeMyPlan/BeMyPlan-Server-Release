@@ -76,17 +76,7 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
         JPAQuery<Plan> query = queryFactory
                 .select(plan).distinct()
                 .where(
-                        plan.id.in(JPAExpressions
-                                .select(scrap.planId).distinct()
-                                .from(scrap)
-                                .where(
-                                        scrap.userId.eq(userId),
-                                        scrap.status.eq(ScrapStatus.ACTIVE),
-                                        lessThanScrapId(lastScrapId)
-                                )
-                                .limit(size)
-                                .fetch()
-                        )
+                        inPlanIdsWithScrap(userId, lastScrapId, size)
                 );
         setDynamicSortCondition(pageable, query);
         return query.fetch();
@@ -97,16 +87,7 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
         JPAQuery<Plan> query = queryFactory
                 .select(plan).distinct()
                 .where(
-                        plan.id.in(JPAExpressions
-                                .select(order.planId).distinct()
-                                .from(order)
-                                .where(
-                                        order.userId.eq(userId),
-                                        lessThanOrderId(lastOrderId)
-                                )
-                                .limit(size)
-                                .fetch()
-                        )
+                        inPlanIdsWithOrder(userId, lastOrderId, size)
                 );
         setDynamicSortCondition(pageable, query);
         return query.fetch();
@@ -178,5 +159,37 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
             return null;
         }
         return plan.region.eq(regionType);
+    }
+
+    private BooleanExpression inPlanIdsWithScrap(Long userId, Long lastScrapId, int size) {
+        List<Long> planIds = queryFactory.
+                select(scrap.planId).distinct()
+                .from(scrap)
+                .where(
+                        scrap.userId.eq(userId),
+                        lessThanScrapId(lastScrapId)
+                )
+                .limit(size)
+                .fetch();
+        if (Objects.isNull(planIds)) {
+            return null;
+        }
+        return plan.id.in(planIds);
+    }
+
+    private BooleanExpression inPlanIdsWithOrder(Long userId, Long lastOrderId, int size) {
+        List<Long> planIds = queryFactory.
+                select(order.planId).distinct()
+                .from(order)
+                .where(
+                        order.userId.eq(userId),
+                        lessThanOrderId(lastOrderId)
+                )
+                .limit(size)
+                .fetch();
+        if (Objects.isNull(planIds)) {
+            return null;
+        }
+        return plan.id.in(planIds);
     }
 }

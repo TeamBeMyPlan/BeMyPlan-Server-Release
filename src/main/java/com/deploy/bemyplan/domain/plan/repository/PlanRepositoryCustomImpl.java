@@ -76,7 +76,8 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
         JPAQuery<Plan> query = queryFactory
                 .selectFrom(plan).distinct()
                 .where(
-                        inPlanIdsWithScrap(userId, lastScrapId, size)
+                        inPlanIdsWithScrap(userId, lastScrapId, size),
+                        plan.status.eq(PlanStatus.ACTIVE)
                 );
         setDynamicSortCondition(pageable, query);
         return query.fetch();
@@ -87,7 +88,8 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
         JPAQuery<Plan> query = queryFactory
                 .selectFrom(plan).distinct()
                 .where(
-                        inPlanIdsWithOrder(userId, lastOrderId, size)
+                        inPlanIdsWithOrder(userId, lastOrderId, size),
+                        plan.status.eq(PlanStatus.ACTIVE)
                 );
         setDynamicSortCondition(pageable, query);
         return query.fetch();
@@ -167,6 +169,7 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
                 .from(scrap)
                 .where(
                         scrap.userId.eq(userId),
+                        scrap.status.eq(ScrapStatus.ACTIVE),
                         lessThanScrapId(lastScrapId)
                 )
                 .limit(size)
@@ -183,6 +186,7 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
                 .from(order)
                 .where(
                         order.userId.eq(userId),
+                        // order.status.eq(ACTIVE) 추가 요망
                         lessThanOrderId(lastOrderId)
                 )
                 .limit(size)

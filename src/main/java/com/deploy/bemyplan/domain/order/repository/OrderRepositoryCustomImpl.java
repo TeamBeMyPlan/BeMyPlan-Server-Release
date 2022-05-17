@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.deploy.bemyplan.domain.order.QOrder.order;
-import static com.deploy.bemyplan.domain.scrap.QScrap.scrap;
 
 @RequiredArgsConstructor
 public class OrderRepositoryCustomImpl implements OrderRepositoryCustom{
@@ -41,11 +40,29 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom{
         return findAllByIds(orderIds);
     }
 
+    @Override
+    public Order findByUserIdAndPlanId(Long planId, Long userId){
+        return queryFactory
+                .selectFrom(order)
+                .where(
+                        eqUserId(userId),
+                        eqPlanId(planId)
+                )
+                .fetchOne();
+    }
+
     private BooleanExpression eqUserId(Long userId) {
         if (Objects.isNull(userId)) {
             return null;
         }
         return order.userId.eq(userId);
+    }
+
+    private BooleanExpression eqPlanId(Long planId) {
+        if (Objects.isNull(planId)) {
+            return null;
+        }
+        return order.planId.eq(planId);
     }
 
     private BooleanExpression inOrderIds(List<Long> orderIds) {

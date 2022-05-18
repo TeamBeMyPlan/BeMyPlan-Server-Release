@@ -11,6 +11,7 @@ public enum TravelPartner implements EnumModel {
     FAMILY("가족"),
     FRIEND("친구"),
     COUPLE("연인"),
+    SOLO("혼자"),
     ;
 
     private final String value;

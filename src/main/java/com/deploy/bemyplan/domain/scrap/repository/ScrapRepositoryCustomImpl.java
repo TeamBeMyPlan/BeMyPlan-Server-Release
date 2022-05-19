@@ -40,6 +40,7 @@ public class ScrapRepositoryCustomImpl implements ScrapRepositoryCustom{
                 .select(scrap.id).distinct()
                 .from(scrap)
                 .where(
+                        scrap.status.eq(ScrapStatus.ACTIVE),
                         eqUserId(userId),
                         inPlanIds(planIds)
                 )
@@ -52,6 +53,7 @@ public class ScrapRepositoryCustomImpl implements ScrapRepositoryCustom{
         return queryFactory
                 .selectFrom(scrap)
                 .where(
+                        scrap.status.eq(ScrapStatus.ACTIVE),
                         eqUserId(userId),
                         eqPlanId(planId)
                 )

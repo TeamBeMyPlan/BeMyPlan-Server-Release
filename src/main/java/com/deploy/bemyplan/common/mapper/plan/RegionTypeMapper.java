@@ -21,7 +21,7 @@ public class RegionTypeMapper {
 
     public List<RegionTypeResponse> getActiveRegionTypes() {
         return Arrays.stream(RegionType.values())
-                .filter(r -> !r.isLocked())
+//                .filter(r -> !r.isLocked())
                 .sorted(new Comparator<RegionType>() {
                     @Override
                     public int compare(RegionType o1, RegionType o2) {

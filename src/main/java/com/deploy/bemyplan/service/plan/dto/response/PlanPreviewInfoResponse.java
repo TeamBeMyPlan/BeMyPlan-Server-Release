@@ -23,8 +23,9 @@ public class PlanPreviewInfoResponse {
     private TravelTheme theme;
     private TravelPartner partner;
     private TravelMobility mobility;
+    private String nickname;
 
-    public static PlanPreviewInfoResponse of(@NotNull Plan plan) {
+    public static PlanPreviewInfoResponse of(@NotNull Plan plan, String nickname) {
         int spotCnt = (int) plan.getSchedules().stream()
                 .flatMap(dailySchedule -> dailySchedule.getSpots().stream())
                 .count();
@@ -46,7 +47,8 @@ public class PlanPreviewInfoResponse {
                 plan.getTagInfo().getTotalDay(),
                 plan.getTagInfo().getTheme(),
                 plan.getTagInfo().getPartner(),
-                plan.getTagInfo().getMobility()
+                plan.getTagInfo().getMobility(),
+                nickname
         );
     }
 }

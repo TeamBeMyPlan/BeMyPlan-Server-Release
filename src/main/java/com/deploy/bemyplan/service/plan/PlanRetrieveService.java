@@ -22,7 +22,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,9 +47,10 @@ public class PlanRetrieveService {
 
     public PlanPreviewResponse getPreviewPlanInfo(Long planId) {
         Plan plan = PlanServiceUtils.findPlanByIdFetchJoinSchedule(planRepository, planId);
+        User user = userRepository.findUserById(plan.getUserId());
         List<PreviewContent> previewContents = planRepository.findPreviewContentsByPlanId(plan.getId());
 
-        return PlanPreviewResponse.of(plan, previewContents);
+        return PlanPreviewResponse.of(plan, user.getNickname(), previewContents);
     }
 
     public PlanDetailResponse getPlanDetailInfo(Long planId) {

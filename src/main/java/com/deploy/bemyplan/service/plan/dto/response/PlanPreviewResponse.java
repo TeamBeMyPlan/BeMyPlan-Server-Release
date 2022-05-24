@@ -24,9 +24,9 @@ public class PlanPreviewResponse extends AuditingTimeResponse {
         this.previewInfo = previewInfo;
     }
 
-    public static PlanPreviewResponse of(@NotNull Plan plan, List<PreviewContent> contents) {
+    public static PlanPreviewResponse of(@NotNull Plan plan, String nickname, List<PreviewContent> contents) {
         PlanPreviewResponse response = PlanPreviewResponse.builder()
-                .previewInfo(PlanPreviewInfoResponse.of(plan))
+                .previewInfo(PlanPreviewInfoResponse.of(plan, nickname))
                 .build();
         response.previewContents.addAll(toPreviewContentsResponse(contents));
         response.setBaseTime(plan);

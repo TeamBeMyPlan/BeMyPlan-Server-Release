@@ -65,6 +65,8 @@ public class PlanRetrieveController {
         return ApiResponse.success(planRetrieveService.getPreviewPlanInfo(planId));
     }
 
+    
+
     @ApiOperation("여행일정 페이지 - 장소 간 이동수단/소요시간을 조회합니다. (일자별 조회)")
     @GetMapping("/v1/plan/{planId}/moveInfo")
     public ApiResponse<List<SpotMoveInfoResponse>> getSpotMoveInfos(@PathVariable Long planId) {

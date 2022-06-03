@@ -35,8 +35,8 @@ public class PlanRetrieveService {
     private final ScrapRepository scrapRepository;
     private final OrderRepository orderRepository;
 
-    public PlansScrollResponse retrievePlans(Long userId, int size, Long lastPlanId, Pageable pageable, RegionType region) {
-        List<Plan> planWithNextCursor = planRepository.findPlansUsingCursor(size + 1, lastPlanId, pageable, region);
+    public PlansScrollResponse retrievePlans(Long userId, int size, Long SpecificUserId, Long lastPlanId, Pageable pageable, RegionType region) {
+        List<Plan> planWithNextCursor = planRepository.findPlansUsingCursor(size + 1, SpecificUserId, lastPlanId, pageable, region);
         return getPlanListWithPersonalStatusUsingCursor(planWithNextCursor, userId, size);
     }
 

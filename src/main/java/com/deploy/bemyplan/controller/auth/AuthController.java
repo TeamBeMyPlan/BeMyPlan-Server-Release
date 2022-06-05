@@ -36,7 +36,7 @@ public class AuthController {
         AuthService authService = authServiceProvider.getAuthService(request.getSocialType());
         Long userId = authService.signUp(request.toServiceDto());
         httpSession.setAttribute(USER_ID, userId);
-        return ApiResponse.success(LoginResponse.of(httpSession.getId(), userId));
+        return ApiResponse.success(LoginResponse.of(httpSession.getId(), userId, request.getNickname()));
     }
 
     @ApiOperation("로그인 페이지 - 로그인을 요청합니다")
@@ -45,7 +45,8 @@ public class AuthController {
         AuthService authService = authServiceProvider.getAuthService(request.getSocialType());
         Long userId = authService.login(request.toServiceDto());
         httpSession.setAttribute(USER_ID, userId);
-        return ApiResponse.success(LoginResponse.of(httpSession.getId(), userId));
+        String nickname = userService.findUserNicknameByUserId(userId);
+        return ApiResponse.success(LoginResponse.of(httpSession.getId(), userId, nickname));
     }
 
     @ApiOperation("[인증] 로그아웃을 요청합니다.")

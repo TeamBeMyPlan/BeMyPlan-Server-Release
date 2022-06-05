@@ -12,7 +12,9 @@ public class LoginResponse {
 
     private Long userId;
 
-    public static LoginResponse of(String sessionId, Long userId) {
-        return new LoginResponse(sessionId, userId);
+    private String nickname;
+
+    public static LoginResponse of(String sessionId, Long userId, String nickname) {
+        return new LoginResponse(sessionId, userId, nickname);
     }
 }

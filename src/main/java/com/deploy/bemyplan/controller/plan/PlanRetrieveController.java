@@ -8,11 +8,8 @@ import com.deploy.bemyplan.controller.plan.dto.request.RetrievePlansRequest;
 import com.deploy.bemyplan.service.plan.dto.request.RetrievePickListRequestDto;
 import com.deploy.bemyplan.service.plan.dto.request.RetrieveMyBookmarkListRequestDto;
 import com.deploy.bemyplan.service.plan.dto.request.RetrieveMyOrderListRequestDto;
-import com.deploy.bemyplan.service.plan.dto.response.PlanDetailResponse;
-import com.deploy.bemyplan.service.plan.dto.response.PlanPreviewResponse;
-import com.deploy.bemyplan.service.plan.dto.response.PlansScrollResponse;
+import com.deploy.bemyplan.service.plan.dto.response.*;
 import com.deploy.bemyplan.service.plan.PlanRetrieveService;
-import com.deploy.bemyplan.service.plan.dto.response.SpotMoveInfoResponse;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -25,7 +22,6 @@ import javax.validation.Valid;
 
 import java.util.List;
 
-@Validated
 @RequiredArgsConstructor
 @RestController
 public class PlanRetrieveController {
@@ -40,7 +36,7 @@ public class PlanRetrieveController {
         return ApiResponse.success(planRetrieveService.retrievePlans(
                 userId,
                 request.getSize(),
-                request.getSpecificUserId(),
+                request.getAuthorId(),
                 request.getLastPlanId(),
                 pageable,
                 request.getRegion())
@@ -75,7 +71,7 @@ public class PlanRetrieveController {
     @ApiOperation("[인증] 내가 스크랩한 여행일정 목록들을 스크롤 페이지네이션으로 조회합니다.")
     @Auth
     @GetMapping("/v1/plan/bookmark")
-    public ApiResponse<PlansScrollResponse> retrieveMyBookmarkList(@UserId Long userId, @Valid RetrieveMyBookmarkListRequestDto request,
+    public ApiResponse<ScrapsScrollResponse> retrieveMyBookmarkList(@UserId Long userId, @Valid RetrieveMyBookmarkListRequestDto request,
                                                                     @AllowedSortProperties({"id", "createdAt", "orderCnt"}) Pageable pageable) {
         return ApiResponse.success(planRetrieveService.retrieveMyBookmarkList(request, userId, pageable));
     }
@@ -83,7 +79,7 @@ public class PlanRetrieveController {
     @ApiOperation("[인증] 내가 구매한 여행일정 목록들을 스크롤 페이지네이션으로 조회합니다.")
     @Auth
     @GetMapping("/v1/plan/orders")
-    public ApiResponse<PlansScrollResponse> retrieveMyOrderList(@UserId Long userId, @Valid RetrieveMyOrderListRequestDto request,
+    public ApiResponse<OrdersScrollResponse> retrieveMyOrderList(@UserId Long userId, @Valid RetrieveMyOrderListRequestDto request,
                                                                  @AllowedSortProperties({"id", "createdAt", "orderCnt"}) Pageable pageable) {
         return ApiResponse.success(planRetrieveService.retrieveMyOrderList(request, userId, pageable));
     }

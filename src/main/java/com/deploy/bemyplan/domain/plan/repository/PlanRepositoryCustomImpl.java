@@ -107,14 +107,14 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
     }
 
     @Override
-    public List<Plan> findPlansUsingCursor(int size,Long SpecificUserId, Long lastPlanId, Pageable pageable, RegionType region) {
+    public List<Plan> findPlansUsingCursor(int size,Long authorId, Long lastPlanId, Pageable pageable, RegionType region) {
         JPAQuery<Plan> query = queryFactory
                 .select(plan).distinct()
                 .from(plan)
                 .where(
                         lessThanId(lastPlanId),
                         eqRegion(region),
-                        eqUserId(SpecificUserId),
+                        eqUserId(authorId),
                         plan.status.eq(PlanStatus.ACTIVE)
                 )
                 .orderBy(plan.id.desc())

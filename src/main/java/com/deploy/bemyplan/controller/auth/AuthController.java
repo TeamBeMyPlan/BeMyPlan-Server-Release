@@ -5,11 +5,14 @@ import com.deploy.bemyplan.config.interceptor.Auth;
 import com.deploy.bemyplan.config.resolver.UserId;
 import com.deploy.bemyplan.controller.auth.dto.request.LoginRequestDto;
 import com.deploy.bemyplan.controller.auth.dto.request.SignUpRequestDto;
+import com.deploy.bemyplan.domain.user.User;
+import com.deploy.bemyplan.domain.user.UserRepository;
 import com.deploy.bemyplan.service.auth.AuthService;
 import com.deploy.bemyplan.service.auth.AuthServiceProvider;
 import com.deploy.bemyplan.controller.auth.dto.response.LoginResponse;
 import com.deploy.bemyplan.service.user.UserService;
 import com.deploy.bemyplan.controller.auth.dto.request.SignOutUserRequest;
+import com.deploy.bemyplan.service.user.UserServiceUtils;
 import com.deploy.bemyplan.service.user.dto.request.CheckAvailableNameRequestDto;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +29,7 @@ import static com.deploy.bemyplan.config.session.SessionConstants.USER_ID;
 public class AuthController {
 
     private final UserService userService;
+    private final UserRepository userRepository;
 
     private final HttpSession httpSession;
     private final AuthServiceProvider authServiceProvider;
@@ -45,8 +49,8 @@ public class AuthController {
         AuthService authService = authServiceProvider.getAuthService(request.getSocialType());
         Long userId = authService.login(request.toServiceDto());
         httpSession.setAttribute(USER_ID, userId);
-        String nickname = userService.findUserNicknameByUserId(userId);
-        return ApiResponse.success(LoginResponse.of(httpSession.getId(), userId, nickname));
+        User findUser = UserServiceUtils.findUserById(userRepository, userId);
+        return ApiResponse.success(LoginResponse.of(httpSession.getId(), userId, findUser.getNickname()));
     }
 
     @ApiOperation("[인증] 로그아웃을 요청합니다.")

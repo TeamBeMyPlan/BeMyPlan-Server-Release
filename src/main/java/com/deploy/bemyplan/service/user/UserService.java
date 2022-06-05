@@ -9,8 +9,7 @@ import com.deploy.bemyplan.service.user.dto.request.CreateUserDto;
 import com.deploy.bemyplan.common.mapper.user.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -34,14 +33,8 @@ public class UserService {
         userRepository.delete(user);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public void checkIsAvailableName(CheckAvailableNameRequestDto request){
         UserServiceUtils.validateNotExistsUserName(userRepository, request.getNickname());
-    }
-
-    @Transactional
-    public String findUserNicknameByUserId(Long userId) {
-        User user = UserServiceUtils.findUserById(userRepository, userId);
-        return user.getNickname();
     }
 }

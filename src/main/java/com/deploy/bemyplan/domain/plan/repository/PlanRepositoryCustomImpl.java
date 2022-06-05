@@ -107,13 +107,14 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
     }
 
     @Override
-    public List<Plan> findPlansUsingCursor(int size, Long lastPlanId, Pageable pageable, RegionType region) {
+    public List<Plan> findPlansUsingCursor(int size,Long SpecificUserId, Long lastPlanId, Pageable pageable, RegionType region) {
         JPAQuery<Plan> query = queryFactory
                 .select(plan).distinct()
                 .from(plan)
                 .where(
                         lessThanId(lastPlanId),
                         eqRegion(region),
+                        eqUserId(SpecificUserId),
                         plan.status.eq(PlanStatus.ACTIVE)
                 )
                 .orderBy(plan.id.desc())
@@ -161,6 +162,12 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
             return null;
         }
         return plan.region.eq(regionType);
+    }
+    private BooleanExpression eqUserId(@Nullable Long SpecificUserId) {
+        if (Objects.isNull(SpecificUserId)) {
+            return null;
+        }
+        return plan.userId.eq(SpecificUserId);
     }
 
     private BooleanExpression inPlanIdsWithScrap(Long userId, Long lastScrapId, int size) {

@@ -21,5 +21,8 @@ public class RetrievePlansRequest {
     private int size;
 
     @Nullable
+    private Long SpecificUserId;
+
+    @Nullable
     private Long lastPlanId;
 }

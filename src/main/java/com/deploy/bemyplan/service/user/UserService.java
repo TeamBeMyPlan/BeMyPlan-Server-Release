@@ -38,4 +38,10 @@ public class UserService {
     public void checkIsAvailableName(CheckAvailableNameRequestDto request){
         UserServiceUtils.validateNotExistsUserName(userRepository, request.getNickname());
     }
+
+    @Transactional
+    public String findUserNicknameByUserId(Long userId) {
+        User user = UserServiceUtils.findUserById(userRepository, userId);
+        return user.getNickname();
+    }
 }

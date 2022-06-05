@@ -40,6 +40,7 @@ public class PlanRetrieveController {
         return ApiResponse.success(planRetrieveService.retrievePlans(
                 userId,
                 request.getSize(),
+                request.getSpecificUserId(),
                 request.getLastPlanId(),
                 pageable,
                 request.getRegion())

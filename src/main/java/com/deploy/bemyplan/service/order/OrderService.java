@@ -23,4 +23,12 @@ public class OrderService {
         }
         orderRepository.save(Order.of(planId, userId));
     }
+
+    @Transactional(readOnly = true)
+    public void checkOrderStatus(Long planId, Long userId) {
+        Order order = orderRepository.findByUserIdAndPlanId(planId, userId);
+        if (order != null){
+            throw new NotFoundException("이미 구매한 일정입니다.", CONFLICT_ORDER_PLAN);
+        }
+    }
 }

@@ -14,6 +14,6 @@ public interface PlanRepositoryCustom {
     List<Plan> findPickListUsingCursor(int size, Long lastPlanId);
     List<Plan> findMyBookmarkListUsingCursor(Long userId, @Nullable Pageable pageable, int size, @Nullable Long lastScrapId);
     List<Plan> findMyOrderListUsingCursor(Long userId, @Nullable Pageable pageable, int size, @Nullable Long lastOrderId);
-    List<Plan> findPlansUsingCursor(int size, Long SpecificUserId, Long lastPlanId, Pageable pageable, RegionType region);
+    List<Plan> findPlansUsingCursor(int size, Long authorId, Long lastPlanId, Pageable pageable, RegionType region);
     List<PreviewContent> findPreviewContentsByPlanId(Long planId);
 }

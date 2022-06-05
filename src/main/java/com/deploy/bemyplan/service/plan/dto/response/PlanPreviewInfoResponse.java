@@ -14,6 +14,7 @@ public class PlanPreviewInfoResponse {
     private Long planId;
     private String title;
     private String description;
+    private String nickname;
     private int spotCnt;
     private int rstrnCnt;
     private int price;
@@ -23,7 +24,7 @@ public class PlanPreviewInfoResponse {
     private TravelTheme theme;
     private TravelPartner partner;
     private TravelMobility mobility;
-    private String nickname;
+
 
     public static PlanPreviewInfoResponse of(@NotNull Plan plan, String nickname) {
         int spotCnt = (int) plan.getSchedules().stream()
@@ -39,6 +40,7 @@ public class PlanPreviewInfoResponse {
                 plan.getId(),
                 plan.getTitle(),
                 plan.getDescription(),
+                nickname,
                 spotCnt,
                 rstrnCnt,
                 plan.getPrice(),
@@ -47,8 +49,7 @@ public class PlanPreviewInfoResponse {
                 plan.getTagInfo().getTotalDay(),
                 plan.getTagInfo().getTheme(),
                 plan.getTagInfo().getPartner(),
-                plan.getTagInfo().getMobility(),
-                nickname
+                plan.getTagInfo().getMobility()
         );
     }
 }

@@ -36,8 +36,4 @@ out/
 ### VS Code ###
 .vscode/
 
-application-dev.yml
-application-local.yml
-application-prod.yml
-
 InitDB.java

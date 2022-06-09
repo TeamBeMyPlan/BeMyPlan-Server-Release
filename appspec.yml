@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ec2-user/app/step2/zip/
+    destination: /home/ec2-user/bemyplan/
     overwrite: yes
 
 permissions:
@@ -13,6 +13,12 @@ permissions:
 
 hooks:
   ApplicationStart:
-    - location: deploy.sh
-      timeout: 60
+    - location: scripts/run_new_was.sh
+      timeout: 180
+      runas: ec2-user
+    - location: scripts/health_check.sh
+      timeout: 180
+      runas: ec2-user
+    - location: scripts/switch.sh
+      timeout: 180
       runas: ec2-user

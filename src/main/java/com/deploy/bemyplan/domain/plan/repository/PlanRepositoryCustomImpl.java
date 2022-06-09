@@ -35,7 +35,6 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
                 .where(
                         plan.id.in(planIds)
                 )
-                .orderBy(plan.id.desc())
                 .fetch();
     }
 

@@ -33,7 +33,7 @@ public class UserService {
         userRepository.delete(user);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public void checkIsAvailableName(CheckAvailableNameRequestDto request){
         UserServiceUtils.validateNotExistsUserName(userRepository, request.getNickname());
     }

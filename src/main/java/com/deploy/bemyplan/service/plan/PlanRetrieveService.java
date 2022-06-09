@@ -77,10 +77,10 @@ public class PlanRetrieveService {
         OrderDictionary orderDictionary = findOrderByUserIdAndPlans(userId, planWithNextCursor);
 
         if (plansCursor.isLastScroll()) {
-            return ScrapsScrollResponse.newLastCursor(planWithNextCursor, scrapDictionary, orderDictionary, authors);
+            return ScrapsScrollResponse.newLastCursor(plansCursor.getCurrentScrollItems(), scrapDictionary, orderDictionary, authors);
         }
         Scrap nextCursor = scrapRepository.findByUserIdAndPlanId(plansCursor.getNextCursor().getId(), userId);
-        return ScrapsScrollResponse.newCursorHasNext(planWithNextCursor, scrapDictionary, orderDictionary, authors, nextCursor.getId());
+        return ScrapsScrollResponse.newCursorHasNext(plansCursor.getCurrentScrollItems(), scrapDictionary, orderDictionary, authors, nextCursor.getId());
     }
 
     public OrdersScrollResponse retrieveMyOrderList(RetrieveMyOrderListRequestDto request, Long userId, Pageable pageable) {
@@ -93,10 +93,10 @@ public class PlanRetrieveService {
         OrderDictionary orderDictionary = findOrderByUserIdAndPlans(userId, planWithNextCursor);
 
         if (plansCursor.isLastScroll()) {
-            return OrdersScrollResponse.newLastCursor(planWithNextCursor, scrapDictionary, orderDictionary, authors);
+            return OrdersScrollResponse.newLastCursor(plansCursor.getCurrentScrollItems(), scrapDictionary, orderDictionary, authors);
         }
         Order nextCursor = orderRepository.findByUserIdAndPlanId(plansCursor.getNextCursor().getId(), userId);
-        return OrdersScrollResponse.newCursorHasNext(planWithNextCursor, scrapDictionary, orderDictionary, authors, nextCursor.getId());
+        return OrdersScrollResponse.newCursorHasNext(plansCursor.getCurrentScrollItems(), scrapDictionary, orderDictionary, authors, nextCursor.getId());
     }
 
     private PlansScrollResponse getPlanListWithPersonalStatusUsingCursor(List<Plan> planWithNextCursor, Long userId, int size) {

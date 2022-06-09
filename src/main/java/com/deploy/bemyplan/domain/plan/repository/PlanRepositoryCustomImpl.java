@@ -95,10 +95,8 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
     }
 
     private void setDynamicSortCondition(@Nullable Pageable pageable, JPAQuery<Plan> query) {
-        if (Objects.isNull(pageable)) {
+        if (!Objects.isNull(pageable)) {
             for (Sort.Order o : pageable.getSort()) {
-                System.out.println(o.getClass());
-                System.out.println(o.getProperty());
                 PathBuilder<Object> orderByExpression = new PathBuilder<Object>(Object.class, o.getProperty());
                 query.orderBy(new OrderSpecifier(o.isAscending() ? Order.ASC : Order.DESC, orderByExpression.get(o.getProperty())));
             }

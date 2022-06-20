@@ -78,6 +78,9 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
                         inPlanIdsWithScrap(userId, lastScrapId, size),
                         plan.status.eq(PlanStatus.ACTIVE)
                 );
+        /*
+        스크랩 목록 조회할 때 sort=id,desc 과 같이 기준을 id로 넘긴다면 plan.id로 정렬이 된다. (scrap.id)
+         */
         setDynamicSortCondition(pageable, query);
         return query.fetch();
     }
@@ -176,6 +179,7 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
                         scrap.status.eq(ScrapStatus.ACTIVE),
                         lessThanScrapId(lastScrapId)
                 )
+                .orderBy(scrap.id.desc())
                 .limit(size)
                 .fetch();
         if (Objects.isNull(planIds)) {
@@ -193,6 +197,7 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
                         // order.status.eq(ACTIVE) 추가 요망
                         lessThanOrderId(lastOrderId)
                 )
+                .orderBy(order.id.desc())
                 .limit(size)
                 .fetch();
         if (Objects.isNull(planIds)) {

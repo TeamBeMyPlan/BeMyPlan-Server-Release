@@ -53,6 +53,17 @@ public class ScrapRepositoryCustomImpl implements ScrapRepositoryCustom{
         return queryFactory
                 .selectFrom(scrap)
                 .where(
+                        eqUserId(userId),
+                        eqPlanId(planId)
+                )
+                .fetchOne();
+    }
+
+    @Override
+    public Scrap findActiveByUserIdAndPlanId(Long planId, Long userId){
+        return queryFactory
+                .selectFrom(scrap)
+                .where(
                         scrap.status.eq(ScrapStatus.ACTIVE),
                         eqUserId(userId),
                         eqPlanId(planId)

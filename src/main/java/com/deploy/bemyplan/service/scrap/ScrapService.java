@@ -24,7 +24,7 @@ public class ScrapService {
 
     @Transactional
     public void deleteScrap(Long userId, Long planId){
-        Scrap scrap = scrapRepository.findByUserIdAndPlanId(planId, userId);
+        Scrap scrap = scrapRepository.findActiveByUserIdAndPlanId(planId, userId);
         if (scrap == null) {
             throw new NotFoundException(String.format("해당 여행일정을 찜한 상태 (%s - %s) 가 아닙니다.", userId, planId), NOT_FOUND_SCRAP_EXCEPTION);
         }
@@ -34,7 +34,7 @@ public class ScrapService {
 
     @Transactional(readOnly = true)
     public void checkScrapStatus(Long planId, Long userId) {
-        Scrap scrap = scrapRepository.findByUserIdAndPlanId(planId, userId);
+        Scrap scrap = scrapRepository.findActiveByUserIdAndPlanId(planId, userId);
         if (scrap == null) {
             throw new NotFoundException(String.format("해당 여행일정을 찜한 상태 (%s - %s) 가 아닙니다.", userId, planId), NOT_FOUND_SCRAP_EXCEPTION);
         }

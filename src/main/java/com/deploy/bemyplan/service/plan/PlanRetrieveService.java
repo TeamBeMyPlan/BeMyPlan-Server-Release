@@ -79,7 +79,7 @@ public class PlanRetrieveService {
         if (plansCursor.isLastScroll()) {
             return ScrapsScrollResponse.newLastCursor(plansCursor.getCurrentScrollItems(), scrapDictionary, orderDictionary, authors);
         }
-        Scrap nextCursor = scrapRepository.findByUserIdAndPlanId(plansCursor.getNextCursor().getId(), userId);
+        Scrap nextCursor = scrapRepository.findActiveByUserIdAndPlanId(plansCursor.getNextCursor().getId(), userId);
         return ScrapsScrollResponse.newCursorHasNext(plansCursor.getCurrentScrollItems(), scrapDictionary, orderDictionary, authors, nextCursor.getId());
     }
 

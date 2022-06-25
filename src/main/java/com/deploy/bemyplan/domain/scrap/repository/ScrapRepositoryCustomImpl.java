@@ -13,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -36,6 +37,9 @@ public class ScrapRepositoryCustomImpl implements ScrapRepositoryCustom{
 
     @Override
     public List<Scrap> findByUserIdAndPlanIds(List<Long> planIds, @Nullable Long userId) {
+        if (userId == null) {
+            return new ArrayList<>();
+        }
         List<Long> scrapIds = queryFactory
                 .select(scrap.id).distinct()
                 .from(scrap)
@@ -50,6 +54,9 @@ public class ScrapRepositoryCustomImpl implements ScrapRepositoryCustom{
 
     @Override
     public Scrap findByUserIdAndPlanId(Long planId, Long userId){
+        if (userId == null) {
+            return null;
+        }
         return queryFactory
                 .selectFrom(scrap)
                 .where(
@@ -61,6 +68,9 @@ public class ScrapRepositoryCustomImpl implements ScrapRepositoryCustom{
 
     @Override
     public Scrap findActiveByUserIdAndPlanId(Long planId, Long userId){
+        if (userId == null) {
+            return null;
+        }
         return queryFactory
                 .selectFrom(scrap)
                 .where(

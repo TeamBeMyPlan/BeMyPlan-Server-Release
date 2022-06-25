@@ -6,6 +6,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,6 +30,9 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom{
 
     @Override
     public List<Order> findByUserIdAndPlanIds(List<Long> planIds, @Nullable Long userId) {
+        if (userId == null) {
+            return new ArrayList<>();
+        }
         List<Long> orderIds = queryFactory
                 .select(order.id).distinct()
                 .from(order)
@@ -42,6 +46,9 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom{
 
     @Override
     public Order findByUserIdAndPlanId(Long planId, Long userId){
+        if (userId == null) {
+            return null;
+        }
         return queryFactory
                 .selectFrom(order)
                 .where(

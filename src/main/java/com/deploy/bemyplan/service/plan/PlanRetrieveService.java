@@ -106,6 +106,7 @@ public class PlanRetrieveService {
 
         ScrapDictionary scrapDictionary = findScrapByUserIdAndPlans(userId, planWithNextCursor);
         OrderDictionary orderDictionary = findOrderByUserIdAndPlans(userId, planWithNextCursor);
+
         return PlansScrollResponse.of(plansCursor, scrapDictionary, orderDictionary, authors);
     }
 

@@ -37,7 +37,7 @@ public class ScrapRepositoryCustomImpl implements ScrapRepositoryCustom{
 
     @Override
     public List<Scrap> findByUserIdAndPlanIds(List<Long> planIds, @Nullable Long userId) {
-        if (userId == null) {
+        if (Objects.isNull(userId)) {
             return new ArrayList<>();
         }
         List<Long> scrapIds = queryFactory
@@ -54,7 +54,7 @@ public class ScrapRepositoryCustomImpl implements ScrapRepositoryCustom{
 
     @Override
     public Scrap findByUserIdAndPlanId(Long planId, Long userId){
-        if (userId == null) {
+        if (Objects.isNull(userId)) {
             return null;
         }
         return queryFactory

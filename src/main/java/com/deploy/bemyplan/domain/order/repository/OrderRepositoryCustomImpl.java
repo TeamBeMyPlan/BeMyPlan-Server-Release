@@ -30,7 +30,7 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom{
 
     @Override
     public List<Order> findByUserIdAndPlanIds(List<Long> planIds, @Nullable Long userId) {
-        if (userId == null) {
+        if (Objects.isNull(userId)) {
             return new ArrayList<>();
         }
         List<Long> orderIds = queryFactory
@@ -46,7 +46,7 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom{
 
     @Override
     public Order findByUserIdAndPlanId(Long planId, Long userId){
-        if (userId == null) {
+        if (Objects.isNull(userId)) {
             return null;
         }
         return queryFactory

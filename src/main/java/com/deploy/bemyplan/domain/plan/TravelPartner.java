@@ -12,6 +12,7 @@ public enum TravelPartner implements EnumModel {
     FRIEND("친구"),
     COUPLE("연인"),
     SOLO("혼자"),
+    DOG("반려견")
     ;
 
     private final String value;

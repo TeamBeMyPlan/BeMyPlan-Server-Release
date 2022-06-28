@@ -21,7 +21,7 @@ public class CreateUserDto {
     private UserSocialType socialType;
 
     @NotBlank(message = "{user.nickname.notBlank}")
-    @Pattern(regexp = "^[ㄱ-ㅎ가-힣a-z0-9-_]{2,15}$", message = "{user.nickname.format}")
+    @Pattern(regexp = "^[ㄱ-ㅎ가-힣a-zA-Z0-9-_]{2,15}$", message = "{user.nickname.format}")
     private String nickname;
 
     @NotNull(message = "{user.email.notNull")

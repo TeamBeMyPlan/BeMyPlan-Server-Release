@@ -79,4 +79,7 @@ public class Plan extends AuditingTimeEntity {
         this.status = status;
         this.rcmndStatus = rcmndStatus;
     }
+    public void updateOrderCnt(){
+        this.orderCnt += 1;
+    }
 }

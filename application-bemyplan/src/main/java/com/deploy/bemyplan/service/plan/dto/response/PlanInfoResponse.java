@@ -39,7 +39,7 @@ public class PlanInfoResponse extends AuditingTimeResponse {
                 .scrapStatus(scrapStatus)
                 .orderStatus(orderStatus)
                 .build();
-        response.setBaseTime(plan);
+        response.setBaseTime(plan.getCreatedAt(), plan.getUpdatedAt());
         return response;
     }
 }

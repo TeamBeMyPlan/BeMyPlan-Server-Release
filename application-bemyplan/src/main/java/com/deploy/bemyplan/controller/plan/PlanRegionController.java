@@ -1,8 +1,8 @@
 package com.deploy.bemyplan.controller.plan;
 
 import com.deploy.bemyplan.common.dto.ApiResponse;
-import com.deploy.bemyplan.common.mapper.plan.RegionTypeMapper;
-import com.deploy.bemyplan.common.mapper.plan.dto.response.RegionTypeResponse;
+import com.deploy.bemyplan.service.mapper.plan.RegionTypeMapper;
+import com.deploy.bemyplan.service.mapper.plan.dto.response.RegionTypeResponse;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

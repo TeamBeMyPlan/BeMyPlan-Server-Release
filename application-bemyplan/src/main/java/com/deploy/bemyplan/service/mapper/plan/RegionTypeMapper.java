@@ -1,7 +1,7 @@
-package com.deploy.bemyplan.common.mapper.plan;
+package com.deploy.bemyplan.service.mapper.plan;
 
-import com.deploy.bemyplan.common.mapper.plan.dto.response.RegionTypeResponse;
 import com.deploy.bemyplan.domain.plan.RegionType;
+import com.deploy.bemyplan.service.mapper.plan.dto.response.RegionTypeResponse;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

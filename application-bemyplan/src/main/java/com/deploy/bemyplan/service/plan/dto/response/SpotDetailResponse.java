@@ -44,7 +44,7 @@ public class SpotDetailResponse extends AuditingTimeResponse {
                         .map(SpotImageResponse::of)
                         .collect(Collectors.toList())
         );
-        response.setBaseTime(spot);
+        response.setBaseTime(spot.getCreatedAt(), spot.getUpdatedAt());
         return response;
     }
 }

@@ -1,4 +1,4 @@
-package com.deploy.bemyplan.common.mapper.user;
+package com.deploy.bemyplan.service.mapper.user;
 
 import com.deploy.bemyplan.domain.user.User;
 import com.deploy.bemyplan.service.user.dto.request.CreateUserDto;

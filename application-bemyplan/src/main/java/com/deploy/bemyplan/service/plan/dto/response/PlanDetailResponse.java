@@ -41,7 +41,7 @@ public class PlanDetailResponse extends AuditingTimeResponse {
             ScheduleDetailResponse content = ScheduleDetailResponse.of(schedule.getSpots());
             response.contents.add(content);
         }
-        response.setBaseTime(plan);
+        response.setBaseTime(plan.getCreatedAt(), plan.getUpdatedAt());
         return response;
     }
 }

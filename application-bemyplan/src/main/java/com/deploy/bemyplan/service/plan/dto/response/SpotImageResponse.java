@@ -15,7 +15,7 @@ public class SpotImageResponse extends AuditingTimeResponse {
 
     public static SpotImageResponse of(SpotImage spotImage) {
         SpotImageResponse response = new SpotImageResponse(spotImage.getId(), spotImage.getUrl());
-        response.setBaseTime(spotImage);
+        response.setBaseTime(spotImage.getCreatedAt(), spotImage.getUpdatedAt());
         return response;
     }
 }

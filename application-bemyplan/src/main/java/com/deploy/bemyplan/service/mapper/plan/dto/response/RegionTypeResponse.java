@@ -1,4 +1,4 @@
-package com.deploy.bemyplan.common.mapper.plan.dto.response;
+package com.deploy.bemyplan.service.mapper.plan.dto.response;
 
 import com.deploy.bemyplan.domain.plan.RegionType;
 import lombok.*;

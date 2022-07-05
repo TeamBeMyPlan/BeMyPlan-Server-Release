@@ -29,7 +29,7 @@ public class PlanPreviewResponse extends AuditingTimeResponse {
                 .previewInfo(PlanPreviewInfoResponse.of(plan, nickname))
                 .build();
         response.previewContents.addAll(toPreviewContentsResponse(contents));
-        response.setBaseTime(plan);
+        response.setBaseTime(plan.getCreatedAt(), plan.getUpdatedAt());
         return response;
     }
 

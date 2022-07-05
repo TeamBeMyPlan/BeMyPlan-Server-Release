@@ -1,107 +1,40 @@
-buildscript {
-	dependencies {
-		classpath("gradle.plugin.com.ewerk.gradle.plugins:querydsl-plugin:1.0.10")
-	}
-}
-
 plugins {
-	id 'org.springframework.boot' version '2.5.8'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-	id 'java'
+	id 'org.springframework.boot' version '2.5.8' apply false
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE' apply false
+	id 'com.ewerk.gradle.plugins.querydsl' version '1.0.10' apply false
+	id 'java-library'
 }
 
-group = 'com.deploy'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
 
-apply plugin: "com.ewerk.gradle.plugins.querydsl"
 
-configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
-}
+subprojects {
+	apply plugin: 'java-library'
+	apply plugin: 'org.springframework.boot'
+	apply plugin: 'io.spring.dependency-management'
 
-repositories {
-	mavenCentral()
-}
 
-dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-	implementation 'org.springframework.session:spring-session-data-redis'
-	implementation "org.springframework.cloud:spring-cloud-starter-openfeign"
-	implementation 'mysql:mysql-connector-java'
-	implementation 'com.querydsl:querydsl-jpa'
-	implementation 'com.querydsl:querydsl-apt'
-	implementation 'org.jetbrains:annotations:20.1.0'
-	implementation group: 'io.springfox', name: 'springfox-boot-starter', version: '3.0.0'
-	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
-	implementation group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
-	implementation group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
-	implementation 'org.mapstruct:mapstruct:1.4.2.Final'
-	implementation 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+	group = 'com.deploy'
+	version = '0.0.1-SNAPSHOT'
+	sourceCompatibility = '11'
 
-	compileOnly 'org.jetbrains:annotations:16.0.2'
-	compileOnly 'org.projectlombok:lombok'
-
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	runtimeOnly 'com.h2database:h2'
-
-	annotationProcessor "org.mapstruct:mapstruct-processor:1.4.2.Final"
-	annotationProcessor "org.projectlombok:lombok-mapstruct-binding:0.2.0"
-	annotationProcessor 'org.projectlombok:lombok'
-
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-}
-
-dependencyManagement {
-	imports {
-		mavenBom "org.springframework.cloud:spring-cloud-dependencies:2020.0.4"
-	}
-}
-
-jar {
-	enabled = false
-}
-
-tasks.named('test') {
-	useJUnitPlatform()
-}
-
-/**
- * querydsl 설정 시작
- */
-def querydslSrcDir = "$buildDir/generated/querydsl"
-
-querydsl {
-	library = "com.querydsl:querydsl-apt"
-	jpa = true
-	querydslSourcesDir = querydslSrcDir
-}
-
-sourceSets {
-	main {
-		java {
-			srcDirs = ['src/main/java', querydslSrcDir]
+	configurations {
+		compileOnly {
+			extendsFrom annotationProcessor
 		}
 	}
-}
 
-compileQuerydsl{
-	options.annotationProcessorPath = configurations.querydsl
-}
+	repositories {
+		mavenCentral()
+	}
 
-configurations {
-	querydsl.extendsFrom compileClasspath
-}
+	dependencies {
+		compileOnly 'org.jetbrains:annotations:16.0.2'
+		compileOnly 'org.projectlombok:lombok'
+		annotationProcessor "org.projectlombok:lombok-mapstruct-binding:0.2.0"
+		annotationProcessor 'org.projectlombok:lombok'
+	}
 
-compileQuerydsl.doFirst {
-	if(file(querydslSrcDir).exists())
-		delete(file(querydslSrcDir))
+	tasks.named('test') {
+		useJUnitPlatform()
+	}
 }
-/**
- * querydsl 설정 끝
- */

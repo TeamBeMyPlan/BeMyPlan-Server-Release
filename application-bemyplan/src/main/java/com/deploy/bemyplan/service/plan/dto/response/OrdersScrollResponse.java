@@ -1,9 +1,9 @@
 package com.deploy.bemyplan.service.plan.dto.response;
 
-import com.deploy.bemyplan.domain.collection.AuthorDictionary;
-import com.deploy.bemyplan.domain.collection.OrderDictionary;
-import com.deploy.bemyplan.domain.collection.ScrapDictionary;
 import com.deploy.bemyplan.domain.plan.Plan;
+import com.deploy.bemyplan.service.collection.AuthorDictionary;
+import com.deploy.bemyplan.service.collection.OrderDictionary;
+import com.deploy.bemyplan.service.collection.ScrapDictionary;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

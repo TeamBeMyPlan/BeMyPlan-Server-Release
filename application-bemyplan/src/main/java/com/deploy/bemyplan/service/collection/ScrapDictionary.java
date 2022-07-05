@@ -1,4 +1,4 @@
-package com.deploy.bemyplan.domain.collection;
+package com.deploy.bemyplan.service.collection;
 
 import com.deploy.bemyplan.domain.scrap.Scrap;
 import lombok.AccessLevel;

@@ -1,8 +1,5 @@
 package com.deploy.bemyplan.service.plan;
 
-import com.deploy.bemyplan.domain.collection.AuthorDictionary;
-import com.deploy.bemyplan.domain.collection.OrderDictionary;
-import com.deploy.bemyplan.domain.collection.ScrapDictionary;
 import com.deploy.bemyplan.domain.common.collection.ScrollPaginationCollection;
 import com.deploy.bemyplan.domain.order.Order;
 import com.deploy.bemyplan.domain.order.OrderRepository;
@@ -14,6 +11,9 @@ import com.deploy.bemyplan.domain.scrap.Scrap;
 import com.deploy.bemyplan.domain.scrap.ScrapRepository;
 import com.deploy.bemyplan.domain.user.User;
 import com.deploy.bemyplan.domain.user.UserRepository;
+import com.deploy.bemyplan.service.collection.AuthorDictionary;
+import com.deploy.bemyplan.service.collection.OrderDictionary;
+import com.deploy.bemyplan.service.collection.ScrapDictionary;
 import com.deploy.bemyplan.service.plan.dto.request.RetrieveMyBookmarkListRequestDto;
 import com.deploy.bemyplan.service.plan.dto.request.RetrieveMyOrderListRequestDto;
 import com.deploy.bemyplan.service.plan.dto.request.RetrievePickListRequestDto;

@@ -21,7 +21,7 @@ public class SpotImage extends AuditingTimeEntity {
     @JoinColumn(name = "spot_id", nullable = false)
     private Spot spot;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 600)
     private String url;
 
     @Column(nullable = false, length = 30)

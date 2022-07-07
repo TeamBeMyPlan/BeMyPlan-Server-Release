@@ -34,10 +34,10 @@ public class Spot extends AuditingTimeEntity {
     @Embedded
     private Location location;
 
-    @Column(nullable = true)
+    @Column(nullable = true, columnDefinition = "MEDIUMTEXT")
     private String tip;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "MEDIUMTEXT")
     private String review;
 
     @OneToMany(mappedBy = "spot", cascade = CascadeType.ALL, orphanRemoval = true)

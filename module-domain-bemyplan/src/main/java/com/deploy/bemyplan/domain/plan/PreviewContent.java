@@ -24,7 +24,7 @@ public class PreviewContent {
     @Enumerated(EnumType.STRING)
     private JsonValueType valueType;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 700)
     private String value;
 
     @Column(nullable = false, length = 30)

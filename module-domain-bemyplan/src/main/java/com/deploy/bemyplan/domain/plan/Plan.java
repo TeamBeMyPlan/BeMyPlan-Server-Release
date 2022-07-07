@@ -32,7 +32,7 @@ public class Plan extends AuditingTimeEntity {
     @Column(nullable = false, length = 250)
     private String title;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "MEDIUMTEXT")
     private String description;
 
     @Embedded

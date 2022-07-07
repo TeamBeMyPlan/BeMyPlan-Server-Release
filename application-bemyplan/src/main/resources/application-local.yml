@@ -1,18 +1,12 @@
 spring:
-  config:
-    activate:
-      on-profile: local
-
   datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:tcp://localhost/~/bemyplan-local
-    username: sa
-    password:
-
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3307/bemyplan?useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&serverTimezone=Asia/Seoul
+    username: root
+    password: root
   redis:
     host: localhost
     port: 6379
-
   jpa:
     hibernate:
       #   spring.jpa.hibernate.ddl-auto의 옵션

@@ -2,11 +2,19 @@ package com.deploy.bemyplan.domain.plan;
 
 import com.deploy.bemyplan.domain.common.AuditingTimeEntity;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,9 +46,6 @@ public class Plan extends AuditingTimeEntity {
     @Embedded
     private TagInfo tagInfo;
 
-//    @Embedded
-//    private TravelPeriod period;
-
     @Column(nullable = false)
     private int orderCnt;
 
@@ -64,7 +69,6 @@ public class Plan extends AuditingTimeEntity {
     @OneToMany(mappedBy = "plan", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<PreviewContent> previews = new ArrayList<>();
 
-    @Builder(builderMethodName = "testBuilder", access = AccessLevel.PUBLIC)
     private Plan(Long userId, RegionType region, String thumbnailUrl, String title, String description, TagInfo tagInfo, int orderCnt, int viewCnt, int price, PlanStatus status, RcmndStatus rcmndStatus) {
         this.userId = userId;
         this.region = region;
@@ -78,6 +82,7 @@ public class Plan extends AuditingTimeEntity {
         this.status = status;
         this.rcmndStatus = rcmndStatus;
     }
+
     public void updateOrderCnt(){
         this.orderCnt += 1;
     }

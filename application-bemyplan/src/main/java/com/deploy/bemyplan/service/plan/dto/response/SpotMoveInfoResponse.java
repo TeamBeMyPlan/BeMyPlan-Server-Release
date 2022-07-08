@@ -1,7 +1,10 @@
 package com.deploy.bemyplan.service.plan.dto.response;
 
 import com.deploy.bemyplan.domain.plan.DailySchedule;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -17,15 +20,13 @@ public class SpotMoveInfoResponse {
 
     private final List<SpotMoveInfoDetailResponse> infos = new ArrayList<>();
 
-    @Builder(access = AccessLevel.PRIVATE)
     private SpotMoveInfoResponse(int day) {
         this.day = day;
     }
 
     public static SpotMoveInfoResponse of(@NotNull DailySchedule schedule) {
-        SpotMoveInfoResponse response = SpotMoveInfoResponse.builder()
-                .day(schedule.getDay())
-                .build();
+        SpotMoveInfoResponse response = new SpotMoveInfoResponse(schedule.getDay());
+
         response.infos.addAll(
                 schedule.getMoveInfos().stream()
                         .map(SpotMoveInfoDetailResponse::of)

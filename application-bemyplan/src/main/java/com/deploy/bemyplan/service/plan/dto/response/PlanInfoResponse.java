@@ -4,7 +4,11 @@ import com.deploy.bemyplan.common.dto.AuditingTimeResponse;
 import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.user.User;
 import com.deploy.bemyplan.service.user.dto.response.UserInfoResponse;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
 
 @ToString
@@ -31,14 +35,14 @@ public class PlanInfoResponse extends AuditingTimeResponse {
     }
 
     public static PlanInfoResponse of(@NotNull Plan plan, @NotNull User user, boolean scrapStatus, boolean orderStatus) {
-        PlanInfoResponse response = PlanInfoResponse.builder()
-                .planId(plan.getId())
-                .thumbnailUrl(plan.getThumbnailUrl())
-                .title(plan.getTitle())
-                .user(UserInfoResponse.of(user))
-                .scrapStatus(scrapStatus)
-                .orderStatus(orderStatus)
-                .build();
+        PlanInfoResponse response = new PlanInfoResponse(
+                plan.getId(),
+                plan.getThumbnailUrl(),
+                plan.getTitle(),
+                UserInfoResponse.of(user),
+                scrapStatus,
+                orderStatus);
+
         response.setBaseTime(plan.getCreatedAt(), plan.getUpdatedAt());
         return response;
     }

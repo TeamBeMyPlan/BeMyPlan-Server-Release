@@ -2,12 +2,16 @@ package com.deploy.bemyplan.domain.user;
 
 import com.deploy.bemyplan.domain.common.AuditingTimeEntity;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
 @Getter
@@ -27,7 +31,6 @@ public class User extends AuditingTimeEntity {
     @Embedded
     private SocialInfo socialInfo;
 
-    @Builder(access = AccessLevel.PUBLIC)
     private User(String socialId, UserSocialType socialType, String nickname, String email) {
         this.socialInfo = SocialInfo.of(socialId, socialType);
         this.nickname = nickname;
@@ -35,12 +38,7 @@ public class User extends AuditingTimeEntity {
     }
 
     public static User newInstance(String socialId, UserSocialType socialType, String name, String email) {
-        return User.builder()
-                .socialId(socialId)
-                .socialType(socialType)
-                .nickname(name)
-                .email(email)
-                .build();
+        return new User(socialId, socialType, name, email);
     }
 
     @NotNull

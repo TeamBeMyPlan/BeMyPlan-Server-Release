@@ -8,12 +8,8 @@ spring:
     url: jdbc:mysql://bemyplan-dev-mysql.c3p7kjpj7cej.ap-northeast-2.rds.amazonaws.com:3306/bemyplan?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
     username: bemyplan_dev
     password: bemyplan_pwd
-
-  redis:
-    host: bemyplan-deploy-redis.tbtn3b.ng.0001.apn2.cache.amazonaws.com
-    port: 6379
-
   jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
       ddl-auto: create
     properties:
@@ -22,6 +18,10 @@ spring:
         format_sql: true
         default_batch_fetch_size: 1000
     generate-ddl: true
+  redis:
+    host: bemyplan-deploy-redis.tbtn3b.ng.0001.apn2.cache.amazonaws.com
+    port: 6379
+
 
 logging:
   level:

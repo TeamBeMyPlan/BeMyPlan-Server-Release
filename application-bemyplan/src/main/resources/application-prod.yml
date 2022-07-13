@@ -1,16 +1,8 @@
 server:
-  port: 8081
   servlet:
-    encoding:
-      charset: UTF-8
-      force: true
     context-path: /api
 
 spring:
-  config:
-    activate:
-      on-profile: prod
-
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://bemyplan-deploy-mysql.c3p7kjpj7cej.ap-northeast-2.rds.amazonaws.com:3306/bemyplan?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul

@@ -31,7 +31,7 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: app
-        path: build/libs
+        path: application-bemyplan/build/libs
 
     - name: Upload dockerfile
       uses: actions/upload-artifact@v1

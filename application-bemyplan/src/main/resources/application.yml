@@ -5,7 +5,3 @@ server:
       charset: UTF-8
       force: true
     context-path: /api
-
-spring:
-  profiles:
-    default: prod

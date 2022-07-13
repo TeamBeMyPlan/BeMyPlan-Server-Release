@@ -5,8 +5,8 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://bemyplan-deploy-mysql.c3p7kjpj7cej.ap-northeast-2.rds.amazonaws.com:3306/bemyplan?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
-    username: bemyplan_admin
+    url: jdbc:mysql://bemyplan-dev-mysql.c3p7kjpj7cej.ap-northeast-2.rds.amazonaws.com:3306/bemyplan?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
+    username: bemyplan_dev
     password: bemyplan_pwd
 
   redis:
@@ -15,7 +15,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
     properties:
       hibernate:
         show_sql: true

@@ -6,7 +6,16 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -29,16 +38,13 @@ public class SpotImage extends AuditingTimeEntity {
     private SpotImageStatus status;
 
     @Builder(access = AccessLevel.PACKAGE)
-    private SpotImage(Spot spot, String url, SpotImageStatus status) {
+    private SpotImage(Spot spot, String url) {
         this.spot = spot;
         this.url = url;
         this.status = SpotImageStatus.ACTIVE;
     }
 
     public static SpotImage newInstance(Spot spot, String url) {
-        return SpotImage.builder()
-                .spot(spot)
-                .url(url)
-                .build();
+        return new SpotImage(spot, url);
     }
 }

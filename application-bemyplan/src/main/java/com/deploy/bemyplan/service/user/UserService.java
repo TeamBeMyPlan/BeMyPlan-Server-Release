@@ -4,7 +4,6 @@ import com.deploy.bemyplan.domain.user.User;
 import com.deploy.bemyplan.domain.user.UserRepository;
 import com.deploy.bemyplan.domain.user.WithdrawalUser;
 import com.deploy.bemyplan.domain.user.WithdrawalUserRepository;
-import com.deploy.bemyplan.service.mapper.user.UserMapper;
 import com.deploy.bemyplan.service.user.dto.request.CheckAvailableNameRequestDto;
 import com.deploy.bemyplan.service.user.dto.request.CreateUserDto;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +21,10 @@ public class UserService {
     public Long registerUser(CreateUserDto request) {
         UserServiceUtils.validateNotExistsUser(userRepository, request.getSocialId(), request.getSocialType());
         UserServiceUtils.validateNotExistsUserName(userRepository, request.getNickname());
-        User user = userRepository.save(UserMapper.INSTANCE.createUserDtoToEntity(request));
+        User user = User.newInstance(request.getSocialId(), request.getSocialType(), request.getNickname(), request.getEmail());
+
+        userRepository.save(user);
+
         return user.getId();
     }
 
@@ -34,7 +36,7 @@ public class UserService {
     }
 
     @Transactional
-    public void checkIsAvailableName(CheckAvailableNameRequestDto request){
+    public void checkIsAvailableName(CheckAvailableNameRequestDto request) {
         UserServiceUtils.validateNotExistsUserName(userRepository, request.getNickname());
     }
 }

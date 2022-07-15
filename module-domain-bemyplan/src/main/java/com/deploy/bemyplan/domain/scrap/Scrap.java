@@ -2,11 +2,16 @@ package com.deploy.bemyplan.domain.scrap;
 
 import com.deploy.bemyplan.domain.common.AuditingTimeEntity;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
 @Getter
@@ -35,7 +40,6 @@ public class Scrap extends AuditingTimeEntity {
         this.status = ScrapStatus.INACTIVE;
     }
 
-    @Builder(access = AccessLevel.PRIVATE)
     private Scrap(Long planId, Long userId, ScrapStatus status) {
         this.planId = planId;
         this.userId = userId;
@@ -43,10 +47,6 @@ public class Scrap extends AuditingTimeEntity {
     }
 
     public static Scrap of(Long planId, Long userId) {
-        return Scrap.builder()
-                .planId(planId)
-                .userId(userId)
-                .status(ScrapStatus.ACTIVE)
-                .build();
+        return new Scrap(planId, userId, ScrapStatus.ACTIVE);
     }
 }

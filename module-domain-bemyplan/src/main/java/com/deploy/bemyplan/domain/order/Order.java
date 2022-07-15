@@ -6,7 +6,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Getter
@@ -31,9 +36,10 @@ public class Order extends AuditingTimeEntity {
     }
 
     public static Order of(Long planId, Long userId) {
-        return Order.builder()
-                .planId(planId)
-                .userId(userId)
-                .build();
+        return new Order(planId, userId);
+    }
+
+    public void validate() {
+
     }
 }

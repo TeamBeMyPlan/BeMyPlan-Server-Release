@@ -1,0 +1,18 @@
+def adminFrontDir = "$projectDir";
+
+task installReact(type: Exec) {
+    workingDir "$adminFrontDir"
+    inputs.dir "$adminFrontDir"
+    group = BasePlugin.BUILD_GROUP
+
+    commandLine "npm", "audit", "fix"
+    commandLine 'npm', 'install'
+}
+
+task buildReact(type: Exec, dependsOn: installReact) {
+    workingDir "$adminFrontDir"
+    inputs.dir "$adminFrontDir"
+    group = BasePlugin.BUILD_GROUP
+
+    commandLine "npm", "run-script", "build"
+}

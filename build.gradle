@@ -5,9 +5,14 @@ plugins {
 	id 'java-library'
 }
 
+def javaProjects = [
+		project(':module-common-bemyplan'),
+		project(':module-domain-bemyplan'),
+		project(':module-admin-bemyplan'),
+		project(':application-bemyplan')
+];
 
-
-subprojects {
+configure(javaProjects) {
 	apply plugin: 'java-library'
 	apply plugin: 'org.springframework.boot'
 	apply plugin: 'io.spring.dependency-management'

@@ -1,0 +1,8 @@
+.container {
+    display: flex;
+}
+
+.page {
+    flex: 4;
+    background-color: wheat;
+}

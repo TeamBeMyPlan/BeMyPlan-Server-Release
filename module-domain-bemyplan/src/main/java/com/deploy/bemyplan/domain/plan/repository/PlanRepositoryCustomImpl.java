@@ -1,7 +1,11 @@
 package com.deploy.bemyplan.domain.plan.repository;
 
-import com.deploy.bemyplan.domain.plan.*;
-import com.deploy.bemyplan.domain.scrap.ScrapStatus;
+import com.deploy.bemyplan.domain.plan.Plan;
+import com.deploy.bemyplan.domain.plan.PlanStatus;
+import com.deploy.bemyplan.domain.plan.PreviewContent;
+import com.deploy.bemyplan.domain.plan.PreviewContentStatus;
+import com.deploy.bemyplan.domain.plan.RcmndStatus;
+import com.deploy.bemyplan.domain.plan.RegionType;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -175,7 +179,6 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
                 .from(scrap)
                 .where(
                         scrap.userId.eq(userId),
-                        scrap.status.eq(ScrapStatus.ACTIVE),
                         lessThanScrapId(lastScrapId)
                 )
                 .orderBy(scrap.id.desc())

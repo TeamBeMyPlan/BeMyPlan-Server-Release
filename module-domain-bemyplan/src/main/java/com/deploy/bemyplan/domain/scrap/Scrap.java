@@ -31,22 +31,12 @@ public class Scrap extends AuditingTimeEntity {
     @Column(nullable = false)
     private Long userId;
 
-    @Column(nullable = false, length = 30)
-    @Enumerated(EnumType.STRING)
-    private ScrapStatus status;
-
-
-    public void updateToInActive() {
-        this.status = ScrapStatus.INACTIVE;
-    }
-
-    private Scrap(Long planId, Long userId, ScrapStatus status) {
+    private Scrap(Long planId, Long userId) {
         this.planId = planId;
         this.userId = userId;
-        this.status = status;
     }
 
     public static Scrap of(Long planId, Long userId) {
-        return new Scrap(planId, userId, ScrapStatus.ACTIVE);
+        return new Scrap(planId, userId);
     }
 }

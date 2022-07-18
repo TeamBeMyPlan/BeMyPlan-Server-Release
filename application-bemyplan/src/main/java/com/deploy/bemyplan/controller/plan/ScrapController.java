@@ -17,10 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")
-public class PlanController {
+public class ScrapController {
 
     private final ScrapService scrapService;
-    private final OrderService orderService;
 
     @ApiOperation("[인증] 여행일정 조회/상세 페이지 - 해당 여행일정을 스크랩합니다.")
     @Auth
@@ -43,14 +42,6 @@ public class PlanController {
     @GetMapping("/v1/plan/scrap/{planId}")
     public ApiResponse<String> checkScrapStatus(@PathVariable Long planId, @UserId Long userId){
         scrapService.checkScrapStatus(planId, userId);
-        return ApiResponse.SUCCESS;
-    }
-
-    @ApiOperation("[인증] 여행일정 조회/상세 페이지 - 해당 여행일정 구매 여부를 확인합니다. (성공 시 구매하지 않은 상태)")
-    @Auth
-    @GetMapping("/v1/plan/order/{planId}")
-    public ApiResponse<String> checkOrderStatus(@PathVariable Long planId, @UserId Long userId){
-        orderService.checkOrderStatus(planId, userId);
         return ApiResponse.SUCCESS;
     }
 }

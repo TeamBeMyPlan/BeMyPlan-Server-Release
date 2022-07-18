@@ -47,20 +47,6 @@ public class ScrapRepositoryCustomImpl implements ScrapRepositoryCustom{
     }
 
     @Override
-    public Scrap findByUserIdAndPlanId(Long planId, Long userId){
-        if (Objects.isNull(userId)) {
-            return null;
-        }
-        return queryFactory
-                .selectFrom(scrap)
-                .where(
-                        eqUserId(userId),
-                        eqPlanId(planId)
-                )
-                .fetchOne();
-    }
-
-    @Override
     public Scrap findActiveByUserIdAndPlanId(Long planId, Long userId){
         if (userId == null) {
             return null;

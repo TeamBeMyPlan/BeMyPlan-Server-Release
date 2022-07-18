@@ -9,12 +9,18 @@ import com.deploy.bemyplan.service.plan.PlanRetrieveService;
 import com.deploy.bemyplan.service.plan.dto.request.RetrieveMyBookmarkListRequestDto;
 import com.deploy.bemyplan.service.plan.dto.request.RetrieveMyOrderListRequestDto;
 import com.deploy.bemyplan.service.plan.dto.request.RetrievePickListRequestDto;
-import com.deploy.bemyplan.service.plan.dto.response.*;
+import com.deploy.bemyplan.service.plan.dto.response.OrdersScrollResponse;
+import com.deploy.bemyplan.service.plan.dto.response.PlanDetailResponse;
+import com.deploy.bemyplan.service.plan.dto.response.PlanPreviewResponse;
+import com.deploy.bemyplan.service.plan.dto.response.PlansScrollResponse;
+import com.deploy.bemyplan.service.plan.dto.response.ScrapsScrollResponse;
+import com.deploy.bemyplan.service.plan.dto.response.SpotMoveInfoResponse;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -22,6 +28,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/api")
 public class PlanRetrieveController {
 
     private final PlanRetrieveService planRetrieveService;

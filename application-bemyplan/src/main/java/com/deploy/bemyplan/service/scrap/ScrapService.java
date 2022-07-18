@@ -17,9 +17,7 @@ public class ScrapService {
 
     @Transactional
     public void addScrap(Long planId, Long userId) {
-        Scrap scrap = ScrapServiceUtils.findScrapByPlanIdAndUserId(scrapRepository, planId, userId);
-        scrap.updateToActive();
-        scrapRepository.save(scrap);
+        scrapRepository.save(Scrap.of(planId, userId));
     }
 
     @Transactional

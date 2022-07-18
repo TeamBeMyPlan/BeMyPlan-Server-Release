@@ -12,10 +12,13 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"planId", "userId"})})
 public class Scrap extends AuditingTimeEntity {
 
     @Id
@@ -32,9 +35,6 @@ public class Scrap extends AuditingTimeEntity {
     @Enumerated(EnumType.STRING)
     private ScrapStatus status;
 
-    public void updateToActive() {
-        this.status = ScrapStatus.ACTIVE;
-    }
 
     public void updateToInActive() {
         this.status = ScrapStatus.INACTIVE;

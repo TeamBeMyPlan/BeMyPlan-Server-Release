@@ -1,7 +1,6 @@
 package com.deploy.bemyplan.domain.scrap.repository;
 
 import com.deploy.bemyplan.domain.scrap.Scrap;
-import com.deploy.bemyplan.domain.scrap.ScrapStatus;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -38,26 +37,11 @@ public class ScrapRepositoryCustomImpl implements ScrapRepositoryCustom{
                 .select(scrap.id).distinct()
                 .from(scrap)
                 .where(
-                        scrap.status.eq(ScrapStatus.ACTIVE),
                         eqUserId(userId),
                         inPlanIds(planIds)
                 )
                 .fetch();
         return findAllByIds(scrapIds);
-    }
-
-    @Override
-    public Scrap findByUserIdAndPlanId(Long planId, Long userId){
-        if (Objects.isNull(userId)) {
-            return null;
-        }
-        return queryFactory
-                .selectFrom(scrap)
-                .where(
-                        eqUserId(userId),
-                        eqPlanId(planId)
-                )
-                .fetchOne();
     }
 
     @Override
@@ -68,7 +52,6 @@ public class ScrapRepositoryCustomImpl implements ScrapRepositoryCustom{
         return queryFactory
                 .selectFrom(scrap)
                 .where(
-                        scrap.status.eq(ScrapStatus.ACTIVE),
                         eqUserId(userId),
                         eqPlanId(planId)
                 )

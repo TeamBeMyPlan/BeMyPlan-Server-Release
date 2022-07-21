@@ -9,7 +9,6 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import static com.deploy.bemyplan.common.type.VisitOptionConstants.GUEST_MODE;
 import static com.deploy.bemyplan.config.session.SessionConstants.USER_ID;
 
 @Component
@@ -30,6 +29,6 @@ public class UserIdResolver implements HandlerMethodArgumentResolver {
         if (object == null) {
             throw new RuntimeException(String.format("USER_ID를 가져오지 못했습니다. (%s - %s)", parameter.getClass(), parameter.getMethod()));
         }
-        return object.equals(GUEST_MODE) ? null : object;
+        return object;
     }
 }

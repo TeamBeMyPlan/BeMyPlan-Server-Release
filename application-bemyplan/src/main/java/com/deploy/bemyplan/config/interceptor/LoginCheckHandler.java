@@ -12,7 +12,6 @@ import org.springframework.util.StringUtils;
 import javax.servlet.http.HttpServletRequest;
 
 import static com.deploy.bemyplan.common.exception.ErrorCode.VALIDATION_SESSION_EXCEPTION;
-import static com.deploy.bemyplan.common.type.VisitOptionConstants.*;
 import static com.deploy.bemyplan.config.session.SessionConstants.USER_ID;
 
 @RequiredArgsConstructor
@@ -23,23 +22,15 @@ public class LoginCheckHandler {
 
     Long getUserId(HttpServletRequest request) {
         String sessionId = request.getHeader(HttpHeaders.AUTHORIZATION);
-        String visitOption = request.getHeader(VISIT_OPTION_HEADER);
-
-        switch (visitOption) {
-            case MEMBERSHIP:
-                if (StringUtils.hasLength(sessionId)) {
-                    Session session = findSessionBySessionId(sessionId);
-                    Long userId = session.getAttribute(USER_ID);
-                    if (userId != null) {
-                        return userId;
-                    }
-                }
-                throw new ValidationException(String.format("잘못된 세션 (%S) 입니다", sessionId), VALIDATION_SESSION_EXCEPTION);
-            case GUEST:
-                return GUEST_MODE;
-            default:
-                throw new ValidationException(String.format("허용하지 않는 Visit-Option 헤더값 (%s) 입니다. [MEMBERSHIP 또는 GUEST]", visitOption));
+        if (StringUtils.hasLength(sessionId)) {
+            Session session = findSessionBySessionId(sessionId);
+            Long userId = session.getAttribute(USER_ID);
+            if (userId != null) {
+                return userId;
+            }
         }
+        throw new ValidationException(String.format("잘못된 세션 (%S) 입니다", sessionId), VALIDATION_SESSION_EXCEPTION);
+
     }
 
     private Session findSessionBySessionId(String sessionId) {

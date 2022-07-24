@@ -33,8 +33,8 @@ public class UserService {
     @Transactional
     public void signOut(Long userId, String reasonForWithdrawal) {
         User user = UserServiceUtils.findUserById(userRepository, userId);
+        user.inactive();
         withdrawalUserRepository.save(WithdrawalUser.newInstance(user, reasonForWithdrawal));
-        userRepository.delete(user);
         eventPublisher.publishEvent(new UserDeleteEvent(this, userId));
     }
 

@@ -9,6 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationEventPublisher;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
@@ -18,12 +19,12 @@ import static org.mockito.Mockito.verify;
 class UserServiceTest {
     private UserService userService;
     private ApplicationEventPublisher spyEventPublisher;
+    private UserRepository mockUserRepository;
 
     @BeforeEach
     void setUp() {
         spyEventPublisher = mock(ApplicationEventPublisher.class);
-
-        UserRepository mockUserRepository = mock(UserRepository.class);
+        mockUserRepository = mock(UserRepository.class);
         given(mockUserRepository.findUserById(any()))
                 .willReturn(User.newInstance("tempId", UserSocialType.APPLE, "tempNickName", "tempEmail"));
 
@@ -43,4 +44,14 @@ class UserServiceTest {
         verify(spyEventPublisher, times(1)).publishEvent(expected);
     }
 
+    @Test
+    @DisplayName("유저 탈퇴시 soft delete")
+    void signOut_changeUserStatusInactive() {
+        User user = User.newInstance("socialId", UserSocialType.APPLE, "name", "email");
+
+        userService.signOut(user.getId(), "reason");
+
+        User savedUser = mockUserRepository.findUserById(user.getId());
+        assertThat(savedUser.getStatus()).isFalse();
+    }
 }

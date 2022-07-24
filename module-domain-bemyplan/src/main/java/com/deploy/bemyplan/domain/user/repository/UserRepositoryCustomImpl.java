@@ -21,7 +21,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
                 .setHint("javax.persistence.lock.timeout", 3000)
                 .from(user)
                 .where(user.nickname.eq(name),
-                        user.status.isTrue()
+                        user.active.isTrue()
                 ).fetchFirst() != null;
     }
 
@@ -32,7 +32,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
                 .where(
                         user.socialInfo.socialId.eq(socialId),
                         user.socialInfo.socialType.eq(socialType),
-                        user.status.isTrue()
+                        user.active.isTrue()
                 ).fetchFirst() != null;
     }
 
@@ -40,7 +40,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
     public User findUserById(Long userId) {
         return queryFactory.selectFrom(user)
                 .where(user.id.eq(userId),
-                        user.status.isTrue()
+                        user.active.isTrue()
                 ).fetchOne();
     }
 
@@ -50,7 +50,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
                 .where(
                         user.socialInfo.socialId.eq(socialId),
                         user.socialInfo.socialType.eq(socialType),
-                        user.status.isTrue()
+                        user.active.isTrue()
                 ).fetchOne();
     }
 }

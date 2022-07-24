@@ -29,16 +29,16 @@ public class User extends AuditingTimeEntity {
     private String email;
 
     @Column(nullable = false)
-    private Boolean status;
+    private boolean active;
 
     @Embedded
     private SocialInfo socialInfo;
 
-    private User(String socialId, UserSocialType socialType, String nickname, String email, boolean status) {
+    private User(String socialId, UserSocialType socialType, String nickname, String email, boolean active) {
         this.socialInfo = SocialInfo.of(socialId, socialType);
         this.nickname = nickname;
         this.email = email;
-        this.status = status;
+        this.active = active;
     }
 
     public static User newInstance(String socialId, UserSocialType socialType, String name, String email) {
@@ -56,6 +56,6 @@ public class User extends AuditingTimeEntity {
     }
 
     public void inactive() {
-        status = false;
+        active = false;
     }
 }

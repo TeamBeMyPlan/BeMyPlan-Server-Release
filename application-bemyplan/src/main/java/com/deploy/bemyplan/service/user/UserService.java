@@ -4,7 +4,6 @@ import com.deploy.bemyplan.domain.user.User;
 import com.deploy.bemyplan.domain.user.UserRepository;
 import com.deploy.bemyplan.domain.user.WithdrawalUser;
 import com.deploy.bemyplan.domain.user.WithdrawalUserRepository;
-import com.deploy.bemyplan.service.auth.UserDeleteEvent;
 import com.deploy.bemyplan.service.user.dto.request.CheckAvailableNameRequestDto;
 import com.deploy.bemyplan.service.user.dto.request.CreateUserDto;
 import lombok.RequiredArgsConstructor;

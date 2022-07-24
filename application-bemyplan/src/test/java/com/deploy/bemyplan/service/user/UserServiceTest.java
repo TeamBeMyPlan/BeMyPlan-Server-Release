@@ -4,7 +4,6 @@ import com.deploy.bemyplan.domain.user.User;
 import com.deploy.bemyplan.domain.user.UserRepository;
 import com.deploy.bemyplan.domain.user.UserSocialType;
 import com.deploy.bemyplan.domain.user.WithdrawalUserRepository;
-import com.deploy.bemyplan.service.auth.UserDeleteEvent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

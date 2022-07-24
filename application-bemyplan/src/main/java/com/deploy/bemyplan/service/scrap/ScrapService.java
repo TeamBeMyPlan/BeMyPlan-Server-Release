@@ -21,7 +21,7 @@ public class ScrapService {
     }
 
     @Transactional
-    public void deleteScrap(Long userId, Long planId){
+    public void deleteScrap(Long userId, Long planId) {
         scrapRepository.deleteByUserIdAndPlanId(userId, planId);
     }
 
@@ -30,5 +30,9 @@ public class ScrapService {
         scrapRepository.findByUserIdAndPlanId(planId, userId)
                 .orElseThrow(() -> new NotFoundException(String.format("해당 여행일정을 찜한 상태 (%s - %s) 가 아닙니다.", userId, planId), NOT_FOUND_SCRAP_EXCEPTION));
     }
-}
 
+    @Transactional
+    public void deleteAllScrapByUser(Long userId) {
+        scrapRepository.deleteByUserId(userId);
+    }
+}

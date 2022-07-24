@@ -16,18 +16,21 @@ export default function Sidebar() {
                         <Link className='sidebarText' to='/'>
                             <li className='sidebarListItem'><HomeIcon className='sidebarIcon'/>홈</li>
                         </Link>
+
+                        <Link className='sidebarText' to='/products'>
+                            <li className='sidebarListItem'><ProductIcon className='sidebarIcon'/>상품관리</li>
+                        </Link>
+                        {/* 
                         <Link className='sidebarText' to='/'>
                             <li className='sidebarListItem'><MonetizationOnIcon className='sidebarIcon'/>주문</li>
                         </Link>
                         <Link className='sidebarText' to='/users'>
                             <li className='sidebarListItem'><PersonIcon className='sidebarIcon'/>유저</li>
                         </Link>
-                        <Link className='sidebarText' to='/products'>
-                            <li className='sidebarListItem'><ProductIcon className='sidebarIcon'/>상품</li>
-                        </Link>
                         <Link className='sidebarText' to='/'>
                             <li className='sidebarListItem'><ReportIcon className='sidebarIcon'/>Reports</li>
                         </Link>
+                         */}
                     </ul>
                 </div>
             </div>

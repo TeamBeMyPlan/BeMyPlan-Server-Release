@@ -3,8 +3,8 @@ import Sidebar from './components/sidebar/Sidebar'
 import './App.css'
 import { Route, Routes } from 'react-router-dom';
 import Home from './pages/home/Home'
-import User from './pages/user/User';
-import Product from './pages/product/Product';
+import ProductPage from './pages/product/ProductPage';
+import ProductCreatePage from './pages/product/ProductCreatePage';
 
 function App() {
   return (
@@ -14,8 +14,8 @@ function App() {
         <Sidebar/>
         <Routes>
           <Route path='/' element={<Home/>}/>
-          <Route path='/users' element={<User/>}/>
-          <Route path='/products' element={<Product/>}/>
+          <Route path='/products' element={<ProductPage/>}/>
+          <Route path='/products/new' element={<ProductCreatePage/>}/>
         </Routes>
       </div>
     </div>

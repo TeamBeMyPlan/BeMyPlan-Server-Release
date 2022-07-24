@@ -4,9 +4,11 @@ import com.deploy.bemyplan.domain.user.User;
 import com.deploy.bemyplan.domain.user.UserRepository;
 import com.deploy.bemyplan.domain.user.WithdrawalUser;
 import com.deploy.bemyplan.domain.user.WithdrawalUserRepository;
+import com.deploy.bemyplan.service.auth.UserDeleteEvent;
 import com.deploy.bemyplan.service.user.dto.request.CheckAvailableNameRequestDto;
 import com.deploy.bemyplan.service.user.dto.request.CreateUserDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +18,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final WithdrawalUserRepository withdrawalUserRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Transactional
     public Long registerUser(CreateUserDto request) {
@@ -33,6 +36,7 @@ public class UserService {
         User user = UserServiceUtils.findUserById(userRepository, userId);
         withdrawalUserRepository.save(WithdrawalUser.newInstance(user, reasonForWithdrawal));
         userRepository.delete(user);
+        eventPublisher.publishEvent(new UserDeleteEvent(this, userId));
     }
 
     @Transactional

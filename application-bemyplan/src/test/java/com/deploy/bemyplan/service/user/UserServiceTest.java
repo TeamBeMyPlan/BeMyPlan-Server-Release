@@ -19,16 +19,16 @@ import static org.mockito.Mockito.verify;
 class UserServiceTest {
     private UserService userService;
     private ApplicationEventPublisher spyEventPublisher;
-    private UserRepository mockUserRepository;
+    private UserRepository stubUserRepository;
 
     @BeforeEach
     void setUp() {
         spyEventPublisher = mock(ApplicationEventPublisher.class);
-        mockUserRepository = mock(UserRepository.class);
-        given(mockUserRepository.findUserById(any()))
+        stubUserRepository = mock(UserRepository.class);
+        given(stubUserRepository.findUserById(any()))
                 .willReturn(User.newInstance("tempId", UserSocialType.APPLE, "tempNickName", "tempEmail"));
 
-        userService = new UserService(mockUserRepository,
+        userService = new UserService(stubUserRepository,
                 mock(WithdrawalUserRepository.class),
                 spyEventPublisher);
     }
@@ -47,11 +47,11 @@ class UserServiceTest {
     @Test
     @DisplayName("유저 탈퇴시 soft delete")
     void signOut_changeUserStatusInactive() {
-        User user = User.newInstance("socialId", UserSocialType.APPLE, "name", "email");
+        User givenUser = User.newInstance("socialId", UserSocialType.APPLE, "name", "email");
+        given(stubUserRepository.findUserById(1L)).willReturn(givenUser);
 
-        userService.signOut(user.getId(), "reason");
+        userService.signOut(1L, "reason");
 
-        User savedUser = mockUserRepository.findUserById(user.getId());
-        assertThat(savedUser.getStatus()).isFalse();
+        assertThat(givenUser.isActive()).isFalse();
     }
 }

@@ -1,16 +1,4 @@
-server:
-  port: 8081
-  servlet:
-    encoding:
-      charset: UTF-8
-      force: true
-    context-path: /api
-
 spring:
-  config:
-    activate:
-      on-profile: prod
-
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://bemyplan-deploy-mysql.c3p7kjpj7cej.ap-northeast-2.rds.amazonaws.com:3306/bemyplan?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
@@ -18,7 +6,7 @@ spring:
     password: bemyplan_pwd
 
   redis:
-    host: bemyplan-deploy-redis.tbtn3b.ng.0001.apn2.cache.amazonaws.com
+    host: bemyplan-prod-redis-001.tbtn3b.0001.apn2.cache.amazonaws.com
     port: 6379
 
   jpa:
@@ -27,14 +15,5 @@ spring:
     properties:
       hibernate:
         show_sql: true
-        format_sql: true
+        format_sql: false
         default_batch_fetch_size: 1000
-    generate-ddl: true
-
-logging:
-  level:
-    org:
-      hibernate:
-        type:
-          descriptor:
-            sql: trace

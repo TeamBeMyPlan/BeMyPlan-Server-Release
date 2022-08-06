@@ -14,6 +14,7 @@
 
 .inputs .inputs-area {
     flex: 1;
+    display: flex;
     font-size: 1.25rem;
     outline: none;
     border: none;

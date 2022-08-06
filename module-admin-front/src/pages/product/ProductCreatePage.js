@@ -1,6 +1,6 @@
 import ProductCreateTemplate from './components/ProductCreateTemplate'
 import Button from '../../components/button/Button'
-import { Component, useState } from 'react';
+import { Component } from 'react';
 import ProductStepOne from './components/ProductStepOne';
 import ProductStepTwo from './components/ProductStepTwo';
 
@@ -106,13 +106,7 @@ class ProductCreatePage extends Component {
         }
         if (page === 1) {
             return (
-                <ProductStepTwo
-                    creator={creator}
-                    plan={plan}
-                    handleCreatorName={this.handleCreatorName}
-                    handlePlanTitle={this.handlePlanTitle}
-                    handlePlanDescription={this.handlePlanDescription}
-                    handlePlanConcept={this.handlePlanConept} />
+                <ProductStepTwo/>
             )
         }
 

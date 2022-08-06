@@ -1,14 +1,17 @@
-import { Component, useState } from 'react';
+import { Component } from 'react';
 import Textbox from '../../../components/textbox/Textbox'
 import Inputs from '../../../components/inputs/Inputs'
 import Button from '../../../components/button/Button'
 import DaumPostcodeEmbed from 'react-daum-postcode';
+import location from '../../../components/location'
 
 class ProductStepTwo extends Component {
 
     state = {
         openPostCode: false,
-        address: ''
+        address: '',
+        longitude: 0,
+        latitude: 0
     }
 
     uploadImage = (e) => {
@@ -26,18 +29,24 @@ class ProductStepTwo extends Component {
         this.togglePost();
     }
 
-    selectAddress = (data) => {
+    selectAddress = async (data) => {
         this.togglePost();
-        console.log(data);
+
+        const { longitude, latitude } = await location.getLocation(data.address);
 
         this.setState({
-            address: data.address
+            address: data.address,
+            longitude: longitude,
+            latitude: latitude
         })
+
     }
 
     render() {
         const { openPostCode,
-            address
+            address,
+            longitude,
+            latitude
         } = this.state;
         const {
             searchPlace,
@@ -63,8 +72,8 @@ class ProductStepTwo extends Component {
                         <Button msg="검색" onClick={searchPlace} />
                     </Inputs>
                     <Inputs msg='여행지 경도'>
-                        <Textbox readOnly={true} hint='여행지 경도' />
-                        <Textbox readOnly={true} hint='여행지 위도' />
+                        <Textbox readOnly={true} hint='여행지 경도' value={longitude}/>
+                        <Textbox readOnly={true} hint='여행지 위도' value={latitude} />
                     </Inputs>
                     <Inputs msg='여행지 사진'>
                         <Textbox hint='Upload Image' />
@@ -75,7 +84,7 @@ class ProductStepTwo extends Component {
                     openPostCode &&
                     <DaumPostcodeEmbed onComplete={selectAddress}
                         autoClose={false}
-                        defaultQuery='판교역료 235' />
+                        defaultQuery='판교역로235' />
                 }
             </div>
         );

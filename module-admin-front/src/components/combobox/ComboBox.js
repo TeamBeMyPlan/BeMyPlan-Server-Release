@@ -1,13 +1,16 @@
 import './ComboBox.css'
 
-const ComboBox = () => {
+const ComboBox = ({items, onChange}) => {
+    const comboBoxItems = items.map(
+        ({value, label}, index) => (
+            <option value={value} key={index}>{label}</option>
+        )
+    )
+
     return (
         <div className="combobox">
-            <select>
-                <option value='1'>1번</option>
-                <option value='2'>2번</option>
-                <option value='3'>3번</option>
-                <option value='4'>4번</option>
+            <select onChange={onChange}>
+                {comboBoxItems}
             </select>
         </div>
     )

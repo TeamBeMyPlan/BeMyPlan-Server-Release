@@ -200,6 +200,12 @@ class ProductStep2 extends Component {
                     <Inputs msg='여행지 주소'>
                         <Textbox readOnly={true} hint='여행지 주소' value={address} />
                         <Button msg="검색" onClick={searchPlace} />
+                        {
+                            openPostCode &&
+                            <DaumPostcodeEmbed onComplete={selectAddress}
+                                autoClose={false}
+                                defaultQuery={address}/>
+                        }
                     </Inputs>
                     <Inputs msg='여행지 경도'>
                         <Textbox readOnly={true} hint='여행지 경도' value={longitude} />
@@ -211,12 +217,12 @@ class ProductStep2 extends Component {
                             onChange={fileChangedHandler} />
                     </Inputs>
                     <Inputs msg='해당 여행지 일정 정보'>
-                        <NumericInput hint='몇 일차 여행지' onChange={handleDate}/>
+                        <NumericInput hint='몇 일차 여행지' onChange={handleDate} />
                     </Inputs>
                     <Inputs msg='연결할 다음 여행지 정보'>
-                        <Textbox readOnly={true} hint='다음 여행지' value={otherSpot.name}/>
-                        <NumericInput hint='다음 여행지까지 이동시간 (분)' value={otherSpotSpentTime} onChange={handleOtherSpotSpentTime}/>
-                        <Textbox hint='다음 여행지까지 이동수단' value={otherSpotVehicle} onChange={handleOtherSpotVehicle}/>
+                        <Textbox readOnly={true} hint='다음 여행지' value={otherSpot.name} />
+                        <NumericInput hint='다음 여행지까지 이동시간 (분)' value={otherSpotSpentTime} onChange={handleOtherSpotSpentTime} />
+                        <Textbox hint='다음 여행지까지 이동수단' value={otherSpotVehicle} onChange={handleOtherSpotVehicle} />
                         <Button msg="선택" onClick={toggleOtherSpot} />
                         {
                             openOtherSpots &&
@@ -271,13 +277,6 @@ class ProductStep2 extends Component {
                     </TableContainer>
 
                 </div>
-                {
-                    openPostCode &&
-                    <DaumPostcodeEmbed onComplete={selectAddress}
-                        autoClose={false}
-                        defaultQuery='판교역로235' />
-                }
-
             </div>
         );
     }

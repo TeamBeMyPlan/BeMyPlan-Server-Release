@@ -3,7 +3,8 @@ import Textbox from '../../../components/textbox/Textbox'
 import Inputs from '../../../components/inputs/Inputs'
 import Button from '../../../components/button/Button'
 import DaumPostcodeEmbed from 'react-daum-postcode';
-import location from '../../../components/location'
+import locationApi from '../../../components/locationApi'
+import imageApi from '../../../components/imageApi'
 
 class ProductStepTwo extends Component {
 
@@ -11,11 +12,9 @@ class ProductStepTwo extends Component {
         openPostCode: false,
         address: '',
         longitude: 0,
-        latitude: 0
-    }
-
-    uploadImage = (e) => {
-        alert('hi');
+        latitude: 0,
+        images: [],
+        savedImages: []
     }
 
     togglePost = () => {
@@ -32,14 +31,30 @@ class ProductStepTwo extends Component {
     selectAddress = async (data) => {
         this.togglePost();
 
-        const { longitude, latitude } = await location.getLocation(data.address);
+        const { longitude, latitude } = await locationApi.getLocation(data.address);
 
         this.setState({
             address: data.address,
             longitude: longitude,
             latitude: latitude
         })
+    }
 
+    fileChangedHandler = async e => {
+        const files = e.target.files;
+        this.setState({
+            images: files
+        });
+
+        const formData = new FormData();
+        for (let i = 0; i < files.length; i++) {
+            formData.append('files', files[i]);
+        }
+
+        const response = await imageApi.upload(formData);
+        this.setState({
+            savedImages: response.data
+        });
     }
 
     render() {
@@ -50,8 +65,8 @@ class ProductStepTwo extends Component {
         } = this.state;
         const {
             searchPlace,
-            uploadImage,
-            selectAddress
+            selectAddress,
+            fileChangedHandler,
         } = this;
 
         return (
@@ -72,12 +87,14 @@ class ProductStepTwo extends Component {
                         <Button msg="검색" onClick={searchPlace} />
                     </Inputs>
                     <Inputs msg='여행지 경도'>
-                        <Textbox readOnly={true} hint='여행지 경도' value={longitude}/>
+                        <Textbox readOnly={true} hint='여행지 경도' value={longitude} />
                         <Textbox readOnly={true} hint='여행지 위도' value={latitude} />
                     </Inputs>
                     <Inputs msg='여행지 사진'>
                         <Textbox hint='Upload Image' />
-                        <Button msg="Upload" onClick={uploadImage} />
+                        <input type="file" multiple
+                            name="files"
+                            onChange={fileChangedHandler} />
                     </Inputs>
                 </div>
                 {

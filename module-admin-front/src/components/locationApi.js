@@ -1,8 +1,8 @@
 import api from '../api'
 
-const location = {
+const locationApi = {
     getLocation: async (query) => {
-        const result = await api.get('location', {
+        const result = await api.get('api/location', {
             params: {
                 query: query
             }
@@ -11,4 +11,4 @@ const location = {
     }
 }
 
-export default location;
+export default locationApi;

@@ -9,7 +9,7 @@ const tempComboBoxItems = [
     { value: false, label: 'N' }
 ]
 
-class ProductStepOne extends Component {
+class ProductStep1 extends Component {
     render() {
         const {
             creator,
@@ -65,4 +65,4 @@ class ProductStepOne extends Component {
     }
 }
 
-export default ProductStepOne;
+export default ProductStep1;

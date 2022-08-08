@@ -1,8 +1,9 @@
 import ProductCreateTemplate from './components/ProductCreateTemplate'
 import Button from '../../components/button/Button'
 import { Component } from 'react';
-import ProductStepOne from './components/ProductStepOne';
-import ProductStepTwo from './components/ProductStepTwo';
+import ProductStep1 from './components/ProductStep1';
+import ProductStep2 from './components/ProductStep2';
+import ProductStep3 from './components/ProductStep3';
 
 const Empty_Add_Plan = {
     creator: {
@@ -55,11 +56,16 @@ class ProductCreatePage extends Component {
         }
     }
 
+    saveNewPlan = () => {
+        alert('새로운 플랜 등록 완료!');
+    }
+
     nextPage = () => {
-        const { page, creator, plan } = this.state;
+        const { page } = this.state;
 
         if (page >= 3) {
-            window.location = '/';
+            window.location = '/products';
+            this.saveNewPlan();
             return;
         }
 
@@ -89,7 +95,7 @@ class ProductCreatePage extends Component {
     getPage = (page, creator, plan) => {
         if (page === 0) {
             return (
-                <ProductStepOne
+                <ProductStep1
                     creator={creator}
                     plan={plan}
                     handleCreatorName={this.handleCreatorName}
@@ -106,7 +112,13 @@ class ProductCreatePage extends Component {
         }
         if (page === 1) {
             return (
-                <ProductStepTwo/>
+                <ProductStep2/>
+            )
+        }
+
+        if (page === 2) {
+            return (
+                <ProductStep3/>
             )
         }
 

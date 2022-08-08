@@ -14,7 +14,7 @@ const TableBody = ({ children }) => <tbody>{children}</tbody>;
 const TableRow = ({ children }) => <tr>{children}</tr>;
 const TableCell = ({ children }) => <td>{children}</td>;
 
-class ProductStepTwo extends Component {
+class ProductStep2 extends Component {
 
     state = {
         openPostCode: false,
@@ -194,4 +194,4 @@ class ProductStepTwo extends Component {
     }
 }
 
-export default ProductStepTwo;
+export default ProductStep2;

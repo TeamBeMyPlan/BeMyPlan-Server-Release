@@ -1,2 +1,13 @@
 server:
   port: 8080
+
+#max file and request size
+spring:
+  http:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 11MB
+
+
+s3:
+  profile: dev

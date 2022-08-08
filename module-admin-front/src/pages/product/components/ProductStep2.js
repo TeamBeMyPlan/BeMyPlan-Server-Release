@@ -2,6 +2,7 @@ import { Component } from 'react';
 import Textbox from '../../../components/textbox/Textbox'
 import Inputs from '../../../components/inputs/Inputs'
 import Button from '../../../components/button/Button'
+import NumericInput from '../../../components/numeric/NumericInput'
 import DaumPostcodeEmbed from 'react-daum-postcode';
 import locationApi from '../../../components/locationApi'
 import imageApi from '../../../components/imageApi'
@@ -26,7 +27,12 @@ class ProductStep2 extends Component {
         latitude: 0,
         images: [],
         savedImages: [],
-        spots: []
+        date: 0,
+        spots: [],
+        otherSpotSpentTime: 0,
+        otherSpotVehicle: '',
+        otherSpot: {},
+        openOtherSpots: false
     }
 
     togglePost = () => {
@@ -80,7 +86,27 @@ class ProductStep2 extends Component {
             latitude: 0,
             images: [],
             savedImages: [],
+            date: 0,
+            otherSpot: {},
+            openOtherSpots: false
         });
+    }
+
+    toggleOtherSpot = () => {
+        const { openOtherSpots } = this.state;
+        this.setState({
+            openOtherSpots: !openOtherSpots
+        })
+    }
+
+    selectOtherSpot = (index) => {
+        const { otherSpot, spots } = this.state;
+
+        this.setState({
+            otherSpot: spots[index],
+        });
+
+        this.toggleOtherSpot();
     }
 
     addItem = () => {
@@ -91,12 +117,28 @@ class ProductStep2 extends Component {
             address,
             longitude,
             latitude,
+            savedImages,
+            date,
+            otherSpot,
+            otherSpotSpentTime,
+            otherSpotVehicle,
             spots
         } = this.state;
-        
+
         const newSpot = {
-            name: name,
-            address: address
+            name,
+            review,
+            tip,
+            address,
+            longitude,
+            latitude,
+            savedImages,
+            date,
+            otherSpot: {
+                spot: otherSpot,
+                spentTime: otherSpotSpentTime,
+                vehicle: otherSpotVehicle,
+            }
         }
 
         this.setState({
@@ -109,6 +151,9 @@ class ProductStep2 extends Component {
     handleName = (e) => { this.setState({ name: e.target.value }) }
     handleReview = (e) => { this.setState({ review: e.target.value }) }
     handleTip = (e) => { this.setState({ tip: e.target.value }) }
+    handleDate = (e) => { this.setState({ date: e.target.value }) }
+    handleOtherSpotSpentTime = (e) => { this.setState({ otherSpotSpentTime: e.target.value }) }
+    handleOtherSpotVehicle = (e) => { this.setState({ otherSpotVehicle: e.target.value }) }
 
     render() {
         const { openPostCode,
@@ -118,16 +163,25 @@ class ProductStep2 extends Component {
             address,
             longitude,
             latitude,
-            spots
+            openOtherSpots,
+            spots,
+            otherSpot,
+            otherSpotSpentTime,
+            otherSpotVehicle
         } = this.state;
         const {
             handleName,
             handleReview,
             handleTip,
+            handleDate,
+            handleOtherSpotSpentTime,
+            handleOtherSpotVehicle,
             searchPlace,
             selectAddress,
             fileChangedHandler,
-            addItem
+            toggleOtherSpot,
+            selectOtherSpot,
+            addItem,
         } = this;
 
         return (
@@ -138,10 +192,10 @@ class ProductStep2 extends Component {
                         <Textbox hint='여행지 이름' value={name} onChange={handleName} />
                     </Inputs>
                     <Inputs msg='솔직 후기'>
-                        <Textbox hint='필수 입력' value={review} onChange={handleReview}/>
+                        <Textbox hint='필수 입력' value={review} onChange={handleReview} />
                     </Inputs>
                     <Inputs msg='꿀팁'>
-                        <Textbox hint='선택 입력' value={tip} onChange={handleTip}/>
+                        <Textbox hint='선택 입력' value={tip} onChange={handleTip} />
                     </Inputs>
                     <Inputs msg='여행지 주소'>
                         <Textbox readOnly={true} hint='여행지 주소' value={address} />
@@ -152,11 +206,43 @@ class ProductStep2 extends Component {
                         <Textbox readOnly={true} hint='여행지 위도' value={latitude} />
                     </Inputs>
                     <Inputs msg='여행지 사진'>
-                        <Textbox hint='Upload Image' />
                         <input type="file" multiple
                             name="files"
                             onChange={fileChangedHandler} />
                     </Inputs>
+                    <Inputs msg='해당 여행지 일정 정보'>
+                        <NumericInput hint='몇 일차 여행지' onChange={handleDate}/>
+                    </Inputs>
+                    <Inputs msg='연결할 다음 여행지 정보'>
+                        <Textbox readOnly={true} hint='다음 여행지' value={otherSpot.name}/>
+                        <NumericInput hint='다음 여행지까지 이동시간 (분)' value={otherSpotSpentTime} onChange={handleOtherSpotSpentTime}/>
+                        <Textbox hint='다음 여행지까지 이동수단' value={otherSpotVehicle} onChange={handleOtherSpotVehicle}/>
+                        <Button msg="선택" onClick={toggleOtherSpot} />
+                        {
+                            openOtherSpots &&
+                            <TableContainer>
+                                <TableHeader>
+                                    <TableRow>
+                                        <TableCell>이름</TableCell>
+                                        <TableCell>주소</TableCell>
+                                        <TableCell>선택</TableCell>
+                                    </TableRow>
+                                </TableHeader>
+                                <TableBody>
+                                    {
+                                        spots.map((spot, index) => (
+                                            <TableRow key={index}>
+                                                <TableCell>{spot.name}</TableCell>
+                                                <TableCell>{spot.address}</TableCell>
+                                                <TableCell><Button onClick={() => selectOtherSpot(index)}>선택</Button></TableCell>
+                                            </TableRow>
+                                        ))
+                                    }
+                                </TableBody>
+                            </TableContainer>
+                        }
+                    </Inputs>
+
                     <Button msg="추가" onClick={addItem} />
                 </div>
                 <div>
@@ -167,6 +253,7 @@ class ProductStep2 extends Component {
                                 <TableCell>이름</TableCell>
                                 <TableCell>주소</TableCell>
                                 <TableCell>일차</TableCell>
+                                <TableCell>다음 여행지</TableCell>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -175,13 +262,14 @@ class ProductStep2 extends Component {
                                     <TableRow key={index}>
                                         <TableCell>{spot.name}</TableCell>
                                         <TableCell>{spot.address}</TableCell>
-                                        <TableCell>1</TableCell>
-                                    </TableRow>        
+                                        <TableCell>{spot.date}</TableCell>
+                                        <TableCell>{spot.otherSpot.spot.name}</TableCell>
+                                    </TableRow>
                                 ))
                             }
                         </TableBody>
                     </TableContainer>
-                  
+
                 </div>
                 {
                     openPostCode &&
@@ -189,6 +277,7 @@ class ProductStep2 extends Component {
                         autoClose={false}
                         defaultQuery='판교역로235' />
                 }
+
             </div>
         );
     }

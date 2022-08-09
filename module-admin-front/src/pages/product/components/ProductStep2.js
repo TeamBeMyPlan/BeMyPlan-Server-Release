@@ -32,6 +32,7 @@ class ProductStep2 extends Component {
         otherSpotSpentTime: 0,
         otherSpotVehicle: '',
         otherSpot: {},
+        selectedOtherSpot: false,
         openOtherSpots: false
     }
 
@@ -104,6 +105,7 @@ class ProductStep2 extends Component {
 
         this.setState({
             otherSpot: spots[index],
+            selectedOtherSpot: true
         });
 
         this.toggleOtherSpot();
@@ -164,6 +166,7 @@ class ProductStep2 extends Component {
             longitude,
             latitude,
             openOtherSpots,
+            selectedOtherSpot,
             spots,
             otherSpot,
             otherSpotSpentTime,
@@ -219,10 +222,8 @@ class ProductStep2 extends Component {
                     <Inputs msg='해당 여행지 일정 정보'>
                         <NumericInput hint='몇 일차 여행지' onChange={handleDate} />
                     </Inputs>
-                    <Inputs msg='연결할 다음 여행지 정보'>
+                    <Inputs msg='연결할 다음 여행지 (Optional)'>
                         <Textbox readOnly={true} hint='다음 여행지' value={otherSpot.name} />
-                        <NumericInput hint='다음 여행지까지 이동시간 (분)' value={otherSpotSpentTime} onChange={handleOtherSpotSpentTime} />
-                        <Textbox hint='다음 여행지까지 이동수단' value={otherSpotVehicle} onChange={handleOtherSpotVehicle} />
                         <Button msg="선택" onClick={toggleOtherSpot} />
                         {
                             openOtherSpots &&
@@ -247,7 +248,20 @@ class ProductStep2 extends Component {
                                 </TableBody>
                             </TableContainer>
                         }
+
+                        {
+                            selectedOtherSpot &&
+                            <>
+                            <Inputs msg='소요시간(분)'>
+                                <NumericInput hint='다음 여행지까지 이동시간 (분)' value={otherSpotSpentTime} onChange={handleOtherSpotSpentTime} />
+                            </Inputs>
+                            <Inputs msg='이동수단'>
+                                <Textbox hint='다음 여행지까지 이동수단' value={otherSpotVehicle} onChange={handleOtherSpotVehicle} />
+                            </Inputs>
+                            </>
+                        }
                     </Inputs>
+                    
 
                     <Button msg="추가" onClick={addItem} />
                 </div>

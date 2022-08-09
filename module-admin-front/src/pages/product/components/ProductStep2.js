@@ -6,6 +6,7 @@ import NumericInput from '../../../components/numeric/NumericInput'
 import DaumPostcodeEmbed from 'react-daum-postcode';
 import locationApi from '../../../components/locationApi'
 import imageApi from '../../../components/imageApi'
+import './ProductStep.css'
 
 const TableContainer = ({ striped, children }) => (
     <table className={striped ? "table-striped" : ""}>{children}</table>
@@ -160,7 +161,8 @@ class ProductStep2 extends Component {
     handleOtherSpotVehicle = (e) => { this.setState({ otherSpotVehicle: e.target.value }) }
 
     render() {
-        const { openPostCode,
+        const { 
+            openPostCode,
             name,
             review,
             tip,
@@ -191,7 +193,7 @@ class ProductStep2 extends Component {
         } = this;
 
         return (
-            <div>
+            <>
                 <div>
                     <h3>여행지 추가</h3>
                     <Inputs msg='여행지 이름'>
@@ -270,9 +272,9 @@ class ProductStep2 extends Component {
                             </>
                         }
                     </Inputs>
-
-
-                    <Button msg="추가" onClick={addItem} />
+                    <div className="next-button-wrapper">
+                        <Button msg="추가" onClick={addItem} />
+                    </div>                    
                 </div>
                 <div>
                     <h3>여행지</h3>
@@ -300,7 +302,10 @@ class ProductStep2 extends Component {
                     </TableContainer>
 
                 </div>
-            </div>
+                <div className="next-button-wrapper">
+                    <Button msg="다음 2/3"  onClick={this.props.nextPage}/>
+                </div>
+            </>
         );
     }
 }

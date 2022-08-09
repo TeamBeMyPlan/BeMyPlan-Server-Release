@@ -99,6 +99,7 @@ class ProductCreatePage extends Component {
         if (page === 0) {
             return (
                 <ProductStep1
+                    nextPage={this.nextPage}
                     creator={creator}
                     plan={plan}
                     handleCreatorName={this.handleCreatorName}
@@ -115,13 +116,15 @@ class ProductCreatePage extends Component {
         }
         if (page === 1) {
             return (
-                <ProductStep2/>
+                <ProductStep2
+                    nextPage={this.nextPage}/>
             )
         }
 
         if (page === 2) {
             return (
-                <ProductStep3/>
+                <ProductStep3
+                    nextPage={this.nextPage}/>
             )
         }
 
@@ -135,14 +138,11 @@ class ProductCreatePage extends Component {
     render() {
         const { page, creator, plan, buttonText } = this.state;
         const {
-            nextPage,
             getPage
         } = this;
 
         return (
-            <ProductCreateTemplate next={(
-                <Button msg={buttonText} onClick={nextPage} />)
-            }>
+            <ProductCreateTemplate>
                 {
                     getPage(page, creator, plan)
                 }

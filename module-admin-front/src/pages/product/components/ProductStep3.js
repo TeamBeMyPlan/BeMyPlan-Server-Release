@@ -3,6 +3,7 @@ import Button from '../../../components/button/Button';
 import Inputs from '../../../components/inputs/Inputs'
 import Textbox from '../../../components/textbox/Textbox';
 import imageApi from '../../../components/imageApi'
+import './ProductStep.css'
 
 class ProductStep3 extends Component {
 
@@ -71,6 +72,7 @@ class ProductStep3 extends Component {
             fileChangedHandler } = this;
 
         return (
+            <>
             <div>
                 {
                     previews.map((preview, index) => (
@@ -85,8 +87,14 @@ class ProductStep3 extends Component {
                         </div>
                     ))
                 }
-                <Button msg="추가" onClick={addPreview} />
+                <div className="next-button-wrapper">
+                    <Button msg="추가" onClick={addPreview} />
+                </div>
             </div>
+            <div className="next-button-wrapper">
+                <Button msg="완료 3/3" onClick={this.props.nextPage}/>
+            </div>
+            </>
         );
     }
 }

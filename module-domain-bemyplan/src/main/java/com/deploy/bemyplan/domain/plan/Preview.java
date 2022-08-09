@@ -36,4 +36,15 @@ public class Preview {
     @Column(nullable = false, length = 30)
     @Enumerated(EnumType.STRING)
     private PreviewContentStatus status;
+
+    private Preview(final Plan plan, final String imageUrl, final String description, final PreviewContentStatus status) {
+        this.plan = plan;
+        this.imageUrl = imageUrl;
+        this.description = description;
+        this.status = status;
+    }
+
+    public static Preview newInstance(final Plan plan, final String imageUrl, final String description, final PreviewContentStatus status) {
+        return new Preview(plan, imageUrl, description, status);
+    }
 }

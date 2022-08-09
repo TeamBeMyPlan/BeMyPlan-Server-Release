@@ -83,7 +83,11 @@ public class Plan extends AuditingTimeEntity {
         this.rcmndStatus = rcmndStatus;
     }
 
-    public void updateOrderCnt(){
+    public static Plan newInstance(Long userId, RegionType region, String thumbnailUrl, String title, String description, TagInfo tagInfo, int price, PlanStatus status, RcmndStatus rcmndStatus) {
+        return new Plan(userId, region, thumbnailUrl, title, description, tagInfo, 0, 0, price, status, rcmndStatus);
+    }
+
+    public void updateOrderCnt() {
         this.orderCnt += 1;
     }
 }

@@ -41,6 +41,7 @@ const Empty_Add_Plan = {
 class ProductCreatePage extends Component {
     state = {
         page: 0,
+        buttonText: '다음 1/3',
         creator: {
             name: ''
         },
@@ -63,14 +64,16 @@ class ProductCreatePage extends Component {
     nextPage = () => {
         const { page } = this.state;
 
-        if (page >= 3) {
+        if (page >= 2) {
             window.location = '/products';
             this.saveNewPlan();
             return;
         }
 
+        const nextPage = page + 1;
         this.setState({
-            page: page + 1
+            page: nextPage,
+            buttonText: `다음 ${nextPage + 1}/3`
         });
     }
 
@@ -130,7 +133,7 @@ class ProductCreatePage extends Component {
     }
 
     render() {
-        const { page, creator, plan } = this.state;
+        const { page, creator, plan, buttonText } = this.state;
         const {
             nextPage,
             getPage
@@ -138,7 +141,7 @@ class ProductCreatePage extends Component {
 
         return (
             <ProductCreateTemplate next={(
-                <Button msg="다음" onClick={nextPage} />)
+                <Button msg={buttonText} onClick={nextPage} />)
             }>
                 {
                     getPage(page, creator, plan)

@@ -8,7 +8,7 @@ class ProductStep3 extends Component {
     render() {
         return (
             <div>
-                <h3>여행지 추가</h3>
+                <h3>미리 보기</h3>
             </div>
         );
     }

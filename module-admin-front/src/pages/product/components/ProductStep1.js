@@ -40,16 +40,25 @@ class ProductStep1 extends Component {
 
                 <h3>일정정보</h3>
                 <Inputs msg='컨셉'>
-                    <ComboBox items={tempComboBoxItems} onChange={handlePlanConcept} />
+                    <ComboBox items={[
+                        { value: 'healing', label: '힐링' },
+                        { value: 'other', label: '다른 컨셉' }
+                    ]} onChange={handlePlanConcept} />
                 </Inputs>
                 <Inputs msg='여행파트너'>
-                    <ComboBox items={tempComboBoxItems} />
+                    <ComboBox items={[
+                        { value: 'self', label: '혼자' },
+                        { value: 'friend', label: '친구' }
+                    ]} />
                 </Inputs>
                 <Inputs msg='여행 경비'>
                     <NumericInput hint='1개' />
                 </Inputs>
                 <Inputs msg='이동수단'>
-                    <ComboBox items={tempComboBoxItems} />
+                    <ComboBox items={[
+                        { value: 'walk', label: '도보' },
+                        { value: 'bus', label: '버스' }
+                    ]} />
                 </Inputs>
                 <Inputs msg='여행시기'>
                     <Textbox hint='언제가지' />
@@ -58,7 +67,10 @@ class ProductStep1 extends Component {
                     <NumericInput hint='1개' />
                 </Inputs>
                 <Inputs msg='추천여부'>
-                    <ComboBox items={tempComboBoxItems} />
+                    <ComboBox items={[
+                        { value: false, label: 'No' },
+                        { value: true, label: 'Yes' }
+                    ]} />
                 </Inputs>
             </div>
         );

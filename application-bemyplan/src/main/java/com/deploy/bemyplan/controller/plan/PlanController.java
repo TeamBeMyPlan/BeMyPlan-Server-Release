@@ -20,5 +20,4 @@ public class PlanController {
     public void getPlanPreview(@PathVariable Long planId) {
         planService.getPlanPreview(planId);
     }
-
 }

@@ -23,6 +23,7 @@ class ProductStep2 extends Component {
         review: '',
         tip: '',
         address: '',
+        selectedAddress: false,
         longitude: 0,
         latitude: 0,
         images: [],
@@ -55,7 +56,8 @@ class ProductStep2 extends Component {
         this.setState({
             address: data.address,
             longitude: longitude,
-            latitude: latitude
+            latitude: latitude,
+            selectedAddress: true
         })
     }
 
@@ -163,6 +165,7 @@ class ProductStep2 extends Component {
             review,
             tip,
             address,
+            selectedAddress,
             longitude,
             latitude,
             openOtherSpots,
@@ -207,12 +210,19 @@ class ProductStep2 extends Component {
                             openPostCode &&
                             <DaumPostcodeEmbed onComplete={selectAddress}
                                 autoClose={false}
-                                defaultQuery={address}/>
+                                defaultQuery={address} />
                         }
-                    </Inputs>
-                    <Inputs msg='여행지 경도'>
-                        <Textbox readOnly={true} hint='여행지 경도' value={longitude} />
-                        <Textbox readOnly={true} hint='여행지 위도' value={latitude} />
+                        {
+                            selectedAddress &&
+                            <>
+                                <Inputs msg='경도'>
+                                    <Textbox readOnly={true} hint='여행지 경도' value={longitude} />
+                                </Inputs>
+                                <Inputs msg='위도'>
+                                    <Textbox readOnly={true} hint='여행지 위도' value={latitude} />
+                                </Inputs>
+                            </>
+                        }
                     </Inputs>
                     <Inputs msg='여행지 사진'>
                         <input type="file" multiple
@@ -248,20 +258,19 @@ class ProductStep2 extends Component {
                                 </TableBody>
                             </TableContainer>
                         }
-
                         {
                             selectedOtherSpot &&
                             <>
-                            <Inputs msg='소요시간(분)'>
-                                <NumericInput hint='다음 여행지까지 이동시간 (분)' value={otherSpotSpentTime} onChange={handleOtherSpotSpentTime} />
-                            </Inputs>
-                            <Inputs msg='이동수단'>
-                                <Textbox hint='다음 여행지까지 이동수단' value={otherSpotVehicle} onChange={handleOtherSpotVehicle} />
-                            </Inputs>
+                                <Inputs msg='소요시간(분)'>
+                                    <NumericInput hint='다음 여행지까지 이동시간 (분)' value={otherSpotSpentTime} onChange={handleOtherSpotSpentTime} />
+                                </Inputs>
+                                <Inputs msg='이동수단'>
+                                    <Textbox hint='다음 여행지까지 이동수단' value={otherSpotVehicle} onChange={handleOtherSpotVehicle} />
+                                </Inputs>
                             </>
                         }
                     </Inputs>
-                    
+
 
                     <Button msg="추가" onClick={addItem} />
                 </div>

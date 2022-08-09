@@ -1,10 +1,12 @@
+import './ProductCreateTemplate.css'
+
 const ProductCreateTemplate = ({next, children}) => {
     return (
-        <main>
-            <div>
+        <main className="product-create-template">
+            <div className="product-create-wrapper">
                 {children}
             </div>
-            <div>
+            <div className="next-button-wrapper">
                 {next}
             </div>
         </main>

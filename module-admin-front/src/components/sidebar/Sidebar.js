@@ -1,9 +1,9 @@
 import './Sidebar.css'
 import HomeIcon from '@mui/icons-material/HomeWork'
-import MonetizationOnIcon from '@mui/icons-material/MonetizationOn'
-import PersonIcon from '@mui/icons-material/PersonOutline'
+// import MonetizationOnIcon from '@mui/icons-material/MonetizationOn'
+// import PersonIcon from '@mui/icons-material/PersonOutline'
 import ProductIcon from '@mui/icons-material/Storefront'
-import ReportIcon from '@mui/icons-material/Report'
+// import ReportIcon from '@mui/icons-material/Report'
 import { Link } from 'react-router-dom'
 
 export default function Sidebar() {

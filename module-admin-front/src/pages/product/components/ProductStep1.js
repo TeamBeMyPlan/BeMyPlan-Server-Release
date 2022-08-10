@@ -1,4 +1,4 @@
-import { Component, useState } from 'react';
+import { Component } from 'react';
 import ComboBox from '../../../components/combobox/ComboBox';
 import Textbox from '../../../components/textbox/Textbox'
 import NumericInput from '../../../components/numeric/NumericInput'
@@ -22,11 +22,11 @@ class ProductStep1 extends Component {
             handlePlanTitle,
             handlePlanDescription,
             handlePlanConcept,
-            handlePartner,
-            handlePeriod,
-            handleCost,
-            handleVehicle,
-            handleRecommend
+            // handlePartner,
+            // handlePeriod,
+            // handleCost,
+            // handleVehicle,
+            // handleRecommend
         } = this.props;
 
         return (

@@ -104,7 +104,7 @@ class ProductStep2 extends Component {
     }
 
     selectOtherSpot = (index) => {
-        const { otherSpot, spots } = this.state;
+        const { spots } = this.state;
 
         this.setState({
             otherSpot: spots[index],

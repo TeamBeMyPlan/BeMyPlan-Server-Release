@@ -1,47 +1,12 @@
 import ProductCreateTemplate from './components/ProductCreateTemplate'
-import Button from '../../components/button/Button'
 import { Component } from 'react';
 import ProductStep1 from './components/ProductStep1';
 import ProductStep2 from './components/ProductStep2';
 import ProductStep3 from './components/ProductStep3';
 
-const Empty_Add_Plan = {
-    creator: {
-        name: ''
-    },
-    plan: {
-        title: '',
-        description: '',
-        concept: '',
-        partner: '',
-        vehicle: '',
-        period: '',
-        price: 0,
-        recommend: false,
-        spots: [
-            {
-                title: '',
-                review: '',
-                tip: '',
-                address: '',
-                latitude: 0,
-                longitude: 0,
-                images: []
-            }
-        ],
-        previews: [
-            {
-                image: '',
-                description: ''
-            }
-        ]
-    }
-}
-
 class ProductCreatePage extends Component {
     state = {
         page: 0,
-        buttonText: '다음 1/3',
         creator: {
             name: ''
         },
@@ -72,8 +37,7 @@ class ProductCreatePage extends Component {
 
         const nextPage = page + 1;
         this.setState({
-            page: nextPage,
-            buttonText: `다음 ${nextPage + 1}/3`
+            page: nextPage
         });
     }
 
@@ -136,7 +100,7 @@ class ProductCreatePage extends Component {
     }
 
     render() {
-        const { page, creator, plan, buttonText } = this.state;
+        const { page, creator, plan } = this.state;
         const {
             getPage
         } = this;

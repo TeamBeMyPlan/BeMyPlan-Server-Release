@@ -16,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -32,7 +33,7 @@ public class Preview {
 
     @Column(length = 1000)
     @Convert(converter = ListToStringConverter.class)
-    private List<String> imageUrls;
+    private List<String> imageUrls = new ArrayList<>();
 
     @Column(length = 2000)
     private String description;

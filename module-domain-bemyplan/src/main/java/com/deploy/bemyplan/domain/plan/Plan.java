@@ -67,11 +67,11 @@ public class Plan extends AuditingTimeEntity {
 
     @Column(length = 100)
     @Convert(converter = ListToStringConverter.class)
-    private List<String> hashtags;
+    private List<String> hashtags = new ArrayList<>();
 
     @Column(length = 200)
     @Convert(converter = ListToStringConverter.class)
-    private List<String> recommendTargets;
+    private List<String> recommendTargets = new ArrayList<>();
 
     @OneToMany(mappedBy = "plan", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<DailySchedule> schedules = new ArrayList<>();

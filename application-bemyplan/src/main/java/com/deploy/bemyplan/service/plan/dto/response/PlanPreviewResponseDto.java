@@ -3,7 +3,6 @@ package com.deploy.bemyplan.service.plan.dto.response;
 import com.deploy.bemyplan.common.dto.AuditingTimeResponse;
 import com.deploy.bemyplan.domain.common.Money;
 import com.deploy.bemyplan.domain.plan.Plan;
-import com.deploy.bemyplan.domain.plan.Preview;
 import com.deploy.bemyplan.domain.plan.TravelMobility;
 import com.deploy.bemyplan.domain.plan.TravelPartner;
 import com.deploy.bemyplan.domain.plan.TravelTheme;
@@ -15,7 +14,6 @@ import lombok.ToString;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 @ToString
@@ -39,13 +37,12 @@ public class PlanPreviewResponseDto extends AuditingTimeResponse {
     private int price;
     private List<String> recommendTarget;
 
-    public static PlanPreviewResponseDto of(@NotNull final Plan plan, @NotNull final List<Preview> previews,int spotCount,int restaurantCount) {
-        return new PlanPreviewResponseDto(
+    public static PlanPreviewResponseDto of(@NotNull final Plan plan, final List<String> previewImages, final int spotCount, final int restaurantCount) {
+        final PlanPreviewResponseDto response = new PlanPreviewResponseDto(
                 plan.getId(),
                 plan.getTitle(),
                 plan.getDescription(),
-                previews.stream().filter(preview -> preview.getSpotId() == 1)
-                        .map(preview -> preview.getImageUrls().get(0)).collect(Collectors.toList()), //각 장소당 하나
+                previewImages,
                 plan.getHashtags(),
                 plan.getTagInfo().getTheme(),
                 spotCount,
@@ -58,5 +55,7 @@ public class PlanPreviewResponseDto extends AuditingTimeResponse {
                 plan.getPrice(),
                 plan.getRecommendTargets()
         );
+        response.setBaseTime(plan.getCreatedAt(), plan.getUpdatedAt());
+        return response;
     }
 }

@@ -8,10 +8,12 @@ import com.deploy.bemyplan.domain.plan.PreviewRepository;
 import com.deploy.bemyplan.domain.plan.SpotCategoryType;
 import com.deploy.bemyplan.service.plan.dto.response.PlanPreviewResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.deploy.bemyplan.common.exception.ErrorCode.NOT_FOUND_PLAN_EXCEPTION;
 
@@ -29,8 +31,16 @@ public class PlanService {
 
         final int spotCount = getSpotCount(plan);
         final int restaurantCount = getRestaurantCount(plan);
+        final List<String> previewImages = getPreviewImages(previews);
 
-        return PlanPreviewResponseDto.of(plan, previews, spotCount, restaurantCount);
+        return PlanPreviewResponseDto.of(plan, previewImages, spotCount, restaurantCount);
+    }
+
+    @NotNull
+    private List<String> getPreviewImages(List<Preview> previews) {
+        return previews.stream()
+                .map(preview -> preview.getImageUrls().get(0))
+                .collect(Collectors.toList());
     }
 
     private int getRestaurantCount(final Plan plan) {

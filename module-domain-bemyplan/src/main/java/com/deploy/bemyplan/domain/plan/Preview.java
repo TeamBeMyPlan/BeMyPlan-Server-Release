@@ -1,10 +1,12 @@
 package com.deploy.bemyplan.domain.plan;
 
+import com.deploy.bemyplan.domain.common.ListToStringConverter;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -14,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import java.util.List;
 
 @Entity
 @Getter
@@ -28,7 +31,8 @@ public class Preview {
     private Plan plan;
 
     @Column(length = 1000)
-    private String imageUrl;
+    @Convert(converter = ListToStringConverter.class)
+    private List<String> imageUrls;
 
     @Column(length = 2000)
     private String description;
@@ -37,14 +41,18 @@ public class Preview {
     @Enumerated(EnumType.STRING)
     private PreviewContentStatus status;
 
-    private Preview(final Plan plan, final String imageUrl, final String description, final PreviewContentStatus status) {
+    @Column(nullable = false)
+    private Long spotId;
+
+    private Preview(final Plan plan, final List<String> imageUrls, final String description, final PreviewContentStatus status, final Long spotId) {
         this.plan = plan;
-        this.imageUrl = imageUrl;
+        this.imageUrls = imageUrls;
         this.description = description;
         this.status = status;
+        this.spotId = spotId;
     }
 
-    public static Preview newInstance(final Plan plan, final String imageUrl, final String description, final PreviewContentStatus status) {
-        return new Preview(plan, imageUrl, description, status);
+    public static Preview newInstance(final Plan plan, final List<String> imageUrls, final String description, final PreviewContentStatus status, final Long spotId) {
+        return new Preview(plan, imageUrls, description, status, spotId);
     }
 }

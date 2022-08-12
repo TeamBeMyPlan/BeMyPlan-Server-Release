@@ -1,6 +1,7 @@
 package com.deploy.bemyplan.controller.plan;
 
 import com.deploy.bemyplan.service.plan.PlanService;
+import com.deploy.bemyplan.service.plan.dto.response.PlanPreviewResponseDto;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +18,7 @@ public class PlanController {
 
     @ApiOperation("미리보기 일정 정보를 조회합니다.")
     @GetMapping("/v1/plan/preview/{planId}")
-    public void getPlanPreview(@PathVariable Long planId) {
-        planService.getPlanPreview(planId);
+    public PlanPreviewResponseDto getPlanPreview(@PathVariable Long planId) {
+        return planService.getPlanPreview(planId);
     }
 }

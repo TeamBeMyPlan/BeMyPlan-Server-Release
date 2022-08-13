@@ -26,11 +26,11 @@ class UserServiceTest {
     @BeforeEach
     void setUp() {
         spyEventPublisher = mock(ApplicationEventPublisher.class);
-        mockUserRepository = mock(UserRepository.class);
-        given(mockUserRepository.findUserById(any()))
+        stubUserRepository = mock(UserRepository.class);
+        given(stubUserRepository.findUserById(any()))
                 .willReturn(User.newInstance("tempId", UserSocialType.APPLE, "tempNickName", "tempEmail"));
 
-        userService = new UserService(mockUserRepository,
+        userService = new UserService(stubUserRepository,
                 mock(WithdrawalUserRepository.class),
                 spyEventPublisher,
                 mockPlanRepository);
@@ -50,11 +50,11 @@ class UserServiceTest {
     @Test
     @DisplayName("유저 탈퇴시 soft delete")
     void signOut_changeUserStatusInactive() {
-        User user = User.newInstance("socialId", UserSocialType.APPLE, "name", "email");
+        User givenUser = User.newInstance("socialId", UserSocialType.APPLE, "name", "email");
+        given(stubUserRepository.findUserById(1L)).willReturn(givenUser);
 
-        userService.signOut(user.getId(), "reason");
-
-        User savedUser = mockUserRepository.findUserById(user.getId());
-        assertThat(savedUser.isActive()).isFalse();
+        userService.signOut(1L, "reason");
+        
+        assertThat(givenUser.isActive()).isFalse();
     }
 }

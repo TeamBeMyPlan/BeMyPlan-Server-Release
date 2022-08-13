@@ -1,5 +1,6 @@
 package com.deploy.bemyplan.service.user;
 
+import com.deploy.bemyplan.domain.plan.PlanRepository;
 import com.deploy.bemyplan.domain.user.User;
 import com.deploy.bemyplan.domain.user.UserRepository;
 import com.deploy.bemyplan.domain.user.UserSocialType;
@@ -20,6 +21,7 @@ class UserServiceTest {
     private UserService userService;
     private ApplicationEventPublisher spyEventPublisher;
     private UserRepository mockUserRepository;
+    private PlanRepository mockPlanRepository;
 
     @BeforeEach
     void setUp() {
@@ -30,7 +32,8 @@ class UserServiceTest {
 
         userService = new UserService(mockUserRepository,
                 mock(WithdrawalUserRepository.class),
-                spyEventPublisher);
+                spyEventPublisher,
+                mockPlanRepository);
     }
 
     @Test
@@ -52,6 +55,6 @@ class UserServiceTest {
         userService.signOut(user.getId(), "reason");
 
         User savedUser = mockUserRepository.findUserById(user.getId());
-        assertThat(savedUser.getStatus()).isFalse();
+        assertThat(savedUser.isActive()).isFalse();
     }
 }

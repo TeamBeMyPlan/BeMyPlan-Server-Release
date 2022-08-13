@@ -75,6 +75,6 @@ class PlanControllerTest {
                 .andExpect(jsonPath("$.restaurantCount", equalTo(response.getRestaurantCount())))
                 .andExpect(jsonPath("$.spotCount", equalTo(response.getSpotCount())))
                 .andExpect(jsonPath("$.thumbnail", equalTo(response.getThumbnail())))
-                .andExpect(jsonPath("$.budget", equalTo(response.getTravelPartner())));
+                .andExpect(jsonPath("$.travelPartner", equalTo(response.getTravelPartner())));
     }
 }

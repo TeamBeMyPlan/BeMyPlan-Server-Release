@@ -11,15 +11,15 @@ export default function Topbar() {
                     <span className='logo'>Bemyplan Admin</span>
                 </div>
                 <div className="topRight">
-                    <div className='topbarIconContainer'>
+                    <div className='topbarIconContainer' onClick={() => alert('힝 속았지?')}>
                         <NotificationsNoneIcon/>
                         <span className='topIconBadge'>2</span>
                     </div>
-                    <div className='topbarIconContainer'>
+                    <div className='topbarIconContainer' onClick={() => alert('미구현이지롱~')}>
                         <LanguageIcon/>
                         <span className='topIconBadge'>2</span>
                     </div>
-                    <div className='topbarIconContainer'>
+                    <div className='topbarIconContainer' onClick={() => alert('그냥 이뻐서 넣어둠')}>
                         <SettingsIcon/>
                     </div>
                 </div>

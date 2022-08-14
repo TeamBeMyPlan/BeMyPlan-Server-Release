@@ -7,19 +7,11 @@ import ProductStep3 from './components/ProductStep3';
 class ProductCreatePage extends Component {
     state = {
         page: 0,
-        creator: {
-            name: ''
-        },
-        plan: {
-            title: '',
-            description: '',
-            concept: '',
-            partner: '',
-            vehicle: '',
-            period: '',
-            price: 0,
-            recommend: false,
-        }
+        step1: {}
+    }
+
+    updateStep1 = (updatedStep1) => {
+        this.setState({step1: updatedStep1})
     }
 
     saveNewPlan = () => {
@@ -41,44 +33,15 @@ class ProductCreatePage extends Component {
         });
     }
 
-    handleCreatorName = (e) => { this.setState({ creator: { name: e.target.value } }) }
-
-    handlePlanTitle = (e) => { this.setState({ plan: { title: e.target.value } }) }
-
-    handlePlanDescription = (e) => { this.setState({ plan: { description: e.target.value } }) }
-
-    handlePlanConept = (e) => { this.setState({ plan: { concept: e.target.value } }) }
-
-    handlePartner = (e) => { this.setState({ plan: { partner: e.target.value } }) }
-
-    handlePeriod = (e) => { this.setState({ plan: { period: e.target.value } }) }
-
-    handleCost = (e) => { this.setState({ plan: { price: e.target.value } }) }
-
-    handleVehicle = (e) => { this.setState({ plan: { vehicle: e.target.value } }) }
-
-    handleRecommend = (e) => { this.setState({ plan: { recommend: e.target.value } }) }
-
-    getPage = (page, creator, plan) => {
+    getPage = () => {
+        const { page } = this.state;
         if (page === 0) {
             return (
-                <ProductStep1
-                    nextPage={this.nextPage}
-                    creator={creator}
-                    plan={plan}
-                    handleCreatorName={this.handleCreatorName}
-                    handlePlanTitle={this.handlePlanTitle}
-                    handlePlanDescription={this.handlePlanDescription}
-                    handlePlanConcept={this.handlePlanConept}
-                    handlePartner={this.handlePartner}
-                    handlePeriod={this.handlePeriod}
-                    handleCost={this.handleCost}
-                    handleVehicle={this.handleVehicle}
-                    handleRecommend={this.handleRecommend}
-                    />
+                <ProductStep1 update={this.updateStep1} nextPage={this.nextPage}/>
             )
         }
         if (page === 1) {
+            console.log(this.state.step1)
             return (
                 <ProductStep2
                     nextPage={this.nextPage}/>
@@ -100,7 +63,6 @@ class ProductCreatePage extends Component {
     }
 
     render() {
-        const { page, creator, plan } = this.state;
         const {
             getPage
         } = this;
@@ -108,7 +70,7 @@ class ProductCreatePage extends Component {
         return (
             <ProductCreateTemplate>
                 {
-                    getPage(page, creator, plan)
+                    getPage()
                 }
             </ProductCreateTemplate>
         )

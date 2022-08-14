@@ -17,7 +17,7 @@ public class PlanController {
     private final PlanService planService;
 
     @ApiOperation("미리보기 일정 정보를 조회합니다.")
-    @GetMapping("/v1/plan/preview/{planId}")
+    @GetMapping("/v2/plan/{planId}/preview")
     public PlanPreviewResponseDto getPlanPreview(@PathVariable Long planId) {
         return planService.getPlanPreview(planId);
     }

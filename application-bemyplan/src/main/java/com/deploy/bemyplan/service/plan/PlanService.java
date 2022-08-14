@@ -5,7 +5,6 @@ import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.plan.PlanRepository;
 import com.deploy.bemyplan.domain.plan.Preview;
 import com.deploy.bemyplan.domain.plan.PreviewRepository;
-import com.deploy.bemyplan.domain.plan.SpotCategoryType;
 import com.deploy.bemyplan.service.plan.dto.response.PlanPreviewResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
@@ -29,11 +28,9 @@ public class PlanService {
                 .orElseThrow(() -> new NotFoundException(String.format("존재하지 않는 일정 (%s) 입니다", planId), NOT_FOUND_PLAN_EXCEPTION));
         List<Preview> previews = previewRepository.findAllPreviewByPlanId(planId);
 
-        final int spotCount = getSpotCount(plan);
-        final int restaurantCount = getRestaurantCount(plan);
         final List<String> previewImages = getPreviewImages(previews);
 
-        return PlanPreviewResponseDto.of(plan, previewImages, spotCount, restaurantCount);
+        return PlanPreviewResponseDto.of(plan, previewImages);
     }
 
     @NotNull
@@ -41,18 +38,5 @@ public class PlanService {
         return previews.stream()
                 .map(preview -> preview.getImageUrls().get(0))
                 .collect(Collectors.toList());
-    }
-
-    private int getRestaurantCount(final Plan plan) {
-        return (int) plan.getSchedules().stream()
-                .flatMap(dailySchedule -> dailySchedule.getSpots().stream())
-                .filter(spot -> SpotCategoryType.RESTAURANT == spot.getCategory())
-                .count();
-    }
-
-    private int getSpotCount(final Plan plan) {
-        return (int) plan.getSchedules().stream()
-                .mapToLong(dailySchedule -> (long) dailySchedule.getSpots().size())
-                .sum();
     }
 }

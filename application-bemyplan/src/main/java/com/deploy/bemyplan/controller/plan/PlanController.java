@@ -1,5 +1,6 @@
 package com.deploy.bemyplan.controller.plan;
 
+import com.deploy.bemyplan.common.dto.ApiResponse;
 import com.deploy.bemyplan.service.plan.PlanService;
 import com.deploy.bemyplan.service.plan.dto.response.PlanPreviewResponseDto;
 import io.swagger.annotations.ApiOperation;
@@ -18,7 +19,7 @@ public class PlanController {
 
     @ApiOperation("미리보기 일정 정보를 조회합니다.")
     @GetMapping("/v2/plan/{planId}/preview")
-    public PlanPreviewResponseDto getPlanPreview(@PathVariable Long planId) {
-        return planService.getPlanPreview(planId);
+    public ApiResponse<PlanPreviewResponseDto> getPlanPreview(@PathVariable Long planId) {
+        return ApiResponse.success(planService.getPlanPreview(planId));
     }
 }

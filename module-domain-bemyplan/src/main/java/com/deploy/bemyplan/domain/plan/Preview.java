@@ -47,7 +47,7 @@ public class Preview {
 
     private Preview(final Plan plan, final List<String> imageUrls, final String description, final PreviewContentStatus status, final Long spotId) {
         this.plan = plan;
-        this.imageUrls = imageUrls;
+        this.imageUrls.addAll(imageUrls);
         this.description = description;
         this.status = status;
         this.spotId = spotId;

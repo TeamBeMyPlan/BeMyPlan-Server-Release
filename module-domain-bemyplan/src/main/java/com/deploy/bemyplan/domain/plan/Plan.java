@@ -91,8 +91,8 @@ public class Plan extends AuditingTimeEntity {
         this.price = price;
         this.status = status;
         this.rcmndStatus = rcmndStatus;
-        this.hashtags = hashtags;
-        this.recommendTargets = recommendTargets;
+        this.hashtags.addAll(hashtags);
+        this.recommendTargets.addAll(recommendTargets);
     }
 
     private Plan(Long userId, RegionType region, String thumbnailUrl, String title, String description, TagInfo tagInfo, int orderCnt, int viewCnt, int price, PlanStatus status, RcmndStatus rcmndStatus) {
@@ -119,5 +119,18 @@ public class Plan extends AuditingTimeEntity {
 
     public void updateOrderCnt() {
         this.orderCnt += 1;
+    }
+
+    public int getRestaurantCount() {
+        return (int) schedules.stream()
+                .flatMap(dailySchedule -> dailySchedule.getSpots().stream())
+                .filter(spot -> SpotCategoryType.RESTAURANT == spot.getCategory())
+                .count();
+    }
+
+    public int getSpotCount() {
+        return schedules.stream()
+                .mapToInt(dailySchedule -> dailySchedule.getSpots().size())
+                .sum();
     }
 }

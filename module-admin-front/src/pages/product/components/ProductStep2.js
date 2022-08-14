@@ -2,11 +2,13 @@ import { Component } from 'react';
 import Textbox from '../../../components/textbox/Textbox'
 import Inputs from '../../../components/inputs/Inputs'
 import Button from '../../../components/button/Button'
+import ComboBox from '../../../components/combobox/ComboBox'
 import NumericInput from '../../../components/numeric/NumericInput'
 import DaumPostcodeEmbed from 'react-daum-postcode';
 import locationApi from '../../../components/locationApi'
 import imageApi from '../../../components/imageApi'
 import './ProductStep.css'
+import './Table.css'
 
 const TableContainer = ({ striped, children }) => (
     <table className={striped ? "table-striped" : ""}>{children}</table>
@@ -20,22 +22,23 @@ class ProductStep2 extends Component {
 
     state = {
         openPostCode: false,
+        selectedAddress: false,
+        selectedNextSpot: false,
+        openNextSpots: false,
+
         name: '',
+        type: 'TOURSPOT',
         review: '',
         tip: '',
         address: '',
-        selectedAddress: false,
         longitude: 0,
         latitude: 0,
-        images: [],
         savedImages: [],
         date: 0,
         spots: [],
-        otherSpotSpentTime: 0,
-        otherSpotVehicle: '',
-        otherSpot: {},
-        selectedOtherSpot: false,
-        openOtherSpots: false
+        nextSpotSpentTime: 0,
+        nextSpotVehicle: 'CAR',
+        nextSpot: {},
     }
 
     togglePost = () => {
@@ -45,8 +48,11 @@ class ProductStep2 extends Component {
         })
     }
 
-    searchPlace = (e) => {
-        this.togglePost();
+    toggleNextSpot = () => {
+        const { openNextSpots } = this.state;
+        this.setState({
+            openNextSpots: !openNextSpots
+        })
     }
 
     selectAddress = async (data) => {
@@ -64,10 +70,6 @@ class ProductStep2 extends Component {
 
     fileChangedHandler = async e => {
         const files = e.target.files;
-        this.setState({
-            images: files
-        });
-
         const formData = new FormData();
         for (let i = 0; i < files.length; i++) {
             formData.append('files', files[i]);
@@ -82,36 +84,33 @@ class ProductStep2 extends Component {
     clear = () => {
         this.setState({
             openPostCode: false,
+            selectedAddress: false,
+            selectedNextSpot: false,
+            openNextSpots: false,
             name: '',
+            type: 'TOURSPOT',
             review: '',
             tip: '',
             address: '',
             longitude: 0,
             latitude: 0,
-            images: [],
             savedImages: [],
             date: 0,
-            otherSpot: {},
-            openOtherSpots: false
+            nextSpotSpentTime: 0,
+            nextSpotVehicle: 'CAR',
+            nextSpot: {},
         });
     }
 
-    toggleOtherSpot = () => {
-        const { openOtherSpots } = this.state;
-        this.setState({
-            openOtherSpots: !openOtherSpots
-        })
-    }
-
-    selectOtherSpot = (index) => {
+    selectNextSpot = (index) => {
         const { spots } = this.state;
 
         this.setState({
-            otherSpot: spots[index],
-            selectedOtherSpot: true
+            nextSpot: spots[index],
+            selectedNextSpot: true
         });
 
-        this.toggleOtherSpot();
+        this.toggleNextSpot();
     }
 
     addItem = () => {
@@ -124,13 +123,15 @@ class ProductStep2 extends Component {
             latitude,
             savedImages,
             date,
-            otherSpot,
-            otherSpotSpentTime,
-            otherSpotVehicle,
-            spots
+            nextSpot,
+            nextSpotSpentTime,
+            nextSpotVehicle,
+            spots,
+            selectedNextSpot
         } = this.state;
 
         const newSpot = {
+            id: spots.length,
             name,
             review,
             tip,
@@ -139,10 +140,16 @@ class ProductStep2 extends Component {
             latitude,
             savedImages,
             date,
-            otherSpot: {
-                spot: otherSpot,
-                spentTime: otherSpotSpentTime,
-                vehicle: otherSpotVehicle,
+            nextSpot: {},
+            hasNext: false
+        }
+
+        if (selectedNextSpot) {
+            newSpot.hasNext = true;
+            newSpot.nextSpot = {
+                spot: nextSpot,
+                spentTime: nextSpotSpentTime,
+                vehicle: nextSpotVehicle,
             }
         }
 
@@ -156,40 +163,49 @@ class ProductStep2 extends Component {
     handleName = (e) => { this.setState({ name: e.target.value }) }
     handleReview = (e) => { this.setState({ review: e.target.value }) }
     handleTip = (e) => { this.setState({ tip: e.target.value }) }
-    handleDate = (e) => { this.setState({ date: e.target.value }) }
-    handleOtherSpotSpentTime = (e) => { this.setState({ otherSpotSpentTime: e.target.value }) }
-    handleOtherSpotVehicle = (e) => { this.setState({ otherSpotVehicle: e.target.value }) }
+    handleDate = (e) => { this.setState({ date: Number(e.target.value) }) }
+    handleType = (e) => { this.setState({ type: e.target.value }) }
+    handleNextSpotSpentTime = (e) => { this.setState({ nextSpotSpentTime: Number(e.target.value) }) }
+    handleNextSpotVehicle = (e) => { this.setState({ nextSpotVehicle: e.target.value }) }
+
+    saveAndNext = () => {
+        const { nextPage, update } = this.props;
+        const { spots } = this.state;
+
+        update({spots});
+        nextPage();
+    }
 
     render() {
-        const { 
+        const {
             openPostCode,
             name,
             review,
             tip,
+            date,
             address,
             selectedAddress,
             longitude,
             latitude,
-            openOtherSpots,
-            selectedOtherSpot,
+            openNextSpots,
+            selectedNextSpot,
             spots,
-            otherSpot,
-            otherSpotSpentTime,
-            otherSpotVehicle
+            nextSpot,
+            nextSpotSpentTime
         } = this.state;
         const {
             handleName,
             handleReview,
             handleTip,
             handleDate,
-            handleOtherSpotSpentTime,
-            handleOtherSpotVehicle,
-            searchPlace,
+            handleNextSpotSpentTime,
+            handleNextSpotVehicle,
             selectAddress,
             fileChangedHandler,
-            toggleOtherSpot,
-            selectOtherSpot,
+            toggleNextSpot,
+            selectNextSpot,
             addItem,
+            saveAndNext
         } = this;
 
         return (
@@ -205,9 +221,25 @@ class ProductStep2 extends Component {
                     <Inputs msg='꿀팁'>
                         <Textbox hint='선택 입력' value={tip} onChange={handleTip} />
                     </Inputs>
+                    <Inputs msg='유형'>
+                        <ComboBox items={[
+                            { value: 'TOURSPOT', label: '관광지' },
+                            { value: 'RESTAURANT', label: '식당' },
+                            { value: 'MUSEUM', label: '박물관' },
+                            { value: 'BEACH', label: '바다' },
+                            { value: 'BAR', label: '술집' },
+                            { value: 'STORE', label: '잡화점' },
+                            { value: 'ACCOMODATIONS', label: '숙소' },
+                            { value: 'BAKERY', label: '베이커리' },
+                            { value: 'LIQUORSTORE', label: '주류점' },
+                            { value: 'BOOKSTORE', label: '서점' },
+                            { value: 'MARKET', label: '시장' },
+                            { value: 'ARTMUSEUM', label: '미술관' }
+                        ]} onChange={handleNextSpotVehicle} />
+                    </Inputs>
                     <Inputs msg='여행지 주소'>
                         <Textbox readOnly={true} hint='여행지 주소' value={address} />
-                        <Button msg="검색" onClick={searchPlace} />
+                        <Button msg="검색" onClick={this.togglePost} />
                         {
                             openPostCode &&
                             <DaumPostcodeEmbed onComplete={selectAddress}
@@ -232,16 +264,17 @@ class ProductStep2 extends Component {
                             onChange={fileChangedHandler} />
                     </Inputs>
                     <Inputs msg='해당 여행지 일정 정보'>
-                        <NumericInput hint='몇 일차 여행지' onChange={handleDate} />
+                        <NumericInput hint='몇 일차 여행지' value={date} onChange={handleDate} />
                     </Inputs>
                     <Inputs msg='연결할 다음 여행지 (Optional)'>
-                        <Textbox readOnly={true} hint='다음 여행지' value={otherSpot.name} />
-                        <Button msg="선택" onClick={toggleOtherSpot} />
+                        <Textbox readOnly={true} hint='다음 여행지' value={nextSpot.name} />
+                        <Button msg="선택" onClick={toggleNextSpot} />
                         {
-                            openOtherSpots &&
+                            openNextSpots &&
                             <TableContainer>
                                 <TableHeader>
                                     <TableRow>
+                                        <TableCell>ID</TableCell>
                                         <TableCell>이름</TableCell>
                                         <TableCell>주소</TableCell>
                                         <TableCell>선택</TableCell>
@@ -251,9 +284,10 @@ class ProductStep2 extends Component {
                                     {
                                         spots.map((spot, index) => (
                                             <TableRow key={index}>
+                                                <TableCell>{spot.id}</TableCell>
                                                 <TableCell>{spot.name}</TableCell>
                                                 <TableCell>{spot.address}</TableCell>
-                                                <TableCell><Button onClick={() => selectOtherSpot(index)}>선택</Button></TableCell>
+                                                <TableCell><Button onClick={() => selectNextSpot(index)} msg="선택" /></TableCell>
                                             </TableRow>
                                         ))
                                     }
@@ -261,49 +295,59 @@ class ProductStep2 extends Component {
                             </TableContainer>
                         }
                         {
-                            selectedOtherSpot &&
+                            selectedNextSpot &&
                             <>
                                 <Inputs msg='소요시간(분)'>
-                                    <NumericInput hint='다음 여행지까지 이동시간 (분)' value={otherSpotSpentTime} onChange={handleOtherSpotSpentTime} />
+                                    <NumericInput hint='다음 여행지까지 이동시간 (분)' value={nextSpotSpentTime} onChange={handleNextSpotSpentTime} />
                                 </Inputs>
                                 <Inputs msg='이동수단'>
-                                    <Textbox hint='다음 여행지까지 이동수단' value={otherSpotVehicle} onChange={handleOtherSpotVehicle} />
+                                    <ComboBox items={[
+                                        { value: 'CAR', label: '승용차' },
+                                        { value: 'PUBLIC', label: '대중교통' },
+                                        { value: 'WALK', label: '도보' },
+                                        { value: 'BICYCLE', label: '자전거' }
+                                    ]} onChange={handleNextSpotVehicle} />
                                 </Inputs>
                             </>
                         }
                     </Inputs>
                     <div className="next-button-wrapper">
                         <Button msg="추가" onClick={addItem} />
-                    </div>                    
+                    </div>
                 </div>
                 <div>
                     <h3>여행지</h3>
-                    <TableContainer>
-                        <TableHeader>
-                            <TableRow>
-                                <TableCell>이름</TableCell>
-                                <TableCell>주소</TableCell>
-                                <TableCell>일차</TableCell>
-                                <TableCell>다음 여행지</TableCell>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {
-                                spots.map((spot, index) => (
-                                    <TableRow key={index}>
-                                        <TableCell>{spot.name}</TableCell>
-                                        <TableCell>{spot.address}</TableCell>
-                                        <TableCell>{spot.date}</TableCell>
-                                        <TableCell>{spot.otherSpot.spot.name}</TableCell>
-                                    </TableRow>
-                                ))
-                            }
-                        </TableBody>
-                    </TableContainer>
-
+                    <Inputs>
+                        <TableContainer>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableCell>ID</TableCell>
+                                    <TableCell>이름</TableCell>
+                                    <TableCell>주소</TableCell>
+                                    <TableCell>일차</TableCell>
+                                    <TableCell>다음 여행지</TableCell>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {
+                                    spots.map((spot, index) => (
+                                        <TableRow key={index}>
+                                            <TableCell>{spot.id}</TableCell>
+                                            <TableCell>{spot.name}</TableCell>
+                                            <TableCell>{spot.address}</TableCell>
+                                            <TableCell>{spot.date}</TableCell>
+                                            {
+                                               spot.hasNext && <TableCell>다음 여행지</TableCell>
+                                            }
+                                        </TableRow>
+                                    ))
+                                }
+                            </TableBody>
+                        </TableContainer>
+                    </Inputs>
                 </div>
                 <div className="next-button-wrapper">
-                    <Button msg="다음 2/3"  onClick={this.props.nextPage}/>
+                    <Button msg="다음 2/3" onClick={saveAndNext} />
                 </div>
             </>
         );

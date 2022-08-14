@@ -7,11 +7,16 @@ import ProductStep3 from './components/ProductStep3';
 class ProductCreatePage extends Component {
     state = {
         page: 0,
-        step1: {}
+        step1: {},
+        step2: {}
     }
 
     updateStep1 = (updatedStep1) => {
         this.setState({step1: updatedStep1})
+    }
+
+    updateStep2 = (updatedStep2) => {
+        this.setState({step2: updatedStep2})
     }
 
     saveNewPlan = () => {
@@ -40,18 +45,17 @@ class ProductCreatePage extends Component {
                 <ProductStep1 update={this.updateStep1} nextPage={this.nextPage}/>
             )
         }
+
         if (page === 1) {
-            console.log(this.state.step1)
             return (
-                <ProductStep2
-                    nextPage={this.nextPage}/>
+                <ProductStep2 update={this.updateStep2} nextPage={this.nextPage}/>
             )
         }
 
         if (page === 2) {
+            console.log(this.state.step2);
             return (
-                <ProductStep3
-                    nextPage={this.nextPage}/>
+                <ProductStep3 nextPage={this.nextPage}/>
             )
         }
 

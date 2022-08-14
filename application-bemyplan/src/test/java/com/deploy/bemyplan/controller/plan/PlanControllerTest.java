@@ -42,13 +42,13 @@ class PlanControllerTest {
 
     @Test
     void getPlanPreviewReturnsOkHttpStatus() throws Exception {
-        mockMvc.perform(get("/api/v1/plan/preview/1"))
+        mockMvc.perform(get("/api/v2/plan/1/preview"))
                 .andExpect(status().isOk());
     }
 
     @Test
     void getPlanPreviewPassesPlanIdToService() throws Exception {
-        mockMvc.perform(get("/api/v1/plan/preview/1"));
+        mockMvc.perform(get("/api/v2/plan/1/preview"));
 
         verify(stubPlanService, times(1)).getPlanPreview(1L);
     }
@@ -56,25 +56,25 @@ class PlanControllerTest {
     @Test
     void getPlanPreviewReturnsResponse() throws Exception {
         Plan givenPlan = newInstance(1L, RegionType.JEJU, "thumbnail", "title", "description", TagInfo.testBuilder().build(), 2000, PlanStatus.ACTIVE, RcmndStatus.NONE);
-        PlanPreviewResponseDto response = PlanPreviewResponseDto.of(givenPlan, List.of("image.png", "image2.png"), 21, 1);
+        PlanPreviewResponseDto response = PlanPreviewResponseDto.of(givenPlan, List.of("image.png", "image2.png"));
         given(stubPlanService.getPlanPreview(any())).willReturn(response);
 
-        mockMvc.perform(get("/api/v1/plan/preview/{planId}", 1L))
+        mockMvc.perform(get("/api/v2/plan/{planId}/preview", 1L))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.planId", equalTo(response.getPlanId())))
-                .andExpect(jsonPath("$.title", equalTo(response.getTitle())))
-                .andExpect(jsonPath("$.description", equalTo(response.getDescription())))
-                .andExpect(jsonPath("$.price", equalTo(response.getPrice())))
-                .andExpect(jsonPath("$.month", equalTo(response.getMonth())))
-                .andExpect(jsonPath("$.totalDay", equalTo(response.getTotalDay())))
-                .andExpect(jsonPath("$.theme", equalTo(response.getTheme())))
-                .andExpect(jsonPath("$.budget", equalTo(response.getBudget())))
-                .andExpect(jsonPath("$.hashtag", equalTo(response.getHashtag())))
-                .andExpect(jsonPath("$.recommendTarget", equalTo(response.getRecommendTarget())))
-                .andExpect(jsonPath("$.travelMobility", equalTo(response.getTravelMobility())))
-                .andExpect(jsonPath("$.restaurantCount", equalTo(response.getRestaurantCount())))
-                .andExpect(jsonPath("$.spotCount", equalTo(response.getSpotCount())))
-                .andExpect(jsonPath("$.thumbnail", equalTo(response.getThumbnail())))
-                .andExpect(jsonPath("$.travelPartner", equalTo(response.getTravelPartner())));
+                .andExpect(jsonPath("$.data.planId", equalTo(response.getPlanId())))
+                .andExpect(jsonPath("$.data.title", equalTo(response.getTitle())))
+                .andExpect(jsonPath("$.data.description", equalTo(response.getDescription())))
+                .andExpect(jsonPath("$.data.price", equalTo(response.getPrice())))
+                .andExpect(jsonPath("$.data.month", equalTo(response.getMonth())))
+                .andExpect(jsonPath("$.data.totalDay", equalTo(response.getTotalDay())))
+                .andExpect(jsonPath("$.data.theme", equalTo(response.getTheme())))
+                .andExpect(jsonPath("$.data.budget", equalTo(response.getBudget())))
+                .andExpect(jsonPath("$.data.hashtag", equalTo(response.getHashtag())))
+                .andExpect(jsonPath("$.data.recommendTarget", equalTo(response.getRecommendTarget())))
+                .andExpect(jsonPath("$.data.travelMobility", equalTo(response.getTravelMobility())))
+                .andExpect(jsonPath("$.data.restaurantCount", equalTo(response.getRestaurantCount())))
+                .andExpect(jsonPath("$.data.spotCount", equalTo(response.getSpotCount())))
+                .andExpect(jsonPath("$.data.thumbnail", equalTo(response.getThumbnail())))
+                .andExpect(jsonPath("$.data.travelPartner", equalTo(response.getTravelPartner())));
     }
 }

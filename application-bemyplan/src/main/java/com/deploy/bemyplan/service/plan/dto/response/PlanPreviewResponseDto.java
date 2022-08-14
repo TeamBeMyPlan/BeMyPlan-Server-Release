@@ -37,7 +37,7 @@ public class PlanPreviewResponseDto extends AuditingTimeResponse {
     private int price;
     private List<String> recommendTarget;
 
-    public static PlanPreviewResponseDto of(@NotNull final Plan plan, final List<String> previewImages, final int spotCount, final int restaurantCount) {
+    public static PlanPreviewResponseDto of(@NotNull final Plan plan, final List<String> previewImages) {
         final PlanPreviewResponseDto response = new PlanPreviewResponseDto(
                 plan.getId(),
                 plan.getTitle(),
@@ -45,8 +45,8 @@ public class PlanPreviewResponseDto extends AuditingTimeResponse {
                 previewImages,
                 plan.getHashtags(),
                 plan.getTagInfo().getTheme(),
-                spotCount,
-                restaurantCount,
+                plan.getSpotCount(),
+                plan.getRestaurantCount(),
                 plan.getTagInfo().getTotalDay(),
                 plan.getTagInfo().getPartner(),
                 plan.getTagInfo().getBudget(),

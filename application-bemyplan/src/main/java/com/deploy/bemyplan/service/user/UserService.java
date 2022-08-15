@@ -26,7 +26,6 @@ public class UserService {
     private final UserRepository userRepository;
     private final WithdrawalUserRepository withdrawalUserRepository;
     private final ApplicationEventPublisher eventPublisher;
-    private final PlanRepository planRepository;
 
     @Transactional
     public Long registerUser(CreateUserDto request) {
@@ -37,16 +36,6 @@ public class UserService {
         userRepository.save(user);
 
         return user.getId();
-    }
-
-    @Transactional
-    public CreatorInfoResponse getCreatorInfo(Long planId){
-        Plan plan = planRepository.findPlanById(planId);
-        if (Objects.isNull(plan)) {
-            throw new NotFoundException(String.format("존재하지 않는 일정 (%s) 입니다", planId), NOT_FOUND_PLAN_EXCEPTION);
-        }
-        User user = userRepository.findUserById(plan.getUserId());
-        return CreatorInfoResponse.of(plan.getUserId(), user.getNickname(), plan.getDescription());
     }
 
     @Transactional

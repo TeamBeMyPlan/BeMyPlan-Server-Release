@@ -59,17 +59,6 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
     }
 
     @Override
-    public List<Plan> findListByRegionType(RegionType region, int size) {
-        return queryFactory
-                .selectFrom(plan).distinct()
-                .where(
-                        eqRegion(region)
-                )
-                .limit(size)
-                .fetch();
-    }
-
-    @Override
     public List<Plan> findPickListUsingCursor(int size, Long lastPlanId) {
         return queryFactory
                 .select(plan).distinct()

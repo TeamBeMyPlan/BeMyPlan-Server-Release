@@ -13,7 +13,6 @@ public interface PlanRepositoryCustom {
     List<Plan> findAllByIds(List<Long> planIds);
     Plan findPlanById(Long id);
     Plan findPlanByIdFetchJoinSchedule(Long id);
-    List<Plan> findListByRegionType(RegionType region, int size);
     List<Plan> findPickListUsingCursor(int size, Long lastPlanId);
     List<Plan> findMyBookmarkListUsingCursor(Long userId, @Nullable Pageable pageable, int size, @Nullable Long lastScrapId);
     List<Plan> findMyOrderListUsingCursor(Long userId, @Nullable Pageable pageable, int size, @Nullable Long lastOrderId);

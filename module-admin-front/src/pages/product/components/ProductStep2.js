@@ -199,7 +199,6 @@ class ProductStep2 extends Component {
             openNextSpots,
             selectedNextSpot,
             spots,
-            nextSpot,
             nextSpotName,
             nextSpotSpentTime
         } = this.state;

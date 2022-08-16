@@ -2,18 +2,36 @@ import { Component } from 'react';
 import Button from '../../../components/button/Button';
 import Inputs from '../../../components/inputs/Inputs'
 import Textbox from '../../../components/textbox/Textbox';
-import imageApi from '../../../components/imageApi'
+import ComboBox from '../../../components/combobox/ComboBox';
 import './ProductStep.css'
 
 class ProductStep3 extends Component {
 
     state = {
+        spots: [],
+        spotItems: [],
         previews: [
             {
                 image: '',
                 description: ''
             }
         ]
+    }
+
+    componentDidMount() {
+        const { step2 } = this.props;
+        const comboBoxItems = [{
+            value: -1,
+            label: '-'
+        }, ...step2.spots.map(spot => ({
+            value: spot.id,
+            label: spot.name
+        }))];
+
+        this.setState({
+            spots: step2.spots,
+            spotItems: comboBoxItems
+        });
     }
 
     addPreview = () => {
@@ -41,22 +59,17 @@ class ProductStep3 extends Component {
         })
     }
 
-    fileChangedHandler = async (e, index) => {
-        const files = e.target.files;
-        const formData = new FormData();
-
-        for (let i = 0; i < files.length; i++) {
-            formData.append('files', files[i]);
-        }
-
-        const response = await imageApi.upload(formData);
+    handleSpot = (e, index) => {
+        const spotId = e.target.value;
+        const { spots } = this.state;
+        const targetSpot = spots.find(spot => spot.id == spotId);
 
         this.setState((state) => {
             const newPreviews = [...state.previews];
             const prevPreview = newPreviews[index];
 
             newPreviews[index] = {
-                image: response.data[0],
+                image: targetSpot.savedImages[0],
                 description: prevPreview.description
             }
             return {
@@ -65,35 +78,44 @@ class ProductStep3 extends Component {
         })
     }
 
-    render() {
+    saveAndNext = () => {
+        const { update } = this.props;
         const { previews } = this.state;
+
+        update({previews});
+    }
+
+    render() {
+        const { previews, spotItems } = this.state;
         const { addPreview,
             handleDescription,
-            fileChangedHandler } = this;
+            handleSpot,
+            saveAndNext } = this;
 
         return (
             <>
-            <div>
-                {
-                    previews.map((preview, index) => (
-                        <div key={index}>
-                            <h3>미리보기 {index + 1}</h3>
-                            <Inputs msg='여행지 사진'>
-                                <input type="file" name="files" onChange={(e) => fileChangedHandler(e, index)}/>
-                            </Inputs>
-                            <Inputs msg='설명'>
-                                <Textbox hint='미리보기 설명' value={preview.description} onChange={(e) => handleDescription(e, index)} />
-                            </Inputs>
-                        </div>
-                    ))
-                }
-                <div className="next-button-wrapper">
-                    <Button msg="추가" onClick={addPreview} />
+                <div>
+                    {
+                        previews.map((preview, index) => (
+                            <div key={index}>
+                                <h3>미리보기 {index + 1}</h3>
+                                <Inputs msg='여행지'>
+                                    <ComboBox items={spotItems}
+                                        onChange={(e) => handleSpot(e, index)} />
+                                </Inputs>
+                                <Inputs msg='설명'>
+                                    <Textbox hint='미리보기 설명' value={preview.description} onChange={(e) => handleDescription(e, index)} />
+                                </Inputs>
+                            </div>
+                        ))
+                    }
+                    <div className="next-button-wrapper">
+                        <Button msg="추가" onClick={addPreview} />
+                    </div>
                 </div>
-            </div>
-            <div className="next-button-wrapper">
-                <Button msg="완료 3/3" onClick={this.props.nextPage}/>
-            </div>
+                <div className="next-button-wrapper">
+                    <Button msg="완료 3/3" onClick={saveAndNext} />
+                </div>
             </>
         );
     }

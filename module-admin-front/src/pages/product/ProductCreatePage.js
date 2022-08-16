@@ -21,10 +21,9 @@ class ProductCreatePage extends Component {
     }
 
     updateStep3 = (updatedStep3) => {
-        this.setState({ step3: updatedStep3 })
-        this.saveNewPlan();
+        this.setState({ step3: updatedStep3 }, this.saveNewPlan)
     }
-    
+
     saveNewPlan = () => {
         const { step1, step2, step3 } = this.state;
 

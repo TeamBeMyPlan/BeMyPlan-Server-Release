@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { Component, createRef } from 'react';
 import Textbox from '../../../components/textbox/Textbox'
 import Inputs from '../../../components/inputs/Inputs'
 import Button from '../../../components/button/Button'
@@ -20,6 +20,10 @@ const TableCell = ({ children }) => <td>{children}</td>;
 
 class ProductStep2 extends Component {
 
+    componentDidMount() {
+        this.fileInputRef = createRef();
+    }
+
     state = {
         openPostCode: false,
         selectedAddress: false,
@@ -36,6 +40,7 @@ class ProductStep2 extends Component {
         savedImages: [],
         date: 0,
         spots: [],
+        nextSpotName: '',
         nextSpotSpentTime: 0,
         nextSpotVehicle: 'CAR',
         nextSpot: {},
@@ -82,6 +87,8 @@ class ProductStep2 extends Component {
     }
 
     clear = () => {
+        this.fileInputRef.current.value = null;
+        
         this.setState({
             openPostCode: false,
             selectedAddress: false,
@@ -96,6 +103,7 @@ class ProductStep2 extends Component {
             latitude: 0,
             savedImages: [],
             date: 0,
+            nextSpotName: '',
             nextSpotSpentTime: 0,
             nextSpotVehicle: 'CAR',
             nextSpot: {},
@@ -107,6 +115,7 @@ class ProductStep2 extends Component {
 
         this.setState({
             nextSpot: spots[index],
+            nextSpotName: spots[index].name,
             selectedNextSpot: true
         });
 
@@ -191,6 +200,7 @@ class ProductStep2 extends Component {
             selectedNextSpot,
             spots,
             nextSpot,
+            nextSpotName,
             nextSpotSpentTime
         } = this.state;
         const {
@@ -260,6 +270,7 @@ class ProductStep2 extends Component {
                     </Inputs>
                     <Inputs msg='여행지 사진'>
                         <input type="file" multiple
+                            ref={this.fileInputRef}
                             name="files"
                             onChange={fileChangedHandler} />
                     </Inputs>
@@ -267,7 +278,7 @@ class ProductStep2 extends Component {
                         <NumericInput hint='몇 일차 여행지' value={date} onChange={handleDate} />
                     </Inputs>
                     <Inputs msg='연결할 다음 여행지 (Optional)'>
-                        <Textbox readOnly={true} hint='다음 여행지' value={nextSpot.name} />
+                        <Textbox readOnly={true} hint='다음 여행지' value={nextSpotName} />
                         <Button msg="선택" onClick={toggleNextSpot} />
                         {
                             openNextSpots &&

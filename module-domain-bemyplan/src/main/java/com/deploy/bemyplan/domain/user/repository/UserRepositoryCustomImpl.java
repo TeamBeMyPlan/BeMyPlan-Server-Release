@@ -10,7 +10,7 @@ import javax.persistence.LockModeType;
 import static com.deploy.bemyplan.domain.user.QUser.user;
 
 @RequiredArgsConstructor
-public class UserRepositoryCustomImpl implements UserRepositoryCustom{
+public class UserRepositoryCustomImpl implements UserRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
@@ -20,8 +20,9 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom{
                 .setLockMode(LockModeType.PESSIMISTIC_WRITE)
                 .setHint("javax.persistence.lock.timeout", 3000)
                 .from(user)
-                .where(user.nickname.eq(name))
-                .fetchFirst() != null;
+                .where(user.nickname.eq(name),
+                        user.active.isTrue()
+                ).fetchFirst() != null;
     }
 
     @Override
@@ -30,15 +31,17 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom{
                 .from(user)
                 .where(
                         user.socialInfo.socialId.eq(socialId),
-                        user.socialInfo.socialType.eq(socialType)
+                        user.socialInfo.socialType.eq(socialType),
+                        user.active.isTrue()
                 ).fetchFirst() != null;
     }
 
     @Override
     public User findUserById(Long userId) {
         return queryFactory.selectFrom(user)
-                .where(user.id.eq(userId))
-                .fetchOne();
+                .where(user.id.eq(userId),
+                        user.active.isTrue()
+                ).fetchOne();
     }
 
     @Override
@@ -46,7 +49,8 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom{
         return queryFactory.selectFrom(user)
                 .where(
                         user.socialInfo.socialId.eq(socialId),
-                        user.socialInfo.socialType.eq(socialType)
+                        user.socialInfo.socialType.eq(socialType),
+                        user.active.isTrue()
                 ).fetchOne();
     }
 }

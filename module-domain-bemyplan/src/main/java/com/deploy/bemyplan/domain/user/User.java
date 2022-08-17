@@ -28,17 +28,21 @@ public class User extends AuditingTimeEntity {
     @Column(nullable = false)
     private String email;
 
+    @Column(nullable = false)
+    private boolean active;
+
     @Embedded
     private SocialInfo socialInfo;
 
-    private User(String socialId, UserSocialType socialType, String nickname, String email) {
+    private User(String socialId, UserSocialType socialType, String nickname, String email, boolean active) {
         this.socialInfo = SocialInfo.of(socialId, socialType);
         this.nickname = nickname;
         this.email = email;
+        this.active = active;
     }
 
     public static User newInstance(String socialId, UserSocialType socialType, String name, String email) {
-        return new User(socialId, socialType, name, email);
+        return new User(socialId, socialType, name, email, true);
     }
 
     @NotNull
@@ -49,5 +53,9 @@ public class User extends AuditingTimeEntity {
     @NotNull
     public UserSocialType getSocialType() {
         return this.socialInfo.getSocialType();
+    }
+
+    public void inactive() {
+        active = false;
     }
 }

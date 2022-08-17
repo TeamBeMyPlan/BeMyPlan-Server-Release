@@ -156,7 +156,7 @@ class ProductStep2 extends Component {
         if (selectedNextSpot) {
             newSpot.hasNext = true;
             newSpot.nextSpot = {
-                spot: nextSpot,
+                id: nextSpot.id,
                 spentTime: nextSpotSpentTime,
                 vehicle: nextSpotVehicle,
             }

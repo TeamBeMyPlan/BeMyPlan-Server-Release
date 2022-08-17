@@ -3,6 +3,7 @@ import { Component } from 'react';
 import ProductStep1 from './components/ProductStep1';
 import ProductStep2 from './components/ProductStep2';
 import ProductStep3 from './components/ProductStep3';
+import planApi from '../../components/planApi';
 
 class ProductCreatePage extends Component {
     state = {
@@ -24,13 +25,35 @@ class ProductCreatePage extends Component {
         this.setState({ step3: updatedStep3 }, this.saveNewPlan)
     }
 
-    saveNewPlan = () => {
+    saveNewPlan = async () => {
         const { step1, step2, step3 } = this.state;
 
         console.log(step1);
         console.log(step2);
         console.log(step3);
         alert('새로운 플랜 등록 완료!');
+
+        const response = await planApi.create({
+            creator: {
+                name: step1.creator
+            },
+            plan: {
+                title: step1.planTitle,
+                description: step1.planDescription,
+                price: step1.price,
+                recommend: step1.recommend,
+                vehicle: step1.vehicle,
+                concept: step1.concept,
+                cost: step1.cost,
+                period: step1.period,
+                partner: step1.partner,
+            },
+            spots: step2.spots,
+            previews: step3.previews
+        });
+
+        console.log(response);
+        console.log(response.data);
     }
 
     nextPage = () => {

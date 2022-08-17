@@ -1,15 +1,23 @@
 package com.deploy.bemyplan.service.user;
 
+import com.deploy.bemyplan.common.exception.model.NotFoundException;
+import com.deploy.bemyplan.domain.plan.Plan;
+import com.deploy.bemyplan.domain.plan.PlanRepository;
 import com.deploy.bemyplan.domain.user.User;
 import com.deploy.bemyplan.domain.user.UserRepository;
 import com.deploy.bemyplan.domain.user.WithdrawalUser;
 import com.deploy.bemyplan.domain.user.WithdrawalUserRepository;
 import com.deploy.bemyplan.service.user.dto.request.CheckAvailableNameRequestDto;
 import com.deploy.bemyplan.service.user.dto.request.CreateUserDto;
+import com.deploy.bemyplan.service.user.dto.response.CreatorInfoResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Objects;
+
+import static com.deploy.bemyplan.common.exception.ErrorCode.NOT_FOUND_PLAN_EXCEPTION;
 
 @RequiredArgsConstructor
 @Service

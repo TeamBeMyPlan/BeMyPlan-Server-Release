@@ -4,6 +4,7 @@ import com.deploy.bemyplan.common.dto.ApiResponse;
 import com.deploy.bemyplan.domain.plan.RegionType;
 import com.deploy.bemyplan.service.plan.PlanService;
 import com.deploy.bemyplan.service.plan.dto.response.PlanRandomResponse;
+import com.deploy.bemyplan.service.plan.dto.response.PlanPreviewResponseDto;
 import com.deploy.bemyplan.service.user.dto.response.CreatorInfoResponse;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -31,5 +32,11 @@ public class PlanController {
     @GetMapping("/v2/plans/{planId}/creator")
     public ApiResponse<CreatorInfoResponse> getSpotMoveInfos(@PathVariable Long planId) {
         return ApiResponse.success(planService.getCreatorInfo(planId));
+    }
+    
+    @ApiOperation("미리보기 일정 정보를 조회합니다.")
+    @GetMapping("/v2/plan/{planId}/preview")
+    public ApiResponse<PlanPreviewResponseDto> getPlanPreview(@PathVariable Long planId) {
+        return ApiResponse.success(planService.getPlanPreview(planId));
     }
 }

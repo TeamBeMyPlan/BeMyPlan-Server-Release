@@ -34,7 +34,6 @@ public class PlanService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional
     public CreatorInfoResponse getCreatorInfo(Long planId){
         Plan plan = planRepository.findById(planId).orElseThrow(() -> new NotFoundException("존재하지 않는 여행 일정입니다."));
         User user = userRepository.findUserById(plan.getUserId());

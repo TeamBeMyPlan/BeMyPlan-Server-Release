@@ -1,5 +1,6 @@
 package com.deploy.bemyplan.plan;
 
+import com.deploy.bemyplan.domain.plan.SpotCategoryType;
 import com.deploy.bemyplan.domain.plan.TravelMobility;
 import com.deploy.bemyplan.domain.plan.TravelPartner;
 import com.deploy.bemyplan.domain.plan.TravelTheme;
@@ -36,6 +37,7 @@ class PlanFixtures {
         return SpotDto.testBuilder()
                 .id(1)
                 .address("")
+                .type(SpotCategoryType.TOURSPOT)
                 .date(1)
                 .hasNext(true)
                 .latitude(33.52139345489709)

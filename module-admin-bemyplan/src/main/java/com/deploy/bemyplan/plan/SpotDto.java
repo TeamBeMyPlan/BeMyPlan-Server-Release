@@ -1,5 +1,6 @@
 package com.deploy.bemyplan.plan;
 
+import com.deploy.bemyplan.domain.plan.SpotCategoryType;
 import com.deploy.bemyplan.domain.plan.TravelMobility;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -13,6 +14,7 @@ import java.util.List;
 public class SpotDto {
     private int id;
     private String address;
+    private SpotCategoryType type;
     private int date;
     private boolean hasNext;
     private double latitude;
@@ -24,7 +26,9 @@ public class SpotDto {
     private String tip;
 
     @Builder(builderMethodName = "testBuilder")
-    SpotDto(final int id, final String address, final int date, final boolean hasNext, final double latitude, final double longitude, final String name, final NextSpot nextSpot, final String review, final List<String> savedImages, final String tip) {
+    SpotDto(int id, String address,
+            SpotCategoryType type,
+            int date, boolean hasNext, double latitude, double longitude, String name, NextSpot nextSpot, String review, List<String> savedImages, String tip) {
         this.id = id;
         this.address = address;
         this.date = date;

@@ -3,6 +3,7 @@ package com.deploy.bemyplan.domain.plan;
 import com.deploy.bemyplan.domain.common.AuditingTimeEntity;
 import com.deploy.bemyplan.domain.common.ListToStringConverter;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,6 +24,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode
 public class Plan extends AuditingTimeEntity {
 
     @Id

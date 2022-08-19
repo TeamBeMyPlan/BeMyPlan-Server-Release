@@ -41,6 +41,7 @@ class ProductCreatePage extends Component {
                 title: step1.planTitle,
                 description: step1.planDescription,
                 price: step1.price,
+                thumbnail: step1.thumbnail,
                 recommend: step1.recommend,
                 vehicle: step1.vehicle,
                 concept: step1.concept,

@@ -1,16 +1,22 @@
-import { Component } from 'react';
+import { Component, createRef } from 'react';
 import ComboBox from '../../../components/combobox/ComboBox';
 import Textbox from '../../../components/textbox/Textbox'
 import NumericInput from '../../../components/numeric/NumericInput'
 import Inputs from '../../../components/inputs/Inputs'
 import Button from '../../../components/button/Button'
+import imageApi from '../../../components/imageApi'
 import './ProductStep.css'
 
 class ProductStep1 extends Component {
+    componentDidMount() {
+        this.fileInputRef = createRef();
+    }
+
     state = {
         creator: '크리에이터',
         planTitle: '여행 일정',
         planDescription: '여행 일정이에요',
+        thumbnail: '',
         concept: 'HEALING',
         partner: 'FAMILY',
         period: 0,
@@ -40,10 +46,25 @@ class ProductStep1 extends Component {
 
     handlePrice = (e) => { this.setState({ price: Number(e.target.value) }) }
 
+
+    fileChangedHandler = async e => {
+        const files = e.target.files;
+        const formData = new FormData();
+        for (let i = 0; i < files.length; i++) {
+            formData.append('files', files[i]);
+        }
+
+        const response = await imageApi.upload(formData);
+        this.setState({
+            thumbnail: response.data[0]
+        });
+    }
+
     saveAndNext = () => {
         const { creator,
             planTitle,
             planDescription,
+            thumbnail,
             concept,
             partner,
             period,
@@ -58,6 +79,7 @@ class ProductStep1 extends Component {
             planTitle,
             planDescription,
             concept,
+            thumbnail,
             partner,
             period,
             cost,
@@ -74,6 +96,7 @@ class ProductStep1 extends Component {
             handleCreatorName, handlePlanTitle, handlePlanDescription,
             handleConept, handlePartner, handlePeriod, handleCost,
             handleVehicle, handleRecommend, handlePrice,
+            fileChangedHandler,
             saveAndNext } = this;
 
         const {
@@ -92,6 +115,12 @@ class ProductStep1 extends Component {
                     </Inputs>
                     <Inputs msg='여행 일정 소개글'>
                         <Textbox hint='여행 일정 소개글' value={planDescription} onChange={handlePlanDescription} />
+                    </Inputs>
+                    <Inputs msg='여행지 섬네일'>
+                        <input type="file"
+                            ref={this.fileInputRef}
+                            name="files"
+                            onChange={fileChangedHandler} />
                     </Inputs>
                     <h3>일정정보</h3>
                     <Inputs msg='컨셉'>

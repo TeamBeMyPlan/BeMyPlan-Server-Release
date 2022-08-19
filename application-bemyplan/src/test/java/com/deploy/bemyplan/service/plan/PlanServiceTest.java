@@ -15,6 +15,7 @@ import com.deploy.bemyplan.service.plan.dto.response.PlanPreviewResponseDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,7 +46,7 @@ class PlanServiceTest {
 
     @Test
     void getPlanPreview_callsPlanFromRepository() {
-        Plan givenPlan = newInstance(1L, RegionType.JEJU, "thumbnailUrl", "title", "description", TagInfo.testBuilder().build(), 10000, PlanStatus.ACTIVE, RcmndStatus.NONE);
+        Plan givenPlan = newInstance(1L, RegionType.JEJU, "thumbnailUrl", "title", "description", TagInfo.testBuilder().build(), 10000, PlanStatus.ACTIVE, RcmndStatus.NONE, Collections.emptyList(), Collections.emptyList());
         Preview givenPreview = Preview.newInstance(givenPlan, List.of("img1.png"), "", PreviewContentStatus.ACTIVE, 1L);
         given(spyPlanRepository.findById(any())).willReturn(Optional.of(givenPlan));
         given(spyPreviewRepository.findAllPreviewByPlanId(givenPlan.getId())).willReturn(List.of(givenPreview));
@@ -57,7 +58,7 @@ class PlanServiceTest {
 
     @Test
     void getPlanPreview_callsPreviewFromRepository() {
-        Plan givenPlan = newInstance(1L, RegionType.JEJU, "", "", "", TagInfo.testBuilder().build(), 0, PlanStatus.ACTIVE, RcmndStatus.NONE);
+        Plan givenPlan = newInstance(1L, RegionType.JEJU, "", "", "", TagInfo.testBuilder().build(), 0, PlanStatus.ACTIVE, RcmndStatus.NONE, Collections.emptyList(), Collections.emptyList());
         Preview givenPreview = Preview.newInstance(givenPlan, List.of("image.png"), "description", PreviewContentStatus.ACTIVE, 1L);
         given(spyPlanRepository.findById(any())).willReturn(Optional.of(givenPlan));
         given(spyPreviewRepository.findAllPreviewByPlanId(givenPlan.getId())).willReturn(List.of(givenPreview));
@@ -69,7 +70,7 @@ class PlanServiceTest {
 
     @Test
     void getPlanPreview_returnsPlanPreview() {
-        Plan givenPlan = newInstance(1L, RegionType.JEJU, "", "", "", TagInfo.testBuilder().build(), 0, PlanStatus.ACTIVE, RcmndStatus.NONE);
+        Plan givenPlan = newInstance(1L, RegionType.JEJU, "", "", "", TagInfo.testBuilder().build(), 0, PlanStatus.ACTIVE, RcmndStatus.NONE, Collections.emptyList(), Collections.emptyList());
         Preview givenPreview1 = Preview.newInstance(givenPlan, List.of("image.png", "image2.png"), "description", PreviewContentStatus.ACTIVE, 1L);
         Preview givenPreview2 = Preview.newInstance(givenPlan, List.of("2ndImage.png", "image2.png"), "description", PreviewContentStatus.ACTIVE, 1L);
         given(spyPlanRepository.findById(any())).willReturn(Optional.of(givenPlan));

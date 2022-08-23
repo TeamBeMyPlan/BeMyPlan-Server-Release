@@ -9,9 +9,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -28,10 +31,26 @@ public class SpotMoveInfo extends AuditingTimeEntity {
     @Column(nullable = false)
     private Long toSpotId;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "schedule_id", nullable = false)
+    private DailySchedule schedule;
+
     @Column(nullable = false, length = 30)
     @Enumerated(EnumType.STRING)
     private TravelMobility mobility;
 
     @Column(nullable = false)
     private int spentMinute;
+
+    SpotMoveInfo(Long id, Long fromSpotId, Long toSpotId, TravelMobility mobility, int spentMinute) {
+        this.id = id;
+        this.fromSpotId = fromSpotId;
+        this.toSpotId = toSpotId;
+        this.mobility = mobility;
+        this.spentMinute = spentMinute;
+    }
+
+    public SpotMoveInfo(Long fromSpotId, Long toSpotId, TravelMobility mobility, int spentMinute) {
+        this(null, fromSpotId, toSpotId, mobility, spentMinute);
+    }
 }

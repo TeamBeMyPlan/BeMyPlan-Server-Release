@@ -12,9 +12,12 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +34,10 @@ public class Spot extends AuditingTimeEntity {
     @Column(nullable = false)
     private String title;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "schedule_id", nullable = false)
+    private DailySchedule schedule;
+
     @Column(nullable = false, length = 30)
     @Enumerated(EnumType.STRING)
     private SpotCategoryType category;
@@ -46,4 +53,19 @@ public class Spot extends AuditingTimeEntity {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<SpotImage> images = new ArrayList<>();
+
+    public Spot(Long id, String title, SpotCategoryType category, Location location, String tip, String review,
+                List<SpotImage> images) {
+        this.title = title;
+        this.category = category;
+        this.location = location;
+        this.tip = tip;
+        this.review = review;
+        this.images.addAll(images);
+    }
+
+    public Spot(String title, SpotCategoryType category, Location location, String tip, String review,
+                List<SpotImage> images) {
+        this(null, title, category, location, tip, review, images);
+    }
 }

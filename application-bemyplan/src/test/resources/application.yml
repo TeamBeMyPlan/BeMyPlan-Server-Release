@@ -1,0 +1,14 @@
+cloud:
+  aws:
+    credentials:
+      accessKey:
+      secretKey:
+    s3:
+      bucket:
+    region:
+      static:
+    stack:
+      auto:
+
+s3:
+  profile:

@@ -42,6 +42,10 @@ public class SpotDto {
         this.tip = tip;
     }
 
+    public boolean hasNext() {
+        return hasNext;
+    }
+
     @Getter
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class NextSpot {

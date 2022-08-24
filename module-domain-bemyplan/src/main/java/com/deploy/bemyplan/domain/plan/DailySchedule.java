@@ -39,9 +39,9 @@ public class DailySchedule extends AuditingTimeEntity {
 
     @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<SpotMoveInfo> moveInfos = new ArrayList<>();
-    public DailySchedule(int day, List<Spot> spots, List<SpotMoveInfo> moveInfos) {
+
+    public DailySchedule(Plan plan, int day) {
+        this.plan = plan;
         this.day = day;
-        this.spots.addAll(spots);
-        this.moveInfos.addAll(moveInfos);
     }
 }

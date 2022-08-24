@@ -31,10 +31,6 @@ public class SpotMoveInfo extends AuditingTimeEntity {
     @Column(nullable = false)
     private Long toSpotId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "schedule_id", nullable = false)
-    private DailySchedule schedule;
-
     @Column(nullable = false, length = 30)
     @Enumerated(EnumType.STRING)
     private TravelMobility mobility;
@@ -42,15 +38,20 @@ public class SpotMoveInfo extends AuditingTimeEntity {
     @Column(nullable = false)
     private int spentMinute;
 
-    SpotMoveInfo(Long id, Long fromSpotId, Long toSpotId, TravelMobility mobility, int spentMinute) {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "schedule_id", nullable = false)
+    private DailySchedule schedule;
+
+    SpotMoveInfo(Long id, Long fromSpotId, Long toSpotId, TravelMobility mobility, int spentMinute, DailySchedule schedule) {
         this.id = id;
         this.fromSpotId = fromSpotId;
         this.toSpotId = toSpotId;
         this.mobility = mobility;
         this.spentMinute = spentMinute;
+        this.schedule = schedule;
     }
 
-    public SpotMoveInfo(Long fromSpotId, Long toSpotId, TravelMobility mobility, int spentMinute) {
-        this(null, fromSpotId, toSpotId, mobility, spentMinute);
+    public SpotMoveInfo(Long fromSpotId, Long toSpotId, TravelMobility mobility, int spentMinute, DailySchedule schedule) {
+        this(null, fromSpotId, toSpotId, mobility, spentMinute, schedule);
     }
 }

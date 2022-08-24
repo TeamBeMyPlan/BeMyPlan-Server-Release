@@ -14,10 +14,10 @@ class PlanFixtures {
                 .creator(aCreator().build())
                 .plan(aPlan().build())
                 .spots(List.of(
-                        aSpot().id(2).hasNext(false).build(),
-                        aSpot().id(1).hasNext(true)
+                        aSpot().id(1).hasNext(false).build(),
+                        aSpot().id(0).hasNext(true)
                                 .nextSpot(aNextSpot()
-                                        .id(2)
+                                        .id(1)
                                         .spentTime(10)
                                         .vehicle(TravelMobility.CAR)
                                         .build())

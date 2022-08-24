@@ -35,6 +35,7 @@ class CreatePlanServiceTest {
         sut = new CreatePlanService(mock(SpotRepository.class),
                 mock(DailyScheduleRepository.class),
                 mock(SpotMoveInfoRepository.class),
+                mock(PreviewAdapter.class),
                 spyPlanRepository,
                 new PlanMapper());
     }

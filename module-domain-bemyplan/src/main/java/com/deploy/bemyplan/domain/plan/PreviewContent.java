@@ -5,11 +5,21 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Deprecated
 public class PreviewContent {
 
     @Id
@@ -30,4 +40,11 @@ public class PreviewContent {
     @Column(nullable = false, length = 30)
     @Enumerated(EnumType.STRING)
     private PreviewContentStatus status;
+
+    public PreviewContent(Plan plan, JsonValueType valueType, String value) {
+        this.plan = plan;
+        this.valueType = valueType;
+        this.value = value;
+        this.status = PreviewContentStatus.ACTIVE;
+    }
 }

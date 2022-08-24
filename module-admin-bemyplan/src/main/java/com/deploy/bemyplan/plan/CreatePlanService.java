@@ -1,10 +1,14 @@
 package com.deploy.bemyplan.plan;
 
+import com.deploy.bemyplan.common.type.JsonValueType;
 import com.deploy.bemyplan.domain.common.Location;
 import com.deploy.bemyplan.domain.plan.DailySchedule;
 import com.deploy.bemyplan.domain.plan.DailyScheduleRepository;
 import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.plan.PlanRepository;
+import com.deploy.bemyplan.domain.plan.Preview;
+import com.deploy.bemyplan.domain.plan.PreviewContent;
+import com.deploy.bemyplan.domain.plan.PreviewContentStatus;
 import com.deploy.bemyplan.domain.plan.Spot;
 import com.deploy.bemyplan.domain.plan.SpotImage;
 import com.deploy.bemyplan.domain.plan.SpotMoveInfo;
@@ -25,6 +29,7 @@ public class CreatePlanService {
     private final SpotRepository spotRepository;
     private final DailyScheduleRepository scheduleRepository;
     private final SpotMoveInfoRepository moveInfoRepository;
+    private final PreviewAdapter previewAdapter;
     private final PlanRepository planRepository;
     private final PlanMapper planMapper;
 
@@ -38,6 +43,27 @@ public class CreatePlanService {
         final List<Spot> spots = createSpotsBySchedules(spotDtos, dailySchedules);
 
         createMoveInfoBySchedules(spotDtos, dailySchedules, spots);
+
+        final List<PreviewDto> previews = request.getPreviews();
+        createPreviews(previews, plan, spots);
+    }
+
+    private void createPreviews(List<PreviewDto> previewDtos, Plan plan, List<Spot> spots) {
+        List<Preview> previews = previewDtos.stream()
+                .map(preview -> Preview.newInstance(plan, List.of(preview.getImage()),
+                        preview.getDescription(),
+                        PreviewContentStatus.ACTIVE,
+                        spots.get(preview.getSpotId()).getId()))
+                .collect(Collectors.toList());
+
+        List<PreviewContent> legacyPreviews = new ArrayList<>();
+        previewDtos.forEach(preview -> {
+                    legacyPreviews.add(new PreviewContent(plan, JsonValueType.IMAGE, preview.getImage()));
+                    legacyPreviews.add(new PreviewContent(plan, JsonValueType.TEXT, preview.getDescription()));
+                });
+
+        previewAdapter.saveAll(previews);
+        previewAdapter.saveLegacyAll(legacyPreviews);
     }
 
     private void createMoveInfoBySchedules(List<SpotDto> spotDtos, List<DailySchedule> dailySchedules, List<Spot> spots) {

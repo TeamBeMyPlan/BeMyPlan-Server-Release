@@ -65,7 +65,7 @@ class ProductStep3 extends Component {
     handleSpot = (e, index) => {
         const spotId = e.target.value;
         const { spots } = this.state;
-        const targetSpot = spots.find(spot => spot.id == spotId);
+        const targetSpot = spots.find(spot => spot.id === spotId);
 
         this.setState((state) => {
             const newPreviews = [...state.previews];

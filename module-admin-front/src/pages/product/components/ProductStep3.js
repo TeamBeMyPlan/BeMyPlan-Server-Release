@@ -12,6 +12,7 @@ class ProductStep3 extends Component {
         spotItems: [],
         previews: [
             {
+                spotId: -1,
                 image: '',
                 description: ''
             }
@@ -38,6 +39,7 @@ class ProductStep3 extends Component {
         const { previews } = this.state;
         this.setState({
             previews: [...previews, {
+                spotId: -1,
                 image: '',
                 description: ''
             }]
@@ -50,6 +52,7 @@ class ProductStep3 extends Component {
             const prevPreview = newPreviews[index];
 
             newPreviews[index] = {
+                spotId: prevPreview.spotId,
                 image: prevPreview.image,
                 description: e.target.value
             }
@@ -69,6 +72,7 @@ class ProductStep3 extends Component {
             const prevPreview = newPreviews[index];
 
             newPreviews[index] = {
+                spotId: targetSpot.id,
                 image: targetSpot.savedImages[0],
                 description: prevPreview.description
             }

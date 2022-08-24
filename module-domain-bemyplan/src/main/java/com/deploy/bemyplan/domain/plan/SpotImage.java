@@ -2,7 +2,6 @@ package com.deploy.bemyplan.domain.plan;
 
 import com.deploy.bemyplan.domain.common.AuditingTimeEntity;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -26,10 +25,6 @@ public class SpotImage extends AuditingTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "spot_id", nullable = false)
-    private Spot spot;
-
     @Column(nullable = false, length = 600)
     private String url;
 
@@ -37,14 +32,13 @@ public class SpotImage extends AuditingTimeEntity {
     @Enumerated(EnumType.STRING)
     private SpotImageStatus status;
 
-    @Builder(access = AccessLevel.PACKAGE)
-    private SpotImage(Spot spot, String url) {
-        this.spot = spot;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "spot_id", nullable = false)
+    private Spot spot;
+
+    public SpotImage(String url, Spot spot) {
         this.url = url;
         this.status = SpotImageStatus.ACTIVE;
-    }
-
-    public static SpotImage newInstance(Spot spot, String url) {
-        return new SpotImage(spot, url);
+        this.spot = spot;
     }
 }

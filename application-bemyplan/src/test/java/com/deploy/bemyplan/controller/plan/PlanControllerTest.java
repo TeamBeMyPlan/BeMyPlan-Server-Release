@@ -14,6 +14,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.util.Collections;
 import java.util.List;
 
 import static com.deploy.bemyplan.domain.plan.Plan.newInstance;
@@ -55,7 +56,7 @@ class PlanControllerTest {
 
     @Test
     void getPlanPreviewReturnsResponse() throws Exception {
-        Plan givenPlan = newInstance(1L, RegionType.JEJU, "thumbnail", "title", "description", TagInfo.testBuilder().build(), 2000, PlanStatus.ACTIVE, RcmndStatus.NONE);
+        Plan givenPlan = newInstance(1L, RegionType.JEJU, "thumbnail", "title", "description", TagInfo.testBuilder().build(), 2000, PlanStatus.ACTIVE, RcmndStatus.NONE, Collections.emptyList(), Collections.emptyList());
         PlanPreviewResponseDto response = PlanPreviewResponseDto.of(givenPlan, List.of("image.png", "image2.png"));
         given(stubPlanService.getPlanPreview(any())).willReturn(response);
 

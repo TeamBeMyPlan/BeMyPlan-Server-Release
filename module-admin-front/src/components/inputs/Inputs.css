@@ -1,0 +1,21 @@
+.inputs {
+    display: flex;
+}
+
+.inputs .inputs-label {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-left: 1rem;
+    border-radius: 3px;
+    font-weight: 600;
+}
+
+.inputs .inputs-area {
+    flex: 1;
+    display: flex;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid #c5f6fa;
+}

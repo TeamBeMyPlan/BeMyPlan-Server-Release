@@ -41,7 +41,7 @@ public class Spot extends AuditingTimeEntity {
     private String tip;
     @Column(nullable = false, columnDefinition = "MEDIUMTEXT")
     private String review;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "spot", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<SpotImage> images = new ArrayList<>();
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "schedule_id", nullable = false)

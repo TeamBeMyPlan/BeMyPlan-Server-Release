@@ -48,6 +48,7 @@ public class Spot extends AuditingTimeEntity {
     private DailySchedule schedule;
 
     public Spot(Long id, String title, SpotCategoryType category, Location location, String tip, String review,
+                List<SpotImage> images,
                 DailySchedule schedule) {
         this.title = title;
         this.category = category;
@@ -59,11 +60,8 @@ public class Spot extends AuditingTimeEntity {
     }
 
     public Spot(String title, SpotCategoryType category, Location location, String tip, String review,
+                List<SpotImage> images,
                 DailySchedule schedule) {
-        this(null, title, category, location, tip, review, schedule);
-    }
-
-    public void setImage(List<SpotImage> spotImages) {
-        this.images.addAll(spotImages);
+        this(null, title, category, location, tip, review, images, schedule);
     }
 }

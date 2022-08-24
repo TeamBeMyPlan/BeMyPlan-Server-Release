@@ -49,14 +49,14 @@ public class CreatePlanService {
     }
 
     private void createPreviews(List<PreviewDto> previewDtos, Plan plan, List<Spot> spots) {
-        List<Preview> previews = previewDtos.stream()
+        final List<Preview> previews = previewDtos.stream()
                 .map(preview -> Preview.newInstance(plan, List.of(preview.getImage()),
                         preview.getDescription(),
                         PreviewContentStatus.ACTIVE,
                         spots.get(preview.getSpotId()).getId()))
                 .collect(Collectors.toList());
 
-        List<PreviewContent> legacyPreviews = new ArrayList<>();
+        final List<PreviewContent> legacyPreviews = new ArrayList<>();
         previewDtos.forEach(preview -> {
                     legacyPreviews.add(new PreviewContent(plan, JsonValueType.IMAGE, preview.getImage()));
                     legacyPreviews.add(new PreviewContent(plan, JsonValueType.TEXT, preview.getDescription()));
@@ -92,19 +92,13 @@ public class CreatePlanService {
                                 Location.of(spotDto.getLatitude(), spotDto.getLongitude()),
                                 spotDto.getTip(),
                                 spotDto.getReview(),
+                                spotDto.getSavedImages()
+                                        .stream()
+                                        .map(SpotImage::new)
+                                        .collect(Collectors.toList()),
                                 getSchedule(dailySchedules, spotDto.getDate())))
                 .collect(Collectors.toList());
         spotRepository.saveAll(spots);
-
-        for (int i = 0; i < spotDtos.size(); i++) {
-            SpotDto spotDto = spotDtos.get(i);
-            Spot spot = spots.get(i);
-
-            spot.setImage(spotDto.getSavedImages()
-                    .stream()
-                    .map(image -> new SpotImage(image, spot))
-                    .collect(Collectors.toList()));
-        }
 
         return spots;
     }

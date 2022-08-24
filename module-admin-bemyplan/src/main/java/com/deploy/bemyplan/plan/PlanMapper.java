@@ -6,6 +6,7 @@ import com.deploy.bemyplan.domain.plan.PlanStatus;
 import com.deploy.bemyplan.domain.plan.RcmndStatus;
 import com.deploy.bemyplan.domain.plan.RegionType;
 import com.deploy.bemyplan.domain.plan.TagInfo;
+import com.deploy.bemyplan.image.s3.S3Locator;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
@@ -18,7 +19,7 @@ class PlanMapper {
         return Plan.newInstance(
                 TEST_ADMIN_USER_MAGIC_NUMBER,
                 RegionType.JEJU,
-                planDto.getThumbnail(),
+                S3Locator.get(planDto.getThumbnail()),
                 planDto.getTitle(),
                 planDto.getDescription(),
                 new TagInfo(planDto.getConcept(),

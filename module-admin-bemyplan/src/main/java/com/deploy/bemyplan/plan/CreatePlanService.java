@@ -14,6 +14,7 @@ import com.deploy.bemyplan.domain.plan.SpotImage;
 import com.deploy.bemyplan.domain.plan.SpotMoveInfo;
 import com.deploy.bemyplan.domain.plan.SpotMoveInfoRepository;
 import com.deploy.bemyplan.domain.plan.SpotRepository;
+import com.deploy.bemyplan.image.s3.S3Locator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,7 +51,7 @@ public class CreatePlanService {
 
     private void createPreviews(List<PreviewDto> previewDtos, Plan plan, List<Spot> spots) {
         List<Preview> previews = previewDtos.stream()
-                .map(preview -> Preview.newInstance(plan, List.of(preview.getImage()),
+                .map(preview -> Preview.newInstance(plan, List.of(S3Locator.get(preview.getImage())),
                         preview.getDescription(),
                         PreviewContentStatus.ACTIVE,
                         spots.get(preview.getSpotId()).getId()))
@@ -58,7 +59,7 @@ public class CreatePlanService {
 
         List<PreviewContent> legacyPreviews = new ArrayList<>();
         previewDtos.forEach(preview -> {
-                    legacyPreviews.add(new PreviewContent(plan, JsonValueType.IMAGE, preview.getImage()));
+                    legacyPreviews.add(new PreviewContent(plan, JsonValueType.IMAGE, S3Locator.get(preview.getImage())));
                     legacyPreviews.add(new PreviewContent(plan, JsonValueType.TEXT, preview.getDescription()));
                 });
 
@@ -102,7 +103,7 @@ public class CreatePlanService {
 
             spot.setImage(spotDto.getSavedImages()
                     .stream()
-                    .map(image -> new SpotImage(image, spot))
+                    .map(image -> new SpotImage(S3Locator.get(image), spot))
                     .collect(Collectors.toList()));
         }
 

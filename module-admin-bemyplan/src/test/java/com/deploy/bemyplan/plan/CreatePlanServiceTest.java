@@ -13,6 +13,7 @@ import com.deploy.bemyplan.domain.plan.TagInfo;
 import com.deploy.bemyplan.domain.plan.TravelMobility;
 import com.deploy.bemyplan.domain.plan.TravelPartner;
 import com.deploy.bemyplan.domain.plan.TravelTheme;
+import com.deploy.bemyplan.image.s3.S3Locator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -49,7 +50,7 @@ class CreatePlanServiceTest {
 
         final Plan expected = Plan.newInstance(2L,
                 RegionType.JEJU,
-                "thumbnail",
+                S3Locator.get("thumbnail"),
                 "동쪽에서 마주한 제주 향기",
                 "안녕하세요 :)\n" +
                         "제주의 다양한 모습을 사진으로 담고 있는 픽손이라고 합니다.꾸준하게 다양한 스팟과 관광지의 색다른 모습을 담아내고 있는데요! \n" +

@@ -44,13 +44,13 @@ class PlanControllerTest {
 
     @Test
     void getPlanPreviewReturnsOkHttpStatus() throws Exception {
-        mockMvc.perform(get("/api/v2/plan/1/preview"))
+        mockMvc.perform(get("/api/v2/plans/1/preview"))
                 .andExpect(status().isOk());
     }
 
     @Test
     void getPlanPreviewPassesPlanIdToService() throws Exception {
-        mockMvc.perform(get("/api/v2/plan/1/preview"));
+        mockMvc.perform(get("/api/v2/plans/1/preview"));
 
         verify(stubPlanService, times(1)).getPlanPreview(1L);
     }
@@ -61,7 +61,7 @@ class PlanControllerTest {
         PlanPreviewResponseDto response = PlanPreviewResponseDto.of(givenPlan, List.of("image.png", "image2.png"));
         given(stubPlanService.getPlanPreview(any())).willReturn(response);
 
-        mockMvc.perform(get("/api/v2/plan/{planId}/preview", 1L))
+        mockMvc.perform(get("/api/v2/plans/{planId}/preview", 1L))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.planId", equalTo(response.getPlanId())))
                 .andExpect(jsonPath("$.data.title", equalTo(response.getTitle())))

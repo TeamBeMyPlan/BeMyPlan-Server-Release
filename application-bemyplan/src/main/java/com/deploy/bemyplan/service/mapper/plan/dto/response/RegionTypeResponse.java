@@ -1,7 +1,11 @@
 package com.deploy.bemyplan.service.mapper.plan.dto.response;
 
-import com.deploy.bemyplan.domain.plan.RegionType;
-import lombok.*;
+import com.deploy.bemyplan.domain.plan.RegionCategory;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @ToString
 @Getter
@@ -9,15 +13,15 @@ import lombok.*;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class RegionTypeResponse {
 
-    private RegionType region;
+    private RegionCategory region;
     private String name;
     private String thumbnailUrl;
     private boolean isLocked;
 
-    public static RegionTypeResponse of(RegionType region) {
+    public static RegionTypeResponse of(RegionCategory region) {
         return new RegionTypeResponse(
                 region,
-                region.getRegionName(),
+                region.getRegionCategoryName(),
                 region.getThumbnailUrl(),
                 region.isLocked()
         );

@@ -1,13 +1,14 @@
 package com.deploy.bemyplan.service.plan;
+
 import com.deploy.bemyplan.common.exception.model.NotFoundException;
 import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.plan.PlanRepository;
 import com.deploy.bemyplan.domain.plan.Preview;
 import com.deploy.bemyplan.domain.plan.PreviewRepository;
-import com.deploy.bemyplan.service.plan.dto.response.PlanPreviewResponseDto;
-import com.deploy.bemyplan.domain.plan.RegionType;
+import com.deploy.bemyplan.domain.plan.RegionCategory;
 import com.deploy.bemyplan.domain.user.User;
 import com.deploy.bemyplan.domain.user.UserRepository;
+import com.deploy.bemyplan.service.plan.dto.response.PlanPreviewResponseDto;
 import com.deploy.bemyplan.service.plan.dto.response.PlanRandomResponse;
 import com.deploy.bemyplan.service.user.dto.response.CreatorInfoResponse;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +32,7 @@ public class PlanService {
     private final PlanRepository planRepository;
     private final UserRepository userRepository;
 
-    public List<PlanRandomResponse> getPlanListByRandom(RegionType region){
+    public List<PlanRandomResponse> getPlanListByRandom(RegionCategory region){
         Pageable RandomTen = PageRequest.of(0, 10);
         List<Plan> plans = planRepository.findPlansByRegionAndSize(region, RandomTen);
         Collections.shuffle(plans);

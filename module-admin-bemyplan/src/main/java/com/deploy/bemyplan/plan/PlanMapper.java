@@ -4,7 +4,7 @@ import com.deploy.bemyplan.domain.common.Money;
 import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.plan.PlanStatus;
 import com.deploy.bemyplan.domain.plan.RcmndStatus;
-import com.deploy.bemyplan.domain.plan.RegionType;
+import com.deploy.bemyplan.domain.plan.RegionCategory;
 import com.deploy.bemyplan.domain.plan.TagInfo;
 import com.deploy.bemyplan.image.s3.S3Locator;
 import org.springframework.stereotype.Component;
@@ -18,7 +18,7 @@ class PlanMapper {
     Plan toDomain(PlanDto planDto) {
         return Plan.newInstance(
                 TEST_ADMIN_USER_MAGIC_NUMBER,
-                RegionType.JEJU,
+                RegionCategory.JEJU,
                 S3Locator.get(planDto.getThumbnail()),
                 planDto.getTitle(),
                 planDto.getDescription(),

@@ -37,7 +37,7 @@ public class Plan extends AuditingTimeEntity {
 
     @Column(nullable = false, length = 30)
     @Enumerated(EnumType.STRING)
-    private RegionType region;
+    private RegionCategory region;
 
     @Column(nullable = false)
     private String thumbnailUrl;
@@ -79,12 +79,12 @@ public class Plan extends AuditingTimeEntity {
     @OneToMany(mappedBy = "plan", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<DailySchedule> schedules = new ArrayList<>();
 
-    private Plan(final Long userId, final RegionType region, final String thumbnailUrl, final String title, final String description, final TagInfo tagInfo, final int orderCnt, final int viewCnt, final int price, final PlanStatus status, final RcmndStatus rcmndStatus, final List<String> hashtags, final List<String> recommendTargets) {
+    private Plan(final Long userId, final RegionCategory region, final String thumbnailUrl, final String title, final String description, final TagInfo tagInfo, final int orderCnt, final int viewCnt, final int price, final PlanStatus status, final RcmndStatus rcmndStatus, final List<String> hashtags, final List<String> recommendTargets) {
         this(userId, region, thumbnailUrl, title, description, tagInfo, orderCnt, viewCnt, price, status, rcmndStatus,
                 hashtags, recommendTargets, Collections.emptyList());
     }
 
-    private Plan(final Long userId, final RegionType region, final String thumbnailUrl,
+    private Plan(final Long userId, final RegionCategory region, final String thumbnailUrl,
                  final String title, final String description, final TagInfo tagInfo,
                  final int orderCnt, final int viewCnt, final int price,
                  final PlanStatus status, final RcmndStatus rcmndStatus,
@@ -106,14 +106,14 @@ public class Plan extends AuditingTimeEntity {
         this.schedules.addAll(schedules);
     }
 
-    public static Plan newInstance(Long userId, RegionType region, String thumbnailUrl,
+    public static Plan newInstance(Long userId, RegionCategory region, String thumbnailUrl,
                                    String title, String description, TagInfo tagInfo,
                                    int price, PlanStatus status, RcmndStatus rcmndStatus,
                                    List<String> hashtags, List<String> recommendTargets) {
         return new Plan(userId, region, thumbnailUrl, title, description, tagInfo, 0, 0, price, status, rcmndStatus, hashtags, recommendTargets);
     }
 
-    public static Plan newInstance(Long userId, RegionType region, String thumbnailUrl,
+    public static Plan newInstance(Long userId, RegionCategory region, String thumbnailUrl,
                                    String title, String description, TagInfo tagInfo,
                                    int price, PlanStatus status, RcmndStatus rcmndStatus,
                                    List<String> hashtags, List<String> recommendTargets,

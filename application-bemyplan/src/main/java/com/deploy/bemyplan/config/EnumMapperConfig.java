@@ -1,7 +1,11 @@
 package com.deploy.bemyplan.config;
 
 import com.deploy.bemyplan.common.util.EnumMapper;
-import com.deploy.bemyplan.domain.plan.*;
+import com.deploy.bemyplan.domain.plan.RegionCategory;
+import com.deploy.bemyplan.domain.plan.SpotCategoryType;
+import com.deploy.bemyplan.domain.plan.TravelMobility;
+import com.deploy.bemyplan.domain.plan.TravelPartner;
+import com.deploy.bemyplan.domain.plan.TravelTheme;
 import com.deploy.bemyplan.domain.user.UserSocialType;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +26,7 @@ public class EnumMapperConfig {
         enumMapper.put("TravelMobility", TravelMobility.class);
 
         //region
-        enumMapper.put("RegionType", RegionType.class);
+        enumMapper.put("RegionCategory", RegionCategory.class);
 
         //spot
         enumMapper.put("SpotCategoryType", SpotCategoryType.class);

@@ -1,0 +1,10 @@
+.input {
+    display: flex;
+}
+
+.input input {
+    flex: 1;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid #c5f6fa;
+  }

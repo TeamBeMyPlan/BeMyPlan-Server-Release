@@ -3,7 +3,11 @@ package com.deploy.bemyplan.service.plan.dto.response;
 import com.deploy.bemyplan.common.dto.AuditingTimeResponse;
 import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.plan.PreviewContent;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -25,9 +29,7 @@ public class PlanPreviewResponse extends AuditingTimeResponse {
     }
 
     public static PlanPreviewResponse of(@NotNull Plan plan, String nickname, List<PreviewContent> contents) {
-        PlanPreviewResponse response = PlanPreviewResponse.builder()
-                .previewInfo(PlanPreviewInfoResponse.of(plan, nickname))
-                .build();
+        PlanPreviewResponse response = new PlanPreviewResponse(PlanPreviewInfoResponse.of(plan, nickname));
         response.previewContents.addAll(toPreviewContentsResponse(contents));
         response.setBaseTime(plan.getCreatedAt(), plan.getUpdatedAt());
         return response;

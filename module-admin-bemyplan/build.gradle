@@ -1,0 +1,28 @@
+sourceSets {
+    main {
+        resources {
+            srcDirs = ["$projectDir/src/main/resources"]
+        }
+    }
+}
+
+dependencies {
+    implementation project(':module-domain-bemyplan')
+    implementation project(':module-common-bemyplan')
+    implementation platform('com.amazonaws:aws-java-sdk-bom:1.11.1000')
+    implementation 'com.amazonaws:aws-java-sdk-s3'
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+processResources {
+    dependsOn "copyReactBuildFiles"
+}
+
+task copyReactBuildFiles(type: Copy, dependsOn: ':module-admin-front:buildReact') {
+    def adminFrontDir = project(":module-admin-front").projectDir.path;
+
+    from "$adminFrontDir/build"
+    into "$projectDir/src/main/resources/static"
+}

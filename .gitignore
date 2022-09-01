@@ -37,3 +37,4 @@ out/
 .vscode/
 
 InitDB.java
+/module-admin-bemyplan/src/main/resources/static/

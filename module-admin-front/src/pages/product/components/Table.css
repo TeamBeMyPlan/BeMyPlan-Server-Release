@@ -1,0 +1,10 @@
+thead tr td {
+    border-bottom: 1px solid #22b8cf;
+    padding: 1rem;   
+    text-align: center;
+}
+
+tbody tr td {
+    padding: 0.5rem;
+    text-align: center;
+}

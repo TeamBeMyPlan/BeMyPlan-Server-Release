@@ -1,0 +1,11 @@
+cloud:
+  aws:
+    credentials:
+      accessKey: AKIAYXWSSSNXKD52EFHC
+      secretKey: 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
+    s3:
+      bucket: bemyplan-deploy
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false

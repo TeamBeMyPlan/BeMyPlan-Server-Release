@@ -6,6 +6,7 @@ import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.plan.PlanRepository;
 import com.deploy.bemyplan.domain.plan.PlanStatus;
 import com.deploy.bemyplan.domain.plan.RcmndStatus;
+import com.deploy.bemyplan.domain.plan.Region;
 import com.deploy.bemyplan.domain.plan.RegionCategory;
 import com.deploy.bemyplan.domain.plan.SpotMoveInfoRepository;
 import com.deploy.bemyplan.domain.plan.SpotRepository;
@@ -50,6 +51,7 @@ class CreatePlanServiceTest {
 
         final Plan expected = Plan.newInstance(2L,
                 RegionCategory.JEJU,
+                Region.JEJUALL,
                 S3Locator.get("thumbnail"),
                 "동쪽에서 마주한 제주 향기",
                 "안녕하세요 :)\n" +

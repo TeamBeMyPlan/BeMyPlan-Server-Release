@@ -37,7 +37,11 @@ public class Plan extends AuditingTimeEntity {
 
     @Column(nullable = false, length = 30)
     @Enumerated(EnumType.STRING)
-    private RegionCategory region;
+    private RegionCategory regionCategory;
+
+    @Column(nullable = true, length = 30)
+    @Enumerated(EnumType.STRING)
+    private Region region;
 
     @Column(nullable = false)
     private String thumbnailUrl;
@@ -79,18 +83,19 @@ public class Plan extends AuditingTimeEntity {
     @OneToMany(mappedBy = "plan", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<DailySchedule> schedules = new ArrayList<>();
 
-    private Plan(final Long userId, final RegionCategory region, final String thumbnailUrl, final String title, final String description, final TagInfo tagInfo, final int orderCnt, final int viewCnt, final int price, final PlanStatus status, final RcmndStatus rcmndStatus, final List<String> hashtags, final List<String> recommendTargets) {
-        this(userId, region, thumbnailUrl, title, description, tagInfo, orderCnt, viewCnt, price, status, rcmndStatus,
+    private Plan(final Long userId, final RegionCategory regionCategory, final Region region, final String thumbnailUrl, final String title, final String description, final TagInfo tagInfo, final int orderCnt, final int viewCnt, final int price, final PlanStatus status, final RcmndStatus rcmndStatus, final List<String> hashtags, final List<String> recommendTargets) {
+        this(userId, regionCategory, region, thumbnailUrl, title, description, tagInfo, orderCnt, viewCnt, price, status, rcmndStatus,
                 hashtags, recommendTargets, Collections.emptyList());
     }
 
-    private Plan(final Long userId, final RegionCategory region, final String thumbnailUrl,
+    private Plan(final Long userId, final RegionCategory regionCategory, final Region region, final String thumbnailUrl,
                  final String title, final String description, final TagInfo tagInfo,
                  final int orderCnt, final int viewCnt, final int price,
                  final PlanStatus status, final RcmndStatus rcmndStatus,
                  final List<String> hashtags, final List<String> recommendTargets,
                  final List<DailySchedule> schedules) {
         this.userId = userId;
+        this.regionCategory = regionCategory;
         this.region = region;
         this.thumbnailUrl = thumbnailUrl;
         this.title = title;
@@ -106,19 +111,19 @@ public class Plan extends AuditingTimeEntity {
         this.schedules.addAll(schedules);
     }
 
-    public static Plan newInstance(Long userId, RegionCategory region, String thumbnailUrl,
+    public static Plan newInstance(Long userId, RegionCategory regionCategory, Region region, String thumbnailUrl,
                                    String title, String description, TagInfo tagInfo,
                                    int price, PlanStatus status, RcmndStatus rcmndStatus,
                                    List<String> hashtags, List<String> recommendTargets) {
-        return new Plan(userId, region, thumbnailUrl, title, description, tagInfo, 0, 0, price, status, rcmndStatus, hashtags, recommendTargets);
+        return new Plan(userId, regionCategory, region, thumbnailUrl, title, description, tagInfo, 0, 0, price, status, rcmndStatus, hashtags, recommendTargets);
     }
 
-    public static Plan newInstance(Long userId, RegionCategory region, String thumbnailUrl,
+    public static Plan newInstance(Long userId, RegionCategory regionCategory, Region region, String thumbnailUrl,
                                    String title, String description, TagInfo tagInfo,
                                    int price, PlanStatus status, RcmndStatus rcmndStatus,
                                    List<String> hashtags, List<String> recommendTargets,
                                    List<DailySchedule> schedules) {
-        return new Plan(userId, region, thumbnailUrl, title, description, tagInfo, 0, 0, price, status, rcmndStatus,
+        return new Plan(userId, regionCategory, region, thumbnailUrl, title, description, tagInfo, 0, 0, price, status, rcmndStatus,
                 hashtags, recommendTargets,
                 schedules);
     }

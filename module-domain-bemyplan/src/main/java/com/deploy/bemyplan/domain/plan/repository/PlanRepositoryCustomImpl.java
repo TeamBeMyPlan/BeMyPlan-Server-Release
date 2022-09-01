@@ -164,7 +164,7 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
         if (Objects.isNull(regionCategory)) {
             return null;
         }
-        return plan.region.eq(regionCategory);
+        return plan.regionCategory.eq(regionCategory);
     }
     private BooleanExpression eqUserId(@Nullable Long SpecificUserId) {
         if (Objects.isNull(SpecificUserId)) {

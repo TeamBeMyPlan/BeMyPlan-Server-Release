@@ -37,7 +37,7 @@ public class PlanService {
         List<Plan> plans = planRepository.findPlansByRegionAndSize(region, RandomTen);
         Collections.shuffle(plans);
         return plans.stream()
-                .map(p -> PlanRandomResponse.of(p.getId(), p.getThumbnailUrl(), p.getTitle(), p.getRegion()))
+                .map(p -> PlanRandomResponse.of(p.getId(), p.getThumbnailUrl(), p.getTitle(), p.getRegionCategory()))
                 .collect(Collectors.toList());
     }
 

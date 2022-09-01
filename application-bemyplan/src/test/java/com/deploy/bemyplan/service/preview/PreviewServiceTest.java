@@ -6,6 +6,7 @@ import com.deploy.bemyplan.domain.plan.Preview;
 import com.deploy.bemyplan.domain.plan.PreviewContentStatus;
 import com.deploy.bemyplan.domain.plan.PreviewRepository;
 import com.deploy.bemyplan.domain.plan.RcmndStatus;
+import com.deploy.bemyplan.domain.plan.Region;
 import com.deploy.bemyplan.domain.plan.RegionCategory;
 import com.deploy.bemyplan.domain.plan.TagInfo;
 import com.deploy.bemyplan.service.preview.dto.PreviewContentListResponse;
@@ -42,10 +43,11 @@ class PreviewServiceTest {
     @Test
     void getPreviewContent_returnPreviewContent() {
         //given
-        final Plan givenPlan = Plan.newInstance(1L, RegionCategory.JEJU, "", "", "", TagInfo.testBuilder().build(), 0, PlanStatus.ACTIVE, RcmndStatus.NONE, Collections.emptyList(), Collections.emptyList());
+        final Plan givenPlan = Plan.newInstance(1L, RegionCategory.JEJU, Region.JEJUALL, "", "", "", TagInfo.testBuilder().build(), 0, PlanStatus.ACTIVE, RcmndStatus.NONE, Collections.emptyList(), Collections.emptyList());
         final Preview givenPreview1 = Preview.newInstance(givenPlan, List.of("image.png", "image2.png"), "description", PreviewContentStatus.ACTIVE, 1L);
         final Preview givenPreview2 = Preview.newInstance(givenPlan, List.of("image3.png", "image4.png"), "description2", PreviewContentStatus.ACTIVE, 2L);
         given(spyPreviewRepository.findAllPreviewByPlanId(givenPlan.getId())).willReturn(List.of(givenPreview1, givenPreview2));
+
         //when
         PreviewContentListResponse result = previewService.getPreviewContent(givenPlan.getId());
 

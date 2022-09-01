@@ -6,7 +6,7 @@ spring:
     password: bemyplan_pwd
 
   redis:
-    host: bemyplan-deploy-redis.tbtn3b.ng.0001.apn2.cache.amazonaws.com
+    host: bemyplan-prod-redis-001.tbtn3b.0001.apn2.cache.amazonaws.com
     port: 6379
 
   jpa:
@@ -17,6 +17,3 @@ spring:
         show_sql: true
         format_sql: false
         default_batch_fetch_size: 1000
-
-s3:
-  profile: prod

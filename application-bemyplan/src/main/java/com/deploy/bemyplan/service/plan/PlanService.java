@@ -32,16 +32,16 @@ public class PlanService {
     private final PlanRepository planRepository;
     private final UserRepository userRepository;
 
-    public List<PlanRandomResponse> getPlanListByRandom(RegionCategory region){
+    public List<PlanRandomResponse> getPlanListByRandom(RegionCategory region) {
         Pageable RandomTen = PageRequest.of(0, 10);
         List<Plan> plans = planRepository.findPlansByRegionAndSize(region, RandomTen);
         Collections.shuffle(plans);
         return plans.stream()
-                .map(p -> PlanRandomResponse.of(p.getId(), p.getThumbnailUrl(), p.getTitle(), p.getRegionCategory()))
+                .map(p -> PlanRandomResponse.of(p.getId(), p.getThumbnailUrl(), p.getTitle(), p.getRegionCategory(), p.getRegion()))
                 .collect(Collectors.toList());
     }
 
-    public CreatorInfoResponse getCreatorInfo(Long planId){
+    public CreatorInfoResponse getCreatorInfo(Long planId) {
         Plan plan = planRepository.findById(planId).orElseThrow(() -> new NotFoundException("존재하지 않는 여행 일정입니다."));
         User user = userRepository.findUserById(plan.getUserId());
         return CreatorInfoResponse.of(plan.getUserId(), user.getNickname(), plan.getDescription());

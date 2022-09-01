@@ -24,8 +24,8 @@ public class PlanController {
     private final PlanService planService;
     @ApiOperation("여행 일정을 10개씩 랜덤하게 조회합니다.")
     @GetMapping("/v2/plans/random")
-    public ApiResponse<List<PlanRandomResponse>> getPlanListByRandom(@NotNull @RequestParam("region") RegionCategory region){
-        return ApiResponse.success(planService.getPlanListByRandom(region));
+    public ApiResponse<List<PlanRandomResponse>> getPlanListByRandom(@NotNull @RequestParam("regionCategory") RegionCategory regionCategory){
+        return ApiResponse.success(planService.getPlanListByRandom(regionCategory));
     }
 
     @ApiOperation("크리에이터 조회 - 크리에이터의 정보를 조회합니다.")

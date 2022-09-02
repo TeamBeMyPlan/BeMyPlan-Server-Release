@@ -1,13 +1,12 @@
 package com.deploy.bemyplan.domain.plan;
 
-import com.deploy.bemyplan.common.model.EnumModel;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public enum TravelTheme implements EnumModel {
+public enum TravelTheme {
     HEALING("힐링"),
     EATING("맛집"),
     HOTPLACE("핫플"),
@@ -18,14 +17,4 @@ public enum TravelTheme implements EnumModel {
     ;
 
     private final String value;
-
-    @Override
-    public String getKey() {
-        return name();
-    }
-
-    @Override
-    public String getValue() {
-        return value;
-    }
 }

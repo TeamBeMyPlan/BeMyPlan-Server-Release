@@ -1,6 +1,5 @@
 package com.deploy.bemyplan.domain.plan;
 
-import com.deploy.bemyplan.common.model.EnumModel;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +16,7 @@ import static com.deploy.bemyplan.domain.plan.RegionCategory.RegionTypeStatus.LO
 
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public enum RegionCategory implements EnumModel {
+public enum RegionCategory {
 
     JEJU("제주", List.of(JEJUWEST, JEJUEAST, JEJUCITY, JEJUALL), "https://bemyplan-deploy.s3.ap-northeast-2.amazonaws.com/%EC%97%AC%ED%96%89%EC%A7%80%EC%82%AC%EC%A7%84/%EC%A0%9C%EC%A3%BC.png", ACTIVE, 1),
     BUSAN("부산", Collections.emptyList(), "https://bemyplan-deploy.s3.ap-northeast-2.amazonaws.com/%EC%97%AC%ED%96%89%EC%A7%80%EC%82%AC%EC%A7%84/%EB%B6%80%EC%82%B0.png", LOCKED, 2),
@@ -34,16 +33,6 @@ public enum RegionCategory implements EnumModel {
 
     public boolean isLocked() {
         return this.status.isLocked;
-    }
-
-    @Override
-    public String getKey() {
-        return name();
-    }
-
-    @Override
-    public String getValue() {
-        return regionCategoryName;
     }
 
     @RequiredArgsConstructor(access = AccessLevel.PRIVATE)

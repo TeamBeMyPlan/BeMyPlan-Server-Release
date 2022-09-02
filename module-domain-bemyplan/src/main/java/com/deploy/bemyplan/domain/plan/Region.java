@@ -1,13 +1,12 @@
 package com.deploy.bemyplan.domain.plan;
 
-import com.deploy.bemyplan.common.model.EnumModel;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public enum Region implements EnumModel {
+public enum Region {
 
     JEJUWEST("제주서부"),
     JEJUEAST("제주동부"),
@@ -16,14 +15,4 @@ public enum Region implements EnumModel {
     ;
 
     private final String regionName;
-
-    @Override
-    public String getKey() {
-        return name();
-    }
-
-    @Override
-    public String getValue() {
-        return regionName;
-    }
 }

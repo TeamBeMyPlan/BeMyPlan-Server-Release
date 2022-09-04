@@ -16,3 +16,6 @@ spring:
         show_sql: true
         format_sql: false
         default_batch_fetch_size: 1000
+
+s3:
+  profile: dev

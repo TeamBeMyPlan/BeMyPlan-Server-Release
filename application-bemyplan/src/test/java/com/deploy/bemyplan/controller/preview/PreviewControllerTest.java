@@ -5,7 +5,8 @@ import com.deploy.bemyplan.domain.plan.PlanStatus;
 import com.deploy.bemyplan.domain.plan.Preview;
 import com.deploy.bemyplan.domain.plan.PreviewContentStatus;
 import com.deploy.bemyplan.domain.plan.RcmndStatus;
-import com.deploy.bemyplan.domain.plan.RegionType;
+import com.deploy.bemyplan.domain.plan.Region;
+import com.deploy.bemyplan.domain.plan.RegionCategory;
 import com.deploy.bemyplan.domain.plan.TagInfo;
 import com.deploy.bemyplan.service.preview.PreviewService;
 import com.deploy.bemyplan.service.preview.dto.PreviewContentListResponse;
@@ -58,7 +59,7 @@ class PreviewControllerTest {
     @Test
     void getPreviewContent_ReturnsPreviewContentsDto() throws Exception {
         //given
-        final Plan givenPlan = Plan.newInstance(1L, RegionType.JEJU, "", "", "", TagInfo.testBuilder().build(), 0, PlanStatus.ACTIVE, RcmndStatus.NONE, Collections.emptyList(), Collections.emptyList());
+        final Plan givenPlan = Plan.newInstance(1L, RegionCategory.JEJU, Region.JEJUALL, "", "", "", TagInfo.testBuilder().build(), 0, PlanStatus.ACTIVE, RcmndStatus.NONE, Collections.emptyList(), Collections.emptyList());
         final Preview givenPreview1 = Preview.newInstance(givenPlan, List.of("image.png", "image2.png"), "description", PreviewContentStatus.ACTIVE, 1L);
         final Preview givenPreview2 = Preview.newInstance(givenPlan, List.of("image3.png", "image4.png"), "description2", PreviewContentStatus.ACTIVE, 2L);
         given(stubPreviewService.getPreviewContent(any())).willReturn(PreviewContentListResponse.of(List.of(givenPreview1, givenPreview2)));

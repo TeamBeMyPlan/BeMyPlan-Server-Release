@@ -6,7 +6,7 @@ import com.deploy.bemyplan.domain.order.OrderRepository;
 import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.plan.PlanRepository;
 import com.deploy.bemyplan.domain.plan.PreviewContent;
-import com.deploy.bemyplan.domain.plan.RegionType;
+import com.deploy.bemyplan.domain.plan.RegionCategory;
 import com.deploy.bemyplan.domain.scrap.Scrap;
 import com.deploy.bemyplan.domain.scrap.ScrapRepository;
 import com.deploy.bemyplan.domain.user.User;
@@ -17,7 +17,12 @@ import com.deploy.bemyplan.service.collection.ScrapDictionary;
 import com.deploy.bemyplan.service.plan.dto.request.RetrieveMyBookmarkListRequestDto;
 import com.deploy.bemyplan.service.plan.dto.request.RetrieveMyOrderListRequestDto;
 import com.deploy.bemyplan.service.plan.dto.request.RetrievePickListRequestDto;
-import com.deploy.bemyplan.service.plan.dto.response.*;
+import com.deploy.bemyplan.service.plan.dto.response.OrdersScrollResponse;
+import com.deploy.bemyplan.service.plan.dto.response.PlanDetailResponse;
+import com.deploy.bemyplan.service.plan.dto.response.PlanPreviewResponse;
+import com.deploy.bemyplan.service.plan.dto.response.PlansScrollResponse;
+import com.deploy.bemyplan.service.plan.dto.response.ScrapsScrollResponse;
+import com.deploy.bemyplan.service.plan.dto.response.SpotMoveInfoResponse;
 import com.deploy.bemyplan.service.user.UserServiceUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -37,7 +42,7 @@ public class PlanRetrieveService {
     private final ScrapRepository scrapRepository;
     private final OrderRepository orderRepository;
 
-    public PlansScrollResponse retrievePlans(Long userId, int size, Long authorId, Long lastPlanId, Pageable pageable, RegionType region) {
+    public PlansScrollResponse retrievePlans(Long userId, int size, Long authorId, Long lastPlanId, Pageable pageable, RegionCategory region) {
         List<Plan> planWithNextCursor = planRepository.findPlansUsingCursor(size + 1, authorId, lastPlanId, pageable, region);
         return getPlanListWithPersonalStatusUsingCursor(planWithNextCursor, userId, size);
     }

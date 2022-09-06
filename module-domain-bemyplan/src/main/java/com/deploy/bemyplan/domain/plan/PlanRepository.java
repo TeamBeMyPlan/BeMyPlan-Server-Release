@@ -9,6 +9,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface PlanRepository extends JpaRepository<Plan, Long>, PlanRepositoryCustom {
-    @Query("SELECT p from Plan p where p.region = :region")
-    List<Plan> findPlansByRegionAndSize(@Param("region") RegionType region, Pageable pageable);
+    @Query("SELECT p from Plan p where p.regionCategory = :region")
+    List<Plan> findPlansByRegionAndSize(@Param("region") RegionCategory region, Pageable pageable);
 }

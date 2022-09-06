@@ -1,6 +1,6 @@
 package com.deploy.bemyplan.service.mapper.plan;
 
-import com.deploy.bemyplan.domain.plan.RegionType;
+import com.deploy.bemyplan.domain.plan.RegionCategory;
 import com.deploy.bemyplan.service.mapper.plan.dto.response.RegionTypeResponse;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -20,11 +20,11 @@ public class RegionTypeMapper {
     }
 
     public List<RegionTypeResponse> getActiveRegionTypes() {
-        return Arrays.stream(RegionType.values())
+        return Arrays.stream(RegionCategory.values())
 //                .filter(r -> !r.isLocked())
-                .sorted(new Comparator<RegionType>() {
+                .sorted(new Comparator<RegionCategory>() {
                     @Override
-                    public int compare(RegionType o1, RegionType o2) {
+                    public int compare(RegionCategory o1, RegionCategory o2) {
                         return o1.getDisplayOrder() - o2.getDisplayOrder();
                     }
                 })

@@ -3,6 +3,8 @@ package com.deploy.bemyplan.service.plan.dto.response;
 import com.deploy.bemyplan.common.dto.AuditingTimeResponse;
 import com.deploy.bemyplan.domain.common.Money;
 import com.deploy.bemyplan.domain.plan.Plan;
+import com.deploy.bemyplan.domain.plan.Region;
+import com.deploy.bemyplan.domain.plan.RegionCategory;
 import com.deploy.bemyplan.domain.plan.TravelMobility;
 import com.deploy.bemyplan.domain.plan.TravelPartner;
 import com.deploy.bemyplan.domain.plan.TravelTheme;
@@ -25,6 +27,8 @@ public class PlanPreviewResponseDto extends AuditingTimeResponse {
     private String title;
     private String description;
     private List<String> thumbnail;
+    private RegionCategory regionCategory;
+    private Region region;
     private List<String> hashtag;
     private TravelTheme theme;
     private int spotCount;
@@ -43,6 +47,8 @@ public class PlanPreviewResponseDto extends AuditingTimeResponse {
                 plan.getTitle(),
                 plan.getDescription(),
                 previewImages,
+                plan.getRegionCategory(),
+                plan.getRegion(),
                 plan.getHashtags(),
                 plan.getTagInfo().getTheme(),
                 plan.getSpotCount(),

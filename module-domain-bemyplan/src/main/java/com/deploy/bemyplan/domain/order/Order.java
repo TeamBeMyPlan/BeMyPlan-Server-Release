@@ -38,8 +38,4 @@ public class Order extends AuditingTimeEntity {
     public static Order of(Long planId, Long userId) {
         return new Order(planId, userId);
     }
-
-    public void validate() {
-
-    }
 }

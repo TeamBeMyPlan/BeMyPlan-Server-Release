@@ -1,6 +1,5 @@
 package com.deploy.bemyplan.service.user;
 
-import com.deploy.bemyplan.domain.plan.PlanRepository;
 import com.deploy.bemyplan.domain.user.User;
 import com.deploy.bemyplan.domain.user.UserRepository;
 import com.deploy.bemyplan.domain.user.UserSocialType;
@@ -20,8 +19,7 @@ import static org.mockito.Mockito.verify;
 class UserServiceTest {
     private UserService userService;
     private ApplicationEventPublisher spyEventPublisher;
-    private UserRepository mockUserRepository;
-    private PlanRepository mockPlanRepository;
+    private UserRepository stubUserRepository;
 
     @BeforeEach
     void setUp() {
@@ -32,8 +30,7 @@ class UserServiceTest {
 
         userService = new UserService(stubUserRepository,
                 mock(WithdrawalUserRepository.class),
-                spyEventPublisher,
-                mockPlanRepository);
+                spyEventPublisher);
     }
 
     @Test
@@ -54,7 +51,7 @@ class UserServiceTest {
         given(stubUserRepository.findUserById(1L)).willReturn(givenUser);
 
         userService.signOut(1L, "reason");
-        
+
         assertThat(givenUser.isActive()).isFalse();
     }
 }

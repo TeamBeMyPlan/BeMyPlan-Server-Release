@@ -3,6 +3,7 @@ package com.deploy.bemyplan.service.order;
 import com.deploy.bemyplan.common.exception.model.NotFoundException;
 import com.deploy.bemyplan.domain.order.Order;
 import com.deploy.bemyplan.domain.order.OrderRepository;
+import com.deploy.bemyplan.domain.order.OrderStatus;
 import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.plan.PlanRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,13 +21,13 @@ public class OrderService {
 
     @Transactional
     public void createOrder(Long planId, Long userId) {
-        Order order = orderRepository.findByUserIdAndPlanId(planId, userId);
-        if (order != null){
+        Order maybeOrder = orderRepository.findByUserIdAndPlanId(planId, userId);
+        if (maybeOrder != null){
             throw new NotFoundException("이미 구매한 일정입니다.", CONFLICT_ORDER_PLAN);
         }
         Plan plan = planRepository.findPlanById(planId);
         plan.updateOrderCnt();
-        orderRepository.save(Order.of(planId, userId));
+        orderRepository.save(Order.of(planId, userId, OrderStatus.PASSIVE, plan.getPrice()));
     }
 
     @Transactional(readOnly = true)

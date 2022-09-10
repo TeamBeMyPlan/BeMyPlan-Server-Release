@@ -10,7 +10,7 @@ public class InAppPurchaseResponse {
     private final PaymentState status;
     private final String transactionId;
 
-    public InAppPurchaseResponse(final PaymentState status, final String transactionId) {
+    private InAppPurchaseResponse(final PaymentState status, final String transactionId) {
         this.status = status;
         this.transactionId = transactionId;
     }

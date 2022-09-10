@@ -2,7 +2,6 @@ package com.deploy.bemyplan.domain.order;
 
 import com.deploy.bemyplan.domain.common.AuditingTimeEntity;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Enumerated;
+import javax.persistence.EnumType;
 
 @Entity
 @Getter
@@ -29,13 +30,25 @@ public class Order extends AuditingTimeEntity {
     @Column(nullable = false)
     private Long userId;
 
-    @Builder(access = AccessLevel.PRIVATE)
-    private Order(Long planId, Long userId) {
+    @Column(length = 30)
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
+
+    @Column
+    private int orderPrice;
+
+    private Order(Long planId, Long userId, OrderStatus status, int price) {
         this.planId = planId;
         this.userId = userId;
+        this.status = status;
+        this.orderPrice = price;
     }
 
-    public static Order of(Long planId, Long userId) {
-        return new Order(planId, userId);
+    public static Order of(Long planId, Long userId, OrderStatus status, int price) {
+        return new Order(planId, userId, status, price);
+    }
+
+    public void orderComplete(){
+        this.status = OrderStatus.ACTIVE;
     }
 }

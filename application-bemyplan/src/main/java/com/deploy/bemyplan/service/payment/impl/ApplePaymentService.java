@@ -20,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-import static com.deploy.bemyplan.common.exception.ErrorCode.CONFLICT_ORDER_PLAN;
 import static com.deploy.bemyplan.common.exception.ErrorCode.NOT_FOUND_EXCEPTION;
 
 @RequiredArgsConstructor
@@ -37,25 +36,29 @@ public class ApplePaymentService implements PaymentService {
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 주문 내역 입니다.", NOT_FOUND_EXCEPTION));
 
         AppStoreResponse response = appleInAppPurchaseValidator.appleInAppPurchaseVerify(userReceipt)
-                .orElseThrow(() -> new NotFoundException("존재 하지 않는 응답입니다.", NOT_FOUND_EXCEPTION));
+                .orElseThrow(() -> new NotFoundException("검증 되지 않은 응답입니다.", NOT_FOUND_EXCEPTION));
 
         String transactionId = getTransactionId(response);
 
-        //앱이 비정상적으로 종료 되었는데 이미 DB에 TransactionId가 있는 경우 성공 처리 보내주기
-        Optional<Payment> isPayment = paymentRepository.findByTransactionId(transactionId);
-        if (isPayment.isPresent()){
-            return InAppPurchaseResponse.of(isPayment.get().getPaymentState(), isPayment.get().getTransactionId());
+        Optional<Payment> maybePayment = getExistPayment(transactionId);
+        if (maybePayment.isEmpty()) {
+            Payment payment = Payment.of(
+                    order,
+                    getTransactionId(response),
+                    PaymentState.fromCode(response.getStatus())
+            );
+            paymentRepository.save(payment);
+            order.orderComplete();
+
+            return InAppPurchaseResponse.of(payment.getPaymentState(), payment.getTransactionId());
+        } else {
+            return InAppPurchaseResponse.of(maybePayment.get().getPaymentState(), maybePayment.get().getTransactionId());
         }
+    }
 
-        Payment payment = Payment.of(
-                order,
-                getTransactionId(response),
-                PaymentState.fromCode(response.getStatus())
-        );
-
-        paymentRepository.save(payment);
-
-        return InAppPurchaseResponse.of(payment.getPaymentState(), payment.getTransactionId());
+    @Transactional(readOnly = true)
+    public Optional<Payment> getExistPayment(String transactionId) {
+        return paymentRepository.findByTransactionId(transactionId);
     }
 
     private String getTransactionId(AppStoreResponse response) {

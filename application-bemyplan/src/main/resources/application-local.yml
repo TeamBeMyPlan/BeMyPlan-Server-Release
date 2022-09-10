@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3307/bemyplan_local?useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&serverTimezone=Asia/Seoul
+    url: jdbc:mysql://localhost:3307/bemyplan?useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&serverTimezone=Asia/Seoul
     username: root
     password: root
   redis:
@@ -15,7 +15,7 @@ spring:
       #      create: 기존에 존재하는 스키마를 삭제하고 새로 생성한다.
       #      create-drop: 스키마를 생성하고 애플리케이션이 종료될 때 삭제한다.
       #      none: 초기화 동작을 하지 않는다.
-      ddl-auto: none
+      ddl-auto: update
     properties:
       hibernate:
         show_sql: true

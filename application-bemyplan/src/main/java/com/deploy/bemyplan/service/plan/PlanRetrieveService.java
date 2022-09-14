@@ -17,7 +17,12 @@ import com.deploy.bemyplan.service.collection.ScrapDictionary;
 import com.deploy.bemyplan.service.plan.dto.request.RetrieveMyBookmarkListRequestDto;
 import com.deploy.bemyplan.service.plan.dto.request.RetrieveMyOrderListRequestDto;
 import com.deploy.bemyplan.service.plan.dto.request.RetrievePickListRequestDto;
-import com.deploy.bemyplan.service.plan.dto.response.*;
+import com.deploy.bemyplan.service.plan.dto.response.OrdersScrollResponse;
+import com.deploy.bemyplan.service.plan.dto.response.PlanDetailResponse;
+import com.deploy.bemyplan.service.plan.dto.response.PlanPreviewResponse;
+import com.deploy.bemyplan.service.plan.dto.response.PlansScrollResponse;
+import com.deploy.bemyplan.service.plan.dto.response.ScrapsScrollResponse;
+import com.deploy.bemyplan.service.plan.dto.response.SpotMoveInfoResponse;
 import com.deploy.bemyplan.service.user.UserServiceUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -98,7 +103,7 @@ public class PlanRetrieveService {
         if (plansCursor.isLastScroll()) {
             return OrdersScrollResponse.newLastCursor(plansCursor.getCurrentScrollItems(), scrapDictionary, orderDictionary, authors);
         }
-        Order nextCursor = orderRepository.findByUserIdAndPlanId(plansCursor.getNextCursor().getId(), userId);
+        Order nextCursor = orderRepository.findByPlanIdAndUserId(plansCursor.getNextCursor().getId(), userId).get();
         return OrdersScrollResponse.newCursorHasNext(plansCursor.getCurrentScrollItems(), scrapDictionary, orderDictionary, authors, nextCursor.getId());
     }
 

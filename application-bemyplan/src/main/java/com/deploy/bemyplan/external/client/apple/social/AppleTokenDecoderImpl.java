@@ -1,7 +1,7 @@
-package com.deploy.bemyplan.external.client.apple;
+package com.deploy.bemyplan.external.client.apple.social;
 
 import com.deploy.bemyplan.common.exception.model.ValidationException;
-import com.deploy.bemyplan.external.client.apple.dto.response.ApplePublicKeyResponse;
+import com.deploy.bemyplan.external.client.apple.social.dto.response.ApplePublicKeyResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

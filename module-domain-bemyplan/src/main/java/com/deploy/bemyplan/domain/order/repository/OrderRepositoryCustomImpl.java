@@ -44,20 +44,6 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom{
         return findAllByIds(orderIds);
     }
 
-    @Override
-    public Order findByUserIdAndPlanId(Long planId, Long userId){
-        if (Objects.isNull(userId)) {
-            return null;
-        }
-        return queryFactory
-                .selectFrom(order)
-                .where(
-                        eqUserId(userId),
-                        eqPlanId(planId)
-                )
-                .fetchOne();
-    }
-
     private BooleanExpression eqUserId(Long userId) {
         if (Objects.isNull(userId)) {
             return null;

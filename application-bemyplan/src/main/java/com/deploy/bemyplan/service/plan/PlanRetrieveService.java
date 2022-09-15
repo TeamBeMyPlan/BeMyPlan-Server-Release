@@ -103,7 +103,7 @@ public class PlanRetrieveService {
         if (plansCursor.isLastScroll()) {
             return OrdersScrollResponse.newLastCursor(plansCursor.getCurrentScrollItems(), scrapDictionary, orderDictionary, authors);
         }
-        Order nextCursor = orderRepository.findByUserIdAndPlanId(plansCursor.getNextCursor().getId(), userId);
+        Order nextCursor = orderRepository.findByPlanIdAndUserId(plansCursor.getNextCursor().getId(), userId).get();
         return OrdersScrollResponse.newCursorHasNext(plansCursor.getCurrentScrollItems(), scrapDictionary, orderDictionary, authors, nextCursor.getId());
     }
 

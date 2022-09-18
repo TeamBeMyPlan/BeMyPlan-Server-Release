@@ -1,7 +1,9 @@
 package com.deploy.bemyplan.domain.order;
 
 public enum OrderStatus {
-    ACTIVE,
-    PASSIVE
+    FAILED,
+    UNPAID,
+    COMPLETED,
+    CANCELED,
     ;
 }

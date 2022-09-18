@@ -25,13 +25,13 @@ public class OrderService {
     public void createOrder(final Long planId, final Long userId) {
         final Plan plan = planRepository.findPlanById(planId);
         plan.updateOrderCnt();
-        orderRepository.save(Order.of(planId, userId, OrderStatus.PASSIVE, plan.getPrice()));
+        orderRepository.save(Order.of(planId, userId, OrderStatus.UNPAID, plan.getPrice()));
     }
 
     @Transactional(readOnly = true)
     public void checkOrderStatus(final Long planId, final Long userId) {
         final Optional<Order> maybeOrder = orderRepository.findByPlanIdAndUserId(planId, userId);
-        if (maybeOrder.isPresent()) {
+        if (maybeOrder.isPresent() && OrderStatus.COMPLETED == maybeOrder.get().getStatus()) {
             throw new NotFoundException("이미 구매한 일정입니다.", CONFLICT_ORDER_PLAN);
         }
     }

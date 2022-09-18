@@ -56,7 +56,8 @@ public class Order extends AuditingTimeEntity {
         return new Order(planId, userId, status, price);
     }
 
-    public void orderComplete(){
-        this.status = OrderStatus.ACTIVE;
+    public void orderComplete(Payment payment) {
+        this.payments.add(payment);
+        this.status = OrderStatus.COMPLETED;
     }
 }

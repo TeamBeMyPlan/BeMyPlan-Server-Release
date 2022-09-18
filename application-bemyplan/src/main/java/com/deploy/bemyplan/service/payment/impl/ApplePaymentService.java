@@ -1,6 +1,8 @@
 package com.deploy.bemyplan.service.payment.impl;
 
 import com.deploy.bemyplan.common.exception.model.NotFoundException;
+import com.deploy.bemyplan.common.exception.model.ValidationException;
+import com.deploy.bemyplan.service.payment.dto.request.ConfirmOrderDto;
 import com.deploy.bemyplan.domain.order.Order;
 import com.deploy.bemyplan.domain.order.OrderRepository;
 import com.deploy.bemyplan.domain.payment.Payment;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 import static com.deploy.bemyplan.common.exception.ErrorCode.NOT_FOUND_EXCEPTION;
 
@@ -41,7 +44,23 @@ public class ApplePaymentService implements PaymentService {
         final Payment payment = findOrCreatePayment(order, transactionId, PaymentState.fromCode(response.getStatus()));
         paymentRepository.save(payment);
 
-        return InAppPurchaseResponse.of(payment.getPaymentState(), payment.getTransactionId());
+        return InAppPurchaseResponse.of(payment.getId(), payment.getPaymentState(), payment.getTransactionId());
+    }
+
+    @Transactional
+    @Override
+    public void purchaseConfirm(final Long orderId, final ConfirmOrderDto confirmOrderDto) {
+        final Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new NotFoundException("존재하지 않는 주문 내역 입니다.", NOT_FOUND_EXCEPTION));
+
+        final Payment payment = paymentRepository.findById(confirmOrderDto.getPaymentId())
+                .orElseThrow(() -> new NotFoundException("존재하지 않는 결제 내역 입니다.", NOT_FOUND_EXCEPTION));
+
+        if (!Objects.equals(orderId, payment.getOrder().getId()))
+            throw new ValidationException("결제된 주문이 요청된 주문과 일치하지 않습니다.");
+        if (PaymentState.COMPLETE != payment.getPaymentState()) throw new ValidationException("결제 처리가 정상적으로 되지 않았습니다.");
+
+        order.orderComplete(payment);
     }
 
     private Payment findOrCreatePayment(final Order order, final String transactionId, final PaymentState paymentState) {

@@ -2,7 +2,6 @@ package com.deploy.bemyplan.service.payment.impl;
 
 import com.deploy.bemyplan.common.exception.model.NotFoundException;
 import com.deploy.bemyplan.common.exception.model.ValidationException;
-import com.deploy.bemyplan.service.payment.dto.request.ConfirmOrderDto;
 import com.deploy.bemyplan.domain.order.Order;
 import com.deploy.bemyplan.domain.order.OrderRepository;
 import com.deploy.bemyplan.domain.payment.Payment;
@@ -11,6 +10,7 @@ import com.deploy.bemyplan.domain.payment.PaymentState;
 import com.deploy.bemyplan.external.client.apple.purchase.dto.response.AppStoreResponse;
 import com.deploy.bemyplan.external.client.apple.purchase.dto.response.InApp;
 import com.deploy.bemyplan.service.payment.PaymentService;
+import com.deploy.bemyplan.service.payment.dto.request.ConfirmOrderDto;
 import com.deploy.bemyplan.service.payment.dto.request.UserReceiptDto;
 import com.deploy.bemyplan.service.payment.dto.response.InAppPurchaseResponse;
 import com.deploy.bemyplan.service.payment.utils.AppleInAppPurchaseValidator;
@@ -56,9 +56,8 @@ public class ApplePaymentService implements PaymentService {
         final Payment payment = paymentRepository.findById(confirmOrderDto.getPaymentId())
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 결제 내역 입니다.", NOT_FOUND_EXCEPTION));
 
-        if (!Objects.equals(orderId, payment.getOrder().getId()))
-            throw new ValidationException("결제된 주문이 요청된 주문과 일치하지 않습니다.");
-        if (PaymentState.COMPLETE != payment.getPaymentState()) throw new ValidationException("결제 처리가 정상적으로 되지 않았습니다.");
+        if (!Objects.equals(orderId, payment.getOrder().getId()) || PaymentState.COMPLETE != payment.getPaymentState())
+            throw new ValidationException("결제 처리가 정상적으로 되지 않았습니다.");
 
         order.orderComplete(payment);
     }

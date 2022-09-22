@@ -13,7 +13,7 @@ import java.util.Objects;
 import static com.deploy.bemyplan.domain.order.QOrder.order;
 
 @RequiredArgsConstructor
-public class OrderRepositoryCustomImpl implements OrderRepositoryCustom{
+public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 

@@ -7,10 +7,12 @@ import lombok.ToString;
 @Getter
 @ToString
 public class InAppPurchaseResponse {
+    private final Long id;
     private final PaymentState status;
     private final String transactionId;
 
-    private InAppPurchaseResponse(final PaymentState status, final String transactionId) {
+    private InAppPurchaseResponse(final Long id, final PaymentState status, final String transactionId) {
+        this.id = id;
         this.status = status;
         this.transactionId = transactionId;
     }
@@ -19,8 +21,9 @@ public class InAppPurchaseResponse {
         return PaymentState.COMPLETE == status;
     }
 
-    public static InAppPurchaseResponse of(final PaymentState status, final String transactionId){
+    public static InAppPurchaseResponse of(final Long id, final PaymentState status, final String transactionId) {
         InAppPurchaseResponse response = new InAppPurchaseResponse(
+                id,
                 status,
                 transactionId
         );

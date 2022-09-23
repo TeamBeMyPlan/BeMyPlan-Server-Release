@@ -6,6 +6,7 @@ import com.deploy.bemyplan.domain.order.OrderRepository;
 import com.deploy.bemyplan.domain.order.OrderStatus;
 import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.plan.PlanRepository;
+import com.deploy.bemyplan.service.order.dto.response.OrderResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,10 +23,11 @@ public class OrderService {
     private final PlanRepository planRepository;
 
     @Transactional
-    public void createOrder(final Long planId, final Long userId) {
+    public OrderResponseDto createOrder(final Long planId, final Long userId) {
         final Plan plan = planRepository.findPlanById(planId);
         plan.updateOrderCnt();
-        orderRepository.save(Order.of(planId, userId, OrderStatus.UNPAID, plan.getPrice()));
+        final Order order = orderRepository.save(Order.of(planId, userId, OrderStatus.UNPAID, plan.getPrice()));
+        return OrderResponseDto.of(order.getId());
     }
 
     @Transactional(readOnly = true)

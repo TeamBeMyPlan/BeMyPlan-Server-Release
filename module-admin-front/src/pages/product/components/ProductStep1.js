@@ -4,7 +4,8 @@ import Textbox from '../../../components/textbox/Textbox'
 import NumericInput from '../../../components/numeric/NumericInput'
 import Inputs from '../../../components/inputs/Inputs'
 import Button from '../../../components/button/Button'
-import imageApi from '../../../components/imageApi'
+import imageApi, { compressionOptions } from '../../../components/imageApi'
+import imageCompression from 'browser-image-compression';
 import './ProductStep.css'
 
 class ProductStep1 extends Component {
@@ -50,8 +51,10 @@ class ProductStep1 extends Component {
     fileChangedHandler = async e => {
         const files = e.target.files;
         const formData = new FormData();
+
         for (let i = 0; i < files.length; i++) {
-            formData.append('files', files[i]);
+            const compressed = await imageCompression(files[i], compressionOptions);
+            formData.append('files', compressed);
         }
 
         const response = await imageApi.upload(formData);

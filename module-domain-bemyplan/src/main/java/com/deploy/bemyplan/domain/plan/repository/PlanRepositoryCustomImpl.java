@@ -1,11 +1,12 @@
 package com.deploy.bemyplan.domain.plan.repository;
 
+import com.deploy.bemyplan.domain.order.OrderStatus;
 import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.plan.PlanStatus;
 import com.deploy.bemyplan.domain.plan.PreviewContent;
 import com.deploy.bemyplan.domain.plan.PreviewContentStatus;
 import com.deploy.bemyplan.domain.plan.RcmndStatus;
-import com.deploy.bemyplan.domain.plan.RegionType;
+import com.deploy.bemyplan.domain.plan.RegionCategory;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -110,7 +111,7 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
     }
 
     @Override
-    public List<Plan> findPlansUsingCursor(int size,Long authorId, Long lastPlanId, Pageable pageable, RegionType region) {
+    public List<Plan> findPlansUsingCursor(int size, Long authorId, Long lastPlanId, Pageable pageable, RegionCategory region) {
         JPAQuery<Plan> query = queryFactory
                 .select(plan).distinct()
                 .from(plan)
@@ -160,12 +161,13 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
         return order.id.lt(lastOrderId);
     }
 
-    private BooleanExpression eqRegion(@Nullable RegionType regionType) {
-        if (Objects.isNull(regionType)) {
+    private BooleanExpression eqRegion(@Nullable RegionCategory regionCategory) {
+        if (Objects.isNull(regionCategory)) {
             return null;
         }
-        return plan.region.eq(regionType);
+        return plan.regionCategory.eq(regionCategory);
     }
+
     private BooleanExpression eqUserId(@Nullable Long SpecificUserId) {
         if (Objects.isNull(SpecificUserId)) {
             return null;
@@ -192,11 +194,11 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
 
     private BooleanExpression inPlanIdsWithOrder(Long userId, Long lastOrderId, int size) {
         List<Long> planIds = queryFactory.
-                select(order.planId).distinct()
+                select(order.planId)
                 .from(order)
                 .where(
                         order.userId.eq(userId),
-                        // order.status.eq(ACTIVE) 추가 요망
+                        order.status.eq(OrderStatus.COMPLETED),
                         lessThanOrderId(lastOrderId)
                 )
                 .orderBy(order.id.desc())

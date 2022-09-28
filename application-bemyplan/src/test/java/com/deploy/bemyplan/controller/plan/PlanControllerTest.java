@@ -3,7 +3,8 @@ package com.deploy.bemyplan.controller.plan;
 import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.plan.PlanStatus;
 import com.deploy.bemyplan.domain.plan.RcmndStatus;
-import com.deploy.bemyplan.domain.plan.RegionType;
+import com.deploy.bemyplan.domain.plan.Region;
+import com.deploy.bemyplan.domain.plan.RegionCategory;
 import com.deploy.bemyplan.domain.plan.TagInfo;
 import com.deploy.bemyplan.service.plan.PlanService;
 import com.deploy.bemyplan.service.plan.dto.response.PlanPreviewResponseDto;
@@ -43,24 +44,24 @@ class PlanControllerTest {
 
     @Test
     void getPlanPreviewReturnsOkHttpStatus() throws Exception {
-        mockMvc.perform(get("/api/v2/plan/1/preview"))
+        mockMvc.perform(get("/api/v2/plans/1/preview"))
                 .andExpect(status().isOk());
     }
 
     @Test
     void getPlanPreviewPassesPlanIdToService() throws Exception {
-        mockMvc.perform(get("/api/v2/plan/1/preview"));
+        mockMvc.perform(get("/api/v2/plans/1/preview"));
 
         verify(stubPlanService, times(1)).getPlanPreview(1L);
     }
 
     @Test
     void getPlanPreviewReturnsResponse() throws Exception {
-        Plan givenPlan = newInstance(1L, RegionType.JEJU, "thumbnail", "title", "description", TagInfo.testBuilder().build(), 2000, PlanStatus.ACTIVE, RcmndStatus.NONE, Collections.emptyList(), Collections.emptyList());
+        Plan givenPlan = newInstance(1L, RegionCategory.JEJU, Region.JEJUALL, "thumbnail", "title", "description", TagInfo.testBuilder().build(), 2000, PlanStatus.ACTIVE, RcmndStatus.NONE, Collections.emptyList(), Collections.emptyList());
         PlanPreviewResponseDto response = PlanPreviewResponseDto.of(givenPlan, List.of("image.png", "image2.png"));
         given(stubPlanService.getPlanPreview(any())).willReturn(response);
 
-        mockMvc.perform(get("/api/v2/plan/{planId}/preview", 1L))
+        mockMvc.perform(get("/api/v2/plans/{planId}/preview", 1L))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.planId", equalTo(response.getPlanId())))
                 .andExpect(jsonPath("$.data.title", equalTo(response.getTitle())))

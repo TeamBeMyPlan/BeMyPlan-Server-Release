@@ -13,7 +13,7 @@ import java.util.Objects;
 import static com.deploy.bemyplan.domain.order.QOrder.order;
 
 @RequiredArgsConstructor
-public class OrderRepositoryCustomImpl implements OrderRepositoryCustom{
+public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
@@ -42,20 +42,6 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom{
                 )
                 .fetch();
         return findAllByIds(orderIds);
-    }
-
-    @Override
-    public Order findByUserIdAndPlanId(Long planId, Long userId){
-        if (Objects.isNull(userId)) {
-            return null;
-        }
-        return queryFactory
-                .selectFrom(order)
-                .where(
-                        eqUserId(userId),
-                        eqPlanId(planId)
-                )
-                .fetchOne();
     }
 
     private BooleanExpression eqUserId(Long userId) {

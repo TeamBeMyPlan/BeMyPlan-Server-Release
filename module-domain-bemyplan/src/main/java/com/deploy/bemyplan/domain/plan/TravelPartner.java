@@ -1,13 +1,12 @@
 package com.deploy.bemyplan.domain.plan;
 
-import com.deploy.bemyplan.common.model.EnumModel;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public enum TravelPartner implements EnumModel {
+public enum TravelPartner{
     FAMILY("가족"),
     FRIEND("친구"),
     COUPLE("연인"),
@@ -16,15 +15,5 @@ public enum TravelPartner implements EnumModel {
     ;
 
     private final String value;
-
-    @Override
-    public String getKey() {
-        return name();
-    }
-
-    @Override
-    public String getValue() {
-        return value;
-    }
 }
 

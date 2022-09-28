@@ -1,6 +1,6 @@
-package com.deploy.bemyplan.external.client.apple;
+package com.deploy.bemyplan.external.client.apple.social;
 
-import com.deploy.bemyplan.external.client.apple.dto.response.ApplePublicKeyResponse;
+import com.deploy.bemyplan.external.client.apple.social.dto.response.ApplePublicKeyResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 

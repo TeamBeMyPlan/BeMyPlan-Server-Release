@@ -2,7 +2,7 @@ package com.deploy.bemyplan.service.auth.impl;
 
 import com.deploy.bemyplan.domain.user.UserRepository;
 import com.deploy.bemyplan.domain.user.UserSocialType;
-import com.deploy.bemyplan.external.client.apple.AppleTokenDecoder;
+import com.deploy.bemyplan.external.client.apple.social.AppleTokenDecoder;
 import com.deploy.bemyplan.service.auth.AuthService;
 import com.deploy.bemyplan.service.auth.dto.request.LoginDto;
 import com.deploy.bemyplan.service.auth.dto.request.SignUpDto;

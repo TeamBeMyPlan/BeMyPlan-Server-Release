@@ -6,7 +6,8 @@ import ComboBox from '../../../components/combobox/ComboBox'
 import NumericInput from '../../../components/numeric/NumericInput'
 import DaumPostcodeEmbed from 'react-daum-postcode';
 import locationApi from '../../../components/locationApi'
-import imageApi from '../../../components/imageApi'
+import imageApi, { compressionOptions } from '../../../components/imageApi'
+import imageCompression from 'browser-image-compression';
 import './ProductStep.css'
 import './Table.css'
 
@@ -77,7 +78,8 @@ class ProductStep2 extends Component {
         const files = e.target.files;
         const formData = new FormData();
         for (let i = 0; i < files.length; i++) {
-            formData.append('files', files[i]);
+            const compressed = await imageCompression(files[i], compressionOptions);
+            formData.append('files', compressed);
         }
 
         const response = await imageApi.upload(formData);

@@ -9,5 +9,4 @@ public interface OrderRepositoryCustom {
 
     List<Order> findAllByIds(List<Long> orderIds);
     List<Order> findByUserIdAndPlanIds(List<Long> planIds, @Nullable Long userId);
-    Order findByUserIdAndPlanId(Long planId, @Nullable Long userId);
 }

@@ -6,6 +6,7 @@ import com.deploy.bemyplan.controller.auth.dto.request.LoginRequestDto;
 import com.deploy.bemyplan.controller.auth.dto.request.SignOutUserRequest;
 import com.deploy.bemyplan.controller.auth.dto.request.SignUpRequestDto;
 import com.deploy.bemyplan.controller.auth.dto.response.LoginResponse;
+import com.deploy.bemyplan.controller.common.response.ResponseDTO;
 import com.deploy.bemyplan.domain.user.User;
 import com.deploy.bemyplan.domain.user.UserRepository;
 import com.deploy.bemyplan.service.auth.AuthService;
@@ -15,7 +16,6 @@ import com.deploy.bemyplan.service.user.UserServiceUtils;
 import com.deploy.bemyplan.service.user.dto.request.CheckAvailableNameRequestDto;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -62,24 +62,24 @@ public class AuthController {
     @ApiOperation("[인증] 로그아웃을 요청합니다.")
     @Auth
     @PostMapping("/v1/logout")
-    public ResponseEntity<String> logout() {
+    public ResponseDTO logout() {
         httpSession.removeAttribute(USER_ID);
-        return ResponseEntity.ok("로그아웃 성공");
+        return ResponseDTO.of("로그아웃 성공");
     }
 
     @ApiOperation("[인증] 회원탈퇴를 요청합니다")
     @Auth
     @DeleteMapping("/v1/signout")
-    public ResponseEntity<String> signOut(@Valid @RequestBody final SignOutUserRequest request, @UserId final Long userId) {
+    public ResponseDTO signOut(@Valid @RequestBody final SignOutUserRequest request, @UserId final Long userId) {
         userService.signOut(userId, request.getReasonForWithdrawal());
         httpSession.invalidate();
-        return ResponseEntity.ok("회원탈퇴 성공");
+        return ResponseDTO.of("회원탈퇴 성공");
     }
 
     @ApiOperation("회원가입 시 닉네임 중복 여부를 요청합니다. (중복된 닉네임 409 or 사용 불가능한 닉네임 400)" )
     @GetMapping("/v1/user/name/check")
-    public ResponseEntity<String> checkAvailableName(@Valid final CheckAvailableNameRequestDto request){
+    public ResponseDTO checkAvailableName(@Valid final CheckAvailableNameRequestDto request){
         userService.checkIsAvailableName(request);
-        return ResponseEntity.ok("사용 가능한 닉네임 입니다.");
+        return ResponseDTO.of("사용 가능한 닉네임 입니다.");
     }
 }

@@ -1,6 +1,5 @@
 package com.deploy.bemyplan.controller.auth;
 
-import com.deploy.bemyplan.common.dto.ApiResponse;
 import com.deploy.bemyplan.config.interceptor.Auth;
 import com.deploy.bemyplan.config.resolver.UserId;
 import com.deploy.bemyplan.controller.auth.dto.request.LoginRequestDto;
@@ -16,6 +15,7 @@ import com.deploy.bemyplan.service.user.UserServiceUtils;
 import com.deploy.bemyplan.service.user.dto.request.CheckAvailableNameRequestDto;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,44 +42,44 @@ public class AuthController {
 
     @ApiOperation("회원가입 페이지 - 회원가입을 요청합니다")
     @PostMapping("/v1/signup")
-    public ApiResponse<LoginResponse> signUp(@Valid @RequestBody SignUpRequestDto request) {
-        AuthService authService = authServiceProvider.getAuthService(request.getSocialType());
-        Long userId = authService.signUp(request.toServiceDto());
+    public LoginResponse signUp(@Valid @RequestBody final SignUpRequestDto request) {
+        final AuthService authService = authServiceProvider.getAuthService(request.getSocialType());
+        final Long userId = authService.signUp(request.toServiceDto());
         httpSession.setAttribute(USER_ID, userId);
-        return ApiResponse.success(LoginResponse.of(httpSession.getId(), userId, request.getNickname()));
+        return LoginResponse.of(httpSession.getId(), userId, request.getNickname());
     }
 
     @ApiOperation("로그인 페이지 - 로그인을 요청합니다")
     @PostMapping("/v1/login")
-    public ApiResponse<LoginResponse> login(@Valid @RequestBody LoginRequestDto request) {
-        AuthService authService = authServiceProvider.getAuthService(request.getSocialType());
-        Long userId = authService.login(request.toServiceDto());
+    public LoginResponse login(@Valid @RequestBody final LoginRequestDto request) {
+        final AuthService authService = authServiceProvider.getAuthService(request.getSocialType());
+        final Long userId = authService.login(request.toServiceDto());
         httpSession.setAttribute(USER_ID, userId);
-        User findUser = UserServiceUtils.findUserById(userRepository, userId);
-        return ApiResponse.success(LoginResponse.of(httpSession.getId(), userId, findUser.getNickname()));
+        final User findUser = UserServiceUtils.findUserById(userRepository, userId);
+        return LoginResponse.of(httpSession.getId(), userId, findUser.getNickname());
     }
 
     @ApiOperation("[인증] 로그아웃을 요청합니다.")
     @Auth
     @PostMapping("/v1/logout")
-    public ApiResponse<String> logout() {
+    public ResponseEntity<String> logout() {
         httpSession.removeAttribute(USER_ID);
-        return ApiResponse.SUCCESS;
+        return ResponseEntity.ok("로그아웃 성공");
     }
 
     @ApiOperation("[인증] 회원탈퇴를 요청합니다")
     @Auth
     @DeleteMapping("/v1/signout")
-    public ApiResponse<String> signOut(@Valid @RequestBody SignOutUserRequest request, @UserId Long userId) {
+    public ResponseEntity<String> signOut(@Valid @RequestBody final SignOutUserRequest request, @UserId final Long userId) {
         userService.signOut(userId, request.getReasonForWithdrawal());
         httpSession.invalidate();
-        return ApiResponse.SUCCESS;
+        return ResponseEntity.ok("회원탈퇴 성공");
     }
 
     @ApiOperation("회원가입 시 닉네임 중복 여부를 요청합니다. (중복된 닉네임 409 or 사용 불가능한 닉네임 400)" )
     @GetMapping("/v1/user/name/check")
-    public ApiResponse<String> checkAvailableName(@Valid CheckAvailableNameRequestDto request){
+    public ResponseEntity<String> checkAvailableName(@Valid final CheckAvailableNameRequestDto request){
         userService.checkIsAvailableName(request);
-        return ApiResponse.SUCCESS;
+        return ResponseEntity.ok("사용 가능한 닉네임 입니다.");
     }
 }

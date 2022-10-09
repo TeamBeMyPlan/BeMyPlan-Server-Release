@@ -18,8 +18,10 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -35,7 +37,7 @@ public class PlanRetrieveController {
     @ApiOperation("[인증] 여행일정 목록들을 조회합니다 (여행지별 O, 정렬 O)")
     @Auth
     @GetMapping("/v1/plans")
-    public ApiResponse<PlanListResponse> getPlans(@UserId Long userId, @Valid RetrievePlansRequest request) {
+    public ApiResponse<PlanListResponse> getPlans(@UserId Long userId, @ModelAttribute @Valid RetrievePlansRequest request) {
         return ApiResponse.success(planRetrieveService.retrievePlans(
                 userId,
                 request.getRegion())

@@ -13,10 +13,7 @@ import org.jetbrains.annotations.Nullable;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class RetrievePlansRequest {
-
     @Nullable
     private RegionCategory region;
 
-    @Nullable
-    private Long authorId;
 }

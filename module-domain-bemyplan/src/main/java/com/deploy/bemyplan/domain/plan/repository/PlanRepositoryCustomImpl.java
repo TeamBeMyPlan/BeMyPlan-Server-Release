@@ -5,7 +5,6 @@ import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.plan.PlanStatus;
 import com.deploy.bemyplan.domain.plan.PreviewContent;
 import com.deploy.bemyplan.domain.plan.PreviewContentStatus;
-import com.deploy.bemyplan.domain.plan.RcmndStatus;
 import com.deploy.bemyplan.domain.plan.RegionCategory;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
@@ -60,21 +59,6 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
     }
 
     @Override
-    public List<Plan> findPickListUsingCursor(int size, Long lastPlanId) {
-        return queryFactory
-                .select(plan).distinct()
-                .from(plan)
-                .where(
-                        lessThanId(lastPlanId),
-                        plan.status.eq(PlanStatus.ACTIVE),
-                        plan.rcmndStatus.eq(RcmndStatus.RECOMMENDED)
-                )
-                .orderBy(plan.id.desc())
-                .limit(size)
-                .fetch();
-    }
-
-    @Override
     public List<Plan> findMyBookmarkListUsingCursor(Long userId, @Nullable Pageable pageable, int size, @Nullable Long lastScrapId) {
         JPAQuery<Plan> query = queryFactory
                 .selectFrom(plan).distinct()
@@ -108,24 +92,6 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
                 query.orderBy(new OrderSpecifier(o.isAscending() ? Order.ASC : Order.DESC, orderByExpression.get(o.getProperty())));
             }
         }
-    }
-
-    @Override
-    public List<Plan> findPlansUsingCursor(int size, Long authorId, Long lastPlanId, Pageable pageable, RegionCategory region) {
-        JPAQuery<Plan> query = queryFactory
-                .select(plan).distinct()
-                .from(plan)
-                .where(
-                        lessThanId(lastPlanId),
-                        eqRegion(region),
-                        eqUserId(authorId),
-                        plan.status.eq(PlanStatus.ACTIVE)
-                )
-                .orderBy(plan.id.desc())
-                .limit(size);
-
-        setDynamicSortCondition(pageable, query);
-        return query.fetch();
     }
 
     @Override

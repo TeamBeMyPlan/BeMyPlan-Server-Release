@@ -18,13 +18,11 @@ import com.deploy.bemyplan.service.collection.OrderDictionary;
 import com.deploy.bemyplan.service.collection.ScrapDictionary;
 import com.deploy.bemyplan.service.plan.dto.request.RetrieveMyBookmarkListRequestDto;
 import com.deploy.bemyplan.service.plan.dto.request.RetrieveMyOrderListRequestDto;
-import com.deploy.bemyplan.service.plan.dto.request.RetrievePickListRequestDto;
 import com.deploy.bemyplan.service.plan.dto.response.OrdersScrollResponse;
 import com.deploy.bemyplan.service.plan.dto.response.PlanDetailResponse;
 import com.deploy.bemyplan.service.plan.dto.response.PlanInfoResponse;
 import com.deploy.bemyplan.service.plan.dto.response.PlanListResponse;
 import com.deploy.bemyplan.service.plan.dto.response.PlanPreviewResponse;
-import com.deploy.bemyplan.service.plan.dto.response.PlansScrollResponse;
 import com.deploy.bemyplan.service.plan.dto.response.ScrapsScrollResponse;
 import com.deploy.bemyplan.service.plan.dto.response.SpotMoveInfoResponse;
 import com.deploy.bemyplan.service.user.UserServiceUtils;
@@ -123,17 +121,6 @@ public class PlanRetrieveService {
                                 .collect(Collectors.toList()));
     }
 
-    private PlansScrollResponse getPlanListWithPersonalStatusUsingCursor(List<Plan> planWithNextCursor, Long userId, int size) {
-        ScrollPaginationCollection<Plan> plansCursor = ScrollPaginationCollection.of(planWithNextCursor, size);
-
-        AuthorDictionary authors = AuthorDictionary.of(planWithNextCursor, userRepository);
-
-        ScrapDictionary scrapDictionary = findScrapByUserIdAndPlans(userId, planWithNextCursor);
-        OrderDictionary orderDictionary = findOrderByUserIdAndPlans(userId, planWithNextCursor);
-
-        return PlansScrollResponse.of(plansCursor, scrapDictionary, orderDictionary, authors);
-    }
-
     private boolean isScraped(Long userId, Plan plan) {
         return scrapRepository.existsScrapByUserIdAndPlanId(userId, plan.getId());
     }
@@ -146,7 +133,6 @@ public class PlanRetrieveService {
         return userRepository.findUserByPlanId(plan.getId())
                 .orElseThrow(() -> new NotFoundException("크리에이터 정보가 존재하지 않습니다.", NOT_FOUND_EXCEPTION));
     }
-
 
     private ScrapDictionary findScrapByUserIdAndPlans(Long userId, List<Plan> plans) {
         List<Long> planIds = plans.stream()

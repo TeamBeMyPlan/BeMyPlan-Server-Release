@@ -11,6 +11,7 @@ import com.deploy.bemyplan.service.plan.dto.request.RetrieveMyOrderListRequestDt
 import com.deploy.bemyplan.service.plan.dto.request.RetrievePickListRequestDto;
 import com.deploy.bemyplan.service.plan.dto.response.OrdersScrollResponse;
 import com.deploy.bemyplan.service.plan.dto.response.PlanDetailResponse;
+import com.deploy.bemyplan.service.plan.dto.response.PlanListResponse;
 import com.deploy.bemyplan.service.plan.dto.response.PlanPreviewResponse;
 import com.deploy.bemyplan.service.plan.dto.response.PlansScrollResponse;
 import com.deploy.bemyplan.service.plan.dto.response.ScrapsScrollResponse;
@@ -33,17 +34,12 @@ public class PlanRetrieveController {
 
     private final PlanRetrieveService planRetrieveService;
 
-    @ApiOperation("[인증] 여행일정 목록들을 스크롤 페이지네이션으로 조회합니다 (여행지별 O, 정렬 O)")
+    @ApiOperation("[인증] 여행일정 목록들을 조회합니다 (여행지별 O, 정렬 O)")
     @Auth
     @GetMapping("/v1/plans")
-    public ApiResponse<PlansScrollResponse> getPlans(@UserId Long userId, @Valid RetrievePlansRequest request,
-                                                            @AllowedSortProperties({"id", "createdAt", "orderCnt"}) Pageable pageable) {
+    public ApiResponse<PlanListResponse> getPlans(@UserId Long userId, @Valid RetrievePlansRequest request) {
         return ApiResponse.success(planRetrieveService.retrievePlans(
                 userId,
-                request.getSize(),
-                request.getAuthorId(),
-                request.getLastPlanId(),
-                pageable,
                 request.getRegion())
         );
     }

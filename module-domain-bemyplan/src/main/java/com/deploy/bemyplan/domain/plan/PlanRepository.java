@@ -12,6 +12,9 @@ public interface PlanRepository extends JpaRepository<Plan, Long>, PlanRepositor
     @Query("SELECT p from Plan p where p.regionCategory = :region")
     List<Plan> findPlansByRegionAndSize(@Param("region") RegionCategory region, Pageable pageable);
 
-    @Query("select p from Plan p where p.regionCategory = :region and p.status = com.deploy.bemyplan.domain.plan.PlanStatus.ACTIVE ORDER BY p.id desc ")
+    @Query("select p from Plan p where p.regionCategory = :region and p.status = 'ACTIVE' ORDER BY p.id desc ")
     List<Plan> findAllPlanByRegionCategory(RegionCategory regionCategory);
+
+    @Query("select p from Plan p where p.status = 'ACTIVE' and p.rcmndStatus = 'RECOMMENDED' order by p.id desc")
+    List<Plan> findPickList();
 }

@@ -52,9 +52,9 @@ public class PlanRetrieveService {
         return getPlanListWithPersonalStatus(planList, userId);
     }
 
-    public PlansScrollResponse getPickList(RetrievePickListRequestDto request, Long userId) {
-        List<Plan> planWithNextCursor = planRepository.findPickListUsingCursor(request.getSize() + 1, request.getLastPlanId());
-        return getPlanListWithPersonalStatusUsingCursor(planWithNextCursor, userId, request.getSize());
+    public PlanListResponse getPickList(Long userId) {
+        List<Plan> planList = planRepository.findPickList();
+        return getPlanListWithPersonalStatus(planList, userId);
     }
 
     public PlanPreviewResponse getPreviewPlanInfo(Long planId) {

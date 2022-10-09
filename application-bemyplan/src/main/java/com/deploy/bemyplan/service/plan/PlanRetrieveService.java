@@ -1,8 +1,10 @@
 package com.deploy.bemyplan.service.plan;
 
+import com.deploy.bemyplan.common.exception.model.NotFoundException;
 import com.deploy.bemyplan.domain.common.collection.ScrollPaginationCollection;
 import com.deploy.bemyplan.domain.order.Order;
 import com.deploy.bemyplan.domain.order.OrderRepository;
+import com.deploy.bemyplan.domain.order.OrderStatus;
 import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.plan.PlanRepository;
 import com.deploy.bemyplan.domain.plan.PreviewContent;
@@ -19,6 +21,8 @@ import com.deploy.bemyplan.service.plan.dto.request.RetrieveMyOrderListRequestDt
 import com.deploy.bemyplan.service.plan.dto.request.RetrievePickListRequestDto;
 import com.deploy.bemyplan.service.plan.dto.response.OrdersScrollResponse;
 import com.deploy.bemyplan.service.plan.dto.response.PlanDetailResponse;
+import com.deploy.bemyplan.service.plan.dto.response.PlanInfoResponse;
+import com.deploy.bemyplan.service.plan.dto.response.PlanListResponse;
 import com.deploy.bemyplan.service.plan.dto.response.PlanPreviewResponse;
 import com.deploy.bemyplan.service.plan.dto.response.PlansScrollResponse;
 import com.deploy.bemyplan.service.plan.dto.response.ScrapsScrollResponse;
@@ -32,19 +36,20 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.deploy.bemyplan.common.exception.ErrorCode.NOT_FOUND_EXCEPTION;
+
 @RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
 public class PlanRetrieveService {
-
     private final UserRepository userRepository;
     private final PlanRepository planRepository;
     private final ScrapRepository scrapRepository;
     private final OrderRepository orderRepository;
 
-    public PlansScrollResponse retrievePlans(Long userId, int size, Long authorId, Long lastPlanId, Pageable pageable, RegionCategory region) {
-        List<Plan> planWithNextCursor = planRepository.findPlansUsingCursor(size + 1, authorId, lastPlanId, pageable, region);
-        return getPlanListWithPersonalStatusUsingCursor(planWithNextCursor, userId, size);
+    public PlanListResponse retrievePlans(Long userId, RegionCategory region) {
+        List<Plan> planList = planRepository.findAllPlanByRegionCategory(region);
+        return getPlanListWithPersonalStatus(planList, userId);
     }
 
     public PlansScrollResponse getPickList(RetrievePickListRequestDto request, Long userId) {
@@ -107,6 +112,17 @@ public class PlanRetrieveService {
         return OrdersScrollResponse.newCursorHasNext(plansCursor.getCurrentScrollItems(), scrapDictionary, orderDictionary, authors, nextCursor.getId());
     }
 
+    private PlanListResponse getPlanListWithPersonalStatus(List<Plan> planList, Long userId) {
+        return
+                PlanListResponse.of(
+                        planList.stream()
+                                .map(plan -> PlanInfoResponse.of(plan,
+                                        getAuthorByPlanId(plan),
+                                        isScraped(userId, plan),
+                                        isOrdered(userId, plan)))
+                                .collect(Collectors.toList()));
+    }
+
     private PlansScrollResponse getPlanListWithPersonalStatusUsingCursor(List<Plan> planWithNextCursor, Long userId, int size) {
         ScrollPaginationCollection<Plan> plansCursor = ScrollPaginationCollection.of(planWithNextCursor, size);
 
@@ -117,6 +133,20 @@ public class PlanRetrieveService {
 
         return PlansScrollResponse.of(plansCursor, scrapDictionary, orderDictionary, authors);
     }
+
+    private boolean isScraped(Long userId, Plan plan) {
+        return scrapRepository.existsScrapByUserIdAndPlanId(userId, plan.getId());
+    }
+
+    private boolean isOrdered(Long userId, Plan plan) {
+        return orderRepository.existsOrderByUserIdAndPlanIdAndStatus(userId, plan.getId(), OrderStatus.COMPLETED);
+    }
+
+    private User getAuthorByPlanId(Plan plan) {
+        return userRepository.findUserByPlanId(plan.getId())
+                .orElseThrow(() -> new NotFoundException("크리에이터 정보가 존재하지 않습니다.", NOT_FOUND_EXCEPTION));
+    }
+
 
     private ScrapDictionary findScrapByUserIdAndPlans(Long userId, List<Plan> plans) {
         List<Long> planIds = plans.stream()

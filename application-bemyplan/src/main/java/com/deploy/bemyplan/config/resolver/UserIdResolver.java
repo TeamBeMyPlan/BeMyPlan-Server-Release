@@ -1,6 +1,7 @@
 package com.deploy.bemyplan.config.resolver;
 
 import com.deploy.bemyplan.config.interceptor.Auth;
+import com.deploy.bemyplan.jwt.JwtService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -9,10 +10,18 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import static com.deploy.bemyplan.config.session.SessionConstants.USER_ID;
+import javax.servlet.http.HttpServletRequest;
+
+import static com.deploy.bemyplan.jwt.JwtHeader.AUTH;
 
 @Component
 public class UserIdResolver implements HandlerMethodArgumentResolver {
+
+    private final JwtService jwtService;
+
+    public UserIdResolver(final JwtService jwtService) {
+        this.jwtService = jwtService;
+    }
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
@@ -25,10 +34,17 @@ public class UserIdResolver implements HandlerMethodArgumentResolver {
             throw new RuntimeException("인증이 필요한 컨트롤러 입니다. @Auth 어노테이션을 붙여주세요.");
         }
 
-        Object object = webRequest.getAttribute(USER_ID, 0);
-        if (object == null) {
+        final HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
+        final String token = request.getHeader(AUTH);
+        if (!jwtService.verifyToken(token)) {
             throw new RuntimeException(String.format("USER_ID를 가져오지 못했습니다. (%s - %s)", parameter.getClass(), parameter.getMethod()));
         }
-        return object;
+
+        final String subject = jwtService.getSubject(token);
+        try {
+            return Long.parseLong(subject);
+        } catch (final NumberFormatException e) {
+            throw new RuntimeException(String.format("USER_ID를 가져오지 못했습니다. (%s - %s)", parameter.getClass(), parameter.getMethod()));
+        }
     }
 }

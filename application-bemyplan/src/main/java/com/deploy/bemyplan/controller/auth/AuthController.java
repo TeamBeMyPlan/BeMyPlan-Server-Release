@@ -9,6 +9,7 @@ import com.deploy.bemyplan.controller.auth.dto.request.SignUpRequestDto;
 import com.deploy.bemyplan.controller.auth.dto.response.LoginResponse;
 import com.deploy.bemyplan.domain.user.User;
 import com.deploy.bemyplan.domain.user.UserRepository;
+import com.deploy.bemyplan.jwt.JwtService;
 import com.deploy.bemyplan.service.auth.AuthService;
 import com.deploy.bemyplan.service.auth.AuthServiceProvider;
 import com.deploy.bemyplan.service.user.UserService;
@@ -23,10 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-
-import static com.deploy.bemyplan.config.session.SessionConstants.USER_ID;
 
 
 @RequiredArgsConstructor
@@ -37,16 +35,18 @@ public class AuthController {
     private final UserService userService;
     private final UserRepository userRepository;
 
-    private final HttpSession httpSession;
     private final AuthServiceProvider authServiceProvider;
+
+    private final JwtService jwtService;
 
     @ApiOperation("회원가입 페이지 - 회원가입을 요청합니다")
     @PostMapping("/v1/signup")
     public ApiResponse<LoginResponse> signUp(@Valid @RequestBody SignUpRequestDto request) {
         AuthService authService = authServiceProvider.getAuthService(request.getSocialType());
         Long userId = authService.signUp(request.toServiceDto());
-        httpSession.setAttribute(USER_ID, userId);
-        return ApiResponse.success(LoginResponse.of(httpSession.getId(), userId, request.getNickname()));
+
+        final String token = jwtService.issuedToken(String.valueOf(userId), "USER", 60 * 60 * 24 * 30L);
+        return ApiResponse.success(LoginResponse.of(token, userId, request.getNickname()));
     }
 
     @ApiOperation("로그인 페이지 - 로그인을 요청합니다")
@@ -54,16 +54,16 @@ public class AuthController {
     public ApiResponse<LoginResponse> login(@Valid @RequestBody LoginRequestDto request) {
         AuthService authService = authServiceProvider.getAuthService(request.getSocialType());
         Long userId = authService.login(request.toServiceDto());
-        httpSession.setAttribute(USER_ID, userId);
+        final String token = jwtService.issuedToken(String.valueOf(userId), "USER", 60 * 60 * 24 * 30L);
+
         User findUser = UserServiceUtils.findUserById(userRepository, userId);
-        return ApiResponse.success(LoginResponse.of(httpSession.getId(), userId, findUser.getNickname()));
+        return ApiResponse.success(LoginResponse.of(token, userId, findUser.getNickname()));
     }
 
     @ApiOperation("[인증] 로그아웃을 요청합니다.")
     @Auth
     @PostMapping("/v1/logout")
     public ApiResponse<String> logout() {
-        httpSession.removeAttribute(USER_ID);
         return ApiResponse.SUCCESS;
     }
 
@@ -72,7 +72,6 @@ public class AuthController {
     @DeleteMapping("/v1/signout")
     public ApiResponse<String> signOut(@Valid @RequestBody SignOutUserRequest request, @UserId Long userId) {
         userService.signOut(userId, request.getReasonForWithdrawal());
-        httpSession.invalidate();
         return ApiResponse.SUCCESS;
     }
 

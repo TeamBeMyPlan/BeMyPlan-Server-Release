@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 import static com.deploy.bemyplan.common.exception.ErrorCode.CONFLICT_ORDER_PLAN;
+import static com.deploy.bemyplan.common.exception.ErrorCode.NOT_FOUND_EXCEPTION;
 
 @RequiredArgsConstructor
 @Service
@@ -26,8 +27,14 @@ public class OrderService {
     public OrderResponseDto createOrder(final Long planId, final Long userId) {
         final Plan plan = planRepository.findById(planId)
                 .orElseThrow(() -> new NotFoundException("해당하는 일정이 없습니다.", NOT_FOUND_EXCEPTION));
-        plan.updateOrderCnt();
-        final Order order = orderRepository.save(Order.of(planId, userId, OrderStatus.UNPAID, plan.getPrice()));
+        final Order order = orderRepository.findByPlanIdAndUserId(planId, userId)
+                .orElseGet(() -> {
+                    plan.updateOrderCnt();
+                    return Order.of(planId, userId, OrderStatus.UNPAID, plan.getPrice());
+                });
+
+        orderRepository.save(order);
+
         return OrderResponseDto.of(order.getId());
     }
 

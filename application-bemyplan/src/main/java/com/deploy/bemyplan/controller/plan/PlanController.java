@@ -5,6 +5,7 @@ import com.deploy.bemyplan.domain.plan.RegionCategory;
 import com.deploy.bemyplan.service.plan.PlanService;
 import com.deploy.bemyplan.service.plan.dto.response.PlanPreviewResponseDto;
 import com.deploy.bemyplan.service.plan.dto.response.PlanRandomResponse;
+import com.deploy.bemyplan.service.plan.dto.response.PlanRecommendTargetResponse;
 import com.deploy.bemyplan.service.user.dto.response.CreatorInfoResponse;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -38,5 +39,10 @@ public class PlanController {
     @GetMapping("/{planId}/preview")
     public ApiResponse<PlanPreviewResponseDto> getPlanPreview(@PathVariable Long planId) {
         return ApiResponse.success(planService.getPlanPreview(planId));
+    }
+    @ApiOperation("일정별 이런 분들에게 추천해요! 조회")
+    @GetMapping("/recommend/{planId}")
+    public PlanRecommendTargetResponse getPlanRecommendTarget(@PathVariable Long planId) {
+        return planService.getPlanRecommendTarget(planId);
     }
 }

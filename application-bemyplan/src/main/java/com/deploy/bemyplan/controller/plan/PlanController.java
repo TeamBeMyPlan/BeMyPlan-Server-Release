@@ -3,6 +3,7 @@ package com.deploy.bemyplan.controller.plan;
 import com.deploy.bemyplan.common.dto.ApiResponse;
 import com.deploy.bemyplan.domain.plan.RegionCategory;
 import com.deploy.bemyplan.service.plan.PlanService;
+import com.deploy.bemyplan.service.plan.dto.response.PlanHashtagsResponse;
 import com.deploy.bemyplan.service.plan.dto.response.PlanPreviewResponseDto;
 import com.deploy.bemyplan.service.plan.dto.response.PlanRandomResponse;
 import com.deploy.bemyplan.service.plan.dto.response.PlanRecommendTargetResponse;
@@ -34,7 +35,6 @@ public class PlanController {
     public ApiResponse<CreatorInfoResponse> getSpotMoveInfos(@PathVariable Long planId) {
         return ApiResponse.success(planService.getCreatorInfo(planId));
     }
-    
     @ApiOperation("미리보기 일정 정보를 조회합니다.")
     @GetMapping("/{planId}/preview")
     public ApiResponse<PlanPreviewResponseDto> getPlanPreview(@PathVariable Long planId) {
@@ -45,4 +45,10 @@ public class PlanController {
     public PlanRecommendTargetResponse getPlanRecommendTarget(@PathVariable Long planId) {
         return planService.getPlanRecommendTarget(planId);
     }
+    @ApiOperation("일정별 해쉬태그 조회")
+    @GetMapping("/hashtags/{planId}")
+    public PlanHashtagsResponse getPlanHashTags(@PathVariable Long planId) {
+        return planService.getPlanHashTags(planId);
+    }
+
 }

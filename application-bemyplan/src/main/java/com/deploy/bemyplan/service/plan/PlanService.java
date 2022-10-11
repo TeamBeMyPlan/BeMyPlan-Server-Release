@@ -11,6 +11,7 @@ import com.deploy.bemyplan.domain.user.UserRepository;
 import com.deploy.bemyplan.service.plan.dto.response.PlanPreviewResponseDto;
 import com.deploy.bemyplan.service.plan.dto.response.PlanRandomResponse;
 import com.deploy.bemyplan.service.plan.dto.response.PlanRecommendTargetResponse;
+import com.deploy.bemyplan.service.plan.dto.response.PlanHashtagsResponse;
 import com.deploy.bemyplan.service.user.dto.response.CreatorInfoResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -62,6 +63,12 @@ public class PlanService {
                 .orElseThrow(() -> new NotFoundException(String.format("존재하지 않는 일정 (%s) 입니다", planId), NOT_FOUND_PLAN_EXCEPTION));
 
         return PlanRecommendTargetResponse.of(plan.getId(), plan.getRecommendTargets());
+    }
+
+    public PlanHashtagsResponse getPlanHashTags(Long planId) {
+        Plan plan = planRepository.findById(planId)
+                .orElseThrow(() -> new NotFoundException(String.format("존재하지 않는 일정 (%s) 입니다", planId), NOT_FOUND_PLAN_EXCEPTION));
+        return PlanHashtagsResponse.of(plan.getId(), plan.getHashtags());
     }
 
     @NotNull

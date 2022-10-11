@@ -24,7 +24,8 @@ public class OrderService {
 
     @Transactional
     public OrderResponseDto createOrder(final Long planId, final Long userId) {
-        final Plan plan = planRepository.findPlanById(planId);
+        final Plan plan = planRepository.findById(planId)
+                .orElseThrow(() -> new NotFoundException("해당하는 일정이 없습니다.", NOT_FOUND_EXCEPTION));
         plan.updateOrderCnt();
         final Order order = orderRepository.save(Order.of(planId, userId, OrderStatus.UNPAID, plan.getPrice()));
         return OrderResponseDto.of(order.getId());

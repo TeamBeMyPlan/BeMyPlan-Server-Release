@@ -45,13 +45,13 @@ public class PlanRetrieveService {
     private final ScrapRepository scrapRepository;
     private final OrderRepository orderRepository;
 
-    public PlanListResponse retrievePlans(Long userId, RegionCategory region) {
-        List<Plan> planList = planRepository.findAllPlanByRegionCategory(region);
+    public PlanListResponse retrievePlans(final Long userId, final RegionCategory region) {
+        final List<Plan> planList = planRepository.findAllPlanByRegionCategory(region);
         return getPlanListWithPersonalStatus(planList, userId);
     }
 
-    public PlanListResponse getPickList(Long userId) {
-        List<Plan> planList = planRepository.findPickList();
+    public PlanListResponse getPickList(final Long userId) {
+        final List<Plan> planList = planRepository.findPickList();
         return getPlanListWithPersonalStatus(planList, userId);
     }
 
@@ -121,15 +121,15 @@ public class PlanRetrieveService {
                                 .collect(Collectors.toList()));
     }
 
-    private boolean isScraped(Long userId, Plan plan) {
+    private boolean isScraped(final Long userId, final Plan plan) {
         return scrapRepository.existsScrapByUserIdAndPlanId(userId, plan.getId());
     }
 
-    private boolean isOrdered(Long userId, Plan plan) {
+    private boolean isOrdered(final Long userId, final Plan plan) {
         return orderRepository.existsOrderByUserIdAndPlanIdAndStatus(userId, plan.getId(), OrderStatus.COMPLETED);
     }
 
-    private User getAuthorByPlanId(Plan plan) {
+    private User getAuthorByPlanId(final Plan plan) {
         return userRepository.findUserByPlanId(plan.getId())
                 .orElseThrow(() -> new NotFoundException("크리에이터 정보가 존재하지 않습니다.", NOT_FOUND_EXCEPTION));
     }

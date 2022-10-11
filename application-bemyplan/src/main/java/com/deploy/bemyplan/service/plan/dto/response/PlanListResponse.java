@@ -5,20 +5,20 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.List;
-
 
 @ToString
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class PlanListResponse {
-    private List<PlanInfoResponse> planList;
+public final class PlanListResponse {
+    private final List<PlanInfoResponse> planList = new ArrayList<>();
 
-    public PlanListResponse(final List<PlanInfoResponse> planList) {
-        this.planList = planList;
+    private PlanListResponse(final List<PlanInfoResponse> planList) {
+        this.planList.addAll(planList);
     }
 
-    public static PlanListResponse of(List<PlanInfoResponse> plans) {
+    public static PlanListResponse of(final List<PlanInfoResponse> plans) {
         return new PlanListResponse(plans);
     }
 }

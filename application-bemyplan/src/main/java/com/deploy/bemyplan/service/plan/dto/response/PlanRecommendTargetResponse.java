@@ -19,10 +19,9 @@ public class PlanRecommendTargetResponse {
         this.recommendTargets = recommendTargets;
     }
     public static PlanRecommendTargetResponse of(final Long planId, final List<String> recommendTargets){
-        final PlanRecommendTargetResponse response = new PlanRecommendTargetResponse(
+        return new PlanRecommendTargetResponse(
                 planId,
                 recommendTargets
         );
-        return response;
     }
 }

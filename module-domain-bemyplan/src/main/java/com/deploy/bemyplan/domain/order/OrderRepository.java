@@ -8,4 +8,6 @@ import java.util.Optional;
 
 public interface OrderRepository extends JpaRepository<Order, Long>, OrderRepositoryCustom {
     Optional<Order> findByPlanIdAndUserId(Long planId, @Nullable Long userId);
+
+    Boolean existsOrderByUserIdAndPlanIdAndStatus(Long userId, Long planId, OrderStatus orderStatus);
 }

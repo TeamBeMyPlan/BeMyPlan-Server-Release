@@ -1,6 +1,5 @@
 package com.deploy.bemyplan.controller.plan;
 
-import com.deploy.bemyplan.common.dto.ApiResponse;
 import com.deploy.bemyplan.config.interceptor.Auth;
 import com.deploy.bemyplan.config.resolver.UserId;
 import com.deploy.bemyplan.config.validator.AllowedSortProperties;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -37,51 +35,51 @@ public class PlanRetrieveController {
     @ApiOperation("[인증] 여행일정 목록들을 조회합니다 (여행지별 O, 정렬 O)")
     @Auth
     @GetMapping("/v1/plans")
-    public ApiResponse<PlanListResponse> getPlans(@UserId Long userId, @ModelAttribute @Valid RetrievePlansRequest request) {
-        return ApiResponse.success(planRetrieveService.retrievePlans(
+    public PlanListResponse getPlans(@UserId Long userId, @ModelAttribute @Valid RetrievePlansRequest request) {
+        return planRetrieveService.retrievePlans(
                 userId,
-                request.getRegion())
+                request.getRegion()
         );
     }
 
     @ApiOperation("[인증] 비마이플랜이 추천하는 여행일정 목록들을 조회합니다.")
     @Auth
     @GetMapping("/v1/plans/bemyplanPick")
-    public ApiResponse<PlanListResponse> getPickList(@UserId Long userId) {
-        return ApiResponse.success(planRetrieveService.getPickList(userId));
+    public PlanListResponse getPickList(@UserId Long userId) {
+        return planRetrieveService.getPickList(userId);
     }
 
     @ApiOperation("여행일정 페이지 - 특정 여행일정의 내용을 상세조회합니다.")
     @GetMapping("/v1/plan/{planId}")
-    public ApiResponse<PlanDetailResponse> getPlanDetailInfo(@PathVariable Long planId) {
-        return ApiResponse.success(planRetrieveService.getPlanDetailInfo(planId));
+    public PlanDetailResponse getPlanDetailInfo(@PathVariable final Long planId) {
+        return planRetrieveService.getPlanDetailInfo(planId);
     }
 
     @ApiOperation("여행일정 페이지 - 특정 여행일정의 미리보기 정보를 조회합니다")
     @GetMapping("/v1/plan/{planId}/preview")
-    public ApiResponse<PlanPreviewResponse> getPreviewPlanInfo(@PathVariable Long planId) {
-        return ApiResponse.success(planRetrieveService.getPreviewPlanInfo(planId));
+    public PlanPreviewResponse getPreviewPlanInfo(@PathVariable final Long planId) {
+        return planRetrieveService.getPreviewPlanInfo(planId);
     }
 
     @ApiOperation("여행일정 페이지 - 장소 간 이동수단/소요시간을 조회합니다. (일자별 조회)")
     @GetMapping("/v1/plan/{planId}/moveInfo")
-    public ApiResponse<List<SpotMoveInfoResponse>> getSpotMoveInfos(@PathVariable Long planId) {
-        return ApiResponse.success(planRetrieveService.getSpotMoveInfos(planId));
+    public List<SpotMoveInfoResponse> getSpotMoveInfos(@PathVariable final Long planId) {
+        return planRetrieveService.getSpotMoveInfos(planId);
     }
 
     @ApiOperation("[인증] 내가 스크랩한 여행일정 목록들을 스크롤 페이지네이션으로 조회합니다.")
     @Auth
     @GetMapping("/v1/plan/bookmark")
-    public ApiResponse<ScrapsScrollResponse> retrieveMyBookmarkList(@UserId Long userId, @Valid RetrieveMyBookmarkListRequestDto request,
-                                                                    @AllowedSortProperties({"id", "createdAt", "orderCnt"}) Pageable pageable) {
-        return ApiResponse.success(planRetrieveService.retrieveMyBookmarkList(request, userId, pageable));
+    public ScrapsScrollResponse retrieveMyBookmarkList(@UserId final Long userId, @Valid final RetrieveMyBookmarkListRequestDto request,
+                                                                    @AllowedSortProperties({"id", "createdAt", "orderCnt"}) final Pageable pageable) {
+        return planRetrieveService.retrieveMyBookmarkList(request, userId, pageable);
     }
 
     @ApiOperation("[인증] 내가 구매한 여행일정 목록들을 스크롤 페이지네이션으로 조회합니다.")
     @Auth
     @GetMapping("/v1/plan/orders")
-    public ApiResponse<OrdersScrollResponse> retrieveMyOrderList(@UserId Long userId, @Valid RetrieveMyOrderListRequestDto request,
-                                                                 @AllowedSortProperties({"id", "createdAt", "orderCnt"}) Pageable pageable) {
-        return ApiResponse.success(planRetrieveService.retrieveMyOrderList(request, userId, pageable));
+    public OrdersScrollResponse retrieveMyOrderList(@UserId final Long userId, @Valid final RetrieveMyOrderListRequestDto request,
+                                                                 @AllowedSortProperties({"id", "createdAt", "orderCnt"}) final Pageable pageable) {
+        return planRetrieveService.retrieveMyOrderList(request, userId, pageable);
     }
 }

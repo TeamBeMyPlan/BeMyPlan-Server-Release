@@ -1,6 +1,5 @@
 package com.deploy.bemyplan.controller.plan;
 
-import com.deploy.bemyplan.common.dto.ApiResponse;
 import com.deploy.bemyplan.domain.plan.RegionCategory;
 import com.deploy.bemyplan.service.plan.PlanService;
 import com.deploy.bemyplan.service.plan.dto.response.PlanPreviewResponseDto;
@@ -24,19 +23,19 @@ public class PlanController {
     private final PlanService planService;
     @ApiOperation("여행 일정을 10개씩 랜덤하게 조회합니다.")
     @GetMapping("/random")
-    public ApiResponse<List<PlanRandomResponse>> getPlanListByRandom(@NotNull @RequestParam("regionCategory") RegionCategory regionCategory){
-        return ApiResponse.success(planService.getPlanListByRandom(regionCategory));
+    public List<PlanRandomResponse> getPlanListByRandom(@NotNull @RequestParam("regionCategory") final RegionCategory regionCategory){
+        return planService.getPlanListByRandom(regionCategory);
     }
 
     @ApiOperation("크리에이터 조회 - 크리에이터의 정보를 조회합니다.")
     @GetMapping("/{planId}/creator")
-    public ApiResponse<CreatorInfoResponse> getSpotMoveInfos(@PathVariable Long planId) {
-        return ApiResponse.success(planService.getCreatorInfo(planId));
+    public CreatorInfoResponse getSpotMoveInfos(@PathVariable final Long planId) {
+        return planService.getCreatorInfo(planId);
     }
     
     @ApiOperation("미리보기 일정 정보를 조회합니다.")
     @GetMapping("/{planId}/preview")
-    public ApiResponse<PlanPreviewResponseDto> getPlanPreview(@PathVariable Long planId) {
-        return ApiResponse.success(planService.getPlanPreview(planId));
+    public PlanPreviewResponseDto getPlanPreview(@PathVariable final Long planId) {
+        return planService.getPlanPreview(planId);
     }
 }

@@ -1,6 +1,5 @@
 package com.deploy.bemyplan.controller.preview;
 
-import com.deploy.bemyplan.common.dto.ApiResponse;
 import com.deploy.bemyplan.service.preview.PreviewService;
 import com.deploy.bemyplan.service.preview.dto.PreviewContentListResponse;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +18,7 @@ public class PreviewController {
     private final PreviewService previewService;
 
     @GetMapping("/v2/preview/{planId}")
-    public ApiResponse<PreviewContentListResponse> getPreviewContent(@Valid @PathVariable Long planId) {
-        return ApiResponse.success(previewService.getPreviewContent(planId));
+    public PreviewContentListResponse getPreviewContent(@Valid @PathVariable Long planId) {
+        return previewService.getPreviewContent(planId);
     }
 }

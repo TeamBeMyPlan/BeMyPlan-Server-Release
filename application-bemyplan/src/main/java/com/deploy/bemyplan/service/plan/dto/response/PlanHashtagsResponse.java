@@ -20,10 +20,9 @@ public class PlanHashtagsResponse {
         this.hashTags = hashTags;
     }
     public static PlanHashtagsResponse of(final Long planId, final List<String> hashTags){
-        PlanHashtagsResponse response = new PlanHashtagsResponse(
+        return new PlanHashtagsResponse(
                 planId,
                 hashTags
         );
-        return response;
     }
 }

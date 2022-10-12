@@ -12,5 +12,5 @@ public interface ScrapRepository extends JpaRepository<Scrap, Long>, ScrapReposi
 
     Optional<Scrap> findByUserIdAndPlanId(Long userId, Long planId);
 
-    Boolean existsScrapByUserIdAndPlanId(Long userId, Long planId);
+    boolean existsScrapByUserIdAndPlanId(Long userId, Long planId);
 }

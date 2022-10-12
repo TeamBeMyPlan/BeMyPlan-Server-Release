@@ -41,12 +41,12 @@ public class PlanController {
         return ApiResponse.success(planService.getPlanPreview(planId));
     }
     @ApiOperation("일정별 이런 분들에게 추천해요! 조회")
-    @GetMapping("/recommend/{planId}")
+    @GetMapping("/{planId}/recommend")
     public PlanRecommendTargetResponse getPlanRecommendTarget(@PathVariable Long planId) {
         return planService.getPlanRecommendTarget(planId);
     }
     @ApiOperation("일정별 해쉬태그 조회")
-    @GetMapping("/hashtags/{planId}")
+    @GetMapping("/{planId}/hashtags")
     public PlanHashtagsResponse getPlanHashTags(@PathVariable Long planId) {
         return planService.getPlanHashTags(planId);
     }

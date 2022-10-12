@@ -18,9 +18,6 @@ public class ResponseDTO {
     }
 
     public static ResponseDTO of(final String response){
-        ResponseDTO responseDTO = new ResponseDTO(
-                response
-        );
-        return responseDTO;
+        return new ResponseDTO(response);
     }
 }

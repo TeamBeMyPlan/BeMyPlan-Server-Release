@@ -1,7 +1,6 @@
 package com.deploy.bemyplan.controller.temp.response;
 
 
-import com.deploy.bemyplan.service.plan.dto.response.ScheduleDetailResponse;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;

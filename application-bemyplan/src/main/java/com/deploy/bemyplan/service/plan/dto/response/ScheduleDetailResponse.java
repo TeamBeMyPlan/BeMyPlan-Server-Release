@@ -1,11 +1,15 @@
 package com.deploy.bemyplan.service.plan.dto.response;
 
 import com.deploy.bemyplan.domain.plan.Spot;
-import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @ToString
 @Getter

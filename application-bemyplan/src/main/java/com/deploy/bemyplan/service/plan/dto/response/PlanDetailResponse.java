@@ -5,7 +5,11 @@ import com.deploy.bemyplan.domain.plan.DailySchedule;
 import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.user.User;
 import com.deploy.bemyplan.service.user.dto.response.UserInfoResponse;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;

@@ -2,7 +2,11 @@ package com.deploy.bemyplan.service.plan.dto.response;
 
 import com.deploy.bemyplan.domain.plan.SpotMoveInfo;
 import com.deploy.bemyplan.domain.plan.TravelMobility;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
 
 @ToString

@@ -71,7 +71,7 @@ public class PlanRetrieveController {
     @Auth
     @GetMapping("/v1/plan/bookmark")
     public ScrapsScrollResponse retrieveMyBookmarkList(@UserId final Long userId, @Valid final RetrieveMyBookmarkListRequestDto request,
-                                                                    @AllowedSortProperties({"id", "createdAt", "orderCnt"}) final Pageable pageable) {
+                                                       @AllowedSortProperties({"id", "createdAt", "orderCnt"}) final Pageable pageable) {
         return planRetrieveService.retrieveMyBookmarkList(request, userId, pageable);
     }
 
@@ -79,7 +79,7 @@ public class PlanRetrieveController {
     @Auth
     @GetMapping("/v1/plan/orders")
     public OrdersScrollResponse retrieveMyOrderList(@UserId final Long userId, @Valid final RetrieveMyOrderListRequestDto request,
-                                                                 @AllowedSortProperties({"id", "createdAt", "orderCnt"}) final Pageable pageable) {
+                                                    @AllowedSortProperties({"id", "createdAt", "orderCnt"}) final Pageable pageable) {
         return planRetrieveService.retrieveMyOrderList(request, userId, pageable);
     }
 }

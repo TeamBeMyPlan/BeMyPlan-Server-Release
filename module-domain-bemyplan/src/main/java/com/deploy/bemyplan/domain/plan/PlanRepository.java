@@ -17,4 +17,7 @@ public interface PlanRepository extends JpaRepository<Plan, Long>, PlanRepositor
 
     @Query("select p from Plan p where p.status = 'ACTIVE' and p.rcmndStatus = 'RECOMMENDED' order by p.id desc")
     List<Plan> findPickList();
+
+    @Query("select p, o.orderPrice from Plan p inner join Order o on p.id = o.planId where o.userId = :userId and o.status = 'COMPLETED'")
+    List<OrderedPlan> findAllByOrderAndUserId(@Param("userId") Long userId);
 }

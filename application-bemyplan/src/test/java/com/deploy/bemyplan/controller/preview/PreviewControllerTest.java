@@ -66,10 +66,10 @@ class PreviewControllerTest {
 
         mockMvc.perform(get("/api/v2/preview/{planId}", 1))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.previewContents[0].images", equalTo(List.of("image.png", "image2.png"))))
-                .andExpect(jsonPath("$.data.previewContents[0].description", equalTo("description")))
-                .andExpect(jsonPath("$.data.previewContents[1].images", equalTo(List.of("image3.png", "image4.png"))))
-                .andExpect(jsonPath("$.data.previewContents[1].description", equalTo("description2")));
+                .andExpect(jsonPath("$.previewContents[0].images", equalTo(List.of("image.png", "image2.png"))))
+                .andExpect(jsonPath("$.previewContents[0].description", equalTo("description")))
+                .andExpect(jsonPath("$.previewContents[1].images", equalTo(List.of("image3.png", "image4.png"))))
+                .andExpect(jsonPath("$.previewContents[1].description", equalTo("description2")));
     }
 
 }

@@ -19,7 +19,7 @@ public class OrderedPlanInfoResponse extends AuditingTimeResponse {
     private int orderPrice;
 
     @Builder(access = AccessLevel.PRIVATE)
-    private OrderedPlanInfoResponse(Long planId, String thumbnailUrl, String title, int orderPrice) {
+    private OrderedPlanInfoResponse(final Long planId, final String thumbnailUrl, final String title, final int orderPrice) {
         this.planId = planId;
         this.thumbnailUrl = thumbnailUrl;
         this.title = title;

@@ -41,7 +41,7 @@ class OrderServiceTest {
         given(spyPlanRepository.findById(any())).willReturn(Optional.of(givenPlan));
         given(spyOrderRepository.findByPlanIdAndUserId(givenPlan.getId(), 1L)).willReturn(Optional.of(existedOrder));
 
-        OrderResponseDto result = orderService.createOrder(givenPlan.getId(), 1L);
+        OrderResponseDto result = orderService.createOrder(givenPlan.getId(), 1000, 1L);
 
         Assertions.assertThat(result.getOrderId()).isEqualTo(existedOrder.getId());
     }
@@ -54,7 +54,7 @@ class OrderServiceTest {
         given(spyPlanRepository.findById(any())).willReturn(Optional.of(givenPlan));
         given(spyOrderRepository.findByPlanIdAndUserId(givenPlan.getId(), 1L)).willReturn(Optional.of(existedOrder));
 
-        orderService.createOrder(givenPlan.getId(), 1L);
+        orderService.createOrder(givenPlan.getId(), 1000, 1L);
 
         Assertions.assertThat(givenPlan.getOrderCnt()).isEqualTo(previousOrderCount);
     }
@@ -66,7 +66,7 @@ class OrderServiceTest {
         int previousOrderCount = givenPlan.getOrderCnt();
         given(spyPlanRepository.findById(any())).willReturn(Optional.of(givenPlan));
 
-        orderService.createOrder(givenPlan.getId(), 1L);
+        orderService.createOrder(givenPlan.getId(), 1000, 1L);
 
         Assertions.assertThat(givenPlan.getOrderCnt()).isEqualTo(previousOrderCount + 1);
     }

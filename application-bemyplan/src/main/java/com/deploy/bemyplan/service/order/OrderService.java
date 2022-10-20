@@ -24,13 +24,13 @@ public class OrderService {
     private final PlanRepository planRepository;
 
     @Transactional
-    public OrderResponseDto createOrder(final Long planId, final Long userId) {
+    public OrderResponseDto createOrder(final Long planId, final int orderPrice, final Long userId) {
         final Plan plan = planRepository.findById(planId)
                 .orElseThrow(() -> new NotFoundException("해당하는 일정이 없습니다.", NOT_FOUND_EXCEPTION));
         final Order order = orderRepository.findByPlanIdAndUserId(planId, userId)
                 .orElseGet(() -> {
                     plan.updateOrderCnt();
-                    return Order.of(planId, userId, OrderStatus.UNPAID, plan.getPrice());
+                    return Order.of(planId, userId, OrderStatus.UNPAID, orderPrice);
                 });
 
         orderRepository.save(order);

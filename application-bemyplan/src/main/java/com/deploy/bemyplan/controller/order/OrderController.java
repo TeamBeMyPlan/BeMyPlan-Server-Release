@@ -28,7 +28,7 @@ public class OrderController {
     @Auth
     @PostMapping("/v1/plan/order")
     public OrderResponseDto createOrder(@Valid @RequestBody final CreateOrderRequest request, @UserId final Long userId) {
-        return orderService.createOrder(request.getPlanId(), userId);
+        return orderService.createOrder(request.getPlanId(),request.getOrderPrice(), userId);
     }
 
     @ApiOperation("[인증] 여행일정 조회/상세 페이지 - 해당 여행일정 구매 여부를 확인합니다. (성공 시 구매하지 않은 상태)")

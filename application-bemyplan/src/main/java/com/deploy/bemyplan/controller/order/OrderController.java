@@ -44,7 +44,6 @@ public class OrderController {
     @Auth
     @GetMapping("/v1/order/plans")
     public OrderListResponse getMyOrderedPlanList(@UserId final Long userId) {
-        return null;
-        //        return orderService.getMyOrderList(userId);
+        return orderService.getOrderedPlanList(userId);
     }
 }

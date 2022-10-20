@@ -71,5 +71,4 @@ class PreviewControllerTest {
                 .andExpect(jsonPath("$.previewContents[1].images", equalTo(List.of("image3.png", "image4.png"))))
                 .andExpect(jsonPath("$.previewContents[1].description", equalTo("description2")));
     }
-
 }

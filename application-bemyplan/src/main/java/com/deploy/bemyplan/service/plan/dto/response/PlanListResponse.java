@@ -12,10 +12,10 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class PlanListResponse {
-    private final List<PlanInfoResponse> planList = new ArrayList<>();
+    private final List<PlanInfoResponse> contents = new ArrayList<>();
 
     private PlanListResponse(final List<PlanInfoResponse> planList) {
-        this.planList.addAll(planList);
+        this.contents.addAll(planList);
     }
 
     public static PlanListResponse of(final List<PlanInfoResponse> plans) {

@@ -1,6 +1,10 @@
 package com.deploy.bemyplan.service.order.dto.request;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.validation.constraints.NotNull;
 
@@ -12,4 +16,7 @@ public class CreateOrderRequest {
 
     @NotNull(message = "{plan.id.notNull}")
     private Long planId;
+
+    @NotNull
+    private int orderPrice;
 }

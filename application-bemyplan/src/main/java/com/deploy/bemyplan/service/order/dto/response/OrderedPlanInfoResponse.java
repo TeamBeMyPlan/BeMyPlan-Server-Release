@@ -3,11 +3,9 @@ package com.deploy.bemyplan.service.order.dto.response;
 import com.deploy.bemyplan.common.dto.AuditingTimeResponse;
 import com.deploy.bemyplan.domain.plan.OrderedPlan;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.jetbrains.annotations.NotNull;
 
 @ToString
 @Getter
@@ -18,7 +16,6 @@ public class OrderedPlanInfoResponse extends AuditingTimeResponse {
     private String title;
     private int orderPrice;
 
-    @Builder(access = AccessLevel.PRIVATE)
     private OrderedPlanInfoResponse(final Long planId, final String thumbnailUrl, final String title, final int orderPrice) {
         this.planId = planId;
         this.thumbnailUrl = thumbnailUrl;
@@ -26,7 +23,7 @@ public class OrderedPlanInfoResponse extends AuditingTimeResponse {
         this.orderPrice = orderPrice;
     }
 
-    public static OrderedPlanInfoResponse of(@NotNull OrderedPlan orderedPlan) {
+    public static OrderedPlanInfoResponse of(OrderedPlan orderedPlan) {
         OrderedPlanInfoResponse response = new OrderedPlanInfoResponse(
                 orderedPlan.getId(),
                 orderedPlan.getThumbnailUrl(),

@@ -5,8 +5,9 @@ import com.deploy.bemyplan.controller.payment.dto.request.ConfirmOrderRequest;
 import com.deploy.bemyplan.controller.payment.dto.request.UserPurchaseReceipt;
 import com.deploy.bemyplan.service.payment.PaymentService;
 import com.deploy.bemyplan.service.payment.dto.response.InAppPurchaseResponse;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,5 +29,12 @@ public class PaymentController {
     public final ResponseDTO confirmPurchase(@PathVariable final Long orderId, @RequestBody final ConfirmOrderRequest request) {
         paymentService.purchaseConfirm(orderId, request.toServiceDto(request.getPaymentId(), request.getUserId()));
         return ResponseDTO.of("구매 확정 성공");
+    }
+
+    @DeleteMapping("/{orderId}/revert")
+    @ApiOperation("[*주의 개발용] 구매 했던 내역을 되돌립니다.")
+    public final ResponseDTO revertPurchase(@PathVariable final Long orderId) {
+        paymentService.purchaseRevert(orderId);
+        return ResponseDTO.of("구매 되돌리기 성공");
     }
 }

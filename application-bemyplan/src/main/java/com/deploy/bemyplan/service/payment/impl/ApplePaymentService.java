@@ -62,6 +62,16 @@ public class ApplePaymentService implements PaymentService {
         order.orderComplete(payment);
     }
 
+    @Transactional
+    @Override
+    public void purchaseRevert(final Long orderId) {
+        final Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new NotFoundException("존재하지 않는 주문 내역 입니다.", NOT_FOUND_EXCEPTION));
+
+        paymentRepository.deleteAll(order.getPayments());
+        orderRepository.delete(order);
+    }
+
     private Payment findOrCreatePayment(final Order order, final String transactionId, final PaymentState paymentState) {
         return paymentRepository.findByTransactionId(transactionId)
                 .orElseGet(() -> Payment.of(order, transactionId, paymentState));

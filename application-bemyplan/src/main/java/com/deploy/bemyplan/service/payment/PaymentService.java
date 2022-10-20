@@ -8,4 +8,5 @@ public interface PaymentService {
     InAppPurchaseResponse purchaseValidate(Long orderId, UserReceiptDto userReceiptDto);
 
     void purchaseConfirm(Long orderId, ConfirmOrderDto confirmOrderDto);
+    void purchaseRevert(Long orderId);
 }

@@ -1,4 +1,4 @@
-package com.deploy.bemyplan.controller.advice;
+package com.deploy.bemyplan.advice;
 
 import com.deploy.bemyplan.common.exception.ErrorCode;
 import com.deploy.bemyplan.common.exception.ErrorStatusCode;

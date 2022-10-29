@@ -1,4 +1,4 @@
-package com.deploy.bemyplan.controller.advice;
+package com.deploy.bemyplan.advice;
 
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;

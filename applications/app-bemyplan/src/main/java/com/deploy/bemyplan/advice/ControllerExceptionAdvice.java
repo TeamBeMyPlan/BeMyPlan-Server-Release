@@ -1,4 +1,4 @@
-package com.deploy.bemyplan.controller.advice;
+package com.deploy.bemyplan.advice;
 
 import com.deploy.bemyplan.common.exception.model.BeMyPlanException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;

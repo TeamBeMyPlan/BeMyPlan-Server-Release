@@ -1,16 +1,16 @@
-package com.deploy.bemyplan.controller.auth;
+package com.deploy.bemyplan.auth.controller;
 
+import com.deploy.bemyplan.auth.controller.dto.request.LoginRequestDto;
+import com.deploy.bemyplan.auth.controller.dto.request.SignOutUserRequest;
+import com.deploy.bemyplan.auth.controller.dto.request.SignUpRequestDto;
+import com.deploy.bemyplan.auth.controller.dto.response.LoginResponse;
+import com.deploy.bemyplan.auth.service.AuthService;
+import com.deploy.bemyplan.auth.service.AuthServiceProvider;
 import com.deploy.bemyplan.config.interceptor.Auth;
 import com.deploy.bemyplan.config.resolver.UserId;
-import com.deploy.bemyplan.controller.auth.dto.request.LoginRequestDto;
-import com.deploy.bemyplan.controller.auth.dto.request.SignOutUserRequest;
-import com.deploy.bemyplan.controller.auth.dto.request.SignUpRequestDto;
-import com.deploy.bemyplan.controller.auth.dto.response.LoginResponse;
 import com.deploy.bemyplan.controller.common.response.ResponseDTO;
 import com.deploy.bemyplan.domain.user.User;
 import com.deploy.bemyplan.domain.user.UserRepository;
-import com.deploy.bemyplan.service.auth.AuthService;
-import com.deploy.bemyplan.service.auth.AuthServiceProvider;
 import com.deploy.bemyplan.service.user.UserService;
 import com.deploy.bemyplan.service.user.UserServiceUtils;
 import com.deploy.bemyplan.service.user.dto.request.CheckAvailableNameRequestDto;

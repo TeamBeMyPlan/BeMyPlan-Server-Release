@@ -1,6 +1,10 @@
-package com.deploy.bemyplan.controller.auth.dto.response;
+package com.deploy.bemyplan.auth.controller.dto.response;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @ToString
 @Getter

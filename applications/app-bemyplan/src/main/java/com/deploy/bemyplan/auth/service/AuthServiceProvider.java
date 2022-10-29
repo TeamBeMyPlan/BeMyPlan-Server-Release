@@ -1,9 +1,9 @@
-package com.deploy.bemyplan.service.auth;
+package com.deploy.bemyplan.auth.service;
 
+import com.deploy.bemyplan.auth.service.impl.AppleAuthService;
+import com.deploy.bemyplan.auth.service.impl.GoogleAuthService;
+import com.deploy.bemyplan.auth.service.impl.KaKaoAuthService;
 import com.deploy.bemyplan.domain.user.UserSocialType;
-import com.deploy.bemyplan.service.auth.impl.AppleAuthService;
-import com.deploy.bemyplan.service.auth.impl.GoogleAuthService;
-import com.deploy.bemyplan.service.auth.impl.KaKaoAuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

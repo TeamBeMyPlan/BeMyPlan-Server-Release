@@ -1,7 +1,11 @@
-package com.deploy.bemyplan.service.auth.dto.request;
+package com.deploy.bemyplan.auth.service.dto;
 
 import com.deploy.bemyplan.domain.user.UserSocialType;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

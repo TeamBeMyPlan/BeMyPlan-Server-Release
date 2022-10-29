@@ -9,7 +9,8 @@ def javaProjects = [
 		project(':module-common-bemyplan'),
 		project(':module-domain-bemyplan'),
 		project(':module-admin-bemyplan'),
-		project(':application-bemyplan')
+		project(':application-bemyplan'),
+		project(':applications:app-bemyplan')
 ];
 
 configure(javaProjects) {

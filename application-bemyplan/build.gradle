@@ -29,16 +29,6 @@ dependencies {
     api 'com.querydsl:querydsl-apt'
 }
 
-dependencyManagement {
-    imports {
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:2020.0.4"
-    }
-}
-
-jar {
-    enabled = false
-}
-
 /**
  * querydsl 설정 시작
  */

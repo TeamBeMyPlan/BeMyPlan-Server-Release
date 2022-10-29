@@ -1,5 +1,6 @@
 rootProject.name = 'bemyplan'
 
+include ':applications:app-bemyplan'
 include ':application-bemyplan'
 include ':module-domain-bemyplan'
 include ':module-common-bemyplan'

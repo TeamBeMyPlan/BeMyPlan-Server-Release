@@ -1,6 +1,5 @@
 package com.deploy.bemyplan.domain.plan;
 
-import com.deploy.bemyplan.common.type.JsonValueType;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -4,7 +4,17 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import static com.deploy.bemyplan.common.exception.ErrorStatusCode.*;
+import static com.deploy.bemyplan.common.exception.ErrorStatusCode.BAD_GATEWAY;
+import static com.deploy.bemyplan.common.exception.ErrorStatusCode.BAD_REQUEST;
+import static com.deploy.bemyplan.common.exception.ErrorStatusCode.CONFLICT;
+import static com.deploy.bemyplan.common.exception.ErrorStatusCode.FORBIDDEN;
+import static com.deploy.bemyplan.common.exception.ErrorStatusCode.INTERNAL_SERVER;
+import static com.deploy.bemyplan.common.exception.ErrorStatusCode.METHOD_NOT_ALLOWED;
+import static com.deploy.bemyplan.common.exception.ErrorStatusCode.NOT_ACCEPTABLE;
+import static com.deploy.bemyplan.common.exception.ErrorStatusCode.NOT_FOUND;
+import static com.deploy.bemyplan.common.exception.ErrorStatusCode.SERVICE_UNAVAILABLE;
+import static com.deploy.bemyplan.common.exception.ErrorStatusCode.UNAUTHORIZED;
+import static com.deploy.bemyplan.common.exception.ErrorStatusCode.UNSUPPORTED_MEDIA_TYPE;
 
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)

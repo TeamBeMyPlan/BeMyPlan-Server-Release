@@ -1,4 +1,4 @@
-package com.deploy.bemyplan.common.type;
+package com.deploy.bemyplan.domain.plan;
 
 public enum JsonValueType {
     IMAGE,

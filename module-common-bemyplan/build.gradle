@@ -1,7 +1,0 @@
-dependencies {
-
-}
-
-bootJar {
-    enabled = false
-}

@@ -1,7 +1,6 @@
 apply plugin: "com.ewerk.gradle.plugins.querydsl"
 
 dependencies {
-    implementation project(':module-common-bemyplan')
     implementation project(':module-admin-bemyplan')
 
     implementation 'org.springframework.boot:spring-boot-starter-validation'

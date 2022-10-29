@@ -1,10 +1,10 @@
-package com.deploy.bemyplan.controller.payment;
+package com.deploy.bemyplan.payment.controller;
 
 import com.deploy.bemyplan.controller.common.response.ResponseDTO;
-import com.deploy.bemyplan.controller.payment.dto.request.ConfirmOrderRequest;
-import com.deploy.bemyplan.controller.payment.dto.request.UserPurchaseReceipt;
-import com.deploy.bemyplan.service.payment.PaymentService;
-import com.deploy.bemyplan.service.payment.dto.response.InAppPurchaseResponse;
+import com.deploy.bemyplan.payment.controller.dto.request.ConfirmOrderRequest;
+import com.deploy.bemyplan.payment.controller.dto.request.UserPurchaseReceipt;
+import com.deploy.bemyplan.payment.service.PaymentService;
+import com.deploy.bemyplan.payment.service.dto.response.InAppPurchaseResponse;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;

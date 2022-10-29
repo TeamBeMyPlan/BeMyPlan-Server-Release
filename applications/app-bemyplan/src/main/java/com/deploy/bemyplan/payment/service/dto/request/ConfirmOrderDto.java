@@ -1,4 +1,4 @@
-package com.deploy.bemyplan.service.payment.dto.request;
+package com.deploy.bemyplan.payment.service.dto.request;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

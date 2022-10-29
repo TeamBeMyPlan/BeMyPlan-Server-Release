@@ -1,12 +1,12 @@
-package com.deploy.bemyplan.service.payment.dto.request;
+package com.deploy.bemyplan.payment.service.dto.request;
 
 import com.deploy.bemyplan.external.client.apple.purchase.dto.request.AppleReceiptDto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.ToString;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
 @ToString

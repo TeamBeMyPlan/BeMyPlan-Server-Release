@@ -1,7 +1,7 @@
-package com.deploy.bemyplan.controller.payment;
+package com.deploy.bemyplan.payment.controller;
 
-import com.deploy.bemyplan.service.payment.PaymentService;
-import com.deploy.bemyplan.service.payment.dto.request.ConfirmOrderDto;
+import com.deploy.bemyplan.payment.service.PaymentService;
+import com.deploy.bemyplan.payment.service.dto.request.ConfirmOrderDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

@@ -1,9 +1,9 @@
-package com.deploy.bemyplan.service.payment.utils;
+package com.deploy.bemyplan.payment.service.utils;
 
 import com.deploy.bemyplan.external.client.apple.purchase.AppleInAppProductionApiClient;
 import com.deploy.bemyplan.external.client.apple.purchase.AppleInAppSandboxApiClient;
 import com.deploy.bemyplan.external.client.apple.purchase.dto.response.AppStoreResponse;
-import com.deploy.bemyplan.service.payment.dto.request.UserReceiptDto;
+import com.deploy.bemyplan.payment.service.dto.request.UserReceiptDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

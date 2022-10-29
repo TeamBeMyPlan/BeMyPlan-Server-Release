@@ -1,4 +1,4 @@
-package com.deploy.bemyplan.service.payment.impl;
+package com.deploy.bemyplan.payment.service.impl;
 
 import com.deploy.bemyplan.common.exception.model.ValidationException;
 import com.deploy.bemyplan.domain.order.Order;
@@ -7,8 +7,8 @@ import com.deploy.bemyplan.domain.order.OrderStatus;
 import com.deploy.bemyplan.domain.payment.Payment;
 import com.deploy.bemyplan.domain.payment.PaymentRepository;
 import com.deploy.bemyplan.domain.payment.PaymentState;
-import com.deploy.bemyplan.service.payment.dto.request.ConfirmOrderDto;
-import com.deploy.bemyplan.service.payment.utils.AppleInAppPurchaseValidator;
+import com.deploy.bemyplan.payment.service.dto.request.ConfirmOrderDto;
+import com.deploy.bemyplan.payment.service.utils.AppleInAppPurchaseValidator;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

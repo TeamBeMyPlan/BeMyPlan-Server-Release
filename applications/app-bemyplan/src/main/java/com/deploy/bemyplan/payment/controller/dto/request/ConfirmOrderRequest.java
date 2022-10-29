@@ -1,6 +1,6 @@
-package com.deploy.bemyplan.controller.payment.dto.request;
+package com.deploy.bemyplan.payment.controller.dto.request;
 
-import com.deploy.bemyplan.service.payment.dto.request.ConfirmOrderDto;
+import com.deploy.bemyplan.payment.service.dto.request.ConfirmOrderDto;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

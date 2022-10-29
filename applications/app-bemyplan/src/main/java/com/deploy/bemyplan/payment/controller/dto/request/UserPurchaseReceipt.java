@@ -1,13 +1,13 @@
-package com.deploy.bemyplan.controller.payment.dto.request;
+package com.deploy.bemyplan.payment.controller.dto.request;
 
 
-import com.deploy.bemyplan.service.payment.dto.request.UserReceiptDto;
+import com.deploy.bemyplan.payment.service.dto.request.UserReceiptDto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.ToString;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
 @ToString

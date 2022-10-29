@@ -1,4 +1,4 @@
-package com.deploy.bemyplan.service.payment.impl;
+package com.deploy.bemyplan.payment.service.impl;
 
 import com.deploy.bemyplan.common.exception.model.NotFoundException;
 import com.deploy.bemyplan.common.exception.model.ValidationException;
@@ -9,11 +9,11 @@ import com.deploy.bemyplan.domain.payment.PaymentRepository;
 import com.deploy.bemyplan.domain.payment.PaymentState;
 import com.deploy.bemyplan.external.client.apple.purchase.dto.response.AppStoreResponse;
 import com.deploy.bemyplan.external.client.apple.purchase.dto.response.InApp;
-import com.deploy.bemyplan.service.payment.PaymentService;
-import com.deploy.bemyplan.service.payment.dto.request.ConfirmOrderDto;
-import com.deploy.bemyplan.service.payment.dto.request.UserReceiptDto;
-import com.deploy.bemyplan.service.payment.dto.response.InAppPurchaseResponse;
-import com.deploy.bemyplan.service.payment.utils.AppleInAppPurchaseValidator;
+import com.deploy.bemyplan.payment.service.PaymentService;
+import com.deploy.bemyplan.payment.service.dto.request.ConfirmOrderDto;
+import com.deploy.bemyplan.payment.service.dto.request.UserReceiptDto;
+import com.deploy.bemyplan.payment.service.dto.response.InAppPurchaseResponse;
+import com.deploy.bemyplan.payment.service.utils.AppleInAppPurchaseValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

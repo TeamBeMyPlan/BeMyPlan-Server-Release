@@ -1,4 +1,4 @@
-package com.deploy.bemyplan.service.payment.dto.response;
+package com.deploy.bemyplan.payment.service.dto.response;
 
 import com.deploy.bemyplan.domain.payment.PaymentState;
 import lombok.Getter;

@@ -1,7 +1,6 @@
 package com.deploy.bemyplan.domain.plan;
 
 import com.deploy.bemyplan.domain.common.AuditingTimeEntity;
-import com.deploy.bemyplan.domain.common.Location;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

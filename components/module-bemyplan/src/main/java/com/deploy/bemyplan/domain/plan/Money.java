@@ -1,4 +1,4 @@
-package com.deploy.bemyplan.domain.common;
+package com.deploy.bemyplan.domain.plan;
 
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;

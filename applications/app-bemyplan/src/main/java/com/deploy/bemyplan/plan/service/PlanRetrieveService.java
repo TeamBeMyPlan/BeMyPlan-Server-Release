@@ -1,7 +1,6 @@
 package com.deploy.bemyplan.plan.service;
 
 import com.deploy.bemyplan.common.exception.model.NotFoundException;
-import com.deploy.bemyplan.domain.common.collection.ScrollPaginationCollection;
 import com.deploy.bemyplan.domain.order.Order;
 import com.deploy.bemyplan.domain.order.OrderRepository;
 import com.deploy.bemyplan.domain.order.OrderStatus;

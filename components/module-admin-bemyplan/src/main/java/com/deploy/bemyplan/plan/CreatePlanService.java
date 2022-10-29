@@ -1,9 +1,9 @@
 package com.deploy.bemyplan.plan;
 
-import com.deploy.bemyplan.domain.common.Location;
 import com.deploy.bemyplan.domain.plan.DailySchedule;
 import com.deploy.bemyplan.domain.plan.DailyScheduleRepository;
 import com.deploy.bemyplan.domain.plan.JsonValueType;
+import com.deploy.bemyplan.domain.plan.Location;
 import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.plan.PlanRepository;
 import com.deploy.bemyplan.domain.plan.Preview;

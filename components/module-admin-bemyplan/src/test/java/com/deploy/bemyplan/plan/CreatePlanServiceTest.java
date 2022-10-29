@@ -1,7 +1,7 @@
 package com.deploy.bemyplan.plan;
 
-import com.deploy.bemyplan.domain.common.Money;
 import com.deploy.bemyplan.domain.plan.DailyScheduleRepository;
+import com.deploy.bemyplan.domain.plan.Money;
 import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.plan.PlanRepository;
 import com.deploy.bemyplan.domain.plan.PlanStatus;

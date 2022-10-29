@@ -1,6 +1,5 @@
 package com.deploy.bemyplan.domain.plan;
 
-import com.deploy.bemyplan.domain.common.Money;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;

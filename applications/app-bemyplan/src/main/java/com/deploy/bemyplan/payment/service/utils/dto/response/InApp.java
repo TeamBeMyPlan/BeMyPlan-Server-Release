@@ -1,4 +1,4 @@
-package com.deploy.bemyplan.external.client.apple.purchase.dto.response;
+package com.deploy.bemyplan.payment.service.utils.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import lombok.Getter;

@@ -1,6 +1,6 @@
 package com.deploy.bemyplan.payment.service.dto.request;
 
-import com.deploy.bemyplan.external.client.apple.purchase.dto.request.AppleReceiptDto;
+import com.deploy.bemyplan.payment.service.utils.dto.request.AppleReceiptDto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

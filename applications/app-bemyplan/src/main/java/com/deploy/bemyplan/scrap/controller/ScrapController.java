@@ -1,9 +1,9 @@
-package com.deploy.bemyplan.controller.plan;
+package com.deploy.bemyplan.scrap.controller;
 
 import com.deploy.bemyplan.config.interceptor.Auth;
 import com.deploy.bemyplan.config.resolver.UserId;
 import com.deploy.bemyplan.controller.common.response.ResponseDTO;
-import com.deploy.bemyplan.service.scrap.ScrapService;
+import com.deploy.bemyplan.scrap.service.ScrapService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;

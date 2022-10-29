@@ -1,4 +1,4 @@
-package com.deploy.bemyplan.service.scrap;
+package com.deploy.bemyplan.scrap.service;
 
 import com.deploy.bemyplan.service.user.UserDeleteEvent;
 import org.junit.jupiter.api.BeforeEach;

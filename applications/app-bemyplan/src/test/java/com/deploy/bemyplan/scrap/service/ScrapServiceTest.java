@@ -1,4 +1,4 @@
-package com.deploy.bemyplan.service.scrap;
+package com.deploy.bemyplan.scrap.service;
 
 import com.deploy.bemyplan.domain.scrap.ScrapRepository;
 import org.junit.jupiter.api.BeforeEach;

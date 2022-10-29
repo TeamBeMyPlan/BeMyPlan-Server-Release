@@ -25,7 +25,7 @@ import com.deploy.bemyplan.plan.service.dto.response.SpotMoveInfoResponse;
 import com.deploy.bemyplan.service.collection.AuthorDictionary;
 import com.deploy.bemyplan.service.collection.OrderDictionary;
 import com.deploy.bemyplan.service.collection.ScrapDictionary;
-import com.deploy.bemyplan.service.user.UserServiceUtils;
+import com.deploy.bemyplan.user.service.UserServiceUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

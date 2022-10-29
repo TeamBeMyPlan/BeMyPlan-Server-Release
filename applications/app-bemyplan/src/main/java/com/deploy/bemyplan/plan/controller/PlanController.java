@@ -4,7 +4,7 @@ import com.deploy.bemyplan.domain.plan.RegionCategory;
 import com.deploy.bemyplan.plan.service.PlanService;
 import com.deploy.bemyplan.plan.service.dto.response.PlanPreviewResponseDto;
 import com.deploy.bemyplan.plan.service.dto.response.PlanRandomResponse;
-import com.deploy.bemyplan.service.user.dto.response.CreatorInfoResponse;
+import com.deploy.bemyplan.user.service.dto.response.CreatorInfoResponse;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;

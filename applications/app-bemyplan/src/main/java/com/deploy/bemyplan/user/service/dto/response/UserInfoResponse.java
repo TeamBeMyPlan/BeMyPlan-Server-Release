@@ -1,7 +1,11 @@
-package com.deploy.bemyplan.service.user.dto.response;
+package com.deploy.bemyplan.user.service.dto.response;
 
 import com.deploy.bemyplan.domain.user.User;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.jetbrains.annotations.Nullable;
 
 @ToString

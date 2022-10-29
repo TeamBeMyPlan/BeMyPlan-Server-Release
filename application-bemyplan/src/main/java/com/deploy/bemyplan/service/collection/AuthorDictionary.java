@@ -1,15 +1,17 @@
 package com.deploy.bemyplan.service.collection;
 
+import com.deploy.bemyplan.common.exception.model.NotFoundException;
 import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.user.User;
 import com.deploy.bemyplan.domain.user.UserRepository;
-import com.deploy.bemyplan.service.user.UserServiceUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import static com.deploy.bemyplan.common.exception.ErrorCode.NOT_FOUND_USER_EXCEPTION;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class AuthorDictionary {
@@ -21,7 +23,8 @@ public class AuthorDictionary {
                                     .collect(
                                             Collectors.toMap(
                                                     Plan::getId,
-                                                    plan -> UserServiceUtils.findUserById(userRepository, plan.getUserId())
+                                                    plan -> userRepository.findById(plan.getUserId())
+                                                            .orElseThrow(() -> new NotFoundException(String.format("존재하지 않는 유저 (%s) 입니다", plan.getUserId()), NOT_FOUND_USER_EXCEPTION))
                                             )
                                     )
         );

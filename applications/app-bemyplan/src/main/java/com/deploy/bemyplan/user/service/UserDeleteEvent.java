@@ -1,4 +1,4 @@
-package com.deploy.bemyplan.service.user;
+package com.deploy.bemyplan.user.service;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

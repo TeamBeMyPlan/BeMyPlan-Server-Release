@@ -10,7 +10,7 @@ import com.deploy.bemyplan.domain.user.User;
 import com.deploy.bemyplan.domain.user.UserRepository;
 import com.deploy.bemyplan.plan.service.dto.response.PlanPreviewResponseDto;
 import com.deploy.bemyplan.plan.service.dto.response.PlanRandomResponse;
-import com.deploy.bemyplan.service.user.dto.response.CreatorInfoResponse;
+import com.deploy.bemyplan.user.service.dto.response.CreatorInfoResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

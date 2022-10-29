@@ -6,8 +6,8 @@ import com.deploy.bemyplan.auth.service.dto.SignUpDto;
 import com.deploy.bemyplan.domain.user.UserRepository;
 import com.deploy.bemyplan.domain.user.UserSocialType;
 import com.deploy.bemyplan.external.client.apple.social.AppleTokenDecoder;
-import com.deploy.bemyplan.service.user.UserService;
-import com.deploy.bemyplan.service.user.UserServiceUtils;
+import com.deploy.bemyplan.user.service.UserService;
+import com.deploy.bemyplan.user.service.UserServiceUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

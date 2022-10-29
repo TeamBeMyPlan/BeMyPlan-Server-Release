@@ -1,7 +1,7 @@
 package com.deploy.bemyplan.auth.service.dto;
 
 import com.deploy.bemyplan.domain.user.UserSocialType;
-import com.deploy.bemyplan.service.user.dto.request.CreateUserDto;
+import com.deploy.bemyplan.user.service.dto.request.CreateUserDto;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

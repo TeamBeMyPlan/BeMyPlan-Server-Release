@@ -1,4 +1,4 @@
-package com.deploy.bemyplan.service.user;
+package com.deploy.bemyplan.user.service;
 
 import com.deploy.bemyplan.common.exception.ErrorCode;
 import com.deploy.bemyplan.common.exception.model.ConflictException;

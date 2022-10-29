@@ -4,7 +4,7 @@ import com.deploy.bemyplan.common.dto.AuditingTimeResponse;
 import com.deploy.bemyplan.domain.plan.DailySchedule;
 import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.user.User;
-import com.deploy.bemyplan.service.user.dto.response.UserInfoResponse;
+import com.deploy.bemyplan.user.service.dto.response.UserInfoResponse;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

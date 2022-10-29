@@ -1,4 +1,4 @@
-package com.deploy.bemyplan.service.user.dto.response;
+package com.deploy.bemyplan.user.service.dto.response;
 
 import lombok.AccessLevel;
 import lombok.Getter;

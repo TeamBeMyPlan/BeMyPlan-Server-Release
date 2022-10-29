@@ -1,4 +1,4 @@
-package com.deploy.bemyplan.service.user;
+package com.deploy.bemyplan.user.service;
 
 import com.deploy.bemyplan.domain.user.User;
 import com.deploy.bemyplan.domain.user.UserRepository;

@@ -2,4 +2,4 @@ rootProject.name = 'bemyplan'
 
 include ':applications:app-bemyplan'
 include ':components:module-bemyplan'
-include ':module-admin-front', ':module-admin-bemyplan'
+include ':components:module-admin-front', ':components:module-admin-bemyplan'

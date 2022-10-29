@@ -3,8 +3,6 @@ package com.deploy.bemyplan.location;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
-
 @RequiredArgsConstructor
 @Service
 public class LocationService {

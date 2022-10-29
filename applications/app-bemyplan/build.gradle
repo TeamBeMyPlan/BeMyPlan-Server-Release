@@ -1,6 +1,6 @@
 dependencies {
     implementation project(':components:module-bemyplan')
-    implementation project(':module-admin-bemyplan')
+    implementation project(':components:module-admin-bemyplan')
 
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'

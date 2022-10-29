@@ -1,4 +1,4 @@
-package com.deploy.bemyplan.service.collection;
+package com.deploy.bemyplan.plan.service;
 
 import com.deploy.bemyplan.common.exception.model.NotFoundException;
 import com.deploy.bemyplan.domain.plan.Plan;

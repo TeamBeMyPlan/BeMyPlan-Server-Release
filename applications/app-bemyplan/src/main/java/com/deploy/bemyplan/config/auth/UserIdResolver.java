@@ -1,6 +1,5 @@
-package com.deploy.bemyplan.config.resolver;
+package com.deploy.bemyplan.config.auth;
 
-import com.deploy.bemyplan.config.interceptor.Auth;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;

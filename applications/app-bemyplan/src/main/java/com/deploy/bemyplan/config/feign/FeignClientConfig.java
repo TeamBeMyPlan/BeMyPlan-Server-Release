@@ -1,4 +1,4 @@
-package com.deploy.bemyplan.external.config;
+package com.deploy.bemyplan.config.feign;
 
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Configuration;

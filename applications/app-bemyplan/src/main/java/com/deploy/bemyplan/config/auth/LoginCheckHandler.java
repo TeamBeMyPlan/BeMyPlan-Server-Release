@@ -1,4 +1,4 @@
-package com.deploy.bemyplan.config.interceptor;
+package com.deploy.bemyplan.config.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;

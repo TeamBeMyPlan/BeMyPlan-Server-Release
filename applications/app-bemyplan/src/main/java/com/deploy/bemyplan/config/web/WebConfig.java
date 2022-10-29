@@ -1,7 +1,7 @@
-package com.deploy.bemyplan.config;
+package com.deploy.bemyplan.config.web;
 
-import com.deploy.bemyplan.config.interceptor.AuthInterceptor;
-import com.deploy.bemyplan.config.resolver.UserIdResolver;
+import com.deploy.bemyplan.config.auth.AuthInterceptor;
+import com.deploy.bemyplan.config.auth.UserIdResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;

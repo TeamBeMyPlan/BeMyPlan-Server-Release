@@ -1,8 +1,8 @@
 package com.deploy.bemyplan.scrap.controller;
 
 import com.deploy.bemyplan.common.controller.ResponseDTO;
-import com.deploy.bemyplan.config.interceptor.Auth;
-import com.deploy.bemyplan.config.resolver.UserId;
+import com.deploy.bemyplan.config.auth.Auth;
+import com.deploy.bemyplan.config.auth.UserId;
 import com.deploy.bemyplan.scrap.service.ScrapService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

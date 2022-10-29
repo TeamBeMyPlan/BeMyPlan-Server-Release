@@ -1,7 +1,7 @@
 package com.deploy.bemyplan.plan.controller;
 
-import com.deploy.bemyplan.config.interceptor.Auth;
-import com.deploy.bemyplan.config.resolver.UserId;
+import com.deploy.bemyplan.config.auth.Auth;
+import com.deploy.bemyplan.config.auth.UserId;
 import com.deploy.bemyplan.config.validator.AllowedSortProperties;
 import com.deploy.bemyplan.plan.service.PlanRetrieveService;
 import com.deploy.bemyplan.plan.service.dto.request.RetrieveMyBookmarkListRequestDto;

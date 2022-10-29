@@ -1,4 +1,4 @@
-package com.deploy.bemyplan.config.resolver;
+package com.deploy.bemyplan.config.auth;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -1,6 +1,6 @@
 package com.deploy.bemyplan.config.swagger;
 
-import com.deploy.bemyplan.config.interceptor.Auth;
+import com.deploy.bemyplan.config.auth.Auth;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;

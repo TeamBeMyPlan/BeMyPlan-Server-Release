@@ -1,6 +1,5 @@
-package com.deploy.bemyplan.external.client.google;
+package com.deploy.bemyplan.auth.remote.google;
 
-import com.deploy.bemyplan.external.client.google.dto.response.GoogleProfileInfoResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,11 +1,11 @@
 package com.deploy.bemyplan.auth.service.impl;
 
+import com.deploy.bemyplan.auth.remote.apple.AppleTokenDecoder;
 import com.deploy.bemyplan.auth.service.AuthService;
 import com.deploy.bemyplan.auth.service.dto.LoginDto;
 import com.deploy.bemyplan.auth.service.dto.SignUpDto;
 import com.deploy.bemyplan.domain.user.UserRepository;
 import com.deploy.bemyplan.domain.user.UserSocialType;
-import com.deploy.bemyplan.external.client.apple.social.AppleTokenDecoder;
 import com.deploy.bemyplan.user.service.UserService;
 import com.deploy.bemyplan.user.service.UserServiceUtils;
 import lombok.RequiredArgsConstructor;

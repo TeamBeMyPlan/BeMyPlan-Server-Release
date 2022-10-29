@@ -1,4 +1,4 @@
-package com.deploy.bemyplan.external.client.apple.social;
+package com.deploy.bemyplan.auth.remote.apple;
 
 import org.jetbrains.annotations.NotNull;
 

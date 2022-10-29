@@ -1,11 +1,11 @@
-package com.deploy.bemyplan.external.client.apple.social.dto.response;
+package com.deploy.bemyplan.auth.remote.apple;
 
 import com.deploy.bemyplan.common.exception.model.ValidationException;
-import lombok.ToString;
-import lombok.Getter;
-import lombok.AllArgsConstructor;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.List;
 

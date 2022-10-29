@@ -1,6 +1,5 @@
-package com.deploy.bemyplan.external.client.kakao;
+package com.deploy.bemyplan.auth.remote.kakao;
 
-import com.deploy.bemyplan.external.client.kakao.dto.response.KaKaoProfileResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;

@@ -1,6 +1,5 @@
-package com.deploy.bemyplan.external.client.apple.social;
+package com.deploy.bemyplan.auth.remote.apple;
 
-import com.deploy.bemyplan.external.client.apple.social.dto.response.ApplePublicKeyResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 

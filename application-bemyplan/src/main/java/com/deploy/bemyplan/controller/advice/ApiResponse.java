@@ -1,8 +1,12 @@
-package com.deploy.bemyplan.common.dto;
+package com.deploy.bemyplan.controller.advice;
 
 import com.deploy.bemyplan.common.exception.ErrorCode;
 import com.deploy.bemyplan.common.exception.ErrorStatusCode;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @ToString
 @Getter

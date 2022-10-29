@@ -1,6 +1,5 @@
 package com.deploy.bemyplan.controller.advice;
 
-import com.deploy.bemyplan.common.dto.ApiResponse;
 import com.deploy.bemyplan.common.exception.model.BeMyPlanException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +21,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import javax.validation.ConstraintViolationException;
 import java.util.Objects;
 
-import static com.deploy.bemyplan.common.exception.ErrorCode.*;
+import static com.deploy.bemyplan.common.exception.ErrorCode.INTERNAL_SERVER_EXCEPTION;
+import static com.deploy.bemyplan.common.exception.ErrorCode.METHOD_NOT_ALLOWED_EXCEPTION;
+import static com.deploy.bemyplan.common.exception.ErrorCode.NOT_ACCEPTABLE_EXCEPTION;
+import static com.deploy.bemyplan.common.exception.ErrorCode.UNSUPPORTED_MEDIA_TYPE_EXCEPTION;
+import static com.deploy.bemyplan.common.exception.ErrorCode.VALIDATION_ENUM_VALUE_EXCEPTION;
+import static com.deploy.bemyplan.common.exception.ErrorCode.VALIDATION_EXCEPTION;
+import static com.deploy.bemyplan.common.exception.ErrorCode.VALIDATION_REQUEST_MISSING_EXCEPTION;
+import static com.deploy.bemyplan.common.exception.ErrorCode.VALIDATION_WRONG_TYPE_EXCEPTION;
 
 @Slf4j
 @RestControllerAdvice

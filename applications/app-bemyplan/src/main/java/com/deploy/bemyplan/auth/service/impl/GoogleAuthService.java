@@ -3,7 +3,6 @@ package com.deploy.bemyplan.auth.service.impl;
 import com.deploy.bemyplan.auth.service.AuthService;
 import com.deploy.bemyplan.auth.service.dto.LoginDto;
 import com.deploy.bemyplan.auth.service.dto.SignUpDto;
-import com.deploy.bemyplan.common.util.HttpHeaderUtils;
 import com.deploy.bemyplan.domain.user.UserRepository;
 import com.deploy.bemyplan.domain.user.UserSocialType;
 import com.deploy.bemyplan.external.client.google.GoogleAuthApiClient;
@@ -26,13 +25,13 @@ public class GoogleAuthService implements AuthService {
 
     @Override
     public Long signUp(SignUpDto request) {
-        GoogleProfileInfoResponse response = googleAuthApiCaller.getProfileInfo((HttpHeaderUtils.withBearerToken(request.getToken())));
+        GoogleProfileInfoResponse response = googleAuthApiCaller.getProfileInfo(("Bearer " + request.getToken()));
         return userService.registerUser(request.toCreateUserDto(response.getId()));
     }
 
     @Override
     public Long login(LoginDto request) {
-        GoogleProfileInfoResponse response = googleAuthApiCaller.getProfileInfo((HttpHeaderUtils.withBearerToken(request.getToken())));
+        GoogleProfileInfoResponse response = googleAuthApiCaller.getProfileInfo(("Bearer " + request.getToken()));
         return UserServiceUtils.findUserBySocialIdAndSocialType(userRepository, response.getId(), socialType).getId();
     }
 }

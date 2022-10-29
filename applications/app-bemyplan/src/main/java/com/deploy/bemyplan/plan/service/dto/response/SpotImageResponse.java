@@ -1,6 +1,6 @@
 package com.deploy.bemyplan.plan.service.dto.response;
 
-import com.deploy.bemyplan.common.dto.AuditingTimeResponse;
+import com.deploy.bemyplan.common.controller.AuditingTimeResponse;
 import com.deploy.bemyplan.domain.plan.SpotImage;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

@@ -1,6 +1,6 @@
 package com.deploy.bemyplan.plan.service.dto.response;
 
-import com.deploy.bemyplan.common.dto.AuditingTimeResponse;
+import com.deploy.bemyplan.common.controller.AuditingTimeResponse;
 import com.deploy.bemyplan.domain.common.Money;
 import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.plan.Region;

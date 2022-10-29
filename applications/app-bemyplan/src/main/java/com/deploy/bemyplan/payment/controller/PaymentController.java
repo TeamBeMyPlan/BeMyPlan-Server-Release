@@ -1,6 +1,6 @@
 package com.deploy.bemyplan.payment.controller;
 
-import com.deploy.bemyplan.controller.common.response.ResponseDTO;
+import com.deploy.bemyplan.common.controller.ResponseDTO;
 import com.deploy.bemyplan.payment.controller.dto.request.ConfirmOrderRequest;
 import com.deploy.bemyplan.payment.controller.dto.request.UserPurchaseReceipt;
 import com.deploy.bemyplan.payment.service.PaymentService;

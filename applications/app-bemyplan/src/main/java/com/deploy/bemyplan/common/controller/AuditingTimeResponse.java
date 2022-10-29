@@ -1,4 +1,4 @@
-package com.deploy.bemyplan.common.dto;
+package com.deploy.bemyplan.common.controller;
 
 import lombok.AccessLevel;
 import lombok.Getter;

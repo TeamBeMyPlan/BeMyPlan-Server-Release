@@ -1,8 +1,8 @@
 package com.deploy.bemyplan.order.controller;
 
+import com.deploy.bemyplan.common.controller.ResponseDTO;
 import com.deploy.bemyplan.config.interceptor.Auth;
 import com.deploy.bemyplan.config.resolver.UserId;
-import com.deploy.bemyplan.controller.common.response.ResponseDTO;
 import com.deploy.bemyplan.order.service.OrderService;
 import com.deploy.bemyplan.order.service.dto.request.CreateOrderRequest;
 import com.deploy.bemyplan.order.service.dto.response.OrderListResponse;

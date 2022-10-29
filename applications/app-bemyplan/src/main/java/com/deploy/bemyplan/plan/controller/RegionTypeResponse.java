@@ -1,4 +1,4 @@
-package com.deploy.bemyplan.service.mapper.plan.dto.response;
+package com.deploy.bemyplan.plan.controller;
 
 import com.deploy.bemyplan.domain.plan.RegionCategory;
 import lombok.AccessLevel;

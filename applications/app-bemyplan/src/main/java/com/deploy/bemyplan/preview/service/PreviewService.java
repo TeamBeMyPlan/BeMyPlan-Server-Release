@@ -1,8 +1,8 @@
-package com.deploy.bemyplan.service.preview;
+package com.deploy.bemyplan.preview.service;
 
 import com.deploy.bemyplan.domain.plan.Preview;
 import com.deploy.bemyplan.domain.plan.PreviewRepository;
-import com.deploy.bemyplan.service.preview.dto.PreviewContentListResponse;
+import com.deploy.bemyplan.preview.service.dto.PreviewContentListResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

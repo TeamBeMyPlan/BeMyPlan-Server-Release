@@ -1,4 +1,4 @@
-package com.deploy.bemyplan.service.preview.dto;
+package com.deploy.bemyplan.preview.service.dto;
 
 import com.deploy.bemyplan.domain.plan.Preview;
 import lombok.AccessLevel;

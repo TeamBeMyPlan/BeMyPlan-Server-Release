@@ -1,7 +1,7 @@
-package com.deploy.bemyplan.controller.preview;
+package com.deploy.bemyplan.preview.controller;
 
-import com.deploy.bemyplan.service.preview.PreviewService;
-import com.deploy.bemyplan.service.preview.dto.PreviewContentListResponse;
+import com.deploy.bemyplan.preview.service.PreviewService;
+import com.deploy.bemyplan.preview.service.dto.PreviewContentListResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

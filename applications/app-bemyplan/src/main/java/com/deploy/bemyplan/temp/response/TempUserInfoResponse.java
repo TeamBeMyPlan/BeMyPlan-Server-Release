@@ -1,4 +1,4 @@
-package com.deploy.bemyplan.controller.temp.response;
+package com.deploy.bemyplan.temp.response;
 
 
 import lombok.AccessLevel;

@@ -1,23 +1,24 @@
-package com.deploy.bemyplan.controller.temp;
+package com.deploy.bemyplan.temp;
 
 
-import static com.deploy.bemyplan.domain.plan.TravelMobility.CAR;
-import static com.deploy.bemyplan.domain.plan.TravelMobility.WALK;
-
-import com.deploy.bemyplan.controller.temp.response.TempPlanResponse;
-import com.deploy.bemyplan.controller.temp.response.TempScheduleDetailResponse;
-import com.deploy.bemyplan.controller.temp.response.TempSpotDetailResponse;
-import com.deploy.bemyplan.controller.temp.response.TempSpotImageResponse;
-import com.deploy.bemyplan.controller.temp.response.TempSpotMoveInfoDetailResponse;
-import com.deploy.bemyplan.controller.temp.response.TempSpotMoveInfoResponse;
-import com.deploy.bemyplan.controller.temp.response.TempUserInfoResponse;
+import com.deploy.bemyplan.temp.response.TempPlanResponse;
+import com.deploy.bemyplan.temp.response.TempScheduleDetailResponse;
+import com.deploy.bemyplan.temp.response.TempSpotDetailResponse;
+import com.deploy.bemyplan.temp.response.TempSpotImageResponse;
+import com.deploy.bemyplan.temp.response.TempSpotMoveInfoDetailResponse;
+import com.deploy.bemyplan.temp.response.TempSpotMoveInfoResponse;
+import com.deploy.bemyplan.temp.response.TempUserInfoResponse;
 import io.swagger.annotations.ApiOperation;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+import static com.deploy.bemyplan.domain.plan.TravelMobility.CAR;
+import static com.deploy.bemyplan.domain.plan.TravelMobility.WALK;
 
 @RequiredArgsConstructor
 @RestController

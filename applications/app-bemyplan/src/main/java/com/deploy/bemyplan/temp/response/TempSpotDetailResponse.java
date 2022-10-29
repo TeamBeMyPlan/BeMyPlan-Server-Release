@@ -1,12 +1,13 @@
-package com.deploy.bemyplan.controller.temp.response;
+package com.deploy.bemyplan.temp.response;
 
-import java.util.ArrayList;
-import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @ToString

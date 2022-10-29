@@ -1,6 +1,6 @@
-package com.deploy.bemyplan.controller.order;
+package com.deploy.bemyplan.order.controller;
 
-import com.deploy.bemyplan.service.order.OrderService;
+import com.deploy.bemyplan.order.service.OrderService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

@@ -1,12 +1,12 @@
-package com.deploy.bemyplan.controller.order;
+package com.deploy.bemyplan.order.controller;
 
 import com.deploy.bemyplan.config.interceptor.Auth;
 import com.deploy.bemyplan.config.resolver.UserId;
 import com.deploy.bemyplan.controller.common.response.ResponseDTO;
-import com.deploy.bemyplan.service.order.OrderService;
-import com.deploy.bemyplan.service.order.dto.request.CreateOrderRequest;
-import com.deploy.bemyplan.service.order.dto.response.OrderListResponse;
-import com.deploy.bemyplan.service.order.dto.response.OrderResponseDto;
+import com.deploy.bemyplan.order.service.OrderService;
+import com.deploy.bemyplan.order.service.dto.request.CreateOrderRequest;
+import com.deploy.bemyplan.order.service.dto.response.OrderListResponse;
+import com.deploy.bemyplan.order.service.dto.response.OrderResponseDto;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

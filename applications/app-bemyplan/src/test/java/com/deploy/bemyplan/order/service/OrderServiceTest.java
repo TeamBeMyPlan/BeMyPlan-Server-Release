@@ -1,4 +1,4 @@
-package com.deploy.bemyplan.service.order;
+package com.deploy.bemyplan.order.service;
 
 import com.deploy.bemyplan.domain.order.Order;
 import com.deploy.bemyplan.domain.order.OrderRepository;
@@ -10,7 +10,7 @@ import com.deploy.bemyplan.domain.plan.RcmndStatus;
 import com.deploy.bemyplan.domain.plan.Region;
 import com.deploy.bemyplan.domain.plan.RegionCategory;
 import com.deploy.bemyplan.domain.plan.TagInfo;
-import com.deploy.bemyplan.service.order.dto.response.OrderResponseDto;
+import com.deploy.bemyplan.order.service.dto.response.OrderResponseDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

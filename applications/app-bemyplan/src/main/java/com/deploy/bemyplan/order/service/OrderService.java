@@ -1,4 +1,4 @@
-package com.deploy.bemyplan.service.order;
+package com.deploy.bemyplan.order.service;
 
 import com.deploy.bemyplan.common.exception.model.NotFoundException;
 import com.deploy.bemyplan.domain.order.Order;
@@ -7,9 +7,9 @@ import com.deploy.bemyplan.domain.order.OrderStatus;
 import com.deploy.bemyplan.domain.plan.OrderedPlan;
 import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.plan.PlanRepository;
-import com.deploy.bemyplan.service.order.dto.response.OrderListResponse;
-import com.deploy.bemyplan.service.order.dto.response.OrderResponseDto;
-import com.deploy.bemyplan.service.order.dto.response.OrderedPlanInfoResponse;
+import com.deploy.bemyplan.order.service.dto.response.OrderListResponse;
+import com.deploy.bemyplan.order.service.dto.response.OrderResponseDto;
+import com.deploy.bemyplan.order.service.dto.response.OrderedPlanInfoResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

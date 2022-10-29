@@ -1,4 +1,4 @@
-package com.deploy.bemyplan.service.order.dto.response;
+package com.deploy.bemyplan.order.service.dto.response;
 
 import com.deploy.bemyplan.common.dto.AuditingTimeResponse;
 import com.deploy.bemyplan.domain.plan.OrderedPlan;

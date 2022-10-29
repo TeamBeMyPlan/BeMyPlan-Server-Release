@@ -3,14 +3,14 @@ apply plugin: "com.ewerk.gradle.plugins.querydsl"
 dependencies {
     implementation project(':module-admin-bemyplan')
 
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
+    api 'org.springframework.boot:spring-boot-starter-validation'
+    api 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'org.springframework.session:spring-session-data-redis'
     implementation "org.springframework.cloud:spring-cloud-starter-openfeign"
     implementation 'mysql:mysql-connector-java'
     implementation 'org.jetbrains:annotations:20.1.0'
-    implementation group: 'io.springfox', name: 'springfox-boot-starter', version: '3.0.0'
+    api group: 'io.springfox', name: 'springfox-boot-starter', version: '3.0.0'
     implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
     implementation group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
     implementation group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'

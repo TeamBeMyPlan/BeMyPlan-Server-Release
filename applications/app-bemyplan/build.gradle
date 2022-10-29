@@ -1,5 +1,7 @@
 dependencies {
     implementation project(':application-bemyplan')
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 dependencyManagement {

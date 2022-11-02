@@ -1,6 +1,6 @@
 rootProject.name = 'bemyplan'
 
-include ':application-bemyplan'
-include ':module-domain-bemyplan'
-include ':module-common-bemyplan'
-include ':module-admin-front', ':module-admin-bemyplan'
+include ':applications:app-bemyplan'
+include ':components:module-bemyplan'
+include ':components:module-jwt'
+include ':components:module-admin-front', ':components:module-admin-bemyplan'

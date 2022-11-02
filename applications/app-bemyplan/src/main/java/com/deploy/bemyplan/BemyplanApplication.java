@@ -1,9 +1,11 @@
 package com.deploy.bemyplan;
 
+import com.zkdlu.apiresponsespringbootstarter.autoconfig.EnableResponse;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
+@EnableResponse
 @EnableJpaAuditing
 @SpringBootApplication
 public class BemyplanApplication {

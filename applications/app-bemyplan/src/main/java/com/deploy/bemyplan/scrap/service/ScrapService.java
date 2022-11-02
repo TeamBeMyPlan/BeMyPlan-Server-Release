@@ -7,8 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.deploy.bemyplan.common.exception.ErrorCode.NOT_FOUND_SCRAP_EXCEPTION;
-
 @Service
 @RequiredArgsConstructor
 public class ScrapService {
@@ -28,7 +26,7 @@ public class ScrapService {
     @Transactional(readOnly = true)
     public void checkScrapStatus(Long planId, Long userId) {
         scrapRepository.findByUserIdAndPlanId(planId, userId)
-                .orElseThrow(() -> new NotFoundException(String.format("해당 여행일정을 찜한 상태 (%s - %s) 가 아닙니다.", userId, planId), NOT_FOUND_SCRAP_EXCEPTION));
+                .orElseThrow(() -> new NotFoundException(String.format("해당 여행일정을 찜한 상태 (%s - %s) 가 아닙니다.", userId, planId)));
     }
 
     @Transactional

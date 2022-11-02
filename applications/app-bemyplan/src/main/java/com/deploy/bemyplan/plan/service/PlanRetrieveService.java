@@ -30,8 +30,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.deploy.bemyplan.common.exception.ErrorCode.NOT_FOUND_EXCEPTION;
-
 @RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
@@ -127,7 +125,7 @@ public class PlanRetrieveService {
 
     private User getAuthorByPlanId(final Plan plan) {
         return userRepository.findUserByPlanId(plan.getId())
-                .orElseThrow(() -> new NotFoundException("크리에이터 정보가 존재하지 않습니다.", NOT_FOUND_EXCEPTION));
+                .orElseThrow(() -> new NotFoundException("크리에이터 정보가 존재하지 않습니다."));
     }
 
     private ScrapDictionary findScrapByUserIdAndPlans(Long userId, List<Plan> plans) {

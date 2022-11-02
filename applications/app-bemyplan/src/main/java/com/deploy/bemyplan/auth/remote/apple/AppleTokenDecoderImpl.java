@@ -22,8 +22,6 @@ import java.security.spec.RSAPublicKeySpec;
 import java.util.Base64;
 import java.util.Map;
 
-import static com.deploy.bemyplan.common.exception.ErrorCode.VALIDATION_AUTH_TOKEN_EXCEPTION;
-
 @RequiredArgsConstructor
 @Component
 public class AppleTokenDecoderImpl implements AppleTokenDecoder {
@@ -48,9 +46,9 @@ public class AppleTokenDecoderImpl implements AppleTokenDecoder {
                     .getBody();
             return claims.getSubject();
         } catch (ExpiredJwtException e) {
-            throw new ValidationException(String.format("만료된 애플 idToken (%s) 입니다 (reason: %s)", idToken, e.getMessage()), VALIDATION_AUTH_TOKEN_EXCEPTION);
+            throw new ValidationException(String.format("만료된 애플 idToken (%s) 입니다 (reason: %s)", idToken, e.getMessage()));
         } catch (JsonProcessingException | InvalidKeySpecException | InvalidClaimException | NoSuchAlgorithmException | IllegalArgumentException e) {
-            throw new ValidationException(String.format("잘못된 애플 idToken (%s) 입니다 (reason: %s)", idToken, e.getMessage()), VALIDATION_AUTH_TOKEN_EXCEPTION);
+            throw new ValidationException(String.format("잘못된 애플 idToken (%s) 입니다 (reason: %s)", idToken, e.getMessage()));
         }
     }
 

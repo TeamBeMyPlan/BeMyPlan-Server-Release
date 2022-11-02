@@ -21,8 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Objects;
 
-import static com.deploy.bemyplan.common.exception.ErrorCode.NOT_FOUND_EXCEPTION;
-
 @RequiredArgsConstructor
 @Service
 public class ApplePaymentService implements PaymentService {
@@ -34,10 +32,10 @@ public class ApplePaymentService implements PaymentService {
     @Override
     public InAppPurchaseResponse purchaseValidate(final Long orderId, final UserReceiptDto userReceipt) {
         final Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new NotFoundException("존재하지 않는 주문 내역 입니다.", NOT_FOUND_EXCEPTION));
+                .orElseThrow(() -> new NotFoundException("존재하지 않는 주문 내역 입니다."));
 
         final AppStoreResponse response = appleInAppPurchaseValidator.appleInAppPurchaseVerify(userReceipt)
-                .orElseThrow(() -> new NotFoundException("검증 되지 않은 응답입니다.", NOT_FOUND_EXCEPTION));
+                .orElseThrow(() -> new NotFoundException("검증 되지 않은 응답입니다."));
 
         final String transactionId = getTransactionId(response);
 
@@ -51,10 +49,10 @@ public class ApplePaymentService implements PaymentService {
     @Override
     public void purchaseConfirm(final Long orderId, final ConfirmOrderDto confirmOrderDto) {
         final Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new NotFoundException("존재하지 않는 주문 내역 입니다.", NOT_FOUND_EXCEPTION));
+                .orElseThrow(() -> new NotFoundException("존재하지 않는 주문 내역 입니다."));
 
         final Payment payment = paymentRepository.findById(confirmOrderDto.getPaymentId())
-                .orElseThrow(() -> new NotFoundException("존재하지 않는 결제 내역 입니다.", NOT_FOUND_EXCEPTION));
+                .orElseThrow(() -> new NotFoundException("존재하지 않는 결제 내역 입니다."));
 
         if (!Objects.equals(orderId, payment.getOrder().getId()) || PaymentState.COMPLETE != payment.getPaymentState())
             throw new ValidationException("결제 처리가 정상적으로 되지 않았습니다.");
@@ -66,7 +64,7 @@ public class ApplePaymentService implements PaymentService {
     @Override
     public void purchaseRevert(final Long orderId) {
         final Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new NotFoundException("존재하지 않는 주문 내역 입니다.", NOT_FOUND_EXCEPTION));
+                .orElseThrow(() -> new NotFoundException("존재하지 않는 주문 내역 입니다."));
 
         paymentRepository.deleteAll(order.getPayments());
         orderRepository.delete(order);

@@ -22,8 +22,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.deploy.bemyplan.common.exception.ErrorCode.NOT_FOUND_PLAN_EXCEPTION;
-
 @RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
@@ -49,7 +47,7 @@ public class PlanService {
 
     public PlanPreviewResponseDto getPlanPreview(Long planId) {
         Plan plan = planRepository.findById(planId)
-                .orElseThrow(() -> new NotFoundException(String.format("존재하지 않는 일정 (%s) 입니다", planId), NOT_FOUND_PLAN_EXCEPTION));
+                .orElseThrow(() -> new NotFoundException(String.format("존재하지 않는 일정 (%s) 입니다", planId)));
         List<Preview> previews = previewRepository.findAllPreviewByPlanId(planId);
 
         final List<String> previewImages = getPreviewImages(previews);

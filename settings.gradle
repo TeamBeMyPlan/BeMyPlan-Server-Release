@@ -2,4 +2,5 @@ rootProject.name = 'bemyplan'
 
 include ':applications:app-bemyplan'
 include ':components:module-bemyplan'
+include ':components:module-jwt'
 include ':components:module-admin-front', ':components:module-admin-bemyplan'

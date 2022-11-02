@@ -8,6 +8,7 @@ plugins {
 def javaProjects = [
 		project(':applications:app-bemyplan'),
 		project(':components:module-bemyplan'),
+		project(':components:module-jwt'),
 		project(':components:module-admin-bemyplan')
 ];
 

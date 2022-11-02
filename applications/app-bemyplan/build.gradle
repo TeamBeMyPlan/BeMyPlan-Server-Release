@@ -1,5 +1,6 @@
 dependencies {
     implementation project(':components:module-bemyplan')
+    implementation project(':components:module-jwt')
     implementation project(':components:module-admin-bemyplan')
 
     implementation 'org.springframework.boot:spring-boot-starter-validation'

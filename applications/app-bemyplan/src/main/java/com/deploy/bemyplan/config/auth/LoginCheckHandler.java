@@ -1,5 +1,7 @@
 package com.deploy.bemyplan.config.auth;
 
+import com.deploy.bemyplan.jwt.JwtHeader;
+import com.deploy.bemyplan.jwt.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.session.Session;
@@ -18,22 +20,38 @@ public class LoginCheckHandler {
     private final SessionRepository<? extends Session> sessionRepository;
     private static final long TEMP_GUEST_MODE = -1L;
 
-    Long getUserId(HttpServletRequest request) {
-        String sessionId = request.getHeader(HttpHeaders.AUTHORIZATION);
+    private final JwtService jwtService;
+
+    Long getUserId(final HttpServletRequest request) {
+        final String token = request.getHeader(JwtHeader.AUTH);
+        if (jwtService.verifyToken(token)) {
+            final String subject = jwtService.getSubject(token);
+            return convertToUserId(subject);
+        }
+
+        final String sessionId = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (!StringUtils.hasLength(sessionId)) {
             return TEMP_GUEST_MODE;
         }
 
-        Session session = sessionRepository.findById(sessionId);
-        if (session == null) {
+        final Session session = sessionRepository.findById(sessionId);
+        if (null == session) {
             return TEMP_GUEST_MODE;
         }
 
-        Long userId = session.getAttribute(USER_ID);
-        if (userId != null) {
+        final Long userId = session.getAttribute(USER_ID);
+        if (null != userId) {
             return userId;
         }
 
         return TEMP_GUEST_MODE;
+    }
+
+    private long convertToUserId(final String subject) {
+        try {
+            return Long.parseLong(subject);
+        } catch (final NumberFormatException e) {
+            return TEMP_GUEST_MODE;
+        }
     }
 }

@@ -11,6 +11,7 @@ import com.deploy.bemyplan.config.auth.Auth;
 import com.deploy.bemyplan.config.auth.UserId;
 import com.deploy.bemyplan.domain.user.User;
 import com.deploy.bemyplan.domain.user.UserRepository;
+import com.deploy.bemyplan.jwt.JwtService;
 import com.deploy.bemyplan.user.service.UserService;
 import com.deploy.bemyplan.user.service.UserServiceUtils;
 import com.deploy.bemyplan.user.service.dto.request.CheckAvailableNameRequestDto;
@@ -38,6 +39,7 @@ public class AuthController {
     private final UserRepository userRepository;
 
     private final HttpSession httpSession;
+    private final JwtService jwtService;
     private final AuthServiceProvider authServiceProvider;
 
     @ApiOperation("회원가입 페이지 - 회원가입을 요청합니다")
@@ -46,7 +48,10 @@ public class AuthController {
         final AuthService authService = authServiceProvider.getAuthService(request.getSocialType());
         final Long userId = authService.signUp(request.toServiceDto());
         httpSession.setAttribute(USER_ID, userId);
-        return LoginResponse.of(httpSession.getId(), userId, request.getNickname());
+
+        final String token = jwtService.issuedToken(String.valueOf(userId), "USER", 60 * 60 * 24 * 30L);
+
+        return LoginResponse.of(token, httpSession.getId(), userId, request.getNickname());
     }
 
     @ApiOperation("로그인 페이지 - 로그인을 요청합니다")
@@ -55,8 +60,11 @@ public class AuthController {
         final AuthService authService = authServiceProvider.getAuthService(request.getSocialType());
         final Long userId = authService.login(request.toServiceDto());
         httpSession.setAttribute(USER_ID, userId);
+
+        final String token = jwtService.issuedToken(String.valueOf(userId), "USER", 60 * 60 * 24 * 30L);
+
         final User findUser = UserServiceUtils.findUserById(userRepository, userId);
-        return LoginResponse.of(httpSession.getId(), userId, findUser.getNickname());
+        return LoginResponse.of(token, httpSession.getId(), userId, findUser.getNickname());
     }
 
     @ApiOperation("[인증] 로그아웃을 요청합니다.")

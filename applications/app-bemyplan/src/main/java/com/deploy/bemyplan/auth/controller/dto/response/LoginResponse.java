@@ -11,6 +11,7 @@ import lombok.ToString;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class LoginResponse {
+    private String token;
 
     private String sessionId;
 
@@ -18,7 +19,7 @@ public class LoginResponse {
 
     private String nickname;
 
-    public static LoginResponse of(String sessionId, Long userId, String nickname) {
-        return new LoginResponse(sessionId, userId, nickname);
+    public static LoginResponse of(String token, String sessionId, Long userId, String nickname) {
+        return new LoginResponse(token, sessionId, userId, nickname);
     }
 }

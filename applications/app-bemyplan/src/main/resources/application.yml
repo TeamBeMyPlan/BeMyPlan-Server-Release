@@ -1,0 +1,30 @@
+server:
+  port: 8080
+
+#max file and request size
+spring:
+  http:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 11MB
+  response:
+    success:
+      code: 200
+      msg: SUCCESS
+    exceptions:
+      NotFoundException:
+        code: 404
+        msg: '존재하지 않습니다'
+        type: 'com.deploy.bemyplan.common.exception.model.NotFoundException'
+      ConflictException:
+        code: 409
+        msg: '이미 존재합니다'
+        type: 'com.deploy.bemyplan.common.exception.model.ConflictException'
+      ValidationException:
+        code: 400
+        msg: '잘못된 요청입니다'
+        type: 'com.deploy.bemyplan.common.exception.model.ValidationException'
+
+
+s3:
+  profile: prod

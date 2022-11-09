@@ -1,6 +1,8 @@
 package com.deploy.bemyplan.payment.controller;
 
 import com.deploy.bemyplan.common.controller.ResponseDTO;
+import com.deploy.bemyplan.config.auth.Auth;
+import com.deploy.bemyplan.config.auth.UserId;
 import com.deploy.bemyplan.payment.controller.dto.request.ConfirmOrderRequest;
 import com.deploy.bemyplan.payment.controller.dto.request.UserPurchaseReceipt;
 import com.deploy.bemyplan.payment.service.PaymentService;
@@ -21,8 +23,9 @@ public class PaymentController {
     private final PaymentService paymentService;
 
     @PostMapping("/{orderId}/verify")
-    public InAppPurchaseResponse validatePurchase(@PathVariable final Long orderId, @RequestBody final UserPurchaseReceipt userReceipt) {
-        return paymentService.purchaseValidate(orderId, userReceipt.toServiceDto());
+    @Auth
+    public InAppPurchaseResponse validatePurchase(@UserId final Long userId, @PathVariable final Long orderId, @RequestBody final UserPurchaseReceipt userReceipt) {
+        return paymentService.purchaseValidate(userId, orderId, userReceipt.toServiceDto());
     }
 
     @PostMapping("/{orderId}/confirm")

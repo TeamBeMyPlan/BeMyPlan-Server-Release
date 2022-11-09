@@ -29,7 +29,7 @@ public class PlanController {
 
     @ApiOperation("크리에이터 조회 - 크리에이터의 정보를 조회합니다.")
     @GetMapping("/{planId}/creator")
-    public CreatorInfoResponse getSpotMoveInfos(@PathVariable final Long planId) {
+    public CreatorInfoResponse getCreatorInfo(@PathVariable final Long planId) {
         return planService.getCreatorInfo(planId);
     }
     

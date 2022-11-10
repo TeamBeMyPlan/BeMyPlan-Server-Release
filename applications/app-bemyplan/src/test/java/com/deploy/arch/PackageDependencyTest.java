@@ -27,7 +27,7 @@ public class PackageDependencyTest {
 
     @ArchTest
     LayeredArchitecture orderLayered = layeredArchitecture()
-            .layer("Controller").definedBy("com.deploy.bemyplan.order.controller")
+            .layer("Controller").definedBy("com.deploy.bemyplan.order.TestController")
             .layer("Service").definedBy("com.deploy.bemyplan.order.service")
             .whereLayer("Controller").mayNotBeAccessedByAnyLayer()
             .whereLayer("Service").mayOnlyBeAccessedByLayers("Controller");

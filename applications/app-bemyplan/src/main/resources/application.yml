@@ -24,6 +24,10 @@ spring:
         code: 400
         msg: '잘못된 요청입니다'
         type: 'com.deploy.bemyplan.common.exception.model.ValidationException'
+      NotAuthException:
+        code: 400
+        msg: '잘못된 요청입니다'
+        type: 'com.deploy.bemyplan.config.auth.NotAuthException'
 
 
 s3:

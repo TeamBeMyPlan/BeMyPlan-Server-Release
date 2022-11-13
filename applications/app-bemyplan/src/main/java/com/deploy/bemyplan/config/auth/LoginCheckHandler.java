@@ -18,7 +18,6 @@ import static com.deploy.bemyplan.config.session.SessionConstants.USER_ID;
 public class LoginCheckHandler {
 
     private final SessionRepository<? extends Session> sessionRepository;
-    private static final long TEMP_GUEST_MODE = -1L;
 
     private final JwtService jwtService;
 
@@ -31,12 +30,12 @@ public class LoginCheckHandler {
 
         final String sessionId = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (!StringUtils.hasLength(sessionId)) {
-            return TEMP_GUEST_MODE;
+            throw new NotAuthException();
         }
 
         final Session session = sessionRepository.findById(sessionId);
         if (null == session) {
-            return TEMP_GUEST_MODE;
+            throw new NotAuthException();
         }
 
         final Long userId = session.getAttribute(USER_ID);
@@ -44,14 +43,14 @@ public class LoginCheckHandler {
             return userId;
         }
 
-        return TEMP_GUEST_MODE;
+        throw new NotAuthException();
     }
 
     private long convertToUserId(final String subject) {
         try {
             return Long.parseLong(subject);
         } catch (final NumberFormatException e) {
-            return TEMP_GUEST_MODE;
+            throw new NotAuthException();
         }
     }
 }

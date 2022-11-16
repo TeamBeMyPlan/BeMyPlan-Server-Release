@@ -28,7 +28,10 @@ spring:
         code: 400
         msg: '잘못된 요청입니다'
         type: 'com.deploy.bemyplan.config.auth.NotAuthException'
-
+      UniqueViolationException:
+        code: 400
+        msg: '중복된 요청입니다'
+        type: 'org.springframework.dao.DataIntegrityViolationException'
 
 s3:
   profile: prod

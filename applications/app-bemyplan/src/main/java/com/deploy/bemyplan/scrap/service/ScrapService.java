@@ -25,7 +25,7 @@ public class ScrapService {
 
     @Transactional(readOnly = true)
     public void checkScrapStatus(Long planId, Long userId) {
-        scrapRepository.findByUserIdAndPlanId(planId, userId)
+        scrapRepository.findByPlanIdAndUserId(planId, userId)
                 .orElseThrow(() -> new NotFoundException(String.format("해당 여행일정을 찜한 상태 (%s - %s) 가 아닙니다.", userId, planId)));
     }
 

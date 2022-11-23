@@ -2,6 +2,7 @@ package com.deploy.bemyplan.plan.controller;
 
 import com.deploy.bemyplan.domain.plan.RegionCategory;
 import com.deploy.bemyplan.plan.service.PlanService;
+import com.deploy.bemyplan.plan.service.dto.response.PlanListResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanPreviewResponseDto;
 import com.deploy.bemyplan.plan.service.dto.response.PlanRandomResponse;
 import com.deploy.bemyplan.user.service.dto.response.CreatorInfoResponse;
@@ -9,11 +10,13 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -38,4 +41,10 @@ public class PlanController {
     public PlanPreviewResponseDto getPlanPreview(@PathVariable final Long planId) {
         return planService.getPlanPreview(planId);
     }
+
+    @GetMapping
+    PlanListResponse getPlans(@ModelAttribute @Valid RetrievePlansRequest request) {
+        return planService.getPlans(request);
+    }
+
 }

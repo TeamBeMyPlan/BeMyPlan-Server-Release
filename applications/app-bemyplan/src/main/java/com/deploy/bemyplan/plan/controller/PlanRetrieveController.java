@@ -41,7 +41,6 @@ public class PlanRetrieveController {
     }
 
     @ApiOperation("[인증] 비마이플랜이 추천하는 여행일정 목록들을 조회합니다.")
-    @Auth
     @GetMapping("/v1/plans/bemyplanPick")
     public PlanListResponse getPickList(@UserId Long userId) {
         return planRetrieveService.getPickList(userId);

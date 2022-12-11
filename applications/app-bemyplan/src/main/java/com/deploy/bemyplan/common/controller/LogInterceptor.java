@@ -17,10 +17,4 @@ public class LogInterceptor implements AsyncHandlerInterceptor {
 
         return true;
     }
-
-//    @Override
-//    public void afterCompletion(HttpServletRequest request, HttpServletResponse response,
-//                                Object obj, Exception e) {
-//        if (null != e) log.error("Exception", e);
-//    }
 }

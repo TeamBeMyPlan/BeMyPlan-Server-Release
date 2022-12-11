@@ -14,4 +14,9 @@ public class TestController {
         log.debug("디버깅");
         return "test";
     }
+
+    @GetMapping("/test2")
+    public String test2() {
+        throw new RuntimeException();
+    }
 }

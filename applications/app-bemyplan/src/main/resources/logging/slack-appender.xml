@@ -5,7 +5,10 @@
     <appender name="SLACK" class="com.github.maricn.logback.SlackAppender">
         <webhookUri>${SLACK_WEBHOOK_URI}</webhookUri>
         <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %msg %n</pattern>
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss} %n %5p --- [%t] %n %m %n
+            </pattern>
+<!--            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %n %msg %n</pattern>-->
         </layout>
         <username>Bemyplan-Server-log</username>
         <colorCoding>true</colorCoding>

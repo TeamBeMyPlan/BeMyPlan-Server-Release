@@ -1,4 +1,4 @@
-package com.deploy.bemyplan.common.controller;
+package com.deploy.bemyplan.common.logging;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @Slf4j(topic = "DEFAULT_FILE_LOGGER")
 @Component
-public class LogInterceptor implements AsyncHandlerInterceptor {
+public class DefaultLogInterceptor implements AsyncHandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         log.info("url : {}", request.getRequestURL());

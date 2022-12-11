@@ -38,3 +38,5 @@ out/
 
 InitDB.java
 /components/module-admin-bemyplan/src/main/resources/static/
+TestInterceptor.java
+/logs/

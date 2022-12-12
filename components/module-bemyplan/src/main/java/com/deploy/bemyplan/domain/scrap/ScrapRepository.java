@@ -10,7 +10,7 @@ public interface ScrapRepository extends JpaRepository<Scrap, Long>, ScrapReposi
 
     void deleteByUserId(Long userId);
 
-    Optional<Scrap> findByUserIdAndPlanId(Long userId, Long planId);
+    Optional<Scrap> findByPlanIdAndUserId(Long userId, Long planId);
 
     boolean existsScrapByUserIdAndPlanId(Long userId, Long planId);
 }

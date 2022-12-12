@@ -14,22 +14,22 @@
     <property name="home" value="logs"/>
     <property name="FILE_LOG_PATTERN"
               value="${FILE_LOG_PATTERN:-%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%t] %-40.40logger{39} : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
-
     <include resource="logging/default-appender.xml"/>
     <include resource="logging/error-appender.xml"/>
     <include resource="logging/slack-appender.xml"/>
 
     <root level="INFO">
         <appender-ref ref="Console"/>
-        <appender-ref ref="ASYNC_SLACK"/>
     </root>
+    <springProfile name="dev,prod">
+        <logger name="DEFAULT_FILE_LOGGER" level="INFO" addtivity="true">
+            <appender-ref ref="DEFAULT_FILE_APPENDER"/>
+        </logger>
 
-    <logger name="DEFAULT_FILE_LOGGER" level="INFO" addtivity="true">
-        <appender-ref ref="DEFAULT_FILE_APPENDER"/>
-    </logger>
-
-    <!--level : ERROR / WARN / INFO / DEBUG / TRACE -->
-    <logger name="ERROR_FILE_LOGGER" level="ERROR" addtivity="true">
-        <appender-ref ref="ERROR_FILE_APPENDER"/>
-    </logger>
+        <!--level : ERROR / WARN / INFO / DEBUG / TRACE -->
+        <logger name="ERROR_FILE_LOGGER" level="ERROR" addtivity="true">
+            <appender-ref ref="ERROR_FILE_APPENDER"/>
+            <appender-ref ref="ASYNC_SLACK"/>
+        </logger>
+    </springProfile>
 </included>

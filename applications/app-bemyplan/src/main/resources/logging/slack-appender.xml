@@ -8,7 +8,6 @@
             <pattern>
                 %d{yyyy-MM-dd HH:mm:ss} %n %5p --- [%t] %n %m %n
             </pattern>
-<!--            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %n %msg %n</pattern>-->
         </layout>
         <username>Bemyplan-Server-log</username>
         <colorCoding>true</colorCoding>

@@ -39,7 +39,7 @@ public class ApplePaymentService implements PaymentService {
         final Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 주문 내역 입니다."));
 
-        if (!Objects.equals(order.getUserId(), user.getId())){
+        if (!Objects.equals(order.getUserId(), user.getId())) {
             throw new ValidationException("잘못된 주문입니다. 구매한 유저가 다릅니다.");
         }
         final AppStoreResponse response = appleInAppPurchaseValidator.appleInAppPurchaseVerify(userReceipt)
@@ -70,12 +70,10 @@ public class ApplePaymentService implements PaymentService {
 
     @Transactional
     @Override
-    public void purchaseRevert(final Long orderId) {
-        final Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new NotFoundException("존재하지 않는 주문 내역 입니다."));
+    public void purchaseRevert(final Long userId) {
+        final List<Order> orderList = orderRepository.findAllByUserId(userId);
 
-        paymentRepository.deleteAll(order.getPayments());
-        orderRepository.delete(order);
+        orderRepository.deleteAll(orderList);
     }
 
     private Payment findOrCreatePayment(final Order order, final String transactionId, final PaymentState paymentState) {

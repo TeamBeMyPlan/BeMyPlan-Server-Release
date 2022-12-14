@@ -42,7 +42,7 @@ public class Order extends AuditingTimeEntity {
     @Column
     private int orderPrice;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", orphanRemoval = true)
     private List<Payment> payments = new ArrayList<>();
 
     private Order(Long planId, Long userId, OrderStatus status, int price) {

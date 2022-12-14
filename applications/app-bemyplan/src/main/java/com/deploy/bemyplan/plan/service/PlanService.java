@@ -8,6 +8,9 @@ import com.deploy.bemyplan.domain.plan.PreviewRepository;
 import com.deploy.bemyplan.domain.plan.RegionCategory;
 import com.deploy.bemyplan.domain.user.User;
 import com.deploy.bemyplan.domain.user.UserRepository;
+import com.deploy.bemyplan.plan.controller.RetrievePlansRequest;
+import com.deploy.bemyplan.plan.service.dto.response.PlanInfoResponse;
+import com.deploy.bemyplan.plan.service.dto.response.PlanListResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanPreviewResponseDto;
 import com.deploy.bemyplan.plan.service.dto.response.PlanRandomResponse;
 import com.deploy.bemyplan.user.service.dto.response.CreatorInfoResponse;
@@ -60,5 +63,18 @@ public class PlanService {
         return previews.stream()
                 .map(preview -> preview.getImageUrls().get(0))
                 .collect(Collectors.toList());
+    }
+
+    public PlanListResponse getPlans(final RetrievePlansRequest request) {
+        final var region = request.getRegion();
+        final var plansByRegion = planRepository.findAllPlanByRegionCategory(region);
+        return PlanListResponse.of(plansByRegion.stream()
+                .map(plan -> PlanInfoResponse.of(plan, getCreator(plan), false, false))
+                .collect(Collectors.toList()));
+    }
+
+    private User getCreator(final Plan plan) {
+        return userRepository.findUserByPlanId(plan.getId())
+                .orElseThrow(() -> new NotFoundException("크리에이터 정보가 존재하지 않습니다."));
     }
 }

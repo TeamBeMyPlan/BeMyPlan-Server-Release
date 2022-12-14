@@ -11,6 +11,7 @@ import org.springframework.session.SessionRepository;
 
 import static com.deploy.bemyplan.config.session.SessionConstants.USER_ID;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
@@ -42,36 +43,33 @@ class LoginCheckHandlerTest {
     }
 
     @Test
-    void getUserId_returnsMinusOne_whenEmptySessionId() {
+    void getUserId_throwsNotAuthException_whenEmptySessionId() {
         MockHttpServletRequest mockRequest = new MockHttpServletRequest();
         mockRequest.addHeader(HttpHeaders.AUTHORIZATION, "");
 
-        Long result = sut.getUserId(mockRequest);
-
-        assertThat(result).isEqualTo(-1L);
+        assertThatThrownBy(() -> sut.getUserId(mockRequest))
+                .isInstanceOf(NotAuthException.class);
     }
 
     @Test
-    void getUserId_returnsMinusOne_whenDoesNotExistSession() {
+    void getUserId_throwsNotAuthException_whenDoesNotExistSession() {
         MockHttpServletRequest mockRequest = new MockHttpServletRequest();
         mockRequest.addHeader(HttpHeaders.AUTHORIZATION, "session id");
 
-        Long result = sut.getUserId(mockRequest);
-
-        assertThat(result).isEqualTo(-1L);
+        assertThatThrownBy(() -> sut.getUserId(mockRequest))
+                .isInstanceOf(NotAuthException.class);
     }
 
     @Test
-    void getUserId_returnsMinusOne_whenEmptySession() {
+    void getUserId_throwsNotAuthException_whenEmptySession() {
         MockHttpServletRequest mockRequest = new MockHttpServletRequest();
         mockRequest.addHeader(HttpHeaders.AUTHORIZATION, "session id");
 
         MapSession session = new MapSession();
         given(spySessionRepository.findById("session id")).willReturn(session);
 
-        Long result = sut.getUserId(mockRequest);
-
-        assertThat(result).isEqualTo(-1L);
+        assertThatThrownBy(() -> sut.getUserId(mockRequest))
+                .isInstanceOf(NotAuthException.class);
     }
 
     @Test
@@ -87,35 +85,32 @@ class LoginCheckHandlerTest {
     }
 
     @Test
-    void getUserId_returnsMinusOne_whenDoesNotValidToken() {
+    void getUserId_throwsNotAuthException_whenDoesNotValidToken() {
         MockHttpServletRequest mockRequest = new MockHttpServletRequest();
         mockRequest.addHeader(JwtHeader.AUTH, "token");
         given(spyJwtService.getSubject("token")).willReturn("1");
         given(spyJwtService.verifyToken("token")).willReturn(false);
 
-        Long result = sut.getUserId(mockRequest);
-
-        assertThat(result).isEqualTo(-1L);
+        assertThatThrownBy(() -> sut.getUserId(mockRequest))
+                .isInstanceOf(NotAuthException.class);
     }
 
     @Test
-    void getUserId_returnsMinusOne_whenDoesNotExistToken() {
+    void getUserId_throwsNotAuthException_whenDoesNotExistToken() {
         MockHttpServletRequest mockRequest = new MockHttpServletRequest();
 
-        Long result = sut.getUserId(mockRequest);
-
-        assertThat(result).isEqualTo(-1L);
+        assertThatThrownBy(() -> sut.getUserId(mockRequest))
+                .isInstanceOf(NotAuthException.class);
     }
 
     @Test
-    void getUserId_returnsMinusOne_whenNotRightToken() {
+    void getUserId_throwsNotAuthException_whenNotRightToken() {
         MockHttpServletRequest mockRequest = new MockHttpServletRequest();
         mockRequest.addHeader(JwtHeader.AUTH, "token");
         given(spyJwtService.getSubject("token")).willReturn("not long number");
         given(spyJwtService.verifyToken("token")).willReturn(true);
 
-        Long result = sut.getUserId(mockRequest);
-
-        assertThat(result).isEqualTo(-1L);
+        assertThatThrownBy(() -> sut.getUserId(mockRequest))
+                .isInstanceOf(NotAuthException.class);
     }
 }

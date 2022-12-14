@@ -49,78 +49,76 @@ public class PlanRetrieveService {
         return getPlanListWithPersonalStatus(planList, userId);
     }
 
-    public PlanPreviewResponse getPreviewPlanInfo(Long planId) {
-        Plan plan = PlanServiceUtils.findPlanByIdFetchJoinSchedule(planRepository, planId);
-        User user = userRepository.findUserById(plan.getUserId());
-        List<PreviewContent> previewContents = planRepository.findPreviewContentsByPlanId(plan.getId());
+    public PlanPreviewResponse getPreviewPlanInfo(final Long planId) {
+        final Plan plan = PlanServiceUtils.findPlanByIdFetchJoinSchedule(planRepository, planId);
+        final User user = userRepository.findUserById(plan.getUserId());
+        final List<PreviewContent> previewContents = planRepository.findPreviewContentsByPlanId(plan.getId());
 
         return PlanPreviewResponse.of(plan, user.getNickname(), previewContents);
     }
 
-    public PlanDetailResponse getPlanDetailInfo(Long planId) {
-        Plan plan = PlanServiceUtils.findPlanByIdFetchJoinSchedule(planRepository, planId);
-        User user = UserServiceUtils.findUserById(userRepository, plan.getUserId());
+    public PlanDetailResponse getPlanDetailInfo(final Long planId) {
+        final Plan plan = PlanServiceUtils.findPlanByIdFetchJoinSchedule(planRepository, planId);
+        final User user = UserServiceUtils.findUserById(userRepository, plan.getUserId());
 
         return PlanDetailResponse.of(plan, user);
     }
 
-    public List<SpotMoveInfoResponse> getSpotMoveInfos(Long planId) {
-        Plan plan = PlanServiceUtils.findPlanById(planRepository, planId);
+    public List<SpotMoveInfoResponse> getSpotMoveInfos(final Long planId) {
+        final Plan plan = PlanServiceUtils.findPlanById(planRepository, planId);
 
         return plan.getSchedules().stream()
                 .map(SpotMoveInfoResponse::of)
                 .collect(Collectors.toList());
     }
 
-    public ScrapsScrollResponse retrieveMyBookmarkList(RetrieveMyBookmarkListRequestDto request, Long userId, Pageable pageable) {
-        List<Plan> planWithNextCursor = planRepository.findMyBookmarkListUsingCursor(userId, pageable, request.getSize() + 1, request.getLastScrapId());
-        ScrollPaginationCollection<Plan> plansCursor = ScrollPaginationCollection.of(planWithNextCursor, request.getSize());
+    public ScrapsScrollResponse retrieveMyBookmarkList(final RetrieveMyBookmarkListRequestDto request, final Long userId, final Pageable pageable) {
+        final List<Plan> planWithNextCursor = planRepository.findMyBookmarkListUsingCursor(userId, pageable, request.getSize() + 1, request.getLastScrapId());
+        final ScrollPaginationCollection<Plan> plansCursor = ScrollPaginationCollection.of(planWithNextCursor, request.getSize());
 
-        AuthorDictionary authors = AuthorDictionary.of(planWithNextCursor, userRepository);
+        final AuthorDictionary authors = AuthorDictionary.of(planWithNextCursor, userRepository);
 
-        ScrapDictionary scrapDictionary = findScrapByUserIdAndPlans(userId, planWithNextCursor);
-        OrderDictionary orderDictionary = findOrderByUserIdAndPlans(userId, planWithNextCursor);
+        final ScrapDictionary scrapDictionary = findScrapByUserIdAndPlans(userId, planWithNextCursor);
+        final OrderDictionary orderDictionary = findOrderByUserIdAndPlans(userId, planWithNextCursor);
 
         if (plansCursor.isLastScroll()) {
             return ScrapsScrollResponse.newLastCursor(plansCursor.getCurrentScrollItems(), scrapDictionary, orderDictionary, authors);
         }
-        Scrap nextCursor = scrapRepository.findActiveByUserIdAndPlanId(plansCursor.getNextCursor().getId(), userId);
+        final Scrap nextCursor = scrapRepository.findActiveByUserIdAndPlanId(plansCursor.getNextCursor().getId(), userId);
         return ScrapsScrollResponse.newCursorHasNext(plansCursor.getCurrentScrollItems(), scrapDictionary, orderDictionary, authors, nextCursor.getId());
     }
 
-    public OrdersScrollResponse retrieveMyOrderList(RetrieveMyOrderListRequestDto request, Long userId, Pageable pageable) {
-        List<Plan> planWithNextCursor = planRepository.findMyOrderListUsingCursor(userId, pageable, request.getSize() + 1, request.getLastOrderId());
-        ScrollPaginationCollection<Plan> plansCursor = ScrollPaginationCollection.of(planWithNextCursor, request.getSize());
+    public OrdersScrollResponse retrieveMyOrderList(final RetrieveMyOrderListRequestDto request, final Long userId, final Pageable pageable) {
+        final List<Plan> planWithNextCursor = planRepository.findMyOrderListUsingCursor(userId, pageable, request.getSize() + 1, request.getLastOrderId());
+        final ScrollPaginationCollection<Plan> plansCursor = ScrollPaginationCollection.of(planWithNextCursor, request.getSize());
 
-        AuthorDictionary authors = AuthorDictionary.of(planWithNextCursor, userRepository);
+        final AuthorDictionary authors = AuthorDictionary.of(planWithNextCursor, userRepository);
 
-        ScrapDictionary scrapDictionary = findScrapByUserIdAndPlans(userId, planWithNextCursor);
-        OrderDictionary orderDictionary = findOrderByUserIdAndPlans(userId, planWithNextCursor);
+        final ScrapDictionary scrapDictionary = findScrapByUserIdAndPlans(userId, planWithNextCursor);
+        final OrderDictionary orderDictionary = findOrderByUserIdAndPlans(userId, planWithNextCursor);
 
         if (plansCursor.isLastScroll()) {
             return OrdersScrollResponse.newLastCursor(plansCursor.getCurrentScrollItems(), scrapDictionary, orderDictionary, authors);
         }
-        Order nextCursor = orderRepository.findByPlanIdAndUserId(plansCursor.getNextCursor().getId(), userId).get();
+        final Order nextCursor = orderRepository.findByPlanIdAndUserId(plansCursor.getNextCursor().getId(), userId).get();
         return OrdersScrollResponse.newCursorHasNext(plansCursor.getCurrentScrollItems(), scrapDictionary, orderDictionary, authors, nextCursor.getId());
     }
 
-    private PlanListResponse getPlanListWithPersonalStatus(List<Plan> planList, Long userId) {
-        return
-                PlanListResponse.of(
-                        planList.stream()
-                                .map(plan -> PlanInfoResponse.of(plan,
-                                        getAuthorByPlanId(plan),
-                                        isScraped(userId, plan),
-                                        isOrdered(userId, plan)))
-                                .collect(Collectors.toList()));
+    private PlanListResponse getPlanListWithPersonalStatus(final List<Plan> planList, final Long userId) {
+        return PlanListResponse.of(planList.stream()
+                .map(plan -> PlanInfoResponse.of(plan,
+                        getAuthorByPlanId(plan),
+                        isScraped(userId, plan),
+                        isOrdered(userId, plan)))
+                .collect(Collectors.toList()));
     }
 
     private boolean isScraped(final Long userId, final Plan plan) {
-        return scrapRepository.existsScrapByUserIdAndPlanId(userId, plan.getId());
+        return userId != null && scrapRepository.existsScrapByUserIdAndPlanId(userId, plan.getId());
     }
 
     private boolean isOrdered(final Long userId, final Plan plan) {
-        return orderRepository.existsOrderByUserIdAndPlanIdAndStatus(userId, plan.getId(), OrderStatus.COMPLETED);
+        return userId != null && orderRepository.existsOrderByUserIdAndPlanIdAndStatus(userId, plan.getId(), OrderStatus.COMPLETED);
     }
 
     private User getAuthorByPlanId(final Plan plan) {
@@ -128,15 +126,15 @@ public class PlanRetrieveService {
                 .orElseThrow(() -> new NotFoundException("크리에이터 정보가 존재하지 않습니다."));
     }
 
-    private ScrapDictionary findScrapByUserIdAndPlans(Long userId, List<Plan> plans) {
-        List<Long> planIds = plans.stream()
+    private ScrapDictionary findScrapByUserIdAndPlans(final Long userId, final List<Plan> plans) {
+        final List<Long> planIds = plans.stream()
                 .map(Plan::getId)
                 .collect(Collectors.toList());
         return ScrapDictionary.of(scrapRepository.findByUserIdAndPlanIds(planIds, userId));
     }
 
-    private OrderDictionary findOrderByUserIdAndPlans(Long userId, List<Plan> plans) {
-        List<Long> planIds = plans.stream()
+    private OrderDictionary findOrderByUserIdAndPlans(final Long userId, final List<Plan> plans) {
+        final List<Long> planIds = plans.stream()
                 .map(Plan::getId)
                 .collect(Collectors.toList());
         return OrderDictionary.of(orderRepository.findByUserIdAndPlanIds(planIds, userId));

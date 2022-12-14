@@ -7,6 +7,7 @@ import com.deploy.bemyplan.domain.order.OrderStatus;
 import com.deploy.bemyplan.domain.payment.Payment;
 import com.deploy.bemyplan.domain.payment.PaymentRepository;
 import com.deploy.bemyplan.domain.payment.PaymentState;
+import com.deploy.bemyplan.domain.user.UserRepository;
 import com.deploy.bemyplan.payment.service.dto.request.ConfirmOrderDto;
 import com.deploy.bemyplan.payment.service.utils.AppleInAppPurchaseValidator;
 import org.assertj.core.api.Assertions;
@@ -34,7 +35,8 @@ class ApplePaymentServiceTest {
         spyOrderRepository = mock(OrderRepository.class);
         spyPaymentRepository = mock(PaymentRepository.class);
 
-        paymentService = new ApplePaymentService(spyAppleInAppPurchaseValidator, spyOrderRepository, spyPaymentRepository);
+        paymentService = new ApplePaymentService(spyAppleInAppPurchaseValidator, spyOrderRepository, spyPaymentRepository,
+                mock(UserRepository.class));
     }
 
     @Test

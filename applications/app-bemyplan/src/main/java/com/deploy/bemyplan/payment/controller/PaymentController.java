@@ -34,7 +34,7 @@ public class PaymentController {
         return ResponseDTO.of("구매 확정 성공");
     }
 
-    @DeleteMapping("/{orderId}/revert")
+    @DeleteMapping("/{userId}/revert")
     @ApiOperation("[*주의 개발용] 구매 했던 내역을 되돌립니다.")
     public final ResponseDTO revertPurchase(@PathVariable final Long userId) {
         paymentService.purchaseRevert(userId);

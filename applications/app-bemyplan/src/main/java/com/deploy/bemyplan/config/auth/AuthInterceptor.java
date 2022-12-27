@@ -8,8 +8,6 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import static com.deploy.bemyplan.config.session.SessionConstants.USER_ID;
-
 @RequiredArgsConstructor
 @Component
 public class AuthInterceptor implements HandlerInterceptor {
@@ -26,8 +24,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         if (auth == null) {
             return true;
         }
-        Long userId = loginCheckHandler.getUserId(request);
-        request.setAttribute(USER_ID, userId);
+        loginCheckHandler.getUserId(request);
         return true;
     }
 }

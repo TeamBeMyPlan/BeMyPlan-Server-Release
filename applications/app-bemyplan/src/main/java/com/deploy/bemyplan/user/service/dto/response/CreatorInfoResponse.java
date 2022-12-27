@@ -1,5 +1,6 @@
 package com.deploy.bemyplan.user.service.dto.response;
 
+import com.deploy.bemyplan.domain.user.Creator;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,5 +27,9 @@ public class CreatorInfoResponse {
                 description
         );
         return response;
+    }
+
+    public static CreatorInfoResponse of(Creator creator) {
+        return of(creator.getId(), creator.getName(), creator.getDescription());
     }
 }

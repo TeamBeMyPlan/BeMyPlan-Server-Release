@@ -4,11 +4,6 @@ spring:
     url: jdbc:mysql://bemyplan-deploy-mysql.c3p7kjpj7cej.ap-northeast-2.rds.amazonaws.com:3306/bemyplan?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
     username: bemyplan_admin
     password: bemyplan_pwd
-
-  redis:
-    host: bemyplan-prod-redis-001.tbtn3b.0001.apn2.cache.amazonaws.com
-    port: 6379
-
   jpa:
     hibernate:
       ddl-auto: none

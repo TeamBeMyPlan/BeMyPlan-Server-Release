@@ -6,8 +6,8 @@ import com.deploy.bemyplan.domain.plan.PlanRepository;
 import com.deploy.bemyplan.domain.plan.Preview;
 import com.deploy.bemyplan.domain.plan.PreviewRepository;
 import com.deploy.bemyplan.domain.plan.RegionCategory;
-import com.deploy.bemyplan.domain.user.User;
-import com.deploy.bemyplan.domain.user.UserRepository;
+import com.deploy.bemyplan.domain.user.Creator;
+import com.deploy.bemyplan.domain.user.CreatorRepository;
 import com.deploy.bemyplan.plan.controller.RetrievePlansRequest;
 import com.deploy.bemyplan.plan.service.dto.response.PlanInfoResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanListResponse;
@@ -31,27 +31,29 @@ import java.util.stream.Collectors;
 public class PlanService {
     private final PreviewRepository previewRepository;
     private final PlanRepository planRepository;
-    private final UserRepository userRepository;
+    private final CreatorRepository creatorRepository;
 
-    public List<PlanRandomResponse> getPlanListByRandom(RegionCategory region) {
-        Pageable RandomTen = PageRequest.of(0, 10);
-        List<Plan> plans = planRepository.findPlansByRegionAndSize(region, RandomTen);
+    public List<PlanRandomResponse> getPlanListByRandom(final RegionCategory region) {
+        final Pageable RandomTen = PageRequest.of(0, 10);
+        final List<Plan> plans = planRepository.findPlansByRegionAndSize(region, RandomTen);
         Collections.shuffle(plans);
         return plans.stream()
                 .map(p -> PlanRandomResponse.of(p.getId(), p.getThumbnailUrl(), p.getTitle(), p.getRegionCategory(), p.getRegion()))
                 .collect(Collectors.toList());
     }
 
-    public CreatorInfoResponse getCreatorInfo(Long planId) {
-        Plan plan = planRepository.findById(planId).orElseThrow(() -> new NotFoundException("존재하지 않는 여행 일정입니다."));
-        User user = userRepository.findUserById(plan.getUserId());
-        return CreatorInfoResponse.of(plan.getUserId(), user.getNickname(), plan.getDescription());
+    public CreatorInfoResponse getCreatorInfo(final Long planId) {
+        final Plan plan = planRepository.findById(planId).orElseThrow(() -> new NotFoundException("존재하지 않는 여행 일정입니다."));
+        final Creator creator = creatorRepository.findById(plan.getCreatorId())
+                .orElseThrow(() -> new NotFoundException("존재하지 않는 크리에이터입니다."));
+
+        return CreatorInfoResponse.of(plan.getCreatorId(), creator.getName(), plan.getDescription());
     }
 
-    public PlanPreviewResponseDto getPlanPreview(Long planId) {
-        Plan plan = planRepository.findById(planId)
+    public PlanPreviewResponseDto getPlanPreview(final Long planId) {
+        final Plan plan = planRepository.findById(planId)
                 .orElseThrow(() -> new NotFoundException(String.format("존재하지 않는 일정 (%s) 입니다", planId)));
-        List<Preview> previews = previewRepository.findAllPreviewByPlanId(planId);
+        final List<Preview> previews = previewRepository.findAllPreviewByPlanId(planId);
 
         final List<String> previewImages = getPreviewImages(previews);
 
@@ -59,7 +61,7 @@ public class PlanService {
     }
 
     @NotNull
-    private List<String> getPreviewImages(List<Preview> previews) {
+    private List<String> getPreviewImages(final List<Preview> previews) {
         return previews.stream()
                 .map(preview -> preview.getImageUrls().get(0))
                 .collect(Collectors.toList());
@@ -73,8 +75,8 @@ public class PlanService {
                 .collect(Collectors.toList()));
     }
 
-    private User getCreator(final Plan plan) {
-        return userRepository.findUserByPlanId(plan.getId())
-                .orElseThrow(() -> new NotFoundException("크리에이터 정보가 존재하지 않습니다."));
+    private Creator getCreator(final Plan plan) {
+        return creatorRepository.findById(plan.getCreatorId())
+                .orElseThrow(() -> new NotFoundException("존재하지 않는 크리에이터입니다."));
     }
 }

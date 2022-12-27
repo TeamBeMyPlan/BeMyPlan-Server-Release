@@ -1,5 +1,6 @@
 package com.deploy.bemyplan.user.service;
 
+import com.deploy.bemyplan.common.exception.model.NotFoundException;
 import com.deploy.bemyplan.domain.user.User;
 import com.deploy.bemyplan.domain.user.UserRepository;
 import com.deploy.bemyplan.domain.user.WithdrawalUser;
@@ -32,7 +33,10 @@ public class UserService {
 
     @Transactional
     public void signOut(Long userId, String reasonForWithdrawal) {
-        User user = UserServiceUtils.findUserById(userRepository, userId);
+        User user = userRepository.findUserById(userId);
+        if (user == null) {
+            throw new NotFoundException(String.format("존재하지 않는 유저 (%s) 입니다", userId));
+        }
         user.inactive();
         withdrawalUserRepository.save(WithdrawalUser.newInstance(user, reasonForWithdrawal));
         eventPublisher.publishEvent(new UserDeleteEvent(this, userId));

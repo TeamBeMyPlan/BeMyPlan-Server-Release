@@ -7,13 +7,13 @@ import com.deploy.bemyplan.auth.controller.dto.response.LoginResponse;
 import com.deploy.bemyplan.auth.service.AuthService;
 import com.deploy.bemyplan.auth.service.AuthServiceProvider;
 import com.deploy.bemyplan.common.controller.ResponseDTO;
+import com.deploy.bemyplan.common.exception.model.NotFoundException;
 import com.deploy.bemyplan.config.auth.Auth;
 import com.deploy.bemyplan.config.auth.UserId;
 import com.deploy.bemyplan.domain.user.User;
 import com.deploy.bemyplan.domain.user.UserRepository;
 import com.deploy.bemyplan.jwt.JwtService;
 import com.deploy.bemyplan.user.service.UserService;
-import com.deploy.bemyplan.user.service.UserServiceUtils;
 import com.deploy.bemyplan.user.service.dto.request.CheckAvailableNameRequestDto;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -63,7 +63,11 @@ public class AuthController {
 
         final String token = jwtService.issuedToken(String.valueOf(userId), "USER", 60 * 60 * 24 * 30L);
 
-        final User findUser = UserServiceUtils.findUserById(userRepository, userId);
+        User findUser = userRepository.findUserById(userId);
+        if (findUser == null) {
+            throw new NotFoundException(String.format("존재하지 않는 유저 (%s) 입니다", userId));
+        }
+
         return LoginResponse.of(token, httpSession.getId(), userId, findUser.getNickname());
     }
 

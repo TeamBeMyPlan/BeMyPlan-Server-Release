@@ -1,6 +1,5 @@
 package com.deploy.bemyplan.domain.user;
 
-import com.deploy.bemyplan.domain.common.AuditingTimeEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +13,7 @@ import javax.persistence.Id;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Creator extends AuditingTimeEntity {
+public class Creator {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

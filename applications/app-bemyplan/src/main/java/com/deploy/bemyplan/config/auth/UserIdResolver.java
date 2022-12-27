@@ -12,8 +12,6 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static com.deploy.bemyplan.config.session.SessionConstants.USER_ID;
-
 @Component
 public class UserIdResolver implements HandlerMethodArgumentResolver {
 
@@ -32,13 +30,8 @@ public class UserIdResolver implements HandlerMethodArgumentResolver {
     public Object resolveArgument(@NotNull final MethodParameter parameter, final ModelAndViewContainer mavContainer, @NotNull final NativeWebRequest webRequest, final WebDataBinderFactory binderFactory) {
         final HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
         final String token = request.getHeader(JwtHeader.AUTH);
-        final Object object = webRequest.getAttribute(USER_ID, 0);
-        if (null == object && !jwtService.verifyToken(token)) {
+        if (!jwtService.verifyToken(token)) {
             return null;
-        }
-
-        if (null != object) {
-            return object;
         }
 
         final String subject = jwtService.getSubject(token);

@@ -24,11 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-
-import static com.deploy.bemyplan.config.session.SessionConstants.USER_ID;
-
 
 @RequiredArgsConstructor
 @RestController
@@ -37,8 +33,6 @@ public class AuthController {
 
     private final UserService userService;
     private final UserRepository userRepository;
-
-    private final HttpSession httpSession;
     private final JwtService jwtService;
     private final AuthServiceProvider authServiceProvider;
 
@@ -47,11 +41,10 @@ public class AuthController {
     public LoginResponse signUp(@Valid @RequestBody final SignUpRequestDto request) {
         final AuthService authService = authServiceProvider.getAuthService(request.getSocialType());
         final Long userId = authService.signUp(request.toServiceDto());
-        httpSession.setAttribute(USER_ID, userId);
 
         final String token = jwtService.issuedToken(String.valueOf(userId), "USER", 60 * 60 * 24 * 30L);
 
-        return LoginResponse.of(token, httpSession.getId(), userId, request.getNickname());
+        return LoginResponse.of(token, "never used session id", userId, request.getNickname());
     }
 
     @ApiOperation("로그인 페이지 - 로그인을 요청합니다")
@@ -59,7 +52,6 @@ public class AuthController {
     public LoginResponse login(@Valid @RequestBody final LoginRequestDto request) {
         final AuthService authService = authServiceProvider.getAuthService(request.getSocialType());
         final Long userId = authService.login(request.toServiceDto());
-        httpSession.setAttribute(USER_ID, userId);
 
         final String token = jwtService.issuedToken(String.valueOf(userId), "USER", 60 * 60 * 24 * 30L);
 
@@ -68,14 +60,13 @@ public class AuthController {
             throw new NotFoundException(String.format("존재하지 않는 유저 (%s) 입니다", userId));
         }
 
-        return LoginResponse.of(token, httpSession.getId(), userId, findUser.getNickname());
+        return LoginResponse.of(token, "never used session id", userId, findUser.getNickname());
     }
 
     @ApiOperation("[인증] 로그아웃을 요청합니다.")
     @Auth
     @PostMapping("/v1/logout")
     public ResponseDTO logout() {
-        httpSession.removeAttribute(USER_ID);
         return ResponseDTO.of("로그아웃 성공");
     }
 
@@ -84,7 +75,6 @@ public class AuthController {
     @DeleteMapping("/v1/signout")
     public ResponseDTO signOut(@Valid @RequestBody final SignOutUserRequest request, @UserId final Long userId) {
         userService.signOut(userId, request.getReasonForWithdrawal());
-        httpSession.invalidate();
         return ResponseDTO.of("회원탈퇴 성공");
     }
 

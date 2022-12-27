@@ -11,7 +11,6 @@ import com.deploy.bemyplan.domain.plan.RcmndStatus;
 import com.deploy.bemyplan.domain.plan.Region;
 import com.deploy.bemyplan.domain.plan.RegionCategory;
 import com.deploy.bemyplan.domain.plan.TagInfo;
-import com.deploy.bemyplan.domain.user.UserRepository;
 import com.deploy.bemyplan.plan.service.dto.response.PlanPreviewResponseDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,16 +32,14 @@ class PlanServiceTest {
     private PlanService planService;
     private PlanRepository spyPlanRepository;
     private PreviewRepository spyPreviewRepository;
-    private UserRepository spyUserRepository;
 
 
     @BeforeEach
     void setUp() {
         spyPlanRepository = mock(PlanRepository.class);
         spyPreviewRepository = mock(PreviewRepository.class);
-        spyUserRepository = mock(UserRepository.class);
 
-        planService = new PlanService(spyPreviewRepository, spyPlanRepository, spyUserRepository);
+        planService = new PlanService(spyPreviewRepository, spyPlanRepository, null);
     }
 
     @Test

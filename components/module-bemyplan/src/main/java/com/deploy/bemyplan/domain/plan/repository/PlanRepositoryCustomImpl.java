@@ -138,7 +138,7 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
         if (Objects.isNull(SpecificUserId)) {
             return null;
         }
-        return plan.userId.eq(SpecificUserId);
+        return plan.creatorId.eq(SpecificUserId);
     }
 
     private BooleanExpression inPlanIdsWithScrap(Long userId, Long lastScrapId, int size) {

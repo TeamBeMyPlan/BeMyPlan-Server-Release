@@ -32,8 +32,8 @@ public class Plan extends AuditingTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private Long userId;
+    @Column(name = "user_id", nullable = false)
+    private Long creatorId;
 
     @Column(nullable = false, length = 30)
     @Enumerated(EnumType.STRING)
@@ -83,18 +83,18 @@ public class Plan extends AuditingTimeEntity {
     @OneToMany(mappedBy = "plan", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<DailySchedule> schedules = new ArrayList<>();
 
-    private Plan(final Long userId, final RegionCategory regionCategory, final Region region, final String thumbnailUrl, final String title, final String description, final TagInfo tagInfo, final int orderCnt, final int viewCnt, final int price, final PlanStatus status, final RcmndStatus rcmndStatus, final List<String> hashtags, final List<String> recommendTargets) {
-        this(userId, regionCategory, region, thumbnailUrl, title, description, tagInfo, orderCnt, viewCnt, price, status, rcmndStatus,
+    private Plan(final Long creatorId, final RegionCategory regionCategory, final Region region, final String thumbnailUrl, final String title, final String description, final TagInfo tagInfo, final int orderCnt, final int viewCnt, final int price, final PlanStatus status, final RcmndStatus rcmndStatus, final List<String> hashtags, final List<String> recommendTargets) {
+        this(creatorId, regionCategory, region, thumbnailUrl, title, description, tagInfo, orderCnt, viewCnt, price, status, rcmndStatus,
                 hashtags, recommendTargets, Collections.emptyList());
     }
 
-    private Plan(final Long userId, final RegionCategory regionCategory, final Region region, final String thumbnailUrl,
+    private Plan(final Long creatorId, final RegionCategory regionCategory, final Region region, final String thumbnailUrl,
                  final String title, final String description, final TagInfo tagInfo,
                  final int orderCnt, final int viewCnt, final int price,
                  final PlanStatus status, final RcmndStatus rcmndStatus,
                  final List<String> hashtags, final List<String> recommendTargets,
                  final List<DailySchedule> schedules) {
-        this.userId = userId;
+        this.creatorId = creatorId;
         this.regionCategory = regionCategory;
         this.region = region;
         this.thumbnailUrl = thumbnailUrl;

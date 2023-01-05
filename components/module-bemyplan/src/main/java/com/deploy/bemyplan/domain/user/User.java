@@ -34,6 +34,9 @@ public class User extends AuditingTimeEntity {
     @Embedded
     private SocialInfo socialInfo;
 
+    @Column(nullable = true)
+    private Long creatorId;
+
     private User(String socialId, UserSocialType socialType, String nickname, String email, boolean active) {
         this.socialInfo = SocialInfo.of(socialId, socialType);
         this.nickname = nickname;
@@ -57,5 +60,9 @@ public class User extends AuditingTimeEntity {
 
     public void inactive() {
         active = false;
+    }
+
+    public void connectCreatorAccount(Long creatorId) {
+        this.creatorId = creatorId;
     }
 }

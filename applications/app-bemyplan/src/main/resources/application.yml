@@ -33,8 +33,6 @@ spring:
         msg: '중복된 요청입니다'
         type: 'org.springframework.dao.DataIntegrityViolationException'
   ### dev yml 파일 업로드
-  config:
-    import: application-dev.yml
 
 logging:
   slack:

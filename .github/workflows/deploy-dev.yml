@@ -24,13 +24,9 @@ jobs:
           distribution: 'temurin'
 
       - name: Copy Secret
-        env:
-            OCCUPY_SECRET: ${{ secrets.DEV_YML }}
-            OCCUPY_SECRET_DIR: applications/app-bemyplan/src/main/resources
-            OCCUPY_SECRET_DIR_FILE_NAME: application-dev.yml
-        run: chmod +x /application-dev.yml |
-             echo $OCCUPY_SECRET | base64 --decode > $OCCUPY_SECRET_DIR/$OCCUPY_SECRET_DIR_FILE_NAME &&
-             echo $OCCUPY_SECRET | base64 --decode > $OCCUPY_SECRET_TEST_DIR/$OCCUPY_SECRET_DIR_FILE_NAME
+        run: touch ./src/main/resources/application-dev.yml 
+            | echo "${{ secrets.DEV_YML }}" > ./src/main/resources/application-dev.yml
+            | cat ./src/main/resources/application-dev.yml
 
       - name: Build with Gradle
         run: chmod +x ./gradlew && ./gradlew :applications:app-bemyplan:build

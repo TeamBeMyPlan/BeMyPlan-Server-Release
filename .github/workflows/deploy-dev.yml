@@ -21,8 +21,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: chmod dev yml
+        run: chmod +x ./application-dev.yml
+        
       - name: Copy Secret
-        run: echo $OCCUPY_SECRET | chmod +x /application-dev.yml | base64 --decode > $OCCUPY_SECRET_DIR/$OCCUPY_SECRET_DIR_FILE_NAME && echo $OCCUPY_SECRET | base64 --decode > $OCCUPY_SECRET_TEST_DIR/$OCCUPY_SECRET_DIR_FILE_NAME
+        run: echo $OCCUPY_SECRET | base64 --decode > $OCCUPY_SECRET_DIR/$OCCUPY_SECRET_DIR_FILE_NAME && echo $OCCUPY_SECRET | base64 --decode > $OCCUPY_SECRET_TEST_DIR/$OCCUPY_SECRET_DIR_FILE_NAME
 
       - name: Set up JDK 11
         uses: actions/setup-java@v3

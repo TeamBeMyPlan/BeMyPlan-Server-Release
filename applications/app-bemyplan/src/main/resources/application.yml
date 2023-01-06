@@ -38,3 +38,6 @@ logging:
     config: classpath:logback-spring.xml
 s3:
   profile: prod
+
+  config:
+    import: application-dev.yml

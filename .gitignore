@@ -39,3 +39,6 @@ out/
 InitDB.java
 /components/module-admin-bemyplan/src/main/resources/static/
 /logs/
+
+### yml file ###
+applications/app-bemyplan/src/main/resources/application-dev.yml

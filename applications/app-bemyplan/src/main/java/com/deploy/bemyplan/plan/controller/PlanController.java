@@ -55,5 +55,4 @@ public class PlanController {
     public List<CreatorPlanResponse> getCreatorPlans(@UserId Long userId) {
         return planService.getCreatorPlans(userId);
     }
-
 }

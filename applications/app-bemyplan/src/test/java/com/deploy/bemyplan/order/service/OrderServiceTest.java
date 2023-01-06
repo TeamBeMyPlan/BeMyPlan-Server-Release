@@ -38,7 +38,7 @@ class OrderServiceTest {
 
     @Test
     void createOrderReturnsExistsOrderWhenExistsOrder() {
-        Plan givenPlan = Plan.newInstance(1L, RegionCategory.JEJU, Region.JEJUALL, "thumbnailUrl", "title", "description", TagInfo.testBuilder().build(), 10000, PlanStatus.ACTIVE, RcmndStatus.NONE, Collections.emptyList(), Collections.emptyList());
+        Plan givenPlan = Plan.newInstance(2L, RegionCategory.JEJU, Region.JEJUALL, "thumbnailUrl", "title", "description", TagInfo.testBuilder().build(), 10000, PlanStatus.ACTIVE, RcmndStatus.NONE, Collections.emptyList(), Collections.emptyList());
         Order existedOrder = Order.of(givenPlan.getId(), 1L, OrderStatus.UNPAID, givenPlan.getPrice());
         given(spyPlanRepository.findById(any())).willReturn(Optional.of(givenPlan));
         given(spyOrderRepository.findByPlanIdAndUserId(givenPlan.getId(), 1L)).willReturn(Optional.of(existedOrder));
@@ -50,7 +50,7 @@ class OrderServiceTest {
 
     @Test
     void createOrderNoUpdateOrderCntWhenExistsOrder() {
-        Plan givenPlan = Plan.newInstance(1L, RegionCategory.JEJU, Region.JEJUALL, "thumbnailUrl", "title", "description", TagInfo.testBuilder().build(), 10000, PlanStatus.ACTIVE, RcmndStatus.NONE, Collections.emptyList(), Collections.emptyList());
+        Plan givenPlan = Plan.newInstance(2L, RegionCategory.JEJU, Region.JEJUALL, "thumbnailUrl", "title", "description", TagInfo.testBuilder().build(), 10000, PlanStatus.ACTIVE, RcmndStatus.NONE, Collections.emptyList(), Collections.emptyList());
         Order existedOrder = Order.of(givenPlan.getId(), 1L, OrderStatus.UNPAID, givenPlan.getPrice());
         int previousOrderCount = givenPlan.getOrderCnt();
         given(spyPlanRepository.findById(any())).willReturn(Optional.of(givenPlan));
@@ -63,7 +63,7 @@ class OrderServiceTest {
 
     @Test
     void createOrderUpdatesOrderCntWhenNoExistOrder() {
-        Plan givenPlan = Plan.newInstance(1L, RegionCategory.JEJU, Region.JEJUALL, "thumbnailUrl", "title", "description", TagInfo.testBuilder().build(), 10000, PlanStatus.ACTIVE, RcmndStatus.NONE, Collections.emptyList(), Collections.emptyList());
+        Plan givenPlan = Plan.newInstance(2L, RegionCategory.JEJU, Region.JEJUALL, "thumbnailUrl", "title", "description", TagInfo.testBuilder().build(), 10000, PlanStatus.ACTIVE, RcmndStatus.NONE, Collections.emptyList(), Collections.emptyList());
         int previousOrderCount = givenPlan.getOrderCnt();
         given(spyPlanRepository.findById(any())).willReturn(Optional.of(givenPlan));
 

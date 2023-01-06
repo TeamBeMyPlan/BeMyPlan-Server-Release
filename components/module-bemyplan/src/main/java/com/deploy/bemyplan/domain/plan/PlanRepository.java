@@ -27,5 +27,5 @@ public interface PlanRepository extends JpaRepository<Plan, Long>, PlanRepositor
             nativeQuery = true)
     List<OrderedPlan> findAllByOrderAndUserId(@Param("userId") Long userId);
 
-    List<Plan> findAllByUserId(Long userId);
+    List<Plan> findAllByCreatorId(Long creatorId);
 }

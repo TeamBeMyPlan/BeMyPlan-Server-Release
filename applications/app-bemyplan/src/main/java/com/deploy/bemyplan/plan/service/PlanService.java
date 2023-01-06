@@ -8,6 +8,7 @@ import com.deploy.bemyplan.domain.plan.PreviewRepository;
 import com.deploy.bemyplan.domain.plan.RegionCategory;
 import com.deploy.bemyplan.domain.user.Creator;
 import com.deploy.bemyplan.domain.user.CreatorRepository;
+import com.deploy.bemyplan.domain.user.User;
 import com.deploy.bemyplan.domain.user.UserRepository;
 import com.deploy.bemyplan.plan.controller.RetrievePlansRequest;
 import com.deploy.bemyplan.plan.service.dto.response.CreatorPlanResponse;
@@ -79,10 +80,10 @@ public class PlanService {
     }
 
     public List<CreatorPlanResponse> getCreatorPlans(Long userId) {
-        final Long creatorId = userRepository.findCreatorIdByUserId(userId)
-                .orElseThrow(() -> new NotFoundException("크리에이터 정보가 없습니다."));
+        final User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("존재하지 않는 사용자입니다."));
 
-        return planRepository.findAllByUserId(creatorId)
+        return planRepository.findAllByCreatorId(user.getCreatorId())
                 .stream().map(CreatorPlanResponse::of).collect(Collectors.toList());
     }
 

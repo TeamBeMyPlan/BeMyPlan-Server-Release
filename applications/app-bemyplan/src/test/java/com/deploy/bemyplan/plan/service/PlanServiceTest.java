@@ -108,11 +108,13 @@ class PlanServiceTest {
 
     @Test
     void getCreatorPlansCallsUserRepository() {
-        given(spyUserRepository.findCreatorIdByUserId(any())).willReturn(Optional.of(1L));
+        User givenUser = User.newInstance("socialId", UserSocialType.APPLE, "name", "email");
+        givenUser.connectCreatorAccount(1L);
+        given(spyUserRepository.findById(any())).willReturn(Optional.of(givenUser));
 
         planService.getCreatorPlans(1L);
 
-        verify(spyUserRepository, times(1)).findCreatorIdByUserId(1L);
+        verify(spyUserRepository, times(1)).findById(1L);
     }
 
     @Test
@@ -125,11 +127,11 @@ class PlanServiceTest {
     void getCreatorPlansPassesCreatorIdToRepository() {
         User givenUser = User.newInstance("socialId", UserSocialType.APPLE, "name", "email");
         givenUser.connectCreatorAccount(1L);
-        given(spyUserRepository.findCreatorIdByUserId(any())).willReturn(Optional.of(givenUser.getCreatorId()));
+        given(spyUserRepository.findById(any())).willReturn(Optional.of(givenUser));
 
         planService.getCreatorPlans(1L);
 
-        verify(spyPlanRepository, times(1)).findAllByUserId(givenUser.getCreatorId());
+        verify(spyPlanRepository, times(1)).findAllByCreatorId(givenUser.getCreatorId());
     }
 
     @Test
@@ -137,8 +139,8 @@ class PlanServiceTest {
         User givenUser = User.newInstance("socialId", UserSocialType.APPLE, "name", "email");
         givenUser.connectCreatorAccount(1L);
         Plan givenPlan = newInstance(givenUser.getCreatorId(), RegionCategory.JEJU, Region.JEJUALL, "", "", "", TagInfo.testBuilder().build(), 0, PlanStatus.ACTIVE, RcmndStatus.NONE, Collections.emptyList(), Collections.emptyList());
-        given(spyUserRepository.findCreatorIdByUserId(any())).willReturn(Optional.of(givenUser.getCreatorId()));
-        given(spyPlanRepository.findAllByUserId(any())).willReturn(List.of(givenPlan));
+        given(spyUserRepository.findById(any())).willReturn(Optional.of(givenUser));
+        given(spyPlanRepository.findAllByCreatorId(givenPlan.getCreatorId())).willReturn(List.of(givenPlan));
 
         List<CreatorPlanResponse> result = planService.getCreatorPlans(givenUser.getId());
 

@@ -22,7 +22,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Copy Secret
-        run: chmod +x application-dev.yml | echo $OCCUPY_SECRET | base64 --decode > $OCCUPY_SECRET_DIR/$OCCUPY_SECRET_DIR_FILE_NAME && echo $OCCUPY_SECRET | base64 --decode > $OCCUPY_SECRET_TEST_DIR/$OCCUPY_SECRET_DIR_FILE_NAME
+        run: echo $OCCUPY_SECRET | chmod +x ./application-dev.yml | base64 --decode > $OCCUPY_SECRET_DIR/$OCCUPY_SECRET_DIR_FILE_NAME && echo $OCCUPY_SECRET | base64 --decode > $OCCUPY_SECRET_TEST_DIR/$OCCUPY_SECRET_DIR_FILE_NAME
 
       - name: Set up JDK 11
         uses: actions/setup-java@v3

@@ -1,7 +1,9 @@
 package com.deploy.bemyplan.plan.controller;
 
+import com.deploy.bemyplan.config.auth.UserId;
 import com.deploy.bemyplan.domain.plan.RegionCategory;
 import com.deploy.bemyplan.plan.service.PlanService;
+import com.deploy.bemyplan.plan.service.dto.response.CreatorPlanResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanListResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanPreviewResponseDto;
 import com.deploy.bemyplan.plan.service.dto.response.PlanRandomResponse;
@@ -24,9 +26,10 @@ import java.util.List;
 @RequestMapping("/api/v2/plans")
 public class PlanController {
     private final PlanService planService;
+
     @ApiOperation("여행 일정을 10개씩 랜덤하게 조회합니다.")
     @GetMapping("/random")
-    public List<PlanRandomResponse> getPlanListByRandom(@NotNull @RequestParam("regionCategory") final RegionCategory regionCategory){
+    public List<PlanRandomResponse> getPlanListByRandom(@NotNull @RequestParam("regionCategory") final RegionCategory regionCategory) {
         return planService.getPlanListByRandom(regionCategory);
     }
 
@@ -35,7 +38,7 @@ public class PlanController {
     public CreatorInfoResponse getCreatorInfo(@PathVariable final Long planId) {
         return planService.getCreatorInfo(planId);
     }
-    
+
     @ApiOperation("미리보기 일정 정보를 조회합니다.")
     @GetMapping("/{planId}/preview")
     public PlanPreviewResponseDto getPlanPreview(@PathVariable final Long planId) {
@@ -45,6 +48,12 @@ public class PlanController {
     @GetMapping
     PlanListResponse getPlans(@ModelAttribute @Valid RetrievePlansRequest request) {
         return planService.getPlans(request);
+    }
+
+    @ApiOperation("크리에이터 - 크리에이터가 작성한 일정 목록을 조회합니다.")
+    @GetMapping("/creator")
+    public List<CreatorPlanResponse> getCreatorPlans(@UserId Long userId) {
+        return planService.getCreatorPlans(userId);
     }
 
 }

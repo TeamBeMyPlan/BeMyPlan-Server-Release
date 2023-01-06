@@ -7,6 +7,7 @@ import com.deploy.bemyplan.domain.plan.Region;
 import com.deploy.bemyplan.domain.plan.RegionCategory;
 import com.deploy.bemyplan.domain.plan.TagInfo;
 import com.deploy.bemyplan.plan.service.PlanService;
+import com.deploy.bemyplan.plan.service.dto.response.CreatorPlanResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanPreviewResponseDto;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,6 +26,9 @@ import java.util.Collections;
 import java.util.List;
 
 import static com.deploy.bemyplan.domain.plan.Plan.newInstance;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class PlanControllerTest {
     private MockMvc mockMvc;
@@ -76,5 +80,26 @@ class PlanControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.spotCount", Matchers.equalTo(response.getSpotCount())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.thumbnail", Matchers.equalTo(response.getThumbnail())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.travelPartner", Matchers.equalTo(response.getTravelPartner())));
+    }
+
+    @Test
+    void getCreatorPlansReturnsOKStatus() throws Exception {
+        mockMvc.perform(get("/api/v2/plans/creator"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void getCreatorPlansReturnsResponse() throws Exception {
+        Plan givenPlan = newInstance(1L, RegionCategory.JEJU, Region.JEJUALL, "thumbnail", "title", "description", TagInfo.testBuilder().build(), 2000, PlanStatus.ACTIVE, RcmndStatus.NONE, Collections.emptyList(), Collections.emptyList());
+        CreatorPlanResponse response = CreatorPlanResponse.of(givenPlan);
+        BDDMockito.given(stubPlanService.getCreatorPlans(ArgumentMatchers.any())).willReturn(List.of(response));
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v2/plans/creator", 1L))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].planId", Matchers.equalTo(response.getPlanId())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].title", Matchers.equalTo(response.getTitle())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].region", Matchers.equalTo(response.getRegion().toString())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].thumbnailUrl", Matchers.equalTo(response.getThumbnailUrl())));
     }
 }

@@ -8,7 +8,9 @@ import com.deploy.bemyplan.domain.plan.PreviewRepository;
 import com.deploy.bemyplan.domain.plan.RegionCategory;
 import com.deploy.bemyplan.domain.user.Creator;
 import com.deploy.bemyplan.domain.user.CreatorRepository;
+import com.deploy.bemyplan.domain.user.UserRepository;
 import com.deploy.bemyplan.plan.controller.RetrievePlansRequest;
+import com.deploy.bemyplan.plan.service.dto.response.CreatorPlanResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanInfoResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanListResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanPreviewResponseDto;
@@ -32,6 +34,7 @@ public class PlanService {
     private final PreviewRepository previewRepository;
     private final PlanRepository planRepository;
     private final CreatorRepository creatorRepository;
+    private final UserRepository userRepository;
 
     public List<PlanRandomResponse> getPlanListByRandom(final RegionCategory region) {
         final Pageable RandomTen = PageRequest.of(0, 10);
@@ -74,6 +77,15 @@ public class PlanService {
                 .map(plan -> PlanInfoResponse.of(plan, getCreator(plan), false, false))
                 .collect(Collectors.toList()));
     }
+
+    public List<CreatorPlanResponse> getCreatorPlans(Long userId) {
+        final Long creatorId = userRepository.findCreatorIdByUserId(userId)
+                .orElseThrow(() -> new NotFoundException("크리에이터 정보가 없습니다."));
+
+        return planRepository.findAllByUserId(creatorId)
+                .stream().map(CreatorPlanResponse::of).collect(Collectors.toList());
+    }
+
 
     private Creator getCreator(final Plan plan) {
         return creatorRepository.findById(plan.getCreatorId())

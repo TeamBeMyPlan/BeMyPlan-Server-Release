@@ -26,4 +26,6 @@ public interface PlanRepository extends JpaRepository<Plan, Long>, PlanRepositor
             "where o.user_id = :userId and o.status = 'COMPLETED'",
             nativeQuery = true)
     List<OrderedPlan> findAllByOrderAndUserId(@Param("userId") Long userId);
+
+    List<Plan> findAllByUserId(Long userId);
 }

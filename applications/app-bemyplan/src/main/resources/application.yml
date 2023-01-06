@@ -35,7 +35,7 @@ spring:
   ### dev yml 파일 업로드
   config:
     import: application-dev.yml
-    
+
 logging:
   slack:
     webhook-uri: https://hooks.slack.com/services/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

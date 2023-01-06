@@ -9,7 +9,11 @@ env:
   ECS_TASK_DEFINITION: task-definition-dev.json # set this to the path to your Amazon ECS task definition
   CONTAINER_NAME: bemyplan-dev-container           # set this to the name of the container in the
   ECS_SERVICE: bemyplan-dev-svc                 # set this to your Amazon ECS service name
-  ECS_CLUSTER: bemyplan-dev-cluster                 # set this to your Amazon ECS cluster name
+  ECS_CLUSTER: bemyplan-dev-cluster
+  OCCUPY_SECRET: ${{ secrets.DEV_YML }}
+  OCCUPY_SECRET_DIR: applications/app-bemyplan/src/main/resources
+  #            OCCUPY_SECRET_TEST_DIR: src/test/resources
+  OCCUPY_SECRET_DIR_FILE_NAME: application-dev.yml
 
 jobs:
   build-gradle:
@@ -19,13 +23,8 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Copy Secret
-          env:
-            OCCUPY_SECRET: ${{ secrets.DEV_YML }}
-            OCCUPY_SECRET_DIR: applications/app-bemyplan/src/main/resources
-#            OCCUPY_SECRET_TEST_DIR: src/test/resources
-            OCCUPY_SECRET_DIR_FILE_NAME: application-dev.yml
-          run: echo $OCCUPY_SECRET | base64 --decode > $OCCUPY_SECRET_DIR/$OCCUPY_SECRET_DIR_FILE_NAME &&
-            echo $OCCUPY_SECRET | base64 --decode > $OCCUPY_SECRET_TEST_DIR/$OCCUPY_SECRET_DIR_FILE_NAME
+        run: echo $OCCUPY_SECRET | base64 --decode > $OCCUPY_SECRET_DIR/$OCCUPY_SECRET_DIR_FILE_NAME &&
+        echo $OCCUPY_SECRET | base64 --decode > $OCCUPY_SECRET_TEST_DIR/$OCCUPY_SECRET_DIR_FILE_NAME
 
       - name: Set up JDK 11
         uses: actions/setup-java@v3

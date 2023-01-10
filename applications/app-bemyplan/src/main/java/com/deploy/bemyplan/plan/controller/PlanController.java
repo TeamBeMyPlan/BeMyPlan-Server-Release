@@ -1,9 +1,7 @@
 package com.deploy.bemyplan.plan.controller;
 
-import com.deploy.bemyplan.config.auth.UserId;
 import com.deploy.bemyplan.domain.plan.RegionCategory;
 import com.deploy.bemyplan.plan.service.PlanService;
-import com.deploy.bemyplan.plan.service.dto.response.CreatorPlanResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanListResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanPreviewResponseDto;
 import com.deploy.bemyplan.plan.service.dto.response.PlanRandomResponse;
@@ -48,11 +46,5 @@ public class PlanController {
     @GetMapping
     PlanListResponse getPlans(@ModelAttribute @Valid RetrievePlansRequest request) {
         return planService.getPlans(request);
-    }
-
-    @ApiOperation("크리에이터 - 크리에이터가 작성한 일정 목록을 조회합니다.")
-    @GetMapping("/creator")
-    public List<CreatorPlanResponse> getCreatorPlans(@UserId Long userId) {
-        return planService.getCreatorPlans(userId);
     }
 }

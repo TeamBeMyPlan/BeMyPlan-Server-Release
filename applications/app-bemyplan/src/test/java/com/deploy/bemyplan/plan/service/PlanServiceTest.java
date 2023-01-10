@@ -11,10 +11,6 @@ import com.deploy.bemyplan.domain.plan.RcmndStatus;
 import com.deploy.bemyplan.domain.plan.Region;
 import com.deploy.bemyplan.domain.plan.RegionCategory;
 import com.deploy.bemyplan.domain.plan.TagInfo;
-import com.deploy.bemyplan.domain.user.User;
-import com.deploy.bemyplan.domain.user.UserRepository;
-import com.deploy.bemyplan.domain.user.UserSocialType;
-import com.deploy.bemyplan.plan.service.dto.response.CreatorPlanResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanPreviewResponseDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,18 +32,15 @@ class PlanServiceTest {
     private PlanService planService;
     private PlanRepository spyPlanRepository;
     private PreviewRepository spyPreviewRepository;
-    private UserRepository spyUserRepository;
 
 
     @BeforeEach
     void setUp() {
         spyPlanRepository = mock(PlanRepository.class);
         spyPreviewRepository = mock(PreviewRepository.class);
-        spyUserRepository = mock(UserRepository.class);
 
-        planService = new PlanService(spyPreviewRepository, spyPlanRepository, null, spyUserRepository);
+        planService = new PlanService(spyPreviewRepository, spyPlanRepository, null);
     }
-
     @Test
     void getPlanPreview_callsPlanFromRepository() {
         Plan givenPlan = newInstance(1L, RegionCategory.JEJU, Region.JEJUALL, "thumbnailUrl", "title", "description", TagInfo.testBuilder().build(), 10000, PlanStatus.ACTIVE, RcmndStatus.NONE, Collections.emptyList(), Collections.emptyList());
@@ -104,49 +97,5 @@ class PlanServiceTest {
 
         assertThatThrownBy(() -> planService.getPlanPreview(1L))
                 .isInstanceOf(NotFoundException.class);
-    }
-
-    @Test
-    void getCreatorPlansCallsUserRepository() {
-        User givenUser = User.newInstance("socialId", UserSocialType.APPLE, "name", "email");
-        givenUser.connectCreatorAccount(1L);
-        given(spyUserRepository.findById(any())).willReturn(Optional.of(givenUser));
-
-        planService.getCreatorPlans(1L);
-
-        verify(spyUserRepository, times(1)).findById(1L);
-    }
-
-    @Test
-    void getCreatorPlansThrowsNotFoundExceptionWhenNotCreator() {
-        assertThatThrownBy(() -> planService.getCreatorPlans(1L))
-                .isInstanceOf(NotFoundException.class);
-    }
-
-    @Test
-    void getCreatorPlansPassesCreatorIdToRepository() {
-        User givenUser = User.newInstance("socialId", UserSocialType.APPLE, "name", "email");
-        givenUser.connectCreatorAccount(1L);
-        given(spyUserRepository.findById(any())).willReturn(Optional.of(givenUser));
-
-        planService.getCreatorPlans(1L);
-
-        verify(spyPlanRepository, times(1)).findAllByCreatorId(givenUser.getCreatorId());
-    }
-
-    @Test
-    void getCreatorPlansReturnsCreatorPlans() {
-        User givenUser = User.newInstance("socialId", UserSocialType.APPLE, "name", "email");
-        givenUser.connectCreatorAccount(1L);
-        Plan givenPlan = newInstance(givenUser.getCreatorId(), RegionCategory.JEJU, Region.JEJUALL, "", "", "", TagInfo.testBuilder().build(), 0, PlanStatus.ACTIVE, RcmndStatus.NONE, Collections.emptyList(), Collections.emptyList());
-        given(spyUserRepository.findById(any())).willReturn(Optional.of(givenUser));
-        given(spyPlanRepository.findAllByCreatorId(givenPlan.getCreatorId())).willReturn(List.of(givenPlan));
-
-        List<CreatorPlanResponse> result = planService.getCreatorPlans(givenUser.getId());
-
-        assertThat(result.get(0).getPlanId()).isEqualTo(givenPlan.getId());
-        assertThat(result.get(0).getTitle()).isEqualTo(givenPlan.getTitle());
-        assertThat(result.get(0).getThumbnailUrl()).isEqualTo(givenPlan.getThumbnailUrl());
-        assertThat(result.get(0).getRegion()).isEqualTo(givenPlan.getRegion());
     }
 }

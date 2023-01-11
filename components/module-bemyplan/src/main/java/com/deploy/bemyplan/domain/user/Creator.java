@@ -27,4 +27,21 @@ public class Creator {
 
     @Column(name = "name", length = 255, nullable = false)
     private String name;
+
+    @Column(nullable = true)
+    private Long userId;
+
+    private Creator(final String description, final String profileImage, final String name) {
+        this.description = description;
+        this.profileImage = profileImage;
+        this.name = name;
+    }
+
+    public static Creator newInstance(final String description, final String profileImage, final String name) {
+        return new Creator(description, profileImage, name);
+    }
+
+    public void connectUserAccount(Long userId) {
+        this.userId = userId;
+    }
 }

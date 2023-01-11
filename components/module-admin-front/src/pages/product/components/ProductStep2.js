@@ -64,12 +64,12 @@ class ProductStep2 extends Component {
     selectAddress = async (data) => {
         this.togglePost();
 
-        const { longitude, latitude } = await locationApi.getLocation(data.address);
+        const response = await locationApi.getLocation(data.address);
 
         this.setState({
             address: data.address,
-            longitude: longitude,
-            latitude: latitude,
+            longitude: response.data.longitude,
+            latitude: response.data.latitude,
             selectedAddress: true
         })
     }

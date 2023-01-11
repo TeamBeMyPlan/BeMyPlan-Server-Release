@@ -25,7 +25,8 @@ class PlanMapper {
                 new TagInfo(planDto.getConcept(),
                         planDto.getPartner(),
                         planDto.getVehicle()
-                        , Money.wons(planDto.getCost())),
+                        , Money.wons(planDto.getCost()),
+                        planDto.getPeriod()),
                 planDto.getPrice(),
                 PlanStatus.ACTIVE,
                 RcmndStatus.of(planDto.isRecommend()),

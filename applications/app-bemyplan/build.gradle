@@ -1,6 +1,5 @@
 dependencies {
-    implementation 'com.github.zkdlu:api-response-spring-boot-starter:1.0.8'
-
+    implementation project(':components:module-api-handler')
     implementation project(':components:module-bemyplan')
     implementation project(':components:module-jwt')
     implementation project(':components:module-admin-bemyplan')

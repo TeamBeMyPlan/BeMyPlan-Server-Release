@@ -8,6 +8,12 @@ spring:
       max-file-size: 10MB
       max-request-size: 11MB
   response:
+    black-list:
+      - "/v*/api-docs"
+      - "/swagger-resources/**"
+      - "/swagger-ui.html"
+      - "/webjars/**"
+      - "/swagger/**"
     success:
       code: 200
       msg: SUCCESS

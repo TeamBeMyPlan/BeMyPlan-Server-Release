@@ -12,10 +12,12 @@ import com.deploy.bemyplan.order.service.dto.response.OrderListResponse;
 import com.deploy.bemyplan.order.service.dto.response.OrderResponseDto;
 import com.deploy.bemyplan.order.service.dto.response.OrderedPlanInfoResponse;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -28,8 +30,7 @@ public class OrderService {
 
     @Transactional
     public OrderResponseDto createOrder(final Long planId, final int orderPrice, final Long userId) {
-        final Plan plan = planRepository.findById(planId)
-                .orElseThrow(() -> new NotFoundException("해당하는 일정이 없습니다."));
+        final Plan plan = getPlanWithValidation(planId, userId);
         final Order order = orderRepository.findByPlanIdAndUserId(planId, userId)
                 .orElseGet(() -> {
                     plan.updateOrderCnt();
@@ -43,6 +44,8 @@ public class OrderService {
 
     @Transactional(readOnly = true)
     public void checkOrderStatus(final Long planId, final Long userId) {
+        getPlanWithValidation(planId, userId);
+
         final Optional<Order> maybeOrder = orderRepository.findByPlanIdAndUserId(planId, userId);
         if (maybeOrder.isPresent() && OrderStatus.COMPLETED == maybeOrder.get().getStatus()) {
             throw new ConflictException("이미 구매한 일정입니다.");
@@ -57,5 +60,13 @@ public class OrderService {
                 .stream()
                 .map(OrderedPlanInfoResponse::of)
                 .collect(Collectors.toList()));
+    }
+
+    @NotNull
+    private Plan getPlanWithValidation(Long planId, Long userId) {
+        final Plan plan = planRepository.findById(planId)
+                .orElseThrow(() -> new NotFoundException("해당하는 일정이 없습니다."));
+        if (Objects.equals(plan.getCreatorId(), userId)) throw new ConflictException("해당 일정의 크리에이터입니다.");
+        return plan;
     }
 }

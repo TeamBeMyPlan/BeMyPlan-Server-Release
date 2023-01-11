@@ -41,7 +41,6 @@ class PlanServiceTest {
 
         planService = new PlanService(spyPreviewRepository, spyPlanRepository, null);
     }
-
     @Test
     void getPlanPreview_callsPlanFromRepository() {
         Plan givenPlan = newInstance(1L, RegionCategory.JEJU, Region.JEJUALL, "thumbnailUrl", "title", "description", TagInfo.testBuilder().build(), 10000, PlanStatus.ACTIVE, RcmndStatus.NONE, Collections.emptyList(), Collections.emptyList());

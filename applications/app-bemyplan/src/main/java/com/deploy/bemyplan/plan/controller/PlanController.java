@@ -24,9 +24,10 @@ import java.util.List;
 @RequestMapping("/api/v2/plans")
 public class PlanController {
     private final PlanService planService;
+
     @ApiOperation("여행 일정을 10개씩 랜덤하게 조회합니다.")
     @GetMapping("/random")
-    public List<PlanRandomResponse> getPlanListByRandom(@NotNull @RequestParam("regionCategory") final RegionCategory regionCategory){
+    public List<PlanRandomResponse> getPlanListByRandom(@NotNull @RequestParam("regionCategory") final RegionCategory regionCategory) {
         return planService.getPlanListByRandom(regionCategory);
     }
 
@@ -35,7 +36,7 @@ public class PlanController {
     public CreatorInfoResponse getCreatorInfo(@PathVariable final Long planId) {
         return planService.getCreatorInfo(planId);
     }
-    
+
     @ApiOperation("미리보기 일정 정보를 조회합니다.")
     @GetMapping("/{planId}/preview")
     public PlanPreviewResponseDto getPlanPreview(@PathVariable final Long planId) {
@@ -46,5 +47,4 @@ public class PlanController {
     PlanListResponse getPlans(@ModelAttribute @Valid RetrievePlansRequest request) {
         return planService.getPlans(request);
     }
-
 }

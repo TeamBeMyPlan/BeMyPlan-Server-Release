@@ -10,6 +10,9 @@ env:
   CONTAINER_NAME: bemyplan-dev-container           # set this to the name of the container in the
   ECS_SERVICE: bemyplan-dev-svc                 # set this to your Amazon ECS service name
   ECS_CLUSTER: bemyplan-dev-cluster
+  OCCUPY_SECRET: ${{ secrets.DEV_YML_TEST }}
+  OCCUPY_SECRET_DIR: applications/app-bemyplan/src/main/resources
+  OCCUPY_SECRET_DIR_FILE_NAME: application-dev.yml
 
 jobs:
   build-gradle:
@@ -24,9 +27,11 @@ jobs:
           distribution: 'temurin'
 
       - name: Copy Secret
-        run: touch ./applications/app-bemyplan/src/main/resources/application-dev.yml 
-            | echo "${{ secrets.DEV_YML }}" > ./applications/app-bemyplan/src/main/resources/application-dev.yml
-            | cat ./applications/app-bemyplan/src/main/resources/application-dev.yml
+        - run: echo $OCCUPY_SECRET | base64 --decode > $OCCUPY_SECRET_DIR/$OCCUPY_SECRET_DIR_FILE_NAME &&
+            echo $OCCUPY_SECRET | base64 --decode > $OCCUPY_SECRET_TEST_DIR/$OCCUPY_SECRET_DIR_FILE_NAME
+#        run: touch ./applications/app-bemyplan/src/main/resources/application-dev.yml
+#            | echo "${{ secrets.DEV_YML }}" > ./applications/app-bemyplan/src/main/resources/application-dev.yml
+#            | cat ./applications/app-bemyplan/src/main/resources/application-dev.yml
 
       - name: Build with Gradle
         run: chmod +x ./gradlew && ./gradlew :applications:app-bemyplan:build

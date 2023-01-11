@@ -48,6 +48,7 @@ class ProductCreatePage extends Component {
                 cost: step1.cost,
                 period: step1.period,
                 partner: step1.partner,
+                region: step1.region,
             },
             spots: step2.spots,
             previews: step3.previews

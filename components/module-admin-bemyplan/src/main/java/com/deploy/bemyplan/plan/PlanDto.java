@@ -1,5 +1,6 @@
 package com.deploy.bemyplan.plan;
 
+import com.deploy.bemyplan.domain.plan.Region;
 import com.deploy.bemyplan.domain.plan.TravelMobility;
 import com.deploy.bemyplan.domain.plan.TravelPartner;
 import com.deploy.bemyplan.domain.plan.TravelTheme;
@@ -21,6 +22,7 @@ public class PlanDto {
     private int cost;
     private int period;
     private TravelPartner partner;
+    private Region region;
 
     @Builder(builderMethodName = "testBuilder")
     PlanDto(final String title, final String description, final String thumbnail, final int price, final boolean recommend, final TravelMobility vehicle, final TravelTheme concept, final int cost, final int period, final TravelPartner partner) {

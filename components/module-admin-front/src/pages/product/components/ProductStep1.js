@@ -24,6 +24,7 @@ class ProductStep1 extends Component {
         cost: 0,
         vehicle: 'CAR',
         recommend: false,
+        region: 'JEJUALL',
         price: 0
     }
 
@@ -47,6 +48,7 @@ class ProductStep1 extends Component {
 
     handlePrice = (e) => { this.setState({ price: Number(e.target.value) }) }
 
+    handleRegion = (e) => { this.setState({ region: e.target.value })}
 
     fileChangedHandler = async e => {
         const files = e.target.files;
@@ -74,6 +76,7 @@ class ProductStep1 extends Component {
             cost,
             vehicle,
             recommend,
+            region,
             price } = this.state;
         const { nextPage, update } = this.props;
 
@@ -88,7 +91,8 @@ class ProductStep1 extends Component {
             cost,
             vehicle,
             recommend,
-            price
+            price,
+            region
         });
 
         nextPage();
@@ -97,8 +101,8 @@ class ProductStep1 extends Component {
     render() {
         const {
             handleCreatorName, handlePlanTitle, handlePlanDescription,
-            handleConept, handlePartner, handlePeriod, handleCost,
-            handleVehicle, handleRecommend, handlePrice,
+            handleConept, handlePartner, handlePeriod, handleCost, handleRegion,
+            handleVehicle, handleRecommend, handlePrice, 
             fileChangedHandler,
             saveAndNext } = this;
 
@@ -136,6 +140,19 @@ class ProductStep1 extends Component {
                             { value: 'ACTIVITY', label: '액티비티' },
                             { value: 'CAMPING', label: '캠핑' }
                         ]} onChange={handleConept} />
+                    </Inputs>
+                    <Inputs msg='지역'>
+                        <ComboBox items={[
+                            { value: 'JEJU', label: '제주' },
+                        ]}/>
+                    </Inputs>
+                    <Inputs msg='지역 상세'>
+                        <ComboBox items={[
+                            { value: 'JEJUALL', label: '제주 전체' },
+                            { value: 'JEJUWEST', label: '제주 서부' },
+                            { value: 'JEJUEAST', label: '제주 동부' },
+                            { value: 'JEJUCITY', label: '제주 시내' },
+                        ]} onChange={handleRegion} />
                     </Inputs>
                     <Inputs msg='여행파트너'>
                         <ComboBox items={[

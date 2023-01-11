@@ -210,6 +210,7 @@ class ProductStep2 extends Component {
             handleName,
             handleReview,
             handleTip,
+            handleType,
             handleDate,
             handleNextSpotSpentTime,
             handleNextSpotVehicle,
@@ -237,6 +238,7 @@ class ProductStep2 extends Component {
                     <Inputs msg='유형'>
                         <ComboBox items={[
                             { value: 'TOURSPOT', label: '관광지' },
+                            { value: 'CAFE', label: '카페' },
                             { value: 'RESTAURANT', label: '식당' },
                             { value: 'MUSEUM', label: '박물관' },
                             { value: 'BEACH', label: '바다' },
@@ -248,7 +250,7 @@ class ProductStep2 extends Component {
                             { value: 'BOOKSTORE', label: '서점' },
                             { value: 'MARKET', label: '시장' },
                             { value: 'ARTMUSEUM', label: '미술관' }
-                        ]} onChange={handleNextSpotVehicle} />
+                        ]} onChange={handleType} />
                     </Inputs>
                     <Inputs msg='여행지 주소'>
                         <Textbox readOnly={true} hint='여행지 주소' value={address} />
@@ -351,7 +353,7 @@ class ProductStep2 extends Component {
                                             <TableCell>{spot.address}</TableCell>
                                             <TableCell>{spot.date}</TableCell>
                                             {
-                                               spot.hasNext && <TableCell>다음 여행지</TableCell>
+                                               spot.hasNext && <TableCell>{spot.nextSpot.id}</TableCell>
                                             }
                                         </TableRow>
                                     ))

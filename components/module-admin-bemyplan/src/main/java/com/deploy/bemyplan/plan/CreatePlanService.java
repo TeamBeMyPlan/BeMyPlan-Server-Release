@@ -14,6 +14,8 @@ import com.deploy.bemyplan.domain.plan.SpotImage;
 import com.deploy.bemyplan.domain.plan.SpotMoveInfo;
 import com.deploy.bemyplan.domain.plan.SpotMoveInfoRepository;
 import com.deploy.bemyplan.domain.plan.SpotRepository;
+import com.deploy.bemyplan.domain.user.Creator;
+import com.deploy.bemyplan.domain.user.CreatorRepository;
 import com.deploy.bemyplan.image.s3.S3Locator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -34,6 +36,8 @@ public class CreatePlanService {
     private final PlanRepository planRepository;
     private final PlanMapper planMapper;
 
+    private final CreatorRepository creatorRepository;
+
     @Transactional
     public void createPlan(CreatePlanRequest request) {
         final Plan plan = createNewPlan(request);
@@ -47,6 +51,10 @@ public class CreatePlanService {
 
         final List<PreviewDto> previews = request.getPreviews();
         createPreviews(previews, plan, spots);
+    }
+
+    public List<Creator> getCreators() {
+        return creatorRepository.findAll();
     }
 
     private void createPreviews(List<PreviewDto> previewDtos, Plan plan, List<Spot> spots) {
@@ -126,7 +134,7 @@ public class CreatePlanService {
 
     private Plan createNewPlan(CreatePlanRequest request) {
         final PlanDto planDto = request.getPlan();
-        final Plan plan = planMapper.toDomain(planDto);
+        final Plan plan = planMapper.toDomain(planDto, request.getCreator());
         planRepository.save(plan);
         return plan;
     }

@@ -13,11 +13,10 @@ import java.util.Collections;
 
 @Component
 class PlanMapper {
-    private static final long ADMIN_USER_MAGIC_NUMBER = 0L;
 
-    Plan toDomain(PlanDto planDto) {
+    Plan toDomain(PlanDto planDto, CreatorDto creator) {
         return Plan.newInstance(
-                ADMIN_USER_MAGIC_NUMBER,
+                creator.getId(),
                 RegionCategory.JEJU,
                 planDto.getRegion(),
                 S3Locator.get(planDto.getThumbnail()),

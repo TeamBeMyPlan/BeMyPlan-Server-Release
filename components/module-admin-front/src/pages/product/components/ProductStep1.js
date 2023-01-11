@@ -5,16 +5,20 @@ import NumericInput from '../../../components/numeric/NumericInput'
 import Inputs from '../../../components/inputs/Inputs'
 import Button from '../../../components/button/Button'
 import imageApi, { compressionOptions } from '../../../components/imageApi'
+import creatorApi from '../../../components/creatorApi'
 import imageCompression from 'browser-image-compression';
 import './ProductStep.css'
 
 class ProductStep1 extends Component {
-    componentDidMount() {
+    async componentDidMount() {
         this.fileInputRef = createRef();
+
+        await this.fetchCreators();
     }
 
     state = {
-        creator: '크리에이터',
+        creators: [],
+        creatorId: 0,
         planTitle: '여행 일정',
         planDescription: '여행 일정이에요',
         thumbnail: '',
@@ -28,7 +32,17 @@ class ProductStep1 extends Component {
         price: 0
     }
 
-    handleCreatorName = (e) => { this.setState({ creator: e.target.value }) }
+    async fetchCreators() {
+        const creators = await creatorApi.getCreators();
+        this.setState({
+            creators: [...creators.data]
+        })
+    }
+
+    handleCreatorName = (e) => { 
+        this.setState({ 
+            creatorId: e.target.value
+        }) }
 
     handlePlanTitle = (e) => { this.setState({ planTitle: e.target.value }) }
 
@@ -66,7 +80,7 @@ class ProductStep1 extends Component {
     }
 
     saveAndNext = () => {
-        const { creator,
+        const { creatorId,
             planTitle,
             planDescription,
             thumbnail,
@@ -81,7 +95,7 @@ class ProductStep1 extends Component {
         const { nextPage, update } = this.props;
 
         update({
-            creator,
+            creatorId,
             planTitle,
             planDescription,
             concept,
@@ -107,15 +121,23 @@ class ProductStep1 extends Component {
             saveAndNext } = this;
 
         const {
-            creator, planTitle, planDescription,
+            creators, planTitle, planDescription,
             period, cost, price } = this.state;
+
+        const CreatorSelect = creators.map(creator => {
+            return {
+                value: creator.id, 
+                label: creator.name
+            }
+        });
 
         return (
             <>
                 <div>
                     <h3>크리에이터 정보</h3>
                     <Inputs msg='닉네임'>
-                        <Textbox hint='크리에이터 닉네임' value={creator} onChange={handleCreatorName} />
+                        <ComboBox items={CreatorSelect} onChange={handleCreatorName}/>
+                        {/* <Textbox hint='크리에이터 닉네임' value={creator} onChange={handleCreatorName} /> */}
                     </Inputs>
                     <Inputs msg='여행일정제목'>
                         <Textbox hint='여행 일정 제목' value={planTitle} onChange={handlePlanTitle} />

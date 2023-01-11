@@ -35,7 +35,7 @@ class ProductCreatePage extends Component {
 
         const response = await planApi.create({
             creator: {
-                name: step1.creator
+                id: step1.creatorId
             },
             plan: {
                 title: step1.planTitle,

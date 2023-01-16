@@ -66,8 +66,8 @@ public class ApplePaymentService implements PaymentService {
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 결제 내역 입니다."));
         log.info(payment.getOrder().getId() + "id id id" + order.getId());
 
-//        if (!Objects.equals(orderId, payment.getOrder().getId()) || PaymentState.COMPLETE != payment.getPaymentState())
-//            throw new ValidationException("결제 처리가 정상적으로 되지 않았습니다.");
+        if (!Objects.equals(orderId, payment.getOrder().getId()) || PaymentState.COMPLETE != payment.getPaymentState())
+            throw new ValidationException("결제 처리가 정상적으로 되지 않았습니다.");
 
         order.orderComplete(payment);
     }
@@ -81,8 +81,7 @@ public class ApplePaymentService implements PaymentService {
     }
 
     private Payment findOrCreatePayment(final Order order, final String transactionId, final PaymentState paymentState) {
-        return paymentRepository.findByTransactionId(transactionId)
-                .orElseGet(() -> Payment.of(order, transactionId, paymentState));
+        return Payment.of(order, transactionId, paymentState);
     }
 
     private String getTransactionId(final AppStoreResponse response) {

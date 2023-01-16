@@ -42,6 +42,7 @@ public class ApplePaymentService implements PaymentService {
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 주문 내역 입니다."));
 
         if (!Objects.equals(order.getUserId(), user.getId())) {
+            log.info(order.getId()+ "sjfksldfjdlkfjsdklfsdj \nsdklfjsdlkf\n", user.getId());
             throw new ValidationException("잘못된 주문입니다. 구매한 유저가 다릅니다.");
         }
         final AppStoreResponse response = appleInAppPurchaseValidator.appleInAppPurchaseVerify(userReceipt)

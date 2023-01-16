@@ -42,7 +42,7 @@ public class ApplePaymentService implements PaymentService {
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 주문 내역 입니다."));
 
         if (!Objects.equals(order.getUserId(), user.getId())) {
-            log.info(order.getId()+ "sjfksldfjdlkfjsdklfsdj \nsdklfjsdlkf\n", user.getId());
+            log.info(order.getUserId() + "sjfksldfjdlkfjsdklfsdj \nsdklfjsdlkf\n" + user.getId());
             throw new ValidationException("잘못된 주문입니다. 구매한 유저가 다릅니다.");
         }
         final AppStoreResponse response = appleInAppPurchaseValidator.appleInAppPurchaseVerify(userReceipt)
@@ -64,7 +64,7 @@ public class ApplePaymentService implements PaymentService {
 
         final Payment payment = paymentRepository.findById(confirmOrderDto.getPaymentId())
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 결제 내역 입니다."));
-        log.info(payment.getOrder().getId()+ "id id id", order.getId());
+        log.info(payment.getOrder().getId() + "id id id" + order.getId());
 
 //        if (!Objects.equals(orderId, payment.getOrder().getId()) || PaymentState.COMPLETE != payment.getPaymentState())
 //            throw new ValidationException("결제 처리가 정상적으로 되지 않았습니다.");

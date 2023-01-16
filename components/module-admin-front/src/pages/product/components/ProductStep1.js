@@ -123,8 +123,7 @@ class ProductStep1 extends Component {
             saveAndNext } = this;
 
         const {
-            creators, planTitle, planDescription,
-            period, cost, price } = this.state;
+            creators, planTitle, planDescription, cost, price } = this.state;
 
         const CreatorSelect = creators.map(creator => {
             return {

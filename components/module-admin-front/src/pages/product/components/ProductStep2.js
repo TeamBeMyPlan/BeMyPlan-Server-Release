@@ -135,11 +135,9 @@ class ProductStep2 extends Component {
             latitude,
             savedImages,
             date,
-            nextSpot,
             nextSpotSpentTime,
             nextSpotVehicle,
             spots,
-            selectedNextSpot
         } = this.state;
 
         const newSpot = {
@@ -191,10 +189,7 @@ class ProductStep2 extends Component {
             selectedAddress,
             longitude,
             latitude,
-            openNextSpots,
-            selectedNextSpot,
             spots,
-            nextSpotName,
             nextSpotSpentTime
         } = this.state;
         const {
@@ -207,8 +202,6 @@ class ProductStep2 extends Component {
             handleNextSpotVehicle,
             selectAddress,
             fileChangedHandler,
-            toggleNextSpot,
-            selectNextSpot,
             addItem,
             saveAndNext
         } = this;

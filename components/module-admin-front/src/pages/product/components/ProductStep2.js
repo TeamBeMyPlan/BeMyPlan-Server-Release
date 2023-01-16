@@ -153,17 +153,8 @@ class ProductStep2 extends Component {
             latitude,
             savedImages,
             date,
-            nextSpot: {},
-            hasNext: false
-        }
-
-        if (selectedNextSpot) {
-            newSpot.hasNext = true;
-            newSpot.nextSpot = {
-                id: nextSpot.id,
-                spentTime: nextSpotSpentTime,
-                vehicle: nextSpotVehicle,
-            }
+            spentTime: nextSpotSpentTime,
+            vehicle: nextSpotVehicle,
         }
 
         this.setState({
@@ -279,53 +270,21 @@ class ProductStep2 extends Component {
                             name="files"
                             onChange={fileChangedHandler} />
                     </Inputs>
-                    <Inputs msg='해당 여행지 일정 정보'>
+                    <Inputs msg='해당 여행지 일정 일차'>
                         <NumericInput hint='몇 일차 여행지' value={date} onChange={handleDate} />
                     </Inputs>
-                    <Inputs msg='연결할 다음 여행지 (Optional)'>
-                        <Textbox readOnly={true} hint='다음 여행지' value={nextSpotName} />
-                        <Button msg="선택" onClick={toggleNextSpot} />
-                        {
-                            openNextSpots &&
-                            <TableContainer>
-                                <TableHeader>
-                                    <TableRow>
-                                        <TableCell>ID</TableCell>
-                                        <TableCell>이름</TableCell>
-                                        <TableCell>주소</TableCell>
-                                        <TableCell>선택</TableCell>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {
-                                        spots.map((spot, index) => (
-                                            <TableRow key={index}>
-                                                <TableCell>{spot.id}</TableCell>
-                                                <TableCell>{spot.name}</TableCell>
-                                                <TableCell>{spot.address}</TableCell>
-                                                <TableCell><Button onClick={() => selectNextSpot(index)} msg="선택" /></TableCell>
-                                            </TableRow>
-                                        ))
-                                    }
-                                </TableBody>
-                            </TableContainer>
-                        }
-                        {
-                            selectedNextSpot &&
-                            <>
-                                <Inputs msg='소요시간(분)'>
-                                    <NumericInput hint='다음 여행지까지 이동시간 (분)' value={nextSpotSpentTime} onChange={handleNextSpotSpentTime} />
-                                </Inputs>
-                                <Inputs msg='이동수단'>
-                                    <ComboBox items={[
-                                        { value: 'CAR', label: '승용차' },
-                                        { value: 'PUBLIC', label: '대중교통' },
-                                        { value: 'WALK', label: '도보' },
-                                        { value: 'BICYCLE', label: '자전거' }
-                                    ]} onChange={handleNextSpotVehicle} />
-                                </Inputs>
-                            </>
-                        }
+                    <Inputs msg='다음 여행지까지'>
+                        <Inputs msg='소요시간(분)'>
+                            <NumericInput hint='다음 여행지까지 이동시간 (분)' value={nextSpotSpentTime} onChange={handleNextSpotSpentTime} />
+                            <Inputs msg='이동수단'>
+                                <ComboBox items={[
+                                    { value: 'CAR', label: '승용차' },
+                                    { value: 'PUBLIC', label: '대중교통' },
+                                    { value: 'WALK', label: '도보' },
+                                    { value: 'BICYCLE', label: '자전거' }
+                                ]} onChange={handleNextSpotVehicle} />
+                            </Inputs>
+                        </Inputs>
                     </Inputs>
                     <div className="next-button-wrapper">
                         <Button msg="추가" onClick={addItem} />

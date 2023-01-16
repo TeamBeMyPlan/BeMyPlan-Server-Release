@@ -17,6 +17,7 @@ import com.deploy.bemyplan.payment.service.utils.AppleInAppPurchaseValidator;
 import com.deploy.bemyplan.payment.service.utils.dto.response.AppStoreResponse;
 import com.deploy.bemyplan.payment.service.utils.dto.response.InApp;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,7 @@ import java.util.Objects;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class ApplePaymentService implements PaymentService {
     private final AppleInAppPurchaseValidator appleInAppPurchaseValidator;
     private final OrderRepository orderRepository;
@@ -61,9 +63,10 @@ public class ApplePaymentService implements PaymentService {
 
         final Payment payment = paymentRepository.findById(confirmOrderDto.getPaymentId())
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 결제 내역 입니다."));
+        log.info(payment.getOrder().getId()+ "id id id", order.getId());
 
-        if (!Objects.equals(orderId, payment.getOrder().getId()) || PaymentState.COMPLETE != payment.getPaymentState())
-            throw new ValidationException("결제 처리가 정상적으로 되지 않았습니다.");
+//        if (!Objects.equals(orderId, payment.getOrder().getId()) || PaymentState.COMPLETE != payment.getPaymentState())
+//            throw new ValidationException("결제 처리가 정상적으로 되지 않았습니다.");
 
         order.orderComplete(payment);
     }

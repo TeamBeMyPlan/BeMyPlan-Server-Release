@@ -27,7 +27,6 @@ class ProductStep2 extends Component {
 
     state = {
         openPostCode: false,
-        selectedAddress: false,
         selectedNextSpot: false,
         openNextSpots: false,
 
@@ -70,7 +69,6 @@ class ProductStep2 extends Component {
             address: data.address,
             longitude: response.data.longitude,
             latitude: response.data.latitude,
-            selectedAddress: true
         })
     }
 
@@ -93,7 +91,6 @@ class ProductStep2 extends Component {
         
         this.setState({
             openPostCode: false,
-            selectedAddress: false,
             selectedNextSpot: false,
             openNextSpots: false,
             name: '',
@@ -104,7 +101,6 @@ class ProductStep2 extends Component {
             longitude: 0,
             latitude: 0,
             savedImages: [],
-            date: 0,
             nextSpotName: '',
             nextSpotSpentTime: 0,
             nextSpotVehicle: 'CAR',
@@ -169,6 +165,8 @@ class ProductStep2 extends Component {
     handleType = (e) => { this.setState({ type: e.target.value }) }
     handleNextSpotSpentTime = (e) => { this.setState({ nextSpotSpentTime: Number(e.target.value) }) }
     handleNextSpotVehicle = (e) => { this.setState({ nextSpotVehicle: e.target.value }) }
+    handleLongitude = (e) => { this.setState({ longitude: Number(e.target.value) }) }
+    handleLatitude = (e) => { this.setState({ latitude: Number(e.target.value) }) }
 
     saveAndNext = () => {
         const { nextPage, update } = this.props;
@@ -186,7 +184,6 @@ class ProductStep2 extends Component {
             tip,
             date,
             address,
-            selectedAddress,
             longitude,
             latitude,
             spots,
@@ -200,6 +197,8 @@ class ProductStep2 extends Component {
             handleDate,
             handleNextSpotSpentTime,
             handleNextSpotVehicle,
+            handleLongitude,
+            handleLatitude,
             selectAddress,
             fileChangedHandler,
             addItem,
@@ -246,13 +245,12 @@ class ProductStep2 extends Component {
                                 defaultQuery={address} />
                         }
                         {
-                            selectedAddress &&
                             <>
                                 <Inputs msg='경도'>
-                                    <Textbox readOnly={true} hint='여행지 경도' value={longitude} />
+                                    <NumericInput hint='여행지 경도' value={longitude} onChange={handleLongitude}/>
                                 </Inputs>
                                 <Inputs msg='위도'>
-                                    <Textbox readOnly={true} hint='여행지 위도' value={latitude} />
+                                    <NumericInput hint='여행지 위도' value={latitude} onChange={handleLatitude}/>
                                 </Inputs>
                             </>
                         }

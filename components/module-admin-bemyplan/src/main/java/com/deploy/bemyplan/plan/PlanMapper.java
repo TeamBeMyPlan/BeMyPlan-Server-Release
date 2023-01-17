@@ -9,7 +9,7 @@ import com.deploy.bemyplan.domain.plan.TagInfo;
 import com.deploy.bemyplan.image.s3.S3Locator;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
+import java.util.Arrays;
 
 @Component
 class PlanMapper {
@@ -31,8 +31,8 @@ class PlanMapper {
                 planDto.getPrice(),
                 PlanStatus.ACTIVE,
                 RcmndStatus.of(planDto.isRecommend()),
-                Collections.emptyList(),
-                Collections.emptyList()
+                Arrays.asList(planDto.getTags().split(",")),
+                Arrays.asList(planDto.getRecommendTargets().split(","))
         );
     }
 }

@@ -29,7 +29,9 @@ class ProductStep1 extends Component {
         vehicle: 'CAR',
         recommend: false,
         region: 'JEJUALL',
-        price: 0
+        price: 0,
+        tags: '',
+        recommendTargets: '',
     }
 
     async fetchCreators() {
@@ -66,6 +68,10 @@ class ProductStep1 extends Component {
 
     handleRegion = (e) => { this.setState({ region: e.target.value })}
 
+    handleTags = (e) => { this.setState({ tags: e.target.value })}
+
+    handleRecommendTargets = (e) => { this.setState({ recommendTargets: e.target.value })}
+
     fileChangedHandler = async e => {
         const files = e.target.files;
         const formData = new FormData();
@@ -93,7 +99,10 @@ class ProductStep1 extends Component {
             vehicle,
             recommend,
             region,
-            price } = this.state;
+            price,
+            tags,
+            recommendTargets,
+         } = this.state;
         const { nextPage, update } = this.props;
 
         update({
@@ -108,7 +117,9 @@ class ProductStep1 extends Component {
             vehicle,
             recommend,
             price,
-            region
+            region,
+            tags,
+            recommendTargets
         });
 
         nextPage();
@@ -118,12 +129,12 @@ class ProductStep1 extends Component {
         const {
             handleCreatorName, handlePlanTitle, handlePlanDescription,
             handleConept, handlePartner, handlePeriod, handleCost, handleRegion,
-            handleVehicle, handleRecommend, handlePrice, 
+            handleVehicle, handleRecommend, handlePrice, handleTags, handleRecommendTargets,
             fileChangedHandler,
             saveAndNext } = this;
 
         const {
-            creators, planTitle, planDescription, cost, price } = this.state;
+            creators, planTitle, planDescription, cost, price, tags, recommendTargets } = this.state;
 
         const CreatorSelect = creators.map(creator => {
             return {
@@ -222,7 +233,12 @@ class ProductStep1 extends Component {
                             { value: true, label: 'Yes' }
                         ]} onChange={handleRecommend} />
                     </Inputs>
-
+                    <Inputs msg='해쉬태그'>
+                        <Textbox hint='해쉬태그' value={tags} onChange={handleTags} />
+                    </Inputs>
+                    <Inputs msg='이런 분들에게 추천해요'>
+                        <Textbox hint='이런 분들에게 추천해요' value={recommendTargets} onChange={handleRecommendTargets} />
+                    </Inputs>
                 </div>
                 <div className="next-button-wrapper">
                     <Button msg="다음 1/3" onClick={saveAndNext} />

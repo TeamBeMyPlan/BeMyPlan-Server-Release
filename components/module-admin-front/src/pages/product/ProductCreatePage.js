@@ -49,6 +49,8 @@ class ProductCreatePage extends Component {
                 period: step1.period,
                 partner: step1.partner,
                 region: step1.region,
+                tags: step1.tags,
+                recommendTargets: step1.recommendTargets,
             },
             spots: step2.spots,
             previews: step3.previews

@@ -14,7 +14,7 @@ import java.util.Collections;
 @Component
 class PlanMapper {
 
-    Plan toDomain(PlanDto planDto, CreatorDto creator) {
+    Plan toDomain(PlanDto planDto, CreatorDto creator, int totalDays) {
         return Plan.newInstance(
                 creator.getId(),
                 RegionCategory.JEJU,
@@ -26,7 +26,8 @@ class PlanMapper {
                         planDto.getPartner(),
                         planDto.getVehicle()
                         , Money.wons(planDto.getCost()),
-                        planDto.getPeriod()),
+                        planDto.getPeriod(),
+                        totalDays),
                 planDto.getPrice(),
                 PlanStatus.ACTIVE,
                 RcmndStatus.of(planDto.isRecommend()),

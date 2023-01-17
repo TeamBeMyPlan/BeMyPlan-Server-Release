@@ -144,8 +144,14 @@ public class CreatePlanService {
     }
 
     private Plan createNewPlan(CreatePlanRequest request) {
+        final int totalDays = request.getSpots().stream()
+                .mapToInt(SpotDto::getDate)
+                .boxed()
+                .collect(Collectors.toSet())
+                .size();
+
         final PlanDto planDto = request.getPlan();
-        final Plan plan = planMapper.toDomain(planDto, request.getCreator());
+        final Plan plan = planMapper.toDomain(planDto, request.getCreator(), totalDays);
         planRepository.save(plan);
         return plan;
     }

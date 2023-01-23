@@ -123,7 +123,7 @@ jobs:
         with:
           host : ${{secrets.DEV_IP}}
           username: ${{ env.DEV_ID }}
-          key: ${{secrets.DEV_SSH_KEY}}
+          key: ${{secrets.SSH_KEY}}
           port: ${{ env.DEV_PORT }}
           script: |
             sudo date

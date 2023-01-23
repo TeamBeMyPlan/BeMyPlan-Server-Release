@@ -10,8 +10,6 @@ env:
   CONTAINER_NAME: bemyplan-dev-container           # set this to the name of the container in the
   ECS_SERVICE: bemyplan-dev-svc                 # set this to your Amazon ECS service name
   ECS_CLUSTER: bemyplan-dev-cluster # set this to your Amazon ECS cluster name
-  REMOTE_ID : ubuntu 
-  REMOTE_PORT : 22
 
 jobs:
   build-gradle:
@@ -114,17 +112,3 @@ jobs:
           service: ${{ env.ECS_SERVICE }}
           cluster: ${{ env.ECS_CLUSTER }}
           wait-for-service-stability: true
-          
-  set-ec2-configure:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: appleboy/ssh-action@master
-        with:
-          host : ${{secrets.DEV_IP}}
-          username: ${{ env.REMOTE_ID }}
-          key: ${{secrets.SSH_KEY}}
-          port: ${{ env.REMOTE_PORT }}
-          script: |
-            sudo date
-            sudo rm /etc/localtime
-            sudo ln -s /usr/share/zoneinfo/Asia/Seoul /etc/localtime

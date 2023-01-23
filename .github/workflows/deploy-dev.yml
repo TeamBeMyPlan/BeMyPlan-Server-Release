@@ -112,3 +112,18 @@ jobs:
           service: ${{ env.ECS_SERVICE }}
           cluster: ${{ env.ECS_CLUSTER }}
           wait-for-service-stability: true
+          
+  set-ec2-configure:
+    needs: ecs-run
+    runs-on: ubuntu-latest
+    steps:
+      - uses: appleboy/ssh-action@master
+        with:
+          host : ${{secrets.DEV_IP}}
+          username: ${{secrets.DEV_SSH_ID}}
+          key: ${{secrets.DEV_SSH_KEY}}
+          port: ${{secrets.DEV_SSH_PORT}}
+          script: |
+            sudo date
+            sudo rm /etc/localtime
+            sudo ln -s /usr/share/zoneinfo/Asia/Seoul /etc/localtime

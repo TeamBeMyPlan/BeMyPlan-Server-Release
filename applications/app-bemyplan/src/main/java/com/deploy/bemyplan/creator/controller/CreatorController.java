@@ -17,7 +17,7 @@ import java.util.List;
 public class CreatorController {
     private final CreatorService creatorService;
 
-    @ApiOperation("크리에이터 - 크리에이터가 작성한 일정 목록을 조회합니다.")
+    @ApiOperation("[인증] 크리에이터 - 크리에이터가 작성한 일정 목록을 조회합니다.")
     @GetMapping("/plans")
     public List<CreatorPlanResponse> getCreatorPlans(@UserId Long userId) {
         return creatorService.getCreatorPlans(userId);

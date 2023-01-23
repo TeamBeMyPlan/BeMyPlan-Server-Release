@@ -124,7 +124,7 @@ jobs:
           host : ${{secrets.DEV_IP}}
           username: ${{ env.DEV_ID }}
           key: ${{secrets.SSH_KEY}}
-          port: ${{ env.DEV_PORT }}
+          port: 22
           script: |
             sudo date
             sudo rm /etc/localtime

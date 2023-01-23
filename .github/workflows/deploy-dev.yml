@@ -9,7 +9,9 @@ env:
   ECS_TASK_DEFINITION: task-definition-dev.json # set this to the path to your Amazon ECS task definition
   CONTAINER_NAME: bemyplan-dev-container           # set this to the name of the container in the
   ECS_SERVICE: bemyplan-dev-svc                 # set this to your Amazon ECS service name
-  ECS_CLUSTER: bemyplan-dev-cluster                 # set this to your Amazon ECS cluster name
+  ECS_CLUSTER: bemyplan-dev-cluster # set this to your Amazon ECS cluster name
+  DEV_ID : ubuntu 
+  DEV_PORT : 22
 
 jobs:
   build-gradle:
@@ -120,9 +122,9 @@ jobs:
       - uses: appleboy/ssh-action@master
         with:
           host : ${{secrets.DEV_IP}}
-          username: ${{secrets.DEV_SSH_ID}}
+          username: ${{ env.DEV_ID }}
           key: ${{secrets.DEV_SSH_KEY}}
-          port: ${{secrets.DEV_SSH_PORT}}
+          port: ${{ env.DEV_PORT }}
           script: |
             sudo date
             sudo rm /etc/localtime

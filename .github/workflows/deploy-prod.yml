@@ -25,13 +25,13 @@ jobs:
           distribution: 'temurin'
 
       - name: Build with Gradle
-        run: chmod +x ./gradlew && ./gradlew :application-bemyplan:build
+        run: chmod +x ./gradlew && ./gradlew :applications:app-bemyplan:build
 
       - name: Upload jar artifact
         uses: actions/upload-artifact@v1
         with:
           name: app
-          path: application-bemyplan/build/libs
+          path: applications/app-bemyplan/build/libs
 
       - name: Upload dockerfile
         uses: actions/upload-artifact@v1

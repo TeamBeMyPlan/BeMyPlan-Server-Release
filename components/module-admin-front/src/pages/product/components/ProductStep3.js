@@ -46,6 +46,15 @@ class ProductStep3 extends Component {
         })
     }
 
+    removePreview = () => {
+        const { previews } = this.state;
+        previews.pop();
+        
+        this.setState({
+            previews: [...previews]
+        })
+    }
+
     handleDescription = (e, index) => {
         this.setState((state) => {
             const newPreviews = [...state.previews];
@@ -92,6 +101,7 @@ class ProductStep3 extends Component {
     render() {
         const { previews, spotItems } = this.state;
         const { addPreview,
+            removePreview,
             handleDescription,
             handleSpot,
             saveAndNext } = this;
@@ -109,6 +119,9 @@ class ProductStep3 extends Component {
                                 </Inputs>
                                 <Inputs msg='설명'>
                                     <Textbox hint='미리보기 설명' value={preview.description} onChange={(e) => handleDescription(e, index)} />
+                                </Inputs>
+                                <Inputs>
+                                    <Button msg="삭제" onClick={removePreview}/>
                                 </Inputs>
                             </div>
                         ))

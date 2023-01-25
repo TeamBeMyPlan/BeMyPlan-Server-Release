@@ -4,35 +4,35 @@ import com.deploy.bemyplan.domain.plan.Money;
 import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.plan.PlanStatus;
 import com.deploy.bemyplan.domain.plan.RcmndStatus;
-import com.deploy.bemyplan.domain.plan.Region;
 import com.deploy.bemyplan.domain.plan.RegionCategory;
 import com.deploy.bemyplan.domain.plan.TagInfo;
 import com.deploy.bemyplan.image.s3.S3Locator;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
+import java.util.Arrays;
 
 @Component
 class PlanMapper {
-    private static final long TEST_ADMIN_USER_MAGIC_NUMBER = 2L;
 
-    Plan toDomain(PlanDto planDto) {
+    Plan toDomain(PlanDto planDto, CreatorDto creator, int totalDays) {
         return Plan.newInstance(
-                TEST_ADMIN_USER_MAGIC_NUMBER,
+                creator.getId(),
                 RegionCategory.JEJU,
-                Region.JEJUALL,
+                planDto.getRegion(),
                 S3Locator.get(planDto.getThumbnail()),
                 planDto.getTitle(),
                 planDto.getDescription(),
                 new TagInfo(planDto.getConcept(),
                         planDto.getPartner(),
                         planDto.getVehicle()
-                        , Money.wons(planDto.getCost())),
+                        , Money.wons(planDto.getCost()),
+                        planDto.getPeriod(),
+                        totalDays),
                 planDto.getPrice(),
                 PlanStatus.ACTIVE,
                 RcmndStatus.of(planDto.isRecommend()),
-                Collections.emptyList(),
-                Collections.emptyList()
+                Arrays.asList(planDto.getTags().split(",")),
+                Arrays.asList(planDto.getRecommendTargets().split(","))
         );
     }
 }

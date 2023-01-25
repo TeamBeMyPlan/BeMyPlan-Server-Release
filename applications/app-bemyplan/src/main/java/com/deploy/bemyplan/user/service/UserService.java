@@ -38,6 +38,7 @@ public class UserService {
             throw new NotFoundException(String.format("존재하지 않는 유저 (%s) 입니다", userId));
         }
         user.inactive();
+        userRepository.delete(user);
         withdrawalUserRepository.save(WithdrawalUser.newInstance(user, reasonForWithdrawal));
         eventPublisher.publishEvent(new UserDeleteEvent(this, userId));
     }

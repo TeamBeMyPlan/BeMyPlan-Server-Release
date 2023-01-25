@@ -5,16 +5,20 @@ import NumericInput from '../../../components/numeric/NumericInput'
 import Inputs from '../../../components/inputs/Inputs'
 import Button from '../../../components/button/Button'
 import imageApi, { compressionOptions } from '../../../components/imageApi'
+import creatorApi from '../../../components/creatorApi'
 import imageCompression from 'browser-image-compression';
 import './ProductStep.css'
 
 class ProductStep1 extends Component {
-    componentDidMount() {
+    async componentDidMount() {
         this.fileInputRef = createRef();
+
+        await this.fetchCreators();
     }
 
     state = {
-        creator: '크리에이터',
+        creators: [],
+        creatorId: 0,
         planTitle: '여행 일정',
         planDescription: '여행 일정이에요',
         thumbnail: '',
@@ -24,10 +28,23 @@ class ProductStep1 extends Component {
         cost: 0,
         vehicle: 'CAR',
         recommend: false,
-        price: 0
+        region: 'JEJUALL',
+        price: 0,
+        tags: '',
+        recommendTargets: '',
     }
 
-    handleCreatorName = (e) => { this.setState({ creator: e.target.value }) }
+    async fetchCreators() {
+        const creators = await creatorApi.getCreators();
+        this.setState({
+            creators: [...creators.data]
+        })
+    }
+
+    handleCreatorName = (e) => { 
+        this.setState({ 
+            creatorId: e.target.value
+        }) }
 
     handlePlanTitle = (e) => { this.setState({ planTitle: e.target.value }) }
 
@@ -37,7 +54,9 @@ class ProductStep1 extends Component {
 
     handlePartner = (e) => { this.setState({ partner: e.target.value }) }
 
-    handlePeriod = (e) => { this.setState({ period: Number(e.target.value) }) }
+    handlePeriod = (e) => { 
+        this.setState({ period: Number(e.target.value) }) 
+    }
 
     handleCost = (e) => { this.setState({ cost: Number(e.target.value) }) }
 
@@ -47,6 +66,11 @@ class ProductStep1 extends Component {
 
     handlePrice = (e) => { this.setState({ price: Number(e.target.value) }) }
 
+    handleRegion = (e) => { this.setState({ region: e.target.value })}
+
+    handleTags = (e) => { this.setState({ tags: e.target.value })}
+
+    handleRecommendTargets = (e) => { this.setState({ recommendTargets: e.target.value })}
 
     fileChangedHandler = async e => {
         const files = e.target.files;
@@ -64,7 +88,7 @@ class ProductStep1 extends Component {
     }
 
     saveAndNext = () => {
-        const { creator,
+        const { creatorId,
             planTitle,
             planDescription,
             thumbnail,
@@ -74,11 +98,15 @@ class ProductStep1 extends Component {
             cost,
             vehicle,
             recommend,
-            price } = this.state;
+            region,
+            price,
+            tags,
+            recommendTargets,
+         } = this.state;
         const { nextPage, update } = this.props;
 
         update({
-            creator,
+            creatorId,
             planTitle,
             planDescription,
             concept,
@@ -88,7 +116,10 @@ class ProductStep1 extends Component {
             cost,
             vehicle,
             recommend,
-            price
+            price,
+            region,
+            tags,
+            recommendTargets
         });
 
         nextPage();
@@ -97,21 +128,28 @@ class ProductStep1 extends Component {
     render() {
         const {
             handleCreatorName, handlePlanTitle, handlePlanDescription,
-            handleConept, handlePartner, handlePeriod, handleCost,
-            handleVehicle, handleRecommend, handlePrice,
+            handleConept, handlePartner, handlePeriod, handleCost, handleRegion,
+            handleVehicle, handleRecommend, handlePrice, handleTags, handleRecommendTargets,
             fileChangedHandler,
             saveAndNext } = this;
 
         const {
-            creator, planTitle, planDescription,
-            period, cost, price } = this.state;
+            creators, planTitle, planDescription, cost, price, tags, recommendTargets } = this.state;
+
+        const CreatorSelect = creators.map(creator => {
+            return {
+                value: creator.id, 
+                label: creator.name
+            }
+        });
 
         return (
             <>
                 <div>
                     <h3>크리에이터 정보</h3>
                     <Inputs msg='닉네임'>
-                        <Textbox hint='크리에이터 닉네임' value={creator} onChange={handleCreatorName} />
+                        <ComboBox items={CreatorSelect} onChange={handleCreatorName}/>
+                        {/* <Textbox hint='크리에이터 닉네임' value={creator} onChange={handleCreatorName} /> */}
                     </Inputs>
                     <Inputs msg='여행일정제목'>
                         <Textbox hint='여행 일정 제목' value={planTitle} onChange={handlePlanTitle} />
@@ -137,6 +175,19 @@ class ProductStep1 extends Component {
                             { value: 'CAMPING', label: '캠핑' }
                         ]} onChange={handleConept} />
                     </Inputs>
+                    <Inputs msg='지역'>
+                        <ComboBox items={[
+                            { value: 'JEJU', label: '제주' },
+                        ]}/>
+                    </Inputs>
+                    <Inputs msg='지역 상세'>
+                        <ComboBox items={[
+                            { value: 'JEJUALL', label: '제주 전체' },
+                            { value: 'JEJUWEST', label: '제주 서부' },
+                            { value: 'JEJUEAST', label: '제주 동부' },
+                            { value: 'JEJUCITY', label: '제주 시내' },
+                        ]} onChange={handleRegion} />
+                    </Inputs>
                     <Inputs msg='여행파트너'>
                         <ComboBox items={[
                             { value: 'FAMILY', label: '가족' },
@@ -158,7 +209,20 @@ class ProductStep1 extends Component {
                         ]} onChange={handleVehicle} />
                     </Inputs>
                     <Inputs msg='여행시기'>
-                        <Textbox hint='언제가지' value={period} onChange={handlePeriod} />
+                        <ComboBox items={[
+                            { value: '1', label: '1월' },
+                            { value: '2', label: '2월' },
+                            { value: '3', label: '3월' },
+                            { value: '4', label: '4월' },
+                            { value: '5', label: '5월' },
+                            { value: '6', label: '6월' },
+                            { value: '7', label: '7월' },
+                            { value: '8', label: '8월' },
+                            { value: '9', label: '9월' },
+                            { value: '10', label: '10월' },
+                            { value: '11', label: '11월' },
+                            { value: '12', label: '12월' },
+                        ]} onChange={handlePeriod}/>
                     </Inputs>
                     <Inputs msg='가격'>
                         <NumericInput hint='1개' value={price} onChange={handlePrice} />
@@ -169,7 +233,12 @@ class ProductStep1 extends Component {
                             { value: true, label: 'Yes' }
                         ]} onChange={handleRecommend} />
                     </Inputs>
-
+                    <Inputs msg='해쉬태그'>
+                        <Textbox hint='해쉬태그' value={tags} onChange={handleTags} />
+                    </Inputs>
+                    <Inputs msg='이런 분들에게 추천해요'>
+                        <Textbox hint='이런 분들에게 추천해요' value={recommendTargets} onChange={handleRecommendTargets} />
+                    </Inputs>
                 </div>
                 <div className="next-button-wrapper">
                     <Button msg="다음 1/3" onClick={saveAndNext} />

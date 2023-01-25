@@ -40,10 +40,12 @@ public class TagInfo {
     private int totalDay;
 
     @Builder(builderMethodName = "testBuilder", access = AccessLevel.PUBLIC)
-    public TagInfo(TravelTheme theme, TravelPartner partner, TravelMobility mobility, Money budget) {
+    public TagInfo(TravelTheme theme, TravelPartner partner, TravelMobility mobility, Money budget, final int month, final int totalDay) {
         this.theme = theme;
         this.partner = partner;
         this.mobility = mobility;
         this.budget = budget;
+        this.month = month;
+        this.totalDay = totalDay;
     }
 }

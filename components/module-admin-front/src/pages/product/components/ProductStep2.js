@@ -27,7 +27,6 @@ class ProductStep2 extends Component {
 
     state = {
         openPostCode: false,
-        selectedAddress: false,
         selectedNextSpot: false,
         openNextSpots: false,
 
@@ -64,13 +63,12 @@ class ProductStep2 extends Component {
     selectAddress = async (data) => {
         this.togglePost();
 
-        const { longitude, latitude } = await locationApi.getLocation(data.address);
+        const response = await locationApi.getLocation(data.address);
 
         this.setState({
             address: data.address,
-            longitude: longitude,
-            latitude: latitude,
-            selectedAddress: true
+            longitude: response.data.longitude,
+            latitude: response.data.latitude,
         })
     }
 
@@ -93,7 +91,6 @@ class ProductStep2 extends Component {
         
         this.setState({
             openPostCode: false,
-            selectedAddress: false,
             selectedNextSpot: false,
             openNextSpots: false,
             name: '',
@@ -104,7 +101,6 @@ class ProductStep2 extends Component {
             longitude: 0,
             latitude: 0,
             savedImages: [],
-            date: 0,
             nextSpotName: '',
             nextSpotSpentTime: 0,
             nextSpotVehicle: 'CAR',
@@ -135,11 +131,9 @@ class ProductStep2 extends Component {
             latitude,
             savedImages,
             date,
-            nextSpot,
             nextSpotSpentTime,
             nextSpotVehicle,
             spots,
-            selectedNextSpot
         } = this.state;
 
         const newSpot = {
@@ -153,17 +147,8 @@ class ProductStep2 extends Component {
             latitude,
             savedImages,
             date,
-            nextSpot: {},
-            hasNext: false
-        }
-
-        if (selectedNextSpot) {
-            newSpot.hasNext = true;
-            newSpot.nextSpot = {
-                id: nextSpot.id,
-                spentTime: nextSpotSpentTime,
-                vehicle: nextSpotVehicle,
-            }
+            spentTime: nextSpotSpentTime,
+            vehicle: nextSpotVehicle,
         }
 
         this.setState({
@@ -180,6 +165,8 @@ class ProductStep2 extends Component {
     handleType = (e) => { this.setState({ type: e.target.value }) }
     handleNextSpotSpentTime = (e) => { this.setState({ nextSpotSpentTime: Number(e.target.value) }) }
     handleNextSpotVehicle = (e) => { this.setState({ nextSpotVehicle: e.target.value }) }
+    handleLongitude = (e) => { this.setState({ longitude: Number(e.target.value) }) }
+    handleLatitude = (e) => { this.setState({ latitude: Number(e.target.value) }) }
 
     saveAndNext = () => {
         const { nextPage, update } = this.props;
@@ -197,26 +184,23 @@ class ProductStep2 extends Component {
             tip,
             date,
             address,
-            selectedAddress,
             longitude,
             latitude,
-            openNextSpots,
-            selectedNextSpot,
             spots,
-            nextSpotName,
             nextSpotSpentTime
         } = this.state;
         const {
             handleName,
             handleReview,
             handleTip,
+            handleType,
             handleDate,
             handleNextSpotSpentTime,
             handleNextSpotVehicle,
+            handleLongitude,
+            handleLatitude,
             selectAddress,
             fileChangedHandler,
-            toggleNextSpot,
-            selectNextSpot,
             addItem,
             saveAndNext
         } = this;
@@ -237,6 +221,7 @@ class ProductStep2 extends Component {
                     <Inputs msg='유형'>
                         <ComboBox items={[
                             { value: 'TOURSPOT', label: '관광지' },
+                            { value: 'CAFE', label: '카페' },
                             { value: 'RESTAURANT', label: '식당' },
                             { value: 'MUSEUM', label: '박물관' },
                             { value: 'BEACH', label: '바다' },
@@ -248,7 +233,7 @@ class ProductStep2 extends Component {
                             { value: 'BOOKSTORE', label: '서점' },
                             { value: 'MARKET', label: '시장' },
                             { value: 'ARTMUSEUM', label: '미술관' }
-                        ]} onChange={handleNextSpotVehicle} />
+                        ]} onChange={handleType} />
                     </Inputs>
                     <Inputs msg='여행지 주소'>
                         <Textbox readOnly={true} hint='여행지 주소' value={address} />
@@ -260,13 +245,12 @@ class ProductStep2 extends Component {
                                 defaultQuery={address} />
                         }
                         {
-                            selectedAddress &&
                             <>
                                 <Inputs msg='경도'>
-                                    <Textbox readOnly={true} hint='여행지 경도' value={longitude} />
+                                    <NumericInput hint='여행지 경도' value={longitude} onChange={handleLongitude}/>
                                 </Inputs>
                                 <Inputs msg='위도'>
-                                    <Textbox readOnly={true} hint='여행지 위도' value={latitude} />
+                                    <NumericInput hint='여행지 위도' value={latitude} onChange={handleLatitude}/>
                                 </Inputs>
                             </>
                         }
@@ -277,53 +261,21 @@ class ProductStep2 extends Component {
                             name="files"
                             onChange={fileChangedHandler} />
                     </Inputs>
-                    <Inputs msg='해당 여행지 일정 정보'>
+                    <Inputs msg='해당 여행지 일정 일차'>
                         <NumericInput hint='몇 일차 여행지' value={date} onChange={handleDate} />
                     </Inputs>
-                    <Inputs msg='연결할 다음 여행지 (Optional)'>
-                        <Textbox readOnly={true} hint='다음 여행지' value={nextSpotName} />
-                        <Button msg="선택" onClick={toggleNextSpot} />
-                        {
-                            openNextSpots &&
-                            <TableContainer>
-                                <TableHeader>
-                                    <TableRow>
-                                        <TableCell>ID</TableCell>
-                                        <TableCell>이름</TableCell>
-                                        <TableCell>주소</TableCell>
-                                        <TableCell>선택</TableCell>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {
-                                        spots.map((spot, index) => (
-                                            <TableRow key={index}>
-                                                <TableCell>{spot.id}</TableCell>
-                                                <TableCell>{spot.name}</TableCell>
-                                                <TableCell>{spot.address}</TableCell>
-                                                <TableCell><Button onClick={() => selectNextSpot(index)} msg="선택" /></TableCell>
-                                            </TableRow>
-                                        ))
-                                    }
-                                </TableBody>
-                            </TableContainer>
-                        }
-                        {
-                            selectedNextSpot &&
-                            <>
-                                <Inputs msg='소요시간(분)'>
-                                    <NumericInput hint='다음 여행지까지 이동시간 (분)' value={nextSpotSpentTime} onChange={handleNextSpotSpentTime} />
-                                </Inputs>
-                                <Inputs msg='이동수단'>
-                                    <ComboBox items={[
-                                        { value: 'CAR', label: '승용차' },
-                                        { value: 'PUBLIC', label: '대중교통' },
-                                        { value: 'WALK', label: '도보' },
-                                        { value: 'BICYCLE', label: '자전거' }
-                                    ]} onChange={handleNextSpotVehicle} />
-                                </Inputs>
-                            </>
-                        }
+                    <Inputs msg='다음 여행지까지'>
+                        <Inputs msg='소요시간(분)'>
+                            <NumericInput hint='다음 여행지까지 이동시간 (분)' value={nextSpotSpentTime} onChange={handleNextSpotSpentTime} />
+                            <Inputs msg='이동수단'>
+                                <ComboBox items={[
+                                    { value: 'CAR', label: '승용차' },
+                                    { value: 'PUBLIC', label: '대중교통' },
+                                    { value: 'WALK', label: '도보' },
+                                    { value: 'BICYCLE', label: '자전거' }
+                                ]} onChange={handleNextSpotVehicle} />
+                            </Inputs>
+                        </Inputs>
                     </Inputs>
                     <div className="next-button-wrapper">
                         <Button msg="추가" onClick={addItem} />
@@ -351,7 +303,7 @@ class ProductStep2 extends Component {
                                             <TableCell>{spot.address}</TableCell>
                                             <TableCell>{spot.date}</TableCell>
                                             {
-                                               spot.hasNext && <TableCell>다음 여행지</TableCell>
+                                               spot.hasNext && <TableCell>{spot.nextSpot.id}</TableCell>
                                             }
                                         </TableRow>
                                     ))

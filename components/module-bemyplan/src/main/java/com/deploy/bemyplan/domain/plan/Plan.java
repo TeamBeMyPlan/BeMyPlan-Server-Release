@@ -83,11 +83,6 @@ public class Plan extends AuditingTimeEntity {
     @OneToMany(mappedBy = "plan", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<DailySchedule> schedules = new ArrayList<>();
 
-    private Plan(final Long creatorId, final RegionCategory regionCategory, final Region region, final String thumbnailUrl, final String title, final String description, final TagInfo tagInfo, final int orderCnt, final int viewCnt, final int price, final PlanStatus status, final RcmndStatus rcmndStatus, final List<String> hashtags, final List<String> recommendTargets) {
-        this(creatorId, regionCategory, region, thumbnailUrl, title, description, tagInfo, orderCnt, viewCnt, price, status, rcmndStatus,
-                hashtags, recommendTargets, Collections.emptyList());
-    }
-
     private Plan(final Long creatorId, final RegionCategory regionCategory, final Region region, final String thumbnailUrl,
                  final String title, final String description, final TagInfo tagInfo,
                  final int orderCnt, final int viewCnt, final int price,
@@ -111,21 +106,11 @@ public class Plan extends AuditingTimeEntity {
         this.schedules.addAll(schedules);
     }
 
-    public static Plan newInstance(Long userId, RegionCategory regionCategory, Region region, String thumbnailUrl,
+    public static Plan newInstance(Long creatorId, RegionCategory regionCategory, Region region, String thumbnailUrl,
                                    String title, String description, TagInfo tagInfo,
                                    int price, PlanStatus status, RcmndStatus rcmndStatus,
                                    List<String> hashtags, List<String> recommendTargets) {
-        return new Plan(userId, regionCategory, region, thumbnailUrl, title, description, tagInfo, 0, 0, price, status, rcmndStatus, hashtags, recommendTargets);
-    }
-
-    public static Plan newInstance(Long userId, RegionCategory regionCategory, Region region, String thumbnailUrl,
-                                   String title, String description, TagInfo tagInfo,
-                                   int price, PlanStatus status, RcmndStatus rcmndStatus,
-                                   List<String> hashtags, List<String> recommendTargets,
-                                   List<DailySchedule> schedules) {
-        return new Plan(userId, regionCategory, region, thumbnailUrl, title, description, tagInfo, 0, 0, price, status, rcmndStatus,
-                hashtags, recommendTargets,
-                schedules);
+        return new Plan(creatorId, regionCategory, region, thumbnailUrl, title, description, tagInfo, 0, 0, price, status, rcmndStatus, hashtags, recommendTargets, Collections.emptyList());
     }
 
     public void updateOrderCnt() {

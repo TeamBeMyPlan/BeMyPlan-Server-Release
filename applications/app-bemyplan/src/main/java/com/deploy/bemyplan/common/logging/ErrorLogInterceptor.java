@@ -39,6 +39,6 @@ public class ErrorLogInterceptor implements HandlerInterceptor {
     }
 
     private boolean isClientError(int status) {
-        return status >= 400 && status < 500;
+        return status != 404 && status >= 400 && status < 500;
     }
 }

@@ -10,7 +10,7 @@ public class LocationService {
 
     public Location getLocation(final String query) {
         final KakaoLocationModel locationModel = kakaoClient.getLocation(
-                "KakaoAK 709f94b5966f382d201a09c119ccc325",
+                "KakaoAK bf5114bc0752d42656ad0d7c29762799",
                 query);
 
         return locationModel.getLocation();

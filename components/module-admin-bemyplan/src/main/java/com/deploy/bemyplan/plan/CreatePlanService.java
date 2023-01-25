@@ -14,6 +14,8 @@ import com.deploy.bemyplan.domain.plan.SpotImage;
 import com.deploy.bemyplan.domain.plan.SpotMoveInfo;
 import com.deploy.bemyplan.domain.plan.SpotMoveInfoRepository;
 import com.deploy.bemyplan.domain.plan.SpotRepository;
+import com.deploy.bemyplan.domain.user.Creator;
+import com.deploy.bemyplan.domain.user.CreatorRepository;
 import com.deploy.bemyplan.image.s3.S3Locator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,8 +23,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.groupingBy;
 
 @RequiredArgsConstructor
 @Service
@@ -33,6 +38,8 @@ public class CreatePlanService {
     private final PreviewAdapter previewAdapter;
     private final PlanRepository planRepository;
     private final PlanMapper planMapper;
+
+    private final CreatorRepository creatorRepository;
 
     @Transactional
     public void createPlan(CreatePlanRequest request) {
@@ -49,6 +56,10 @@ public class CreatePlanService {
         createPreviews(previews, plan, spots);
     }
 
+    public List<Creator> getCreators() {
+        return creatorRepository.findAll();
+    }
+
     private void createPreviews(List<PreviewDto> previewDtos, Plan plan, List<Spot> spots) {
         List<Preview> previews = previewDtos.stream()
                 .map(preview -> Preview.newInstance(plan, List.of(S3Locator.get(preview.getImage())),
@@ -59,9 +70,9 @@ public class CreatePlanService {
 
         List<PreviewContent> legacyPreviews = new ArrayList<>();
         previewDtos.forEach(preview -> {
-                    legacyPreviews.add(new PreviewContent(plan, JsonValueType.IMAGE, S3Locator.get(preview.getImage())));
-                    legacyPreviews.add(new PreviewContent(plan, JsonValueType.TEXT, preview.getDescription()));
-                });
+            legacyPreviews.add(new PreviewContent(plan, JsonValueType.IMAGE, S3Locator.get(preview.getImage())));
+            legacyPreviews.add(new PreviewContent(plan, JsonValueType.TEXT, preview.getDescription()));
+        });
 
         previewAdapter.saveAll(previews);
         previewAdapter.saveLegacyAll(legacyPreviews);
@@ -69,14 +80,22 @@ public class CreatePlanService {
 
     private void createMoveInfoBySchedules(List<SpotDto> spotDtos, List<DailySchedule> dailySchedules, List<Spot> spots) {
         final List<SpotMoveInfo> moveInfos = new ArrayList<>();
-        for (int i = 0; i < spotDtos.size(); i++) {
-            final SpotDto spotDto = spotDtos.get(i);
 
-            if (spotDto.hasNext()) {
-                final SpotDto.NextSpot nextSpot = spotDto.getNextSpot();
+        final Map<Integer, List<SpotDto>> spotsPerDate = spotDtos.stream().collect(groupingBy((SpotDto::getDate)));
+        for (Integer date : spotsPerDate.keySet()) {
+            List<SpotDto> dateSpots = spotsPerDate.get(date);
+
+            for (int i = 0; i < dateSpots.size(); i++) {
+                if (i == dateSpots.size() - 1) {
+                    break;
+                }
+
+                final SpotDto spotDto = dateSpots.get(i);
+
                 final Spot current = spots.get(spotDto.getId());
-                final Spot next = spots.get(nextSpot.getId());
-                final SpotMoveInfo moveInfo = new SpotMoveInfo(current.getId(), next.getId(), nextSpot.getVehicle(), nextSpot.getSpentTime(),
+                final Spot next = spots.get(dateSpots.get(i + 1).getId());
+
+                final SpotMoveInfo moveInfo = new SpotMoveInfo(current.getId(), next.getId(), spotDto.getVehicle(), spotDto.getSpentTime(),
                         getSchedule(dailySchedules, spotDto.getDate()));
                 moveInfos.add(moveInfo);
             }
@@ -125,8 +144,14 @@ public class CreatePlanService {
     }
 
     private Plan createNewPlan(CreatePlanRequest request) {
+        final int totalDays = request.getSpots().stream()
+                .mapToInt(SpotDto::getDate)
+                .boxed()
+                .collect(Collectors.toSet())
+                .size();
+
         final PlanDto planDto = request.getPlan();
-        final Plan plan = planMapper.toDomain(planDto);
+        final Plan plan = planMapper.toDomain(planDto, request.getCreator(), totalDays);
         planRepository.save(plan);
         return plan;
     }

@@ -77,7 +77,7 @@ public class ApplePaymentService implements PaymentService {
     }
 
     private Payment findOrCreatePayment(final Order order, final String transactionId, final PaymentState paymentState) {
-        return paymentRepository.findByTransactionId(transactionId)
+        return paymentRepository.findByOrderId(order.getId())
                 .orElseGet(() -> Payment.of(order, transactionId, paymentState));
     }
 

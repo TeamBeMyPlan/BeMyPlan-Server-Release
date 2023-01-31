@@ -14,6 +14,7 @@ import java.util.List;
 public class AdminPlanController {
 
     private final CreatePlanService createPlanService;
+    private final InquiryPlanService inquiryPlanService;
 
     @PostMapping("/api/v1/plan")
     public void createPlan(@RequestBody CreatePlanRequest request) {
@@ -23,5 +24,10 @@ public class AdminPlanController {
     @GetMapping("/api/v1/creator")
     public List<Creator> getCreator() {
         return createPlanService.getCreators();
+    }
+
+    @GetMapping("/api/plans")
+    public List<PlanDto> getPlans() {
+        return inquiryPlanService.getPlans();
     }
 }

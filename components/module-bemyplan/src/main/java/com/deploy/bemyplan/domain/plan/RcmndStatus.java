@@ -7,4 +7,8 @@ public enum RcmndStatus {
     public static RcmndStatus of(boolean recommend) {
         return recommend ? RECOMMENDED : NONE;
     }
+
+    public boolean isRecommend() {
+        return this == RECOMMENDED;
+    }
 }

@@ -5,6 +5,11 @@ const planApi = {
         const result = await api.post('api/v1/plan', data);
 
         return result;
+    },
+    list: async () => {
+        const result = await api.get('api/plans');
+
+        return result;
     }
 }
 

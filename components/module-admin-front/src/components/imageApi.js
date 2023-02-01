@@ -9,8 +9,7 @@ const imageApi = {
 }
 
 export const compressionOptions = {
-    maxSizeMB: 2,
-    maxWidthOrHeight: 512
+    maxSizeMB: 5,
 }
 
 export default imageApi;

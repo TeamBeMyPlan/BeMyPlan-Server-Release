@@ -207,7 +207,8 @@ class ProductCreatePage extends Component {
 
         if (page === 2) {
             return (
-                <ProductStep3 update={this.updateStep3} nextPage={this.nextPage}/>
+                <ProductStep3 nextPage={this.nextPage} 
+                    spots={spots} update={this.updateStep3} />
             )
         }
 

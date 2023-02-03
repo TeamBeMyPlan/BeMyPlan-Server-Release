@@ -12,7 +12,6 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class SpotDto {
     private int id;
-    private String address;
     private SpotCategoryType type;
     private int date;
     private double latitude;

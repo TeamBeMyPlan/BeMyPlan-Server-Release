@@ -14,22 +14,13 @@ public class CreatorInfoResponse {
     private String nickname;
     private String description;
 
-    public CreatorInfoResponse(Long userId, String nickname, String description) {
+    private CreatorInfoResponse(Long userId, String nickname, String description) {
         this.userId = userId;
         this.nickname = nickname;
         this.description = description;
     }
 
-    public static CreatorInfoResponse of(Long userId, String nickname, String description) {
-        CreatorInfoResponse response = new CreatorInfoResponse(
-                userId,
-                nickname,
-                description
-        );
-        return response;
-    }
-
     public static CreatorInfoResponse of(Creator creator) {
-        return of(creator.getId(), creator.getName(), creator.getDescription());
+        return new CreatorInfoResponse(creator.getId(), creator.getName(), creator.getDescription());
     }
 }

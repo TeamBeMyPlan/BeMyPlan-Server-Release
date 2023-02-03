@@ -26,9 +26,9 @@ class ProductStep2 extends Component {
     }
 
     state = {
+        editable: false,
+        editSpotSeq: 0,
         openPostCode: false,
-        selectedNextSpot: false,
-        openNextSpots: false,
 
         name: '',
         type: 'TOURSPOT',
@@ -39,7 +39,6 @@ class ProductStep2 extends Component {
         latitude: 0,
         savedImages: [],
         date: 0,
-        spots: [],
         nextSpotName: '',
         nextSpotSpentTime: 0,
         nextSpotVehicle: 'CAR',
@@ -50,13 +49,6 @@ class ProductStep2 extends Component {
         const { openPostCode } = this.state;
         this.setState({
             openPostCode: !openPostCode
-        })
-    }
-
-    toggleNextSpot = () => {
-        const { openNextSpots } = this.state;
-        this.setState({
-            openNextSpots: !openNextSpots
         })
     }
 
@@ -90,9 +82,9 @@ class ProductStep2 extends Component {
         this.fileInputRef.current.value = null;
         
         this.setState({
+            editable: false,
+            editSpotSeq: 0,
             openPostCode: false,
-            selectedNextSpot: false,
-            openNextSpots: false,
             name: '',
             type: 'TOURSPOT',
             review: '',
@@ -108,19 +100,42 @@ class ProductStep2 extends Component {
         });
     }
 
-    selectNextSpot = (index) => {
-        const { spots } = this.state;
+    editSpot = () => {
+        const {
+            editSpotSeq,
+            name,
+            review,
+            tip,
+            address,
+            type,
+            longitude,
+            latitude,
+            savedImages,
+            date,
+            nextSpotSpentTime,
+            nextSpotVehicle,
+        } = this.state;
 
-        this.setState({
-            nextSpot: spots[index],
-            nextSpotName: spots[index].name,
-            selectedNextSpot: true
-        });
+        const newSpot = this.props.spots[editSpotSeq];
+        newSpot.name = name;
+        newSpot.review = review;
+        newSpot.tip = tip;
+        newSpot.type = type;
+        newSpot.address = address;
+        newSpot.longitude = longitude;
+        newSpot.latitude = latitude;
+        newSpot.savedImages = savedImages;
+        newSpot.date = date;
+        newSpot.spentTime = nextSpotSpentTime;
+        newSpot.vehicle = nextSpotVehicle;
 
-        this.toggleNextSpot();
+        const updatedSpots = [...this.props.spots];
+        this.props.onChangeSpots(updatedSpots);
+
+        this.clear();
     }
 
-    addItem = () => {
+    addSpot = () => {
         const {
             name,
             review,
@@ -133,11 +148,10 @@ class ProductStep2 extends Component {
             date,
             nextSpotSpentTime,
             nextSpotVehicle,
-            spots,
         } = this.state;
 
         const newSpot = {
-            id: spots.length,
+            seq: this.props.spots.length,
             name,
             review,
             tip,
@@ -151,11 +165,28 @@ class ProductStep2 extends Component {
             vehicle: nextSpotVehicle,
         }
 
-        this.setState({
-            spots: [...spots, newSpot]
-        });
+        const updatedSpots = [...this.props.spots, newSpot];
+        this.props.onChangeSpots(updatedSpots);
 
         this.clear();
+    }
+
+    changeEditableMode = (spot) => {
+        this.setState({
+            editable: true,
+            editSpotSeq: spot.seq,
+            name: spot.name,
+            review: spot.review,
+            tip: spot.tip,
+            type: spot.type,
+            date: spot.date,
+            address: spot.address,
+            longitude: spot.longitude,
+            latitude: spot.latitude,
+            nextSpotSpentTime: spot.spentTime,
+            nextSpotVehicle: spot.vehicle,
+            savedImages: [...spot.savedImages]
+        })
     }
 
     handleName = (e) => { this.setState({ name: e.target.value }) }
@@ -168,26 +199,20 @@ class ProductStep2 extends Component {
     handleLongitude = (e) => { this.setState({ longitude: Number(e.target.value) }) }
     handleLatitude = (e) => { this.setState({ latitude: Number(e.target.value) }) }
 
-    saveAndNext = () => {
-        const { nextPage, update } = this.props;
-        const { spots } = this.state;
-
-        update({spots});
-        nextPage();
-    }
-
     render() {
         const {
+            editable,
             openPostCode,
             name,
             review,
             tip,
+            type,
             date,
             address,
             longitude,
             latitude,
-            spots,
-            nextSpotSpentTime
+            nextSpotSpentTime,
+            nextSpotVehicle
         } = this.state;
         const {
             handleName,
@@ -201,9 +226,14 @@ class ProductStep2 extends Component {
             handleLatitude,
             selectAddress,
             fileChangedHandler,
-            addItem,
-            saveAndNext
+            addSpot,
+            editSpot,
+            changeEditableMode,
         } = this;
+
+        const {
+            nextPage
+        } = this.props;
 
         return (
             <>
@@ -219,7 +249,7 @@ class ProductStep2 extends Component {
                         <Textbox hint='선택 입력' value={tip} onChange={handleTip} />
                     </Inputs>
                     <Inputs msg='유형'>
-                        <ComboBox items={[
+                        <ComboBox selectedValue={type} items={[
                             { value: 'TOURSPOT', label: '관광지' },
                             { value: 'CAFE', label: '카페' },
                             { value: 'RESTAURANT', label: '식당' },
@@ -238,22 +268,15 @@ class ProductStep2 extends Component {
                     <Inputs msg='여행지 주소'>
                         <Textbox readOnly={true} hint='여행지 주소' value={address} />
                         <Button msg="검색" onClick={this.togglePost} />
-                        {
-                            openPostCode &&
-                            <DaumPostcodeEmbed onComplete={selectAddress}
-                                autoClose={false}
-                                defaultQuery={address} />
-                        }
-                        {
-                            <>
-                                <Inputs msg='경도'>
-                                    <NumericInput hint='여행지 경도' value={longitude} onChange={handleLongitude}/>
-                                </Inputs>
-                                <Inputs msg='위도'>
-                                    <NumericInput hint='여행지 위도' value={latitude} onChange={handleLatitude}/>
-                                </Inputs>
-                            </>
-                        }
+                        { openPostCode && <DaumPostcodeEmbed onComplete={selectAddress} autoClose={false} defaultQuery={address} />}
+                        <>
+                            <Inputs msg='경도'>
+                                <NumericInput hint='여행지 경도' value={longitude} onChange={handleLongitude}/>
+                            </Inputs>
+                            <Inputs msg='위도'>
+                                <NumericInput hint='여행지 위도' value={latitude} onChange={handleLatitude}/>
+                            </Inputs>
+                        </>
                     </Inputs>
                     <Inputs msg='여행지 사진'>
                         <input type="file" multiple
@@ -268,7 +291,7 @@ class ProductStep2 extends Component {
                         <Inputs msg='소요시간(분)'>
                             <NumericInput hint='다음 여행지까지 이동시간 (분)' value={nextSpotSpentTime} onChange={handleNextSpotSpentTime} />
                             <Inputs msg='이동수단'>
-                                <ComboBox items={[
+                                <ComboBox selectedValue={nextSpotVehicle} items={[
                                     { value: 'CAR', label: '승용차' },
                                     { value: 'PUBLIC', label: '대중교통' },
                                     { value: 'WALK', label: '도보' },
@@ -278,7 +301,7 @@ class ProductStep2 extends Component {
                         </Inputs>
                     </Inputs>
                     <div className="next-button-wrapper">
-                        <Button msg="추가" onClick={addItem} />
+                        <Button msg={editable ? "수정" : "추가"} onClick={editable ? editSpot : addSpot} />
                     </div>
                 </div>
                 <div>
@@ -287,24 +310,20 @@ class ProductStep2 extends Component {
                         <TableContainer>
                             <TableHeader>
                                 <TableRow>
-                                    <TableCell>ID</TableCell>
                                     <TableCell>이름</TableCell>
                                     <TableCell>주소</TableCell>
                                     <TableCell>일차</TableCell>
-                                    <TableCell>다음 여행지</TableCell>
+                                    <TableCell>선택</TableCell>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
                                 {
-                                    spots.map((spot, index) => (
-                                        <TableRow key={index}>
-                                            <TableCell>{spot.id}</TableCell>
+                                    this.props.spots.map((spot, index) => (
+                                        <TableRow key={index} onClick={() => alert(index)}>
                                             <TableCell>{spot.name}</TableCell>
                                             <TableCell>{spot.address}</TableCell>
                                             <TableCell>{spot.date}</TableCell>
-                                            {
-                                               spot.hasNext && <TableCell>{spot.nextSpot.id}</TableCell>
-                                            }
+                                            <TableCell><Button msg="검색" onClick={() => changeEditableMode(spot)} /></TableCell>
                                         </TableRow>
                                     ))
                                 }
@@ -313,7 +332,7 @@ class ProductStep2 extends Component {
                     </Inputs>
                 </div>
                 <div className="next-button-wrapper">
-                    <Button msg="다음 2/3" onClick={saveAndNext} />
+                    <Button msg="다음 2/3" onClick={nextPage} />
                 </div>
             </>
         );

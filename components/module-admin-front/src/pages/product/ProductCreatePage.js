@@ -11,7 +11,6 @@ import imageApi, { compressionOptions } from '../../components/imageApi'
 class ProductCreatePage extends Component {
     state = {
         page: 0,
-        step2: {},
         step3: {},
 
         creators: [],
@@ -29,6 +28,8 @@ class ProductCreatePage extends Component {
         price: 0,
         tags: '',
         recommendTargets: '',
+
+        spots: [],
     }
 
     async componentDidMount() {
@@ -42,18 +43,13 @@ class ProductCreatePage extends Component {
         })
     }
 
-    updateStep2 = (updatedStep2) => {
-        this.setState({ step2: updatedStep2 })
-    }
-
     updateStep3 = (updatedStep3) => {
         this.setState({ step3: updatedStep3 }, this.saveNewPlan)
     }
 
     saveNewPlan = async () => {
-        const { step2, step3 } = this.state;
+        const { step3 } = this.state;
 
-        console.log(step2);
         console.log(step3);
 
         const {
@@ -71,6 +67,8 @@ class ProductCreatePage extends Component {
             price,
             tags,
             recommendTargets,
+
+            spots,
         } = this.state;
 
         const response = await planApi.create({
@@ -90,9 +88,9 @@ class ProductCreatePage extends Component {
                 region: region,
                 price: price,
                 tags: tags,
-                recommendTargets: recommendTargets,  
+                recommendTargets: recommendTargets,
             },
-            spots: step2.spots,
+            spots: spots,
             previews: step3.previews
         });
 
@@ -146,8 +144,12 @@ class ProductCreatePage extends Component {
         });
     }
 
+    updateSpots = (spots) => {
+        this.setState({ spots: [...spots] });
+    }
+
     getPage = () => {
-        const { page, step2,
+        const { page,
             creators,
             planTitle,
             planDescription,
@@ -155,6 +157,7 @@ class ProductCreatePage extends Component {
             price,
             tags,
             recommendTargets,
+            spots,
         } = this.state;
         const {
             handleCreatorName,
@@ -170,7 +173,8 @@ class ProductCreatePage extends Component {
             handlePrice,
             handleTags,
             handleRecommendTargets,
-            fileChangedHandler
+            fileChangedHandler,
+            updateSpots
         } = this;
 
         if (page === 0) {
@@ -196,13 +200,14 @@ class ProductCreatePage extends Component {
 
         if (page === 1) {
             return (
-                <ProductStep2 update={this.updateStep2} nextPage={this.nextPage} />
+                <ProductStep2 nextPage={this.nextPage}
+                    spots={spots} onChangeSpots={updateSpots} />
             )
         }
 
         if (page === 2) {
             return (
-                <ProductStep3 update={this.updateStep3} nextPage={this.nextPage} step2={step2} />
+                <ProductStep3 update={this.updateStep3} nextPage={this.nextPage}/>
             )
         }
 

@@ -1,9 +1,9 @@
 import './ComboBox.css'
 
-const ComboBox = ({items, onChange}) => {
+const ComboBox = ({items, onChange, selectedValue}) => {
     const comboBoxItems = items.map(
         ({value, label}, index) => (
-            <option value={value} key={index}>{label}</option>
+            <option selected={selectedValue === value} value={value} key={index}>{label}</option>
         )
     )
 

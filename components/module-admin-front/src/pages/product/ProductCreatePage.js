@@ -54,8 +54,9 @@ class ProductCreatePage extends Component {
             spots: step2.spots,
             previews: step3.previews
         });
-
+        
         alert('새로운 플랜 등록 완료!');
+        window.location = '/';
 
         console.log(response);
         console.log(response.data);
@@ -65,7 +66,6 @@ class ProductCreatePage extends Component {
         const { page } = this.state;
 
         if (page >= 2) {
-            window.location = '/';
             this.saveNewPlan();
             return;
         }

@@ -6,6 +6,7 @@ import Home from './pages/home/Home'
 import ProductPage from './pages/product/ProductPage';
 import ProductCreatePage from './pages/product/ProductCreatePage';
 import ProductListPage from './pages/product/ProductListPage';
+import ProductEditPage from './pages/product/ProductEditPage';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path='/products' element={<ProductPage/>}/>
           <Route path='/products/new' element={<ProductCreatePage/>}/>
           <Route path='/products/list' element={<ProductListPage/>}/>
+          <Route path='/products/list/:planId' element={<ProductEditPage/>}/>
         </Routes>
       </div>
     </div>

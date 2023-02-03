@@ -65,7 +65,7 @@ class ProductCreatePage extends Component {
         const { page } = this.state;
 
         if (page >= 2) {
-            // window.location = '/products';
+            window.location = '/';
             this.saveNewPlan();
             return;
         }

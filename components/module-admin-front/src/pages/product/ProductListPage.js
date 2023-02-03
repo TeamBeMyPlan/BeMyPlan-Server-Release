@@ -24,12 +24,24 @@ class ProductListPage extends Component {
         }
     }
 
+    deletePlan = async ({planId, planTitle}) => {
+        if (window.confirm(`[${planTitle}] 해당 일정을 정말 삭제하시겠습니까`)) {
+            console.log('hi');
+            await planApi.delete(planId);
+            window.location = '/';
+        }
+    }
+
     render() {
         const { plans } = this.state;
+        const { deletePlan } = this;
+
         const planList = plans.map(plan => 
-            <Inputs msg={plan.title}>
+            <Inputs key={plan.id} msg={plan.title}>
                 <Button msg="수정" onClick={() => alert('수정')} />
-                <Button primary={false} msg="삭제" onClick={() => alert('삭제')} />
+                <Button primary={false} msg="삭제" onClick={() => deletePlan({
+                    planId: plan.id,
+                    planTitle: plan.title})} />
             </Inputs>
         
         )

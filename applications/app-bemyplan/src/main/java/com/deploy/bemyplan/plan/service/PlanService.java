@@ -13,7 +13,6 @@ import com.deploy.bemyplan.plan.service.dto.response.PlanInfoResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanListResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanPreviewResponseDto;
 import com.deploy.bemyplan.plan.service.dto.response.PlanRandomResponse;
-import com.deploy.bemyplan.user.service.dto.response.CreatorInfoResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -40,14 +39,6 @@ public class PlanService {
         return plans.stream()
                 .map(p -> PlanRandomResponse.of(p.getId(), p.getThumbnailUrl(), p.getTitle(), p.getRegionCategory(), p.getRegion()))
                 .collect(Collectors.toList());
-    }
-
-    public CreatorInfoResponse getCreatorInfo(final Long planId) {
-        final Plan plan = planRepository.findById(planId).orElseThrow(() -> new NotFoundException("존재하지 않는 여행 일정입니다."));
-        final Creator creator = creatorRepository.findById(plan.getCreatorId())
-                .orElseThrow(() -> new NotFoundException("존재하지 않는 크리에이터입니다."));
-
-        return CreatorInfoResponse.of(plan.getCreatorId(), creator.getName(), plan.getDescription());
     }
 
     public PlanPreviewResponseDto getPlanPreview(final Long planId) {

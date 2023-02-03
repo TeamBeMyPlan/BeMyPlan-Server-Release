@@ -5,7 +5,6 @@ import com.deploy.bemyplan.plan.service.PlanService;
 import com.deploy.bemyplan.plan.service.dto.response.PlanListResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanPreviewResponseDto;
 import com.deploy.bemyplan.plan.service.dto.response.PlanRandomResponse;
-import com.deploy.bemyplan.user.service.dto.response.CreatorInfoResponse;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
@@ -29,12 +28,6 @@ public class PlanController {
     @GetMapping("/random")
     public List<PlanRandomResponse> getPlanListByRandom(@NotNull @RequestParam("regionCategory") final RegionCategory regionCategory) {
         return planService.getPlanListByRandom(regionCategory);
-    }
-
-    @ApiOperation("크리에이터 조회 - 크리에이터의 정보를 조회합니다.")
-    @GetMapping("/{planId}/creator")
-    public CreatorInfoResponse getCreatorInfo(@PathVariable final Long planId) {
-        return planService.getCreatorInfo(planId);
     }
 
     @ApiOperation("미리보기 일정 정보를 조회합니다.")

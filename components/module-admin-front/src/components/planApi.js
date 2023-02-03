@@ -15,6 +15,11 @@ const planApi = {
         const result = await api.delete(`api/plans/${id}`);
 
         return result;
+    },
+    get: async (id) => {
+        const result = await api.get(`api/plans/${id}`);
+
+        return result;
     }
 }
 

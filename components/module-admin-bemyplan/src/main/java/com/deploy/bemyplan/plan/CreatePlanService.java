@@ -89,7 +89,7 @@ public class CreatePlanService {
                 .map(spotDto ->
                         new Spot(spotDto.getName(),
                                 spotDto.getType(),
-                                Location.of("건아 여기다", spotDto.getLatitude(), spotDto.getLongitude()),
+                                Location.of(spotDto.getAddress(), spotDto.getLatitude(), spotDto.getLongitude()),
                                 spotDto.getTip(),
                                 spotDto.getReview(),
                                 getSchedule(dailySchedules, spotDto.getDate())))

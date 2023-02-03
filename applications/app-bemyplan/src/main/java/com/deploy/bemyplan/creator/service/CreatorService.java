@@ -26,7 +26,7 @@ public class CreatorService {
         final Creator creator = creatorRepository.findById(plan.getCreatorId())
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 크리에이터입니다."));
 
-        return CreatorInfoResponse.of(plan.getCreatorId(), creator.getName(), creator.getDescription());
+        return CreatorInfoResponse.of(creator);
     }
 
     public List<CreatorPlanResponse> getCreatorPlans(Long userId) {

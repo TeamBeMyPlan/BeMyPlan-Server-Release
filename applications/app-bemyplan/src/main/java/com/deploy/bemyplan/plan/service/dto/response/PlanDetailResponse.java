@@ -22,15 +22,17 @@ public class PlanDetailResponse extends AuditingTimeResponse {
 
     private Long planId;
     private String title;
+    private String description;
 
     private CreatorInfoResponse user;
 
     private List<ScheduleDetailResponse> contents = new ArrayList<>();
 
     @Builder(access = AccessLevel.PRIVATE)
-    private PlanDetailResponse(Long planId, String title, CreatorInfoResponse creator) {
+    private PlanDetailResponse(Long planId, String title, final String description, CreatorInfoResponse creator) {
         this.planId = planId;
         this.title = title;
+        this.description = description;
         this.user = creator;
     }
 
@@ -38,6 +40,7 @@ public class PlanDetailResponse extends AuditingTimeResponse {
         PlanDetailResponse response = new PlanDetailResponse(
                 plan.getId(),
                 plan.getTitle(),
+                plan.getDescription(),
                 CreatorInfoResponse.of(creator)
         );
 

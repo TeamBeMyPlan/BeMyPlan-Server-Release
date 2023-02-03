@@ -8,13 +8,13 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PreviewDto {
-    private int spotId;
+    private int spotSeq;
     private String description;
     private String image;
 
     @Builder(builderMethodName = "testBuilder")
-    PreviewDto(int spotId, String description, String image) {
-        this.spotId = spotId;
+    PreviewDto(int spotSeq, String description, String image) {
+        this.spotSeq = spotSeq;
         this.description = description;
         this.image = image;
     }

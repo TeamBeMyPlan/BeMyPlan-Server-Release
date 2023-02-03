@@ -72,8 +72,8 @@ public class CreatePlanService {
 
                 final SpotDto spotDto = dateSpots.get(i);
 
-                final Spot current = spots.get(spotDto.getId());
-                final Spot next = spots.get(dateSpots.get(i + 1).getId());
+                final Spot current = spots.get(spotDto.getSeq());
+                final Spot next = spots.get(dateSpots.get(i + 1).getSeq());
 
                 final SpotMoveInfo moveInfo = new SpotMoveInfo(current.getId(), next.getId(), spotDto.getVehicle(), spotDto.getSpentTime(),
                         getSchedule(dailySchedules, spotDto.getDate()));

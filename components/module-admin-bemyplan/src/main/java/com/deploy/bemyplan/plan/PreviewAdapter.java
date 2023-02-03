@@ -27,7 +27,7 @@ public class PreviewAdapter {
                 .map(preview -> Preview.newInstance(plan, List.of(S3Locator.get(preview.getImage())),
                         preview.getDescription(),
                         PreviewContentStatus.ACTIVE,
-                        spots.get(preview.getSpotId()).getId()))
+                        spots.get(preview.getSpotSeq()).getId()))
                 .collect(Collectors.toList());
         savePreviews(previews);
 

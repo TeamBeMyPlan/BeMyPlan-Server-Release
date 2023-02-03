@@ -35,6 +35,11 @@ public class AdminPlanController {
         return inquiryPlanService.getPlans();
     }
 
+    @GetMapping("/api/plans/{planId}")
+    public PlanDto getPlan(@PathVariable Long planId) {
+        return inquiryPlanService.getPlan(planId);
+    }
+
     @DeleteMapping("/api/plans/{planId}")
     void deletePlan(@PathVariable Long planId) {
         deletePlanService.deletePlan(planId);

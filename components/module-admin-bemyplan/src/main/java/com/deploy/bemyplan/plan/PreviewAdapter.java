@@ -22,8 +22,8 @@ public class PreviewAdapter {
     private final LegacyPreviewRepository legacyPreviewRepository;
     private final PreviewRepository previewRepository;
 
-    public void saveAll(List<PreviewDto> previewDtos, Plan plan, List<Spot> spots) {
-        List<Preview> previews = previewDtos.stream()
+    public void saveAll(final List<PreviewDto> previewDtos, final Plan plan, final List<Spot> spots) {
+        final List<Preview> previews = previewDtos.stream()
                 .map(preview -> Preview.newInstance(plan, List.of(S3Locator.get(preview.getImage())),
                         preview.getDescription(),
                         PreviewContentStatus.ACTIVE,
@@ -31,7 +31,7 @@ public class PreviewAdapter {
                 .collect(Collectors.toList());
         savePreviews(previews);
 
-        List<PreviewContent> legacyPreviews = new ArrayList<>();
+        final List<PreviewContent> legacyPreviews = new ArrayList<>();
         previewDtos.forEach(preview -> {
             legacyPreviews.add(new PreviewContent(plan, JsonValueType.IMAGE, S3Locator.get(preview.getImage())));
             legacyPreviews.add(new PreviewContent(plan, JsonValueType.TEXT, preview.getDescription()));
@@ -39,12 +39,17 @@ public class PreviewAdapter {
         saveLegacyPreviews(legacyPreviews);
     }
 
-    private void savePreviews(List<Preview> previews) {
+    private void savePreviews(final List<Preview> previews) {
         previewRepository.saveAll(previews);
     }
 
     @Deprecated
-    private void saveLegacyPreviews(List<PreviewContent> legacyPreviews) {
+    private void saveLegacyPreviews(final List<PreviewContent> legacyPreviews) {
         legacyPreviewRepository.saveAll(legacyPreviews);
+    }
+
+    public void deleteByPlanId(final Long planId) {
+        legacyPreviewRepository.deleteByPlanId(planId);
+        previewRepository.deleteByPlanId(planId);
     }
 }

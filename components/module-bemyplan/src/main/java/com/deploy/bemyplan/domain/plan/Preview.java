@@ -29,6 +29,7 @@ public class Preview {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "plan_id", nullable = false)
+
     private Plan plan;
 
     @Column(length = 1000)

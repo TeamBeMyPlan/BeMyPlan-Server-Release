@@ -1,4 +1,4 @@
-.button {
+.button-primary {
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     padding-left: 1rem;
@@ -10,7 +10,21 @@
     cursor: pointer;
     text-align: center;
   }
-  
+ 
+  .button-secondary {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    background: #df542e;
+    border-radius: 3px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+  }
+    
+
   .button:hover {
     background: #3bc9db;
   }

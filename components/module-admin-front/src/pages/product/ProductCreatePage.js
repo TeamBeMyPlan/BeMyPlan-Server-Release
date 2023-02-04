@@ -1,4 +1,4 @@
-import ProductCreateTemplate from './components/ProductCreateTemplate'
+import ProductTemplate from './components/ProductTemplate'
 import { Component } from 'react';
 import ProductStep1 from './components/ProductStep1';
 import ProductStep2 from './components/ProductStep2';
@@ -31,7 +31,6 @@ class ProductCreatePage extends Component {
         console.log(step1);
         console.log(step2);
         console.log(step3);
-        alert('새로운 플랜 등록 완료!');
 
         const response = await planApi.create({
             creator: {
@@ -55,6 +54,8 @@ class ProductCreatePage extends Component {
             spots: step2.spots,
             previews: step3.previews
         });
+
+        alert('새로운 플랜 등록 완료!');
 
         console.log(response);
         console.log(response.data);
@@ -108,11 +109,11 @@ class ProductCreatePage extends Component {
         } = this;
 
         return (
-            <ProductCreateTemplate>
+            <ProductTemplate>
                 {
                     getPage()
                 }
-            </ProductCreateTemplate>
+            </ProductTemplate>
         )
     }
 }

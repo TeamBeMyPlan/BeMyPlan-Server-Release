@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoggingController {
 
     @GetMapping("/health")
-    public String checkHealth() {
-        return "healthy";
+    public ResponseDTO checkHealth() {
+        return ResponseDTO.of(" ٩(๑˃̵ᴗ˂̵)و ✧*.◟(ˊᗨˋ)◞.*✧ (°∀°)b We're be my plan Server!");
     }
 }

@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 public class SpotDetailResponse extends AuditingTimeResponse {
 
     private String name;
+    private String address;
     private double latitude;
     private double longitude;
     private String tip;
@@ -27,8 +28,9 @@ public class SpotDetailResponse extends AuditingTimeResponse {
     private final List<SpotImageResponse> images = new ArrayList<>();
 
     @Builder(access = AccessLevel.PRIVATE)
-    private SpotDetailResponse(String name, double latitude, double longitude, String tip, String review) {
+    private SpotDetailResponse(String name, String address, double latitude, double longitude, String tip, String review) {
         this.name = name;
+        this.address = address;
         this.latitude = latitude;
         this.longitude = longitude;
         this.tip = tip;
@@ -38,6 +40,7 @@ public class SpotDetailResponse extends AuditingTimeResponse {
     public static SpotDetailResponse of(@NotNull Spot spot) {
         SpotDetailResponse response = new SpotDetailResponse(
                 spot.getTitle(),
+                spot.getLocation().getAddress(),
                 spot.getLocation().getLatitude(),
                 spot.getLocation().getLongitude(),
                 spot.getTip(),

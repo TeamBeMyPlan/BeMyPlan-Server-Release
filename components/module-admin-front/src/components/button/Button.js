@@ -1,8 +1,8 @@
 import './Button.css';
 
-const Button = ({msg, onClick}) => {
+const Button = ({msg, onClick, primary=true}) => {
     return (
-        <div className="button" onClick={onClick} >
+        <div className={primary ? "button-primary" : "button-secondary"} onClick={onClick} >
             {msg}
         </div>
     )

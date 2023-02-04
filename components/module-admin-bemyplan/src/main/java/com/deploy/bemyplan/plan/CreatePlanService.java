@@ -2,13 +2,9 @@ package com.deploy.bemyplan.plan;
 
 import com.deploy.bemyplan.domain.plan.DailySchedule;
 import com.deploy.bemyplan.domain.plan.DailyScheduleRepository;
-import com.deploy.bemyplan.domain.plan.JsonValueType;
 import com.deploy.bemyplan.domain.plan.Location;
 import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.plan.PlanRepository;
-import com.deploy.bemyplan.domain.plan.Preview;
-import com.deploy.bemyplan.domain.plan.PreviewContent;
-import com.deploy.bemyplan.domain.plan.PreviewContentStatus;
 import com.deploy.bemyplan.domain.plan.Spot;
 import com.deploy.bemyplan.domain.plan.SpotImage;
 import com.deploy.bemyplan.domain.plan.SpotMoveInfo;
@@ -49,11 +45,9 @@ public class CreatePlanService {
         final List<DailySchedule> dailySchedules = createSchedulesByPlan(plan, spotDtos);
 
         final List<Spot> spots = createSpotsBySchedules(spotDtos, dailySchedules);
-
         createMoveInfoBySchedules(spotDtos, dailySchedules, spots);
 
-        final List<PreviewDto> previews = request.getPreviews();
-        createPreviews(previews, plan, spots);
+        createPreviews(request.getPreviews(), plan, spots);
     }
 
     public List<Creator> getCreators() {
@@ -61,21 +55,7 @@ public class CreatePlanService {
     }
 
     private void createPreviews(List<PreviewDto> previewDtos, Plan plan, List<Spot> spots) {
-        List<Preview> previews = previewDtos.stream()
-                .map(preview -> Preview.newInstance(plan, List.of(S3Locator.get(preview.getImage())),
-                        preview.getDescription(),
-                        PreviewContentStatus.ACTIVE,
-                        spots.get(preview.getSpotId()).getId()))
-                .collect(Collectors.toList());
-
-        List<PreviewContent> legacyPreviews = new ArrayList<>();
-        previewDtos.forEach(preview -> {
-            legacyPreviews.add(new PreviewContent(plan, JsonValueType.IMAGE, S3Locator.get(preview.getImage())));
-            legacyPreviews.add(new PreviewContent(plan, JsonValueType.TEXT, preview.getDescription()));
-        });
-
-        previewAdapter.saveAll(previews);
-        previewAdapter.saveLegacyAll(legacyPreviews);
+        previewAdapter.saveAll(previewDtos, plan, spots);
     }
 
     private void createMoveInfoBySchedules(List<SpotDto> spotDtos, List<DailySchedule> dailySchedules, List<Spot> spots) {
@@ -109,7 +89,7 @@ public class CreatePlanService {
                 .map(spotDto ->
                         new Spot(spotDto.getName(),
                                 spotDto.getType(),
-                                Location.of(spotDto.getLatitude(), spotDto.getLongitude()),
+                                Location.of(spotDto.getAddress(), spotDto.getLatitude(), spotDto.getLongitude()),
                                 spotDto.getTip(),
                                 spotDto.getReview(),
                                 getSchedule(dailySchedules, spotDto.getDate())))

@@ -1,6 +1,6 @@
-import './ProductCreateTemplate.css'
+import './ProductTemplate.css'
 
-const ProductCreateTemplate = ({children}) => {
+const ProductTemplate = ({children}) => {
     return (
         <main className="product-create-template">
             <div className="product-create-wrapper">
@@ -10,4 +10,4 @@ const ProductCreateTemplate = ({children}) => {
     );
 }
 
-export default ProductCreateTemplate;
+export default ProductTemplate;

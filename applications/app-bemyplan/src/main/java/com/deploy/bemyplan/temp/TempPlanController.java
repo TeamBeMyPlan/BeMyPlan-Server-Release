@@ -230,13 +230,13 @@ public class TempPlanController {
                         TempSpotImageResponse.of(1L,
                             "https://bemyplan-deploy.s3.ap-northeast-2.amazonaws.com/%EB%A6%B0%EC%A7%80/1-1+%EB%8F%99%EB%AC%B8%EC%8B%9C%EC%9E%A5/%E1%84%83%E1%85%A9%E1%86%BC%E1%84%86%E1%85%AE%E1%86%AB+12.jpeg"),
                         TempSpotImageResponse.of(2L,
-                            "https://bemyplan-deploy.s3.ap-northeast-2.amazonaws.com/%EB%A6%B0%EC%A7%80/1-1+%EB%8F%99%EB%AC%B8%EC%8B%9C%EC%9E%A5/%E1%84%83%E1%85%A9%E1%86%BC%E1%84%86%E1%85%AE%E1%86%AB+2.jpeg"),
+                            "https://bemyplan-deploy.s3.ap-northeast-2.amazonaws.com/%EB%A6%B0%EC%A7%80/1-1+%EB%8F%99%EB%AC%B8%EC%8B%9C%EC%9E%A5/%E1%84%83%E1%85%A9%E1%86%BC%E1%84%86%E1%85%AE%E1%86%AB%E1%84%89%E1%85%B5%E1%84%8C%E1%85%A1%E1%86%BC+2.jpeg"),
                         TempSpotImageResponse.of(3L,
-                            "https://bemyplan-deploy.s3.ap-northeast-2.amazonaws.com/%EB%A6%B0%EC%A7%80/1-1+%EB%8F%99%EB%AC%B8%EC%8B%9C%EC%9E%A5/%E1%84%83%E1%85%A9%E1%86%BC%E1%84%86%E1%85%AE%E1%86%AB+3.jpeg"),
+                            "https://bemyplan-deploy.s3.ap-northeast-2.amazonaws.com/%EB%A6%B0%EC%A7%80/1-1+%EB%8F%99%EB%AC%B8%EC%8B%9C%EC%9E%A5/%E1%84%83%E1%85%A9%E1%86%BC%E1%84%86%E1%85%AE%E1%86%AB%E1%84%89%E1%85%B5%E1%84%8C%E1%85%A1%E1%86%BC+3.jpeg"),
                         TempSpotImageResponse.of(4L,
-                            "https://bemyplan-deploy.s3.ap-northeast-2.amazonaws.com/%EB%A6%B0%EC%A7%80/1-1+%EB%8F%99%EB%AC%B8%EC%8B%9C%EC%9E%A5/%E1%84%83%E1%85%A9%E1%86%BC%E1%84%86%E1%85%AE%E1%86%AB+4.jpeg"),
+                            "https://bemyplan-deploy.s3.ap-northeast-2.amazonaws.com/%EB%A6%B0%EC%A7%80/1-1+%EB%8F%99%EB%AC%B8%EC%8B%9C%EC%9E%A5/%E1%84%83%E1%85%A9%E1%86%BC%E1%84%86%E1%85%AE%E1%86%AB%E1%84%89%E1%85%B5%E1%84%8C%E1%85%A1%E1%86%BC+4.jpeg"),
                         TempSpotImageResponse.of(5L,
-                            "https://bemyplan-deploy.s3.ap-northeast-2.amazonaws.com/%EB%A6%B0%EC%A7%80/1-1+%EB%8F%99%EB%AC%B8%EC%8B%9C%EC%9E%A5/%E1%84%83%E1%85%A9%E1%86%BC%E1%84%86%E1%85%AE%E1%86%AB+5.jpeg")
+                            "https://bemyplan-deploy.s3.ap-northeast-2.amazonaws.com/%EB%A6%B0%EC%A7%80/1-1+%EB%8F%99%EB%AC%B8%EC%8B%9C%EC%9E%A5/%E1%84%83%E1%85%A9%E1%86%BC%E1%84%86%E1%85%AE%E1%86%AB%E1%84%89%E1%85%B5%E1%84%8C%E1%85%A1%E1%86%BC+5.jpeg")
                     )
                 )
             )

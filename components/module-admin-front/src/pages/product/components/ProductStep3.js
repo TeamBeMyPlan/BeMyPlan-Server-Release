@@ -8,7 +8,6 @@ import './ProductStep.css'
 class ProductStep3 extends Component {
 
     state = {
-        spots: [],
         spotItems: [],
         previews: [
             {
@@ -30,7 +29,6 @@ class ProductStep3 extends Component {
         }))];
 
         this.setState({
-            spots: spots,
             spotItems: comboBoxItems
         });
     }
@@ -73,7 +71,7 @@ class ProductStep3 extends Component {
 
     handleSpot = (e, index) => {
         const spotSeq = Number(e.target.value);
-        const { spots } = this.state;
+        const { spots } = this.props;
         const targetSpot = spots.find(spot => spot.seq === spotSeq);
 
         if (targetSpot === undefined) {
@@ -96,10 +94,10 @@ class ProductStep3 extends Component {
     }
 
     saveAndNext = () => {
-        const { update } = this.props;
+        const { onChangePreviews } = this.props;
         const { previews } = this.state;
-
-        update({ previews });
+        
+        onChangePreviews(previews);
     }
 
     render() {

@@ -31,11 +31,6 @@ class ProductCreatePage extends Component {
 
         spots: [],
         previews: [
-            {
-                spotSeq: -1,
-                image: '',
-                description: ''
-            }
         ]
     }
 
@@ -50,15 +45,7 @@ class ProductCreatePage extends Component {
         })
     }
 
-    updateStep3 = (updatedStep3) => {
-        this.setState({ step3: updatedStep3 }, this.saveNewPlan)
-    }
-
     saveNewPlan = async () => {
-        const { step3 } = this.state;
-
-        console.log(step3);
-
         const {
             creatorId,
             planTitle,
@@ -76,6 +63,7 @@ class ProductCreatePage extends Component {
             recommendTargets,
 
             spots,
+            previews,
         } = this.state;
 
         const response = await planApi.create({
@@ -98,7 +86,7 @@ class ProductCreatePage extends Component {
                 recommendTargets: recommendTargets,
             },
             spots: spots,
-            previews: step3.previews
+            previews: previews,
         });
 
 
@@ -155,10 +143,11 @@ class ProductCreatePage extends Component {
         this.setState({ spots: [...spots] });
     }
 
-    updatePreviews = (previews) => {
+    updatePreviews = (newPreviews) => {
+        console.log(newPreviews);
+        this.setState({ preveiws: [...newPreviews] });
 
-        console.log(previews);
-        this.setState({ preveiws: [...previews] });
+        this.saveNewPlan();
     }
 
     getPage = () => {
@@ -171,7 +160,6 @@ class ProductCreatePage extends Component {
             tags,
             recommendTargets,
             spots,
-            previews,
         } = this.state;
         const {
             handleCreatorName,
@@ -223,7 +211,7 @@ class ProductCreatePage extends Component {
         if (page === 2) {
             return (
                 <ProductStep3 nextPage={this.nextPage}
-                    spots={spots} previews={previews} onChangePreviews={updatePreviews} update={this.updateStep3} />
+                    spots={spots} onChangePreviews={updatePreviews} update={this.updateStep3} />
             )
         }
 

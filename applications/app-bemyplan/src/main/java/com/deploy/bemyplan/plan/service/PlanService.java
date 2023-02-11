@@ -32,9 +32,9 @@ public class PlanService {
     private final PlanRepository planRepository;
     private final CreatorRepository creatorRepository;
 
-    public List<PlanRandomResponse> getPlanListByRandom(final RegionCategory region) {
-        final Pageable RandomTen = PageRequest.of(0, 10);
-        final List<Plan> plans = planRepository.findPlansByRegionAndSize(region, RandomTen);
+    public List<PlanRandomResponse> getPlanListByRandom(final Long planId, final RegionCategory region) {
+        final Pageable size = PageRequest.of(0, 10);
+        final List<Plan> plans = planRepository.findPlansByRegionAndSize(planId, region, size);
         Collections.shuffle(plans);
         return plans.stream()
                 .map(p -> PlanRandomResponse.of(p.getId(), p.getThumbnailUrl(), p.getTitle(), p.getRegionCategory(), p.getRegion()))

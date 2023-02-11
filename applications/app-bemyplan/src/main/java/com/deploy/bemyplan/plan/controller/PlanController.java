@@ -7,7 +7,6 @@ import com.deploy.bemyplan.plan.service.dto.response.PlanPreviewResponseDto;
 import com.deploy.bemyplan.plan.service.dto.response.PlanRandomResponse;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,8 +25,8 @@ public class PlanController {
 
     @ApiOperation("여행 일정을 10개씩 랜덤하게 조회합니다.")
     @GetMapping("/random")
-    public List<PlanRandomResponse> getPlanListByRandom(@NotNull @RequestParam("regionCategory") final RegionCategory regionCategory) {
-        return planService.getPlanListByRandom(regionCategory);
+    public List<PlanRandomResponse> getPlanListByRandom(@RequestParam("planId") Long planId, @RequestParam("regionCategory") final RegionCategory regionCategory) {
+        return planService.getPlanListByRandom(planId, regionCategory);
     }
 
     @ApiOperation("미리보기 일정 정보를 조회합니다.")

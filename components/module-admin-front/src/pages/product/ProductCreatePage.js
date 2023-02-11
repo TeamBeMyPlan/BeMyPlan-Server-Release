@@ -30,6 +30,13 @@ class ProductCreatePage extends Component {
         recommendTargets: '',
 
         spots: [],
+        previews: [
+            {
+                spotSeq: -1,
+                image: '',
+                description: ''
+            }
+        ]
     }
 
     async componentDidMount() {
@@ -148,6 +155,12 @@ class ProductCreatePage extends Component {
         this.setState({ spots: [...spots] });
     }
 
+    updatePreviews = (previews) => {
+
+        console.log(previews);
+        this.setState({ preveiws: [...previews] });
+    }
+
     getPage = () => {
         const { page,
             creators,
@@ -158,6 +171,7 @@ class ProductCreatePage extends Component {
             tags,
             recommendTargets,
             spots,
+            previews,
         } = this.state;
         const {
             handleCreatorName,
@@ -174,7 +188,8 @@ class ProductCreatePage extends Component {
             handleTags,
             handleRecommendTargets,
             fileChangedHandler,
-            updateSpots
+            updateSpots,
+            updatePreviews,
         } = this;
 
         if (page === 0) {
@@ -207,8 +222,8 @@ class ProductCreatePage extends Component {
 
         if (page === 2) {
             return (
-                <ProductStep3 nextPage={this.nextPage} 
-                    spots={spots} update={this.updateStep3} />
+                <ProductStep3 nextPage={this.nextPage}
+                    spots={spots} previews={previews} onChangePreviews={updatePreviews} update={this.updateStep3} />
             )
         }
 

@@ -313,7 +313,7 @@ class ProductStep2 extends Component {
                                     <TableCell>이름</TableCell>
                                     <TableCell>주소</TableCell>
                                     <TableCell>일차</TableCell>
-                                    <TableCell>선택</TableCell>
+                                    <TableCell>수정</TableCell>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -323,7 +323,7 @@ class ProductStep2 extends Component {
                                             <TableCell>{spot.name}</TableCell>
                                             <TableCell>{spot.address}</TableCell>
                                             <TableCell>{spot.date}</TableCell>
-                                            <TableCell><Button msg="검색" onClick={() => changeEditableMode(spot)} /></TableCell>
+                                            <TableCell><Button msg="선택" onClick={() => changeEditableMode(spot)} /></TableCell>
                                         </TableRow>
                                     ))
                                 }

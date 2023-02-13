@@ -42,7 +42,7 @@ class ProductStep1 extends Component {
                 <div>
                     <h3>크리에이터 정보</h3>
                     <Inputs msg='닉네임'>
-                        <ComboBox items={CreatorSelect} onChange={onChangeCreator} />
+                        <ComboBox selectedValue={this.props.creator} items={CreatorSelect} onChange={onChangeCreator} />
                     </Inputs>
                     <Inputs msg='여행일정제목'>
                         <Textbox hint='여행 일정 제목' value={this.props.planTitle} onChange={onChangePlanTitle} />
@@ -58,7 +58,7 @@ class ProductStep1 extends Component {
                     </Inputs>
                     <h3>일정정보</h3>
                     <Inputs msg='컨셉'>
-                        <ComboBox items={[
+                        <ComboBox selectedValue={this.props.concept} items={[
                             { value: 'HEALING', label: '힐링' },
                             { value: 'EATING', label: '맛집' },
                             { value: 'HOTPLACE', label: '핫플' },
@@ -74,7 +74,7 @@ class ProductStep1 extends Component {
                         ]} />
                     </Inputs>
                     <Inputs msg='지역 상세'>
-                        <ComboBox items={[
+                        <ComboBox selectedValue={this.props.region} items={[
                             { value: 'JEJUALL', label: '제주 전체' },
                             { value: 'JEJUWEST', label: '제주 서부' },
                             { value: 'JEJUEAST', label: '제주 동부' },
@@ -82,7 +82,7 @@ class ProductStep1 extends Component {
                         ]} onChange={onChangeRegion} />
                     </Inputs>
                     <Inputs msg='여행파트너'>
-                        <ComboBox items={[
+                        <ComboBox selectedValue={this.props.partner} items={[
                             { value: 'FAMILY', label: '가족' },
                             { value: 'FRIEND', label: '친구' },
                             { value: 'COUPLE', label: '연인' },
@@ -94,7 +94,7 @@ class ProductStep1 extends Component {
                         <NumericInput hint='1개' value={this.props.cost} onChange={onChangeCost} />
                     </Inputs>
                     <Inputs msg='이동수단'>
-                        <ComboBox items={[
+                        <ComboBox selectedValue={this.props.vehicle} items={[
                             { value: 'CAR', label: '승용차' },
                             { value: 'PUBLIC', label: '대중교통' },
                             { value: 'WALK', label: '도보' },
@@ -102,7 +102,7 @@ class ProductStep1 extends Component {
                         ]} onChange={onChangeVehicle} />
                     </Inputs>
                     <Inputs msg='여행시기'>
-                        <ComboBox items={[
+                        <ComboBox selectedValue={this.props.period} items={[
                             { value: '1', label: '1월' },
                             { value: '2', label: '2월' },
                             { value: '3', label: '3월' },
@@ -121,7 +121,7 @@ class ProductStep1 extends Component {
                         <NumericInput hint='1개' value={this.props.price} onChange={onChangePrice} />
                     </Inputs>
                     <Inputs msg='추천여부'>
-                        <ComboBox items={[
+                        <ComboBox selectedValue={this.props.recommend} items={[
                             { value: false, label: 'No' },
                             { value: true, label: 'Yes' }
                         ]} onChange={onChangeRecommend} />

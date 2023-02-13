@@ -14,6 +14,7 @@ class ProductCreatePage extends Component {
         step3: {},
 
         creators: [],
+        creator: 'ADMIN',
         creatorId: 0,
         planTitle: '',
         planDescription: '',
@@ -153,11 +154,18 @@ class ProductCreatePage extends Component {
     getPage = () => {
         const { page,
             creators,
+            creator,
             planTitle,
             planDescription,
             cost,
+            concept,
+            partner,
+            region,
+            vehicle,
             price,
             tags,
+            period,
+            recommend,
             recommendTargets,
             spots,
         } = this.state;
@@ -183,17 +191,17 @@ class ProductCreatePage extends Component {
         if (page === 0) {
             return (
                 <ProductStep1 nextPage={this.nextPage}
-                    creators={creators} onChangeCreator={handleCreatorName}
+                    creator={creator} creators={creators} onChangeCreator={handleCreatorName}
                     planTitle={planTitle} onChangePlanTitle={handlePlanTitle}
                     onChangeThumbnail={fileChangedHandler}
                     planDescription={planDescription} onChangePlanDescription={handlePlanDescription}
-                    onChangeConcept={handleConcept}
-                    onChangePartner={handlePartner}
-                    onChangePeriod={handlePeriod}
+                    concept={concept} onChangeConcept={handleConcept}
+                    partner={partner} onChangePartner={handlePartner}
+                    period={period} onChangePeriod={handlePeriod}
                     cost={cost} onChangeCost={handleCost}
-                    onChangeVehicle={handleVehicle}
-                    onChangeRecommend={handleRecommend}
-                    onChangeRegion={handleRegion}
+                    vehicle={vehicle} onChangeVehicle={handleVehicle}
+                    recommend={recommend} onChangeRecommend={handleRecommend}
+                    region={region} onChangeRegion={handleRegion}
                     price={price} onChangePrice={handlePrice}
                     tags={tags} onChangeTags={handleTags}
                     recommendTargets={recommendTargets} onChangeRecommendTargets={handleRecommendTargets}
@@ -211,7 +219,7 @@ class ProductCreatePage extends Component {
         if (page === 2) {
             return (
                 <ProductStep3 nextPage={this.nextPage}
-                    spots={spots} onChangePreviews={updatePreviews} update={this.updateStep3} />
+                    spots={spots} onChangePreviews={updatePreviews} />
             )
         }
 

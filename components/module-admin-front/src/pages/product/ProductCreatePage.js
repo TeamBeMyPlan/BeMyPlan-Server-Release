@@ -22,7 +22,7 @@ class ProductCreatePage extends Component {
         partner: 'FAMILY',
         period: 0,
         cost: 0,
-        vehicle: 'CAR',
+        vehicle: 'NONE',
         recommend: false,
         region: 'JEJUALL',
         price: 0,

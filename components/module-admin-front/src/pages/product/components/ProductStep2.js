@@ -95,7 +95,7 @@ class ProductStep2 extends Component {
             savedImages: [],
             nextSpotName: '',
             nextSpotSpentTime: 0,
-            nextSpotVehicle: 'CAR',
+            nextSpotVehicle: 'NONE',
             nextSpot: {},
         });
     }

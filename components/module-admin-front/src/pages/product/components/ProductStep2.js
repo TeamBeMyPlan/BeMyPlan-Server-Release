@@ -41,7 +41,7 @@ class ProductStep2 extends Component {
         date: 0,
         nextSpotName: '',
         nextSpotSpentTime: 0,
-        nextSpotVehicle: 'CAR',
+        nextSpotVehicle: 'NONE',
         nextSpot: {},
     }
 
@@ -292,6 +292,7 @@ class ProductStep2 extends Component {
                             <NumericInput hint='다음 여행지까지 이동시간 (분)' value={nextSpotSpentTime} onChange={handleNextSpotSpentTime} />
                             <Inputs msg='이동수단'>
                                 <ComboBox selectedValue={nextSpotVehicle} items={[
+                                    { value: 'NONE', label: '없음' },
                                     { value: 'CAR', label: '승용차' },
                                     { value: 'PUBLIC', label: '대중교통' },
                                     { value: 'WALK', label: '도보' },

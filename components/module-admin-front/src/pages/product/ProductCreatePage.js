@@ -14,7 +14,6 @@ class ProductCreatePage extends Component {
         step3: {},
 
         creators: [],
-        creator: 'ADMIN',
         creatorId: 0,
         planTitle: '',
         planDescription: '',
@@ -154,7 +153,7 @@ class ProductCreatePage extends Component {
     getPage = () => {
         const { page,
             creators,
-            creator,
+            creatorId,
             planTitle,
             planDescription,
             cost,
@@ -191,7 +190,7 @@ class ProductCreatePage extends Component {
         if (page === 0) {
             return (
                 <ProductStep1 nextPage={this.nextPage}
-                    creator={creator} creators={creators} onChangeCreator={handleCreatorName}
+                    creatorId={creatorId} creators={creators} onChangeCreator={handleCreatorName}
                     planTitle={planTitle} onChangePlanTitle={handlePlanTitle}
                     onChangeThumbnail={fileChangedHandler}
                     planDescription={planDescription} onChangePlanDescription={handlePlanDescription}

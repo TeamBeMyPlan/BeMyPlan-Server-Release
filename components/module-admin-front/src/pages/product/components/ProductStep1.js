@@ -42,7 +42,7 @@ class ProductStep1 extends Component {
                 <div>
                     <h3>크리에이터 정보</h3>
                     <Inputs msg='닉네임'>
-                        <ComboBox selectedValue={this.props.creator} items={CreatorSelect} onChange={onChangeCreator} />
+                        <ComboBox selectedValue={this.props.creatorId} items={CreatorSelect} onChange={onChangeCreator} />
                     </Inputs>
                     <Inputs msg='여행일정제목'>
                         <Textbox hint='여행 일정 제목' value={this.props.planTitle} onChange={onChangePlanTitle} />

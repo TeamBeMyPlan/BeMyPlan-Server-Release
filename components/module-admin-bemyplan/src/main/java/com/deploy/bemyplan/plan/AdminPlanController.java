@@ -25,7 +25,7 @@ public class AdminPlanController {
         createPlanService.createPlan(request);
     }
 
-    @GetMapping("/api/v1/creator")
+    @GetMapping("/api/creator")
     public List<Creator> getCreator() {
         return createPlanService.getCreators();
     }

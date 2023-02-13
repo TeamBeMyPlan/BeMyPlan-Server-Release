@@ -8,6 +8,7 @@ import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.plan.PlanRepository;
 import com.deploy.bemyplan.domain.plan.PreviewContent;
 import com.deploy.bemyplan.domain.plan.RegionCategory;
+import com.deploy.bemyplan.domain.plan.Spot;
 import com.deploy.bemyplan.domain.scrap.Scrap;
 import com.deploy.bemyplan.domain.scrap.ScrapRepository;
 import com.deploy.bemyplan.domain.user.Creator;
@@ -20,14 +21,19 @@ import com.deploy.bemyplan.plan.service.dto.response.PlanInfoResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanListResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanPreviewResponse;
 import com.deploy.bemyplan.plan.service.dto.response.ScrapsScrollResponse;
+import com.deploy.bemyplan.plan.service.dto.response.SpotMoveInfoDetailResponse;
 import com.deploy.bemyplan.plan.service.dto.response.SpotMoveInfoResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.groupingBy;
 
 @RequiredArgsConstructor
 @Service
@@ -50,7 +56,8 @@ public class PlanRetrieveService {
     }
 
     public PlanPreviewResponse getPreviewPlanInfo(final Long planId) {
-        final Plan plan = PlanServiceUtils.findPlanByIdFetchJoinSchedule(planRepository, planId);
+        final Plan plan = planRepository.findById(planId)
+                .orElseThrow(() -> new NotFoundException(String.format("존재하지 않는 일정 (%s) 입니다", planId)));
         final Creator creator = creatorRepository.findById(plan.getCreatorId())
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 크리에이터입니다."));
 
@@ -60,7 +67,8 @@ public class PlanRetrieveService {
     }
 
     public PlanDetailResponse getPlanDetailInfo(final Long planId) {
-        final Plan plan = PlanServiceUtils.findPlanByIdFetchJoinSchedule(planRepository, planId);
+        final Plan plan = planRepository.findById(planId)
+                .orElseThrow(() -> new NotFoundException(String.format("존재하지 않는 일정 (%s) 입니다", planId)));
         final Creator creator = creatorRepository.findById(plan.getCreatorId())
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 크리에이터입니다."));
 
@@ -68,11 +76,27 @@ public class PlanRetrieveService {
     }
 
     public List<SpotMoveInfoResponse> getSpotMoveInfos(final Long planId) {
-        final Plan plan = PlanServiceUtils.findPlanById(planRepository, planId);
+        final Plan plan = planRepository.findById(planId)
+                .orElseThrow(() -> new NotFoundException(String.format("존재하지 않는 일정 (%s) 입니다", planId)));
 
-        return plan.getSchedules().stream()
-                .map(SpotMoveInfoResponse::of)
-                .collect(Collectors.toList());
+        List<SpotMoveInfoResponse> result = new ArrayList<>();
+
+        Map<Integer, List<Spot>> spotsPerDate = plan.getSpots().stream().collect(groupingBy(Spot::getDay));
+        for (int day : spotsPerDate.keySet()) {
+            List<Spot> spots = plan.getSpots();
+
+            List<SpotMoveInfoDetailResponse> moveInfos = new ArrayList<>();
+            for (int i = 0; i < spots.size() - 1; i++) {
+                Spot prev = spots.get(i);
+                Spot next = spots.get(i + 1);
+
+                moveInfos.add(new SpotMoveInfoDetailResponse(prev.getId(), next.getId(), prev.getVehicle(), prev.getSpentMinute()));
+            }
+
+            result.add(new SpotMoveInfoResponse(day, moveInfos));
+        }
+
+        return result;
     }
 
     public ScrapsScrollResponse retrieveMyBookmarkList(final RetrieveMyBookmarkListRequestDto request, final Long userId, final Pageable pageable) {

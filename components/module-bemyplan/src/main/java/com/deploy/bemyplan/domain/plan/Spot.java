@@ -42,24 +42,44 @@ public class Spot extends AuditingTimeEntity {
     private String review;
     @OneToMany(mappedBy = "spot", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<SpotImage> images = new ArrayList<>();
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "schedule_id", nullable = false)
-    private DailySchedule schedule;
+    @JoinColumn(name = "plan_id", nullable = false)
+    private Plan plan;
+
+    @Column(nullable = false)
+    private int day;
+
+    @Column(length = 30)
+    @Enumerated(EnumType.STRING)
+    private TravelMobility vehicle;
+
+    @Column
+    private Integer spentMinute;
 
     public Spot(Long id, String title, SpotCategoryType category, Location location, String tip, String review,
-                DailySchedule schedule) {
+                Plan plan,
+                int day,
+                TravelMobility vehicle,
+                Integer spentMinute) {
         this.title = title;
         this.category = category;
         this.location = location;
         this.tip = tip;
         this.review = review;
         this.images.addAll(images);
-        this.schedule = schedule;
+        this.plan = plan;
+        this.day = day;
+        this.vehicle = vehicle;
+        this.spentMinute = spentMinute;
     }
 
     public Spot(String title, SpotCategoryType category, Location location, String tip, String review,
-                DailySchedule schedule) {
-        this(null, title, category, location, tip, review, schedule);
+                Plan plan,
+                int day,
+                TravelMobility vehicle,
+                Integer spentMinute) {
+        this(null, title, category, location, tip, review, plan, day, vehicle, spentMinute);
     }
 
     public void setImage(List<SpotImage> spotImages) {

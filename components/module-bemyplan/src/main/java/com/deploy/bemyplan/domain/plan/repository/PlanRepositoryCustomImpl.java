@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.deploy.bemyplan.domain.order.QOrder.order;
-import static com.deploy.bemyplan.domain.plan.QDailySchedule.dailySchedule;
 import static com.deploy.bemyplan.domain.plan.QPlan.plan;
 import static com.deploy.bemyplan.domain.plan.QPreviewContent.previewContent;
 import static com.deploy.bemyplan.domain.scrap.QScrap.scrap;
@@ -30,33 +29,6 @@ import static com.deploy.bemyplan.domain.scrap.QScrap.scrap;
 public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
-
-    @Override
-    public List<Plan> findAllByIds(List<Long> planIds) {
-        return queryFactory
-                .selectFrom(plan).distinct()
-                .where(
-                        plan.id.in(planIds)
-                )
-                .fetch();
-    }
-
-    @Override
-    public Plan findPlanById(Long planId) {
-        return queryFactory.selectFrom(plan)
-                .where(plan.id.eq(planId))
-                .fetchOne();
-    }
-
-    @Override
-    public Plan findPlanByIdFetchJoinSchedule(Long planId) {
-        return queryFactory.selectFrom(plan).distinct()
-                .innerJoin(plan.schedules, dailySchedule).fetchJoin()
-                .where(
-                        plan.id.eq(planId),
-                        plan.status.eq(PlanStatus.ACTIVE)
-                ).fetchOne();
-    }
 
     @Override
     public List<Plan> findMyBookmarkListUsingCursor(Long userId, @Nullable Pageable pageable, int size, @Nullable Long lastScrapId) {
@@ -149,7 +121,6 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
                         scrap.userId.eq(userId),
                         lessThanScrapId(lastScrapId)
                 )
-                .orderBy(scrap.id.desc())
                 .limit(size)
                 .fetch();
         if (Objects.isNull(planIds)) {

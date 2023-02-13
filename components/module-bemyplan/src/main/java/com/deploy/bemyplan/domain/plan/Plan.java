@@ -19,7 +19,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -81,14 +80,13 @@ public class Plan extends AuditingTimeEntity {
     private List<String> recommendTargets = new ArrayList<>();
 
     @OneToMany(mappedBy = "plan", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<DailySchedule> schedules = new ArrayList<>();
+    private final List<Spot> spots = new ArrayList<>();
 
     private Plan(final Long creatorId, final RegionCategory regionCategory, final Region region, final String thumbnailUrl,
                  final String title, final String description, final TagInfo tagInfo,
                  final int orderCnt, final int viewCnt, final int price,
                  final PlanStatus status, final RcmndStatus rcmndStatus,
-                 final List<String> hashtags, final List<String> recommendTargets,
-                 final List<DailySchedule> schedules) {
+                 final List<String> hashtags, final List<String> recommendTargets) {
         this.creatorId = creatorId;
         this.regionCategory = regionCategory;
         this.region = region;
@@ -103,14 +101,13 @@ public class Plan extends AuditingTimeEntity {
         this.rcmndStatus = rcmndStatus;
         this.hashtags.addAll(hashtags);
         this.recommendTargets.addAll(recommendTargets);
-        this.schedules.addAll(schedules);
     }
 
     public static Plan newInstance(Long creatorId, RegionCategory regionCategory, Region region, String thumbnailUrl,
                                    String title, String description, TagInfo tagInfo,
                                    int price, PlanStatus status, RcmndStatus rcmndStatus,
                                    List<String> hashtags, List<String> recommendTargets) {
-        return new Plan(creatorId, regionCategory, region, thumbnailUrl, title, description, tagInfo, 0, 0, price, status, rcmndStatus, hashtags, recommendTargets, Collections.emptyList());
+        return new Plan(creatorId, regionCategory, region, thumbnailUrl, title, description, tagInfo, 0, 0, price, status, rcmndStatus, hashtags, recommendTargets);
     }
 
     public void updateOrderCnt() {
@@ -118,15 +115,10 @@ public class Plan extends AuditingTimeEntity {
     }
 
     public int getRestaurantCount() {
-        return (int) schedules.stream()
-                .flatMap(dailySchedule -> dailySchedule.getSpots().stream())
-                .filter(spot -> SpotCategoryType.RESTAURANT == spot.getCategory())
-                .count();
+        return (int)spots.stream().filter(spot -> SpotCategoryType.RESTAURANT == spot.getCategory()).count();
     }
 
     public int getSpotCount() {
-        return schedules.stream()
-                .mapToInt(dailySchedule -> dailySchedule.getSpots().size())
-                .sum();
+        return spots.size();
     }
 }

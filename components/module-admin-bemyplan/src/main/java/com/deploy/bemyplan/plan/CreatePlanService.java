@@ -42,11 +42,7 @@ public class CreatePlanService {
         final Plan plan = createNewPlan(request);
 
         final List<SpotDto> spotDtos = request.getSpots();
-        final List<DailySchedule> dailySchedules = createSchedulesByPlan(plan, spotDtos);
-
-        final List<Spot> spots = createSpotsBySchedules(spotDtos, dailySchedules);
-        createMoveInfoBySchedules(spotDtos, dailySchedules, spots);
-
+        final List<Spot> spots = createSpotsBySchedules(plan, spotDtos);
         createPreviews(request.getPreviews(), plan, spots);
     }
 
@@ -84,7 +80,7 @@ public class CreatePlanService {
         moveInfoRepository.saveAll(moveInfos);
     }
 
-    private List<Spot> createSpotsBySchedules(List<SpotDto> spotDtos, List<DailySchedule> dailySchedules) {
+    private List<Spot> createSpotsBySchedules(Plan plan, List<SpotDto> spotDtos) {
         final List<Spot> spots = spotDtos.stream()
                 .map(spotDto ->
                         new Spot(spotDto.getName(),
@@ -92,7 +88,10 @@ public class CreatePlanService {
                                 Location.of(spotDto.getAddress(), spotDto.getLatitude(), spotDto.getLongitude()),
                                 spotDto.getTip(),
                                 spotDto.getReview(),
-                                getSchedule(dailySchedules, spotDto.getDate())))
+                                plan,
+                                spotDto.getDate(),
+                                spotDto.getVehicle(),
+                                spotDto.getSpentTime()))
                 .collect(Collectors.toList());
         spotRepository.saveAll(spots);
 

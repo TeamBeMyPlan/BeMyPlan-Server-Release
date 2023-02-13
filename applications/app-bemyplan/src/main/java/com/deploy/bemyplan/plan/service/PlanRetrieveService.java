@@ -83,7 +83,7 @@ public class PlanRetrieveService {
 
         Map<Integer, List<Spot>> spotsPerDate = plan.getSpots().stream().collect(groupingBy(Spot::getDay));
         for (int day : spotsPerDate.keySet()) {
-            List<Spot> spots = plan.getSpots();
+            List<Spot> spots = spotsPerDate.get(day);
 
             List<SpotMoveInfoDetailResponse> moveInfos = new ArrayList<>();
             for (int i = 0; i < spots.size() - 1; i++) {

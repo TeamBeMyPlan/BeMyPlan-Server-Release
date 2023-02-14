@@ -1,5 +1,6 @@
 package com.deploy.bemyplan.plan;
 
+import com.deploy.bemyplan.domain.plan.Preview;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,5 +18,12 @@ public class PreviewDto {
         this.spotSeq = spotSeq;
         this.description = description;
         this.image = image;
+    }
+
+    public static PreviewDto from(Preview preview) {
+        return new PreviewDto(
+                0,
+                preview.getDescription(),
+                preview.getImageUrls().get(0));
     }
 }

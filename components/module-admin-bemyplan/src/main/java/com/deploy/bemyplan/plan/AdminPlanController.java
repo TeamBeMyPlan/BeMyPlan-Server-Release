@@ -42,7 +42,8 @@ public class AdminPlanController {
 
     @GetMapping("/api/plans/{planId}/spots")
     public List<SpotDto> getSpots(@PathVariable Long planId) {
-        return inquiryPlanService.getSpots(planId);
+        List<SpotDto> spots = inquiryPlanService.getSpots(planId);
+        return spots;
     }
 
     @DeleteMapping("/api/plans/{planId}")

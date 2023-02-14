@@ -2,6 +2,7 @@ package com.deploy.bemyplan.plan;
 
 import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.plan.PlanRepository;
+import com.deploy.bemyplan.domain.plan.Spot;
 import com.deploy.bemyplan.domain.plan.SpotRepository;
 import com.deploy.bemyplan.domain.user.CreatorRepository;
 import lombok.RequiredArgsConstructor;
@@ -44,7 +45,8 @@ class InquiryPlanService {
     }
 
     public List<SpotDto> getSpots(Long planId) {
-        return spotRepository.findAllByPlanId(planId)
+        List<Spot> allByPlanId = spotRepository.findAllByPlanId(planId);
+        return allByPlanId
                 .stream()
                 .map(SpotDto::from)
                 .collect(Collectors.toList());

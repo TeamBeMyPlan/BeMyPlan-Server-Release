@@ -25,9 +25,9 @@ public class SpotDto {
     private List<String> savedImages;
     private String tip;
     private TravelMobility vehicle;
-    private int spentTime;
+    private Integer spentTime;
 
-    private SpotDto(final SpotCategoryType type, final int date, final String address, final double latitude, final double longitude, final String name, final String review, final List<String> savedImages, final String tip, final TravelMobility vehicle, final int spentTime) {
+    private SpotDto(final SpotCategoryType type, final int date, final String address, final double latitude, final double longitude, final String name, final String review, final List<String> savedImages, final String tip, final TravelMobility vehicle, final Integer spentTime) {
         this.type = type;
         this.date = date;
         this.address = address;
@@ -42,7 +42,7 @@ public class SpotDto {
     }
     public static SpotDto from(Spot spot) {
         return new SpotDto(spot.getCategory(),
-                1,
+                spot.getDay(),
                 spot.getLocation().getAddress(),
                 spot.getLocation().getLatitude(),
                 spot.getLocation().getLongitude(),

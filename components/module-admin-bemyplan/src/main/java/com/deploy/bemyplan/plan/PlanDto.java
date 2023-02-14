@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PlanDto {
 
+    private Long creatorId;
     private Long id;
     private String title;
     private String description;
@@ -28,7 +29,8 @@ public class PlanDto {
     private String tags;
     private String recommendTargets;
 
-    public PlanDto(final Long id, final String title, final String description, final String thumbnail, final int price, final boolean recommend, final TravelMobility vehicle, final TravelTheme concept, final int cost, final int period, final TravelPartner partner, final Region region, final String tags, final String recommendTargets) {
+    public PlanDto(final Long creatorId, final Long id, final String title, final String description, final String thumbnail, final int price, final boolean recommend, final TravelMobility vehicle, final TravelTheme concept, final int cost, final int period, final TravelPartner partner, final Region region, final String tags, final String recommendTargets) {
+        this.creatorId = creatorId;
         this.id = id;
         this.title = title;
         this.description = description;
@@ -46,7 +48,9 @@ public class PlanDto {
     }
 
     public static PlanDto from(Plan plan) {
-        return new PlanDto(plan.getId(),
+        return new PlanDto(
+                plan.getCreatorId(),
+                plan.getId(),
                 plan.getTitle(),
                 plan.getDescription(),
                 plan.getThumbnailUrl(),

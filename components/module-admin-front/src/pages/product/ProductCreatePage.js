@@ -67,10 +67,8 @@ class ProductCreatePage extends Component {
         } = this.state;
 
         const response = await planApi.create({
-            creator: {
-                id: creatorId
-            },
             plan: {
+                creatorId: creatorId,
                 title: planTitle,
                 description: planDescription,
                 thumbnail: thumbnail,

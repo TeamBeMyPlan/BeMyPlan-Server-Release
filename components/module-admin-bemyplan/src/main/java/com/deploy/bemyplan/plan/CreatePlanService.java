@@ -79,7 +79,7 @@ public class CreatePlanService {
                 .size();
 
         final PlanDto planDto = request.getPlan();
-        final Plan plan = planMapper.toDomain(planDto, request.getCreator(), totalDays);
+        final Plan plan = planMapper.toDomain(planDto, totalDays);
         planRepository.save(plan);
         return plan;
     }

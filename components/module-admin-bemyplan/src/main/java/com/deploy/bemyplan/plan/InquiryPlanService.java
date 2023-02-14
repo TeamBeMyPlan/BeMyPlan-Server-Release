@@ -1,7 +1,9 @@
 package com.deploy.bemyplan.plan;
 
+import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.plan.PlanRepository;
 import com.deploy.bemyplan.domain.plan.SpotRepository;
+import com.deploy.bemyplan.domain.user.CreatorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +20,8 @@ class InquiryPlanService {
 
     private final SpotRepository spotRepository;
 
+    private final CreatorRepository creatorRepository;
+
     public List<PlanDto> getPlans() {
         return planRepository.findAll()
                 .stream()
@@ -26,9 +30,17 @@ class InquiryPlanService {
     }
 
     public PlanDto getPlan(Long planId) {
-        return planRepository.findById(planId)
+
+        Plan plan = planRepository.findById(planId)
+                .orElseThrow(IllegalStateException::new);
+
+        PlanDto planDto = planRepository.findById(planId)
                 .map(PlanDto::from)
                 .orElseThrow(IllegalStateException::new);
+
+
+
+        return planDto;
     }
 
     public List<SpotDto> getSpots(Long planId) {

@@ -14,9 +14,9 @@ import java.util.Arrays;
 @Component
 class PlanMapper {
 
-    Plan toDomain(PlanDto planDto, CreatorDto creator, int totalDays) {
+    Plan toDomain(PlanDto planDto, int totalDays) {
         return Plan.newInstance(
-                creator.getId(),
+                planDto.getCreatorId(),
                 RegionCategory.JEJU,
                 planDto.getRegion(),
                 S3Locator.get(planDto.getThumbnail()),

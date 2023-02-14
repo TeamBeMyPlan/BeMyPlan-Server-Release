@@ -20,7 +20,12 @@ const planApi = {
         const result = await api.get(`api/plans/${id}`);
 
         return result;
-    }
+    },
+    getSpots: async (id) => {
+        const result = await api.get(`api/plans/${id}/spots`);
+
+        return result;
+    },
 }
 
 export default planApi;

@@ -1,6 +1,7 @@
 import ProductTemplate from './components/ProductTemplate'
 import { Component } from 'react';
 import ProductStep1 from './components/ProductStep1';
+import ProductStep2 from './components/ProductStep2';
 import planApi from '../../components/planApi';
 import creatorApi from '../../components/creatorApi'
 import imageCompression from 'browser-image-compression';
@@ -27,6 +28,9 @@ class ProductEditPage extends Component {
         price: 0,
         tags: '',
         recommendTargets: '',
+
+        spots: [],
+        previews: [],
     }
 
     async componentDidMount() {
@@ -37,6 +41,7 @@ class ProductEditPage extends Component {
 
         await this.fetchCreators();
         await this.fetchPlan(id);
+        await this.fetchSpots(id);
     }
 
     async fetchCreators() {
@@ -44,6 +49,20 @@ class ProductEditPage extends Component {
         this.setState({
             creators: [...creators.data]
         })
+    }
+
+    async fetchSpots(id) {
+        const spots = await planApi.getSpots(id);
+
+        console.log(spots);
+
+
+        if (spots.code === 200) {
+            console.log(spots.data);
+            this.setState({
+                spots: [...spots.data]
+            })
+        }
     }
 
     async fetchPlan(id) {
@@ -98,6 +117,10 @@ class ProductEditPage extends Component {
         });
     }
 
+    updateSpots = (spots) => {
+        this.setState({ spots: [...spots] });
+    }
+
     getPage = () => {
         const { page,
             creators,
@@ -114,6 +137,7 @@ class ProductEditPage extends Component {
             price,
             tags,
             recommendTargets,
+            spots,
         } = this.state;
 
         const {
@@ -130,7 +154,8 @@ class ProductEditPage extends Component {
             handlePrice,
             handleTags,
             handleRecommendTargets,
-            fileChangedHandler
+            fileChangedHandler,
+            updateSpots
         } = this;
 
         if (page === 0) {
@@ -151,6 +176,13 @@ class ProductEditPage extends Component {
                     tags={tags} onChangeTags={handleTags}
                     recommendTargets={recommendTargets} onChangeRecommendTargets={handleRecommendTargets}
                 />
+            )
+        }
+
+        if (page === 1) {
+            return (
+                <ProductStep2 nextPage={this.nextPage}
+                    spots={spots} onChangeSpots={updateSpots} />
             )
         }
 

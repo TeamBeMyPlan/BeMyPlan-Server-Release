@@ -12,15 +12,17 @@ import lombok.ToString;
 public class CreatorInfoResponse {
     private Long userId;
     private String nickname;
+    private String profileImage;
     private String description;
 
-    private CreatorInfoResponse(Long userId, String nickname, String description) {
+    private CreatorInfoResponse(Long userId, String nickname, String profileImage, String description) {
         this.userId = userId;
         this.nickname = nickname;
+        this.profileImage = profileImage;
         this.description = description;
     }
 
     public static CreatorInfoResponse of(Creator creator) {
-        return new CreatorInfoResponse(creator.getId(), creator.getName(), creator.getDescription());
+        return new CreatorInfoResponse(creator.getId(), creator.getName(), creator.getProfileImage(), creator.getDescription());
     }
 }

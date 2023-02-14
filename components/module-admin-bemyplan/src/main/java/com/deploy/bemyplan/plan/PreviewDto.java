@@ -20,9 +20,9 @@ public class PreviewDto {
         this.image = image;
     }
 
-    public static PreviewDto from(Preview preview) {
+    public static PreviewDto from(int spotSeq, Preview preview) {
         return new PreviewDto(
-                0,
+                spotSeq,
                 preview.getDescription(),
                 preview.getImageUrls().get(0));
     }

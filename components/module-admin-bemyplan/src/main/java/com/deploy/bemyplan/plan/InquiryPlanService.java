@@ -2,6 +2,7 @@ package com.deploy.bemyplan.plan;
 
 import com.deploy.bemyplan.domain.plan.PlanRepository;
 import com.deploy.bemyplan.domain.plan.PreviewRepository;
+import com.deploy.bemyplan.domain.plan.Spot;
 import com.deploy.bemyplan.domain.plan.SpotRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -35,16 +36,41 @@ class InquiryPlanService {
     }
 
     public List<SpotDto> getSpots(Long planId) {
-        return spotRepository.findAllByPlanId(planId)
+        List<Spot> spots = spotRepository.findAllByPlanId(planId);
+        return spots
                 .stream()
-                .map(SpotDto::from)
+                .map(spot -> {
+                    int spotSeq = getSpotSeq(spots, spot.getId());
+                    return SpotDto.from(spotSeq, spot);
+                })
                 .collect(Collectors.toList());
     }
 
     public List<PreviewDto> getPreviews(Long planId) {
+        List<Spot> spots = spotRepository.findAllByPlanId(planId);
+
         return previewRepository.findAllPreviewByPlanId(planId)
                 .stream()
-                .map(PreviewDto::from)
+                .map(preview -> {
+                    int spotSeq = getSpotSeq(spots, preview.getSpotId());
+                    return PreviewDto.from(spotSeq, preview);
+                })
                 .collect(Collectors.toList());
+    }
+
+    private int getSpotSeq(List<Spot> spots, Long spotId) {
+        for (int i = 0; i < spots.size(); i++) {
+            if (spots.get(i).getId().equals(spotId)) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    private int getDay(Long spotId) {
+        return spotRepository.findById(spotId)
+                .map(Spot::getDay)
+                .orElseThrow(IllegalStateException::new);
     }
 }

@@ -27,7 +27,8 @@ public class SpotDto {
     private TravelMobility vehicle;
     private Integer spentTime;
 
-    private SpotDto(final SpotCategoryType type, final int date, final String address, final double latitude, final double longitude, final String name, final String review, final List<String> savedImages, final String tip, final TravelMobility vehicle, final Integer spentTime) {
+    private SpotDto(final int seq, final SpotCategoryType type, final int date, final String address, final double latitude, final double longitude, final String name, final String review, final List<String> savedImages, final String tip, final TravelMobility vehicle, final Integer spentTime) {
+        this.seq = seq;
         this.type = type;
         this.date = date;
         this.address = address;
@@ -40,8 +41,8 @@ public class SpotDto {
         this.vehicle = vehicle;
         this.spentTime = spentTime;
     }
-    public static SpotDto from(Spot spot) {
-        return new SpotDto(spot.getCategory(),
+    public static SpotDto from(int seq, Spot spot) {
+        return new SpotDto(seq, spot.getCategory(),
                 spot.getDay(),
                 spot.getLocation().getAddress(),
                 spot.getLocation().getLatitude(),

@@ -9,17 +9,12 @@ class ProductStep3 extends Component {
 
     state = {
         spotItems: [],
-        previews: [
-            {
-                spotSeq: -1,
-                image: '',
-                description: ''
-            }
-        ]
+        previews: []
     }
 
     componentDidMount() {
-        const { spots, previews } = this.props;
+        const { spots } = this.props;
+
         const comboBoxItems = [{
             value: -1,
             label: '-'
@@ -28,11 +23,9 @@ class ProductStep3 extends Component {
             label: spot.name
         }))];
 
-        console.log(this.props.previews);
-
         this.setState({
             spotItems: comboBoxItems,
-            previews: [...this.props.previews, previews]
+            previews: [...this.props.previews]
         });
     }
 
@@ -114,11 +107,12 @@ class ProductStep3 extends Component {
             <>
                 <div>
                     {
-                        previews.map((preview, index) => (
+                        previews.map((preview, index) => {
+                            return (
                             <div key={index}>
                                 <h3>미리보기 {index + 1}</h3>
                                 <Inputs msg='여행지'>
-                                    <ComboBox items={spotItems}
+                                    <ComboBox selectedValue={preview.spotSeq} items={spotItems}
                                         onChange={(e) => handleSpot(e, index)} />
                                 </Inputs>
                                 <Inputs msg='설명'>
@@ -128,7 +122,7 @@ class ProductStep3 extends Component {
                                     <Button msg="삭제" onClick={removePreview} />
                                 </Inputs>
                             </div>
-                        ))
+                        )})
                     }
                     <div className="next-button-wrapper">
                         <Button msg="추가" onClick={addPreview} />

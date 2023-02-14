@@ -31,6 +31,11 @@ class ProductCreatePage extends Component {
 
         spots: [],
         previews: [
+            {
+                spotSeq: -1,
+                image: '',
+                description: ''
+            }
         ]
     }
 
@@ -156,6 +161,7 @@ class ProductCreatePage extends Component {
             recommend,
             recommendTargets,
             spots,
+            previews,
         } = this.state;
         const {
             handleCreatorName,
@@ -207,7 +213,7 @@ class ProductCreatePage extends Component {
         if (page === 2) {
             return (
                 <ProductStep3 nextPage={this.nextPage}
-                    spots={spots} onChangePreviews={updatePreviews} />
+                    spots={spots} previews={previews} onChangePreviews={updatePreviews} />
             )
         }
 

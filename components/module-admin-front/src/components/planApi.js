@@ -26,6 +26,11 @@ const planApi = {
 
         return result;
     },
+    getPreviews: async (id) => {
+        const result = await api.get(`api/plans/${id}/previews`);
+
+        return result;
+    },
 }
 
 export default planApi;

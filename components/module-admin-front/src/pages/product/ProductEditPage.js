@@ -2,6 +2,7 @@ import ProductTemplate from './components/ProductTemplate'
 import { Component } from 'react';
 import ProductStep1 from './components/ProductStep1';
 import ProductStep2 from './components/ProductStep2';
+import ProductStep3 from './components/ProductStep3';
 import planApi from '../../components/planApi';
 import creatorApi from '../../components/creatorApi'
 import imageCompression from 'browser-image-compression';
@@ -42,6 +43,7 @@ class ProductEditPage extends Component {
         await this.fetchCreators();
         await this.fetchPlan(id);
         await this.fetchSpots(id);
+        await this.fetchPreviews(id);
     }
 
     async fetchCreators() {
@@ -53,14 +55,18 @@ class ProductEditPage extends Component {
 
     async fetchSpots(id) {
         const spots = await planApi.getSpots(id);
-
-        console.log(spots);
-
-
         if (spots.code === 200) {
-            console.log(spots.data);
             this.setState({
                 spots: [...spots.data]
+            })
+        }
+    }
+
+    async fetchPreviews(id) {
+        const previews = await planApi.getPreviews(id);
+        if (previews.code === 200) {
+            this.setState({
+                previews: [...previews.data]
             })
         }
     }
@@ -68,8 +74,6 @@ class ProductEditPage extends Component {
     async fetchPlan(id) {
         const plan = await planApi.get(id);
         if (plan.code === 200) {
-            console.log(plan.data);
-
             this.setState({
                 creatorId: plan.data.creatorId,
                 planTitle: plan.data.title,
@@ -138,6 +142,7 @@ class ProductEditPage extends Component {
             tags,
             recommendTargets,
             spots,
+            previews,
         } = this.state;
 
         const {
@@ -183,6 +188,13 @@ class ProductEditPage extends Component {
             return (
                 <ProductStep2 nextPage={this.nextPage}
                     spots={spots} onChangeSpots={updateSpots} />
+            )
+        }
+
+        if (page === 2) {
+            return (
+                <ProductStep3 nextPage={this.nextPage}
+                    spots={spots} previews={previews}/>
             )
         }
 

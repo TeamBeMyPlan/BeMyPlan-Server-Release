@@ -19,7 +19,7 @@ class ProductStep3 extends Component {
     }
 
     componentDidMount() {
-        const { spots } = this.props;
+        const { spots, previews } = this.props;
         const comboBoxItems = [{
             value: -1,
             label: '-'
@@ -28,8 +28,11 @@ class ProductStep3 extends Component {
             label: spot.name
         }))];
 
+        console.log(this.props.previews);
+
         this.setState({
-            spotItems: comboBoxItems
+            spotItems: comboBoxItems,
+            previews: [...this.props.previews, previews]
         });
     }
 

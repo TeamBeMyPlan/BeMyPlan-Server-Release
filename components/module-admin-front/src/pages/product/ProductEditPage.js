@@ -52,7 +52,7 @@ class ProductEditPage extends Component {
             console.log(plan.data);
 
             this.setState({
-                creatorId: 2,
+                creatorId: plan.data.creatorId,
                 planTitle: plan.data.title,
                 planDescription: plan.data.description,
                 thumbnail: plan.data.thumbnail,

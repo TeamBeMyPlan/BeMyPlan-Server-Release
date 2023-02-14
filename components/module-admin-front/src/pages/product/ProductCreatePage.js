@@ -97,12 +97,6 @@ class ProductCreatePage extends Component {
 
     nextPage = () => {
         const { page } = this.state;
-
-        if (page >= 2) {
-            this.saveNewPlan();
-            return;
-        }
-
         const nextPage = page + 1;
         this.setState({
             page: nextPage
@@ -142,10 +136,7 @@ class ProductCreatePage extends Component {
     }
 
     updatePreviews = (newPreviews) => {
-        console.log(newPreviews);
-        this.setState({ preveiws: [...newPreviews] });
-
-        this.saveNewPlan();
+        this.setState({ previews: [...newPreviews] }, () => this.saveNewPlan());
     }
 
     getPage = () => {

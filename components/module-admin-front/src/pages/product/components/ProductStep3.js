@@ -96,7 +96,6 @@ class ProductStep3 extends Component {
     saveAndNext = () => {
         const { onChangePreviews } = this.props;
         const { previews } = this.state;
-        
         onChangePreviews(previews);
     }
 

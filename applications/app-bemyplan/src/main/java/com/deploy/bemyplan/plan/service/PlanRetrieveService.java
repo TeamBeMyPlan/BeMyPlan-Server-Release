@@ -157,7 +157,7 @@ public class PlanRetrieveService {
         final List<Long> planIds = plans.stream()
                 .map(Plan::getId)
                 .collect(Collectors.toList());
-        return ScrapDictionary.of(scrapRepository.findByUserIdAndPlanIds(planIds, userId));
+        return ScrapDictionary.of(scrapRepository.findAllByUserIdAndPlanIdIn(userId, planIds));
     }
 
     private OrderDictionary findOrderByUserIdAndPlans(final Long userId, final List<Plan> plans) {

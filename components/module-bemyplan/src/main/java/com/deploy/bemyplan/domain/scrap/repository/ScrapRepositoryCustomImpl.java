@@ -4,9 +4,7 @@ import com.deploy.bemyplan.domain.scrap.Scrap;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,22 +27,6 @@ public class ScrapRepositoryCustomImpl implements ScrapRepositoryCustom{
     }
 
     @Override
-    public List<Scrap> findByUserIdAndPlanIds(List<Long> planIds, @Nullable Long userId) {
-        if (Objects.isNull(userId)) {
-            return new ArrayList<>();
-        }
-        List<Long> scrapIds = queryFactory
-                .select(scrap.id).distinct()
-                .from(scrap)
-                .where(
-                        eqUserId(userId),
-                        inPlanIds(planIds)
-                )
-                .fetch();
-        return findAllByIds(scrapIds);
-    }
-
-    @Override
     public Scrap findActiveByUserIdAndPlanId(Long planId, Long userId){
         if (userId == null) {
             return null;
@@ -56,13 +38,6 @@ public class ScrapRepositoryCustomImpl implements ScrapRepositoryCustom{
                         eqPlanId(planId)
                 )
                 .fetchOne();
-    }
-
-    private BooleanExpression lessThanId(Long lastScrapId) {
-        if (Objects.isNull(lastScrapId)) {
-            return null;
-        }
-        return scrap.id.lt(lastScrapId);
     }
 
     private BooleanExpression eqUserId(Long userId) {

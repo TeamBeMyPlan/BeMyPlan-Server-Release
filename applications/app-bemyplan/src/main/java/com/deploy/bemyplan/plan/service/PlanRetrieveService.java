@@ -6,7 +6,6 @@ import com.deploy.bemyplan.domain.order.OrderRepository;
 import com.deploy.bemyplan.domain.order.OrderStatus;
 import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.plan.PlanRepository;
-import com.deploy.bemyplan.domain.plan.PreviewContent;
 import com.deploy.bemyplan.domain.plan.RegionCategory;
 import com.deploy.bemyplan.domain.plan.Spot;
 import com.deploy.bemyplan.domain.scrap.Scrap;
@@ -19,7 +18,6 @@ import com.deploy.bemyplan.plan.service.dto.response.OrdersScrollResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanDetailResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanInfoResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanListResponse;
-import com.deploy.bemyplan.plan.service.dto.response.PlanPreviewResponse;
 import com.deploy.bemyplan.plan.service.dto.response.ScrapsScrollResponse;
 import com.deploy.bemyplan.plan.service.dto.response.SpotMoveInfoDetailResponse;
 import com.deploy.bemyplan.plan.service.dto.response.SpotMoveInfoResponse;
@@ -53,17 +51,6 @@ public class PlanRetrieveService {
     public PlanListResponse getPickList(final Long userId) {
         final List<Plan> planList = planRepository.findPickList();
         return getPlanListWithPersonalStatus(planList, userId);
-    }
-
-    public PlanPreviewResponse getPreviewPlanInfo(final Long planId) {
-        final Plan plan = planRepository.findById(planId)
-                .orElseThrow(() -> new NotFoundException(String.format("존재하지 않는 일정 (%s) 입니다", planId)));
-        final Creator creator = creatorRepository.findById(plan.getCreatorId())
-                .orElseThrow(() -> new NotFoundException("존재하지 않는 크리에이터입니다."));
-
-        final List<PreviewContent> previewContents = planRepository.findPreviewContentsByPlanId(plan.getId());
-
-        return PlanPreviewResponse.of(plan, creator.getName(), previewContents);
     }
 
     public PlanDetailResponse getPlanDetailInfo(final Long planId) {

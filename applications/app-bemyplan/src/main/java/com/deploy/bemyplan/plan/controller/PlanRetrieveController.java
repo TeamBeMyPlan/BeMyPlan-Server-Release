@@ -9,7 +9,6 @@ import com.deploy.bemyplan.plan.service.dto.request.RetrieveMyOrderListRequestDt
 import com.deploy.bemyplan.plan.service.dto.response.OrdersScrollResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanDetailResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanListResponse;
-import com.deploy.bemyplan.plan.service.dto.response.PlanPreviewResponse;
 import com.deploy.bemyplan.plan.service.dto.response.ScrapsScrollResponse;
 import com.deploy.bemyplan.plan.service.dto.response.SpotMoveInfoResponse;
 import io.swagger.annotations.ApiOperation;
@@ -50,12 +49,6 @@ public class PlanRetrieveController {
     @GetMapping("/v1/plan/{planId}")
     public PlanDetailResponse getPlanDetailInfo(@PathVariable final Long planId) {
         return planRetrieveService.getPlanDetailInfo(planId);
-    }
-
-    @ApiOperation("여행일정 페이지 - 특정 여행일정의 미리보기 정보를 조회합니다")
-    @GetMapping("/v1/plan/{planId}/preview")
-    public PlanPreviewResponse getPreviewPlanInfo(@PathVariable final Long planId) {
-        return planRetrieveService.getPreviewPlanInfo(planId);
     }
 
     @ApiOperation("여행일정 페이지 - 장소 간 이동수단/소요시간을 조회합니다. (일자별 조회)")

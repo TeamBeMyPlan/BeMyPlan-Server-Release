@@ -14,7 +14,7 @@ class ProductEditPage extends Component {
         page: 0,
         creators: [],
         plan: {},
-        
+
         creatorId: 0,
         planTitle: '',
         planDescription: '',
@@ -125,6 +125,36 @@ class ProductEditPage extends Component {
         this.setState({ spots: [...spots] });
     }
 
+    updatePreviews = (newPreviews) => {
+        this.setState({ previews: [...newPreviews] }, () => this.savePreviews());
+    }
+
+    savePlan = () => {
+        const { planTitle } = this.state;
+        if (window.confirm(`[${planTitle}] 일정 정보를 수정하시겠습니까 [미구현]`)) {
+            this.nextPage();
+        }
+    }
+
+    saveSpots = () => {
+        const { planTitle, spots } = this.state;
+        if (window.confirm(`[${planTitle}] 장소 정보를 수정하시겠습니까 [미구현]`)) {
+            console.log(spots);
+            this.nextPage();
+        }
+    }
+
+    savePreviews = () => {
+        const { planTitle, previews } = this.state;
+        if (window.confirm(`[${planTitle}] 미리보기 정보를 수정하시겠습니까 [미구현]`)) {
+            console.log(previews);
+            
+            
+            alert('수정 완료 [미구현]');
+            window.location = '/';
+        }
+    }
+
     getPage = () => {
         const { page,
             creators,
@@ -160,12 +190,13 @@ class ProductEditPage extends Component {
             handleTags,
             handleRecommendTargets,
             fileChangedHandler,
-            updateSpots
+            updateSpots,
+            updatePreviews,
         } = this;
 
         if (page === 0) {
             return (
-                <ProductStep1 nextPage={this.nextPage}
+                <ProductStep1 nextPage={this.savePlan}
                     creatorId={creatorId} creators={creators} onChangeCreator={handleCreatorName}
                     planTitle={planTitle} onChangePlanTitle={handlePlanTitle}
                     onChangeThumbnail={fileChangedHandler}
@@ -186,7 +217,7 @@ class ProductEditPage extends Component {
 
         if (page === 1) {
             return (
-                <ProductStep2 nextPage={this.nextPage}
+                <ProductStep2 nextPage={this.saveSpots}
                     spots={spots} onChangeSpots={updateSpots} />
             )
         }
@@ -194,7 +225,7 @@ class ProductEditPage extends Component {
         if (page === 2) {
             return (
                 <ProductStep3 nextPage={this.nextPage}
-                    spots={spots} previews={previews}/>
+                    spots={spots} previews={previews} onChangePreviews={updatePreviews}/>
             )
         }
 
@@ -207,12 +238,6 @@ class ProductEditPage extends Component {
 
     nextPage = () => {
         const { page } = this.state;
-
-        if (page >= 2) {
-            this.saveNewPlan();
-            return;
-        }
-
         const nextPage = page + 1;
         this.setState({
             page: nextPage

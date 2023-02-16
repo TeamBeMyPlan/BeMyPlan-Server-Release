@@ -35,6 +35,11 @@ const planApi = {
         const result = await api.put(`api/plans/${id}`, data);
 
         return result;
+    },
+    putSpots: async (id, data) => {
+        const result = await api.put(`api/plans/${id}/spots`, data);
+
+        return result;
     }
 }
 

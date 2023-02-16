@@ -168,18 +168,23 @@ class ProductEditPage extends Component {
                 recommendTargets: recommendTargets,
             });
 
-            if (response.code === 200) {
+            if (response.status === 200) {
                 console.log(response.data);
                 this.nextPage();
             }
         }
     }
 
-    saveSpots = () => {
-        const { planTitle, spots } = this.state;
+    saveSpots = async () => {
+        const { id, planTitle, spots } = this.state;
         if (window.confirm(`[${planTitle}] 장소 정보를 수정하시겠습니까 [미구현]`)) {
             console.log(spots);
-            this.nextPage();
+            const response = await planApi.putSpots(id, spots);
+
+            if (response.status === 200) {
+                console.log(response.data);
+                this.nextPage();
+            }
         }
     }
 

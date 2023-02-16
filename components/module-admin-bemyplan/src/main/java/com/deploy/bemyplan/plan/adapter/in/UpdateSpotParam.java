@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UpdateSpotParam {
-    private long id;
+    private Long id;
     private SpotCategoryType type;
     private int date;
     private String address;

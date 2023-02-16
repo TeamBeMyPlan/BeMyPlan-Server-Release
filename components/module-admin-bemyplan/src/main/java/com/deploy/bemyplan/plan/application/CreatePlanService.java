@@ -4,10 +4,8 @@ import com.deploy.bemyplan.domain.plan.Location;
 import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.plan.PlanRepository;
 import com.deploy.bemyplan.domain.plan.Preview;
-import com.deploy.bemyplan.domain.plan.PreviewContentStatus;
 import com.deploy.bemyplan.domain.plan.PreviewRepository;
 import com.deploy.bemyplan.domain.plan.Spot;
-import com.deploy.bemyplan.domain.plan.SpotImage;
 import com.deploy.bemyplan.domain.plan.SpotRepository;
 import com.deploy.bemyplan.image.s3.S3Locator;
 import com.deploy.bemyplan.plan.application.port.in.CreatePlanDto;
@@ -42,10 +40,9 @@ class CreatePlanService implements CreatePlanUseCase {
 
     private void createPreviews(List<CreatePreviewDto> createPreviewDtos, Plan plan, List<Spot> spots) {
         final List<Preview> previews = createPreviewDtos.stream()
-                .map(preview -> Preview.newInstance(
+                .map(preview -> new Preview(
                         plan,
                         preview.getDescription(),
-                        PreviewContentStatus.ACTIVE,
                         spots.get(preview.getSpotSeq())))
                 .collect(Collectors.toList());
         previewRepository.saveAll(previews);
@@ -59,24 +56,13 @@ class CreatePlanService implements CreatePlanUseCase {
                                 Location.of(spotDto.getAddress(), spotDto.getLatitude(), spotDto.getLongitude()),
                                 spotDto.getTip(),
                                 spotDto.getReview(),
+                                spotDto.getSavedImages().stream().map(image -> S3Locator.get(image)).collect(Collectors.toList()),
                                 plan,
                                 spotDto.getDate(),
                                 spotDto.getVehicle(),
                                 spotDto.getSpentTime()))
                 .collect(Collectors.toList());
-        spotRepository.saveAll(spots);
-
-        for (int i = 0; i < createSpotDtos.size(); i++) {
-            CreateSpotDto createSpotDto = createSpotDtos.get(i);
-            Spot spot = spots.get(i);
-
-            spot.setImage(createSpotDto.getSavedImages()
-                    .stream()
-                    .map(image -> new SpotImage(S3Locator.get(image), spot))
-                    .collect(Collectors.toList()));
-        }
-
-        return spots;
+        return spotRepository.saveAll(spots);
     }
 
     private Plan createNewPlan(CreatePlanRequest request) {

@@ -8,7 +8,6 @@ import com.deploy.bemyplan.domain.plan.Preview;
 import com.deploy.bemyplan.domain.plan.PreviewRepository;
 import com.deploy.bemyplan.domain.plan.RcmndStatus;
 import com.deploy.bemyplan.domain.plan.Spot;
-import com.deploy.bemyplan.domain.plan.SpotImage;
 import com.deploy.bemyplan.domain.plan.SpotRepository;
 import com.deploy.bemyplan.domain.plan.TagInfo;
 import com.deploy.bemyplan.image.s3.S3Locator;
@@ -21,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Transactional
@@ -32,8 +32,8 @@ class UpdatePlanService implements UpdatePlanUseCase {
     private final PreviewRepository previewRepository;
 
     @Override
-    public void updatePlan(UpdatePlanRequest request) {
-        Plan plan = planRepository.findById(request.getPlanId())
+    public void updatePlan(final UpdatePlanRequest request) {
+        final Plan plan = planRepository.findById(request.getPlanId())
                 .orElseThrow(IllegalArgumentException::new);
 
         plan.setCreatorId(request.getCreatorId());
@@ -54,36 +54,39 @@ class UpdatePlanService implements UpdatePlanUseCase {
     }
 
     @Override
-    public void updateSpots(UpdateSpotRequests requests) {
-        requests.getItems().stream()
-                .forEach(spotDto -> {
-                    Spot spot = spotRepository.findById(spotDto.getId())
-                            .orElseThrow(IllegalArgumentException::new);
+    public void updateSpots(final UpdateSpotRequests requests) {
+        final long planId = requests.getPlanId();
+        final Plan plan = planRepository.findById(planId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 일정입니다.: " + planId));
 
-                    spot.setTitle(spotDto.getName());
-                    spot.setCategory(spotDto.getType());
-                    spot.setLocation(Location.of(spotDto.getAddress(), spotDto.getLongitude(), spotDto.getLatitude()));
-                    spot.setTip(spotDto.getTip());
-                    spot.setReview(spotDto.getReview());
-                    spot.setDay(spotDto.getDate());
-                    spot.setImage(spotDto.getSavedImages().stream()
-                            .map(image -> new SpotImage(S3Locator.get(image), spot))
-                            .collect(Collectors.toList()));
-                });
+        final List<Spot> spots = requests.getItems().stream()
+                .map(item -> new Spot(item.getId(),
+                        item.getName(),
+                        item.getType(),
+                        Location.of(item.getAddress(), item.getLatitude(), item.getLongitude()),
+                        item.getTip(),
+                        item.getReview(),
+                        item.getSavedImages().stream().map(image -> S3Locator.get(image)).collect(Collectors.toList()),
+                        plan,
+                        item.getDate(),
+                        item.getVehicle(),
+                        item.getSpentTime()
+                )).collect(Collectors.toList());
+        spotRepository.saveAll(spots);
     }
 
     @Override
-    public void updatePreviews(UpdatePreviewRequests requests) {
-        requests.getItems().stream()
-                .forEach(request -> {
-                    Preview preview = previewRepository.findById(request.getId())
-                            .orElseThrow(IllegalArgumentException::new);
+    public void updatePreviews(final UpdatePreviewRequests requests) {
+        final long planId = requests.getPlanId();
+        final Plan plan = planRepository.findById(planId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 일정입니다.: " + planId));
 
-                    Spot spot = spotRepository.findById(request.getSpotId())
+        List<Preview> previews = requests.getItems().stream()
+                .map(item -> {
+                    final Spot spot = spotRepository.findById(item.getSpotId())
                             .orElseThrow(IllegalArgumentException::new);
-
-                    preview.setDescription(request.getDescription());
-                    preview.setSpot(spot);
-                });
+                    return new Preview(item.getId(), plan, item.getDescription(), spot);
+                }).collect(Collectors.toList());
+        previewRepository.saveAll(previews);
     }
 }

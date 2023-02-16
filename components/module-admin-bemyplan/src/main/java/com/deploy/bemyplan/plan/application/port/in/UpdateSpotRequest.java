@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @RequiredArgsConstructor
 public class UpdateSpotRequest {
-    private final long id;
+    private final Long id;
     private final SpotCategoryType type;
     private final int date;
     private final String address;

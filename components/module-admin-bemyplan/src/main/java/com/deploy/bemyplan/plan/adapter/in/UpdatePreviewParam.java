@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UpdatePreviewParam {
-    private long id;
+    private Long id;
     private long spotId;
     private String description;
 

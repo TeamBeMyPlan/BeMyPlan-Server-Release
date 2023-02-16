@@ -41,14 +41,15 @@ public class Preview {
     @JoinColumn(name = "spot_id", nullable = false)
     private Spot spot;
 
-    private Preview(final Plan plan, final String description, final PreviewContentStatus status, final Spot spot) {
+    public Preview(final Long id, final Plan plan, final String description, final Spot spot) {
+        this.id = id;
         this.plan = plan;
         this.description = description;
-        this.status = status;
         this.spot = spot;
+        this.status = PreviewContentStatus.ACTIVE;
     }
 
-    public static Preview newInstance(final Plan plan, final String description, final PreviewContentStatus status, final Spot spot) {
-        return new Preview(plan, description, status, spot);
+    public Preview(final Plan plan, final String description, final Spot spot) {
+        this(null, plan, description, spot);
     }
 }

@@ -21,6 +21,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Setter
 @Entity
@@ -60,6 +61,7 @@ public class Spot extends AuditingTimeEntity {
     private Integer spentMinute;
 
     public Spot(Long id, String title, SpotCategoryType category, Location location, String tip, String review,
+                List<String> images,
                 Plan plan,
                 int day,
                 TravelMobility vehicle,
@@ -70,7 +72,7 @@ public class Spot extends AuditingTimeEntity {
         this.location = location;
         this.tip = tip;
         this.review = review;
-        this.images.addAll(images);
+        this.images.addAll(images.stream().map(image -> new SpotImage(image, this)).collect(Collectors.toList()));
         this.plan = plan;
         this.day = day;
         this.vehicle = vehicle;
@@ -78,11 +80,12 @@ public class Spot extends AuditingTimeEntity {
     }
 
     public Spot(String title, SpotCategoryType category, Location location, String tip, String review,
+                List<String> images,
                 Plan plan,
                 int day,
                 TravelMobility vehicle,
                 Integer spentMinute) {
-        this(null, title, category, location, tip, review, plan, day, vehicle, spentMinute);
+        this(null, title, category, location, tip, review, images, plan, day, vehicle, spentMinute);
     }
 
     public void setImage(List<SpotImage> spotImages) {

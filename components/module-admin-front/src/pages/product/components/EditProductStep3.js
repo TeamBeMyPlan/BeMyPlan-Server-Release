@@ -14,10 +14,7 @@ class EditProductStep3 extends Component {
 
     componentDidMount() {
         const { spots } = this.props;
-        const comboBoxItems = [{
-            value: null,
-            label: '-'
-        }, ...spots.map(spot => ({
+        const comboBoxItems = [ ...spots.map(spot => ({
             value: spot.id,
             label: spot.name
         }))];

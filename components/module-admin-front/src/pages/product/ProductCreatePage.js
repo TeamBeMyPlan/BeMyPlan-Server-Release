@@ -32,8 +32,7 @@ class ProductCreatePage extends Component {
         spots: [],
         previews: [
             {
-                spotSeq: -1,
-                image: '',
+                spotSeq: 0,
                 description: ''
             }
         ]

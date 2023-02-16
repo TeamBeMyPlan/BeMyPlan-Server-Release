@@ -1,13 +1,13 @@
 package com.deploy.bemyplan.plan.adapter.in;
 
 import com.deploy.bemyplan.domain.user.Creator;
-import com.deploy.bemyplan.plan.application.port.in.CreatePlanDto;
 import com.deploy.bemyplan.plan.application.port.in.CreatePlanRequest;
 import com.deploy.bemyplan.plan.application.port.in.CreatePlanUseCase;
-import com.deploy.bemyplan.plan.application.port.in.CreatePreviewDto;
-import com.deploy.bemyplan.plan.application.port.in.CreateSpotDto;
 import com.deploy.bemyplan.plan.application.port.in.DeletePlanUseCase;
-import com.deploy.bemyplan.plan.application.port.in.InquiryPlanUseCase;
+import com.deploy.bemyplan.plan.application.port.in.ReadPlanDto;
+import com.deploy.bemyplan.plan.application.port.in.ReadPlanUseCase;
+import com.deploy.bemyplan.plan.application.port.in.ReadPreviewDto;
+import com.deploy.bemyplan.plan.application.port.in.ReadSpotDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +23,7 @@ import java.util.List;
 public class AdminPlanController {
 
     private final CreatePlanUseCase createPlanService;
-    private final InquiryPlanUseCase inquiryPlanService;
+    private final ReadPlanUseCase inquiryPlanService;
     private final DeletePlanUseCase deletePlanService;
 
 
@@ -33,22 +33,22 @@ public class AdminPlanController {
     }
 
     @GetMapping("/api/plans")
-    public List<CreatePlanDto> getPlans() {
+    public List<ReadPlanDto> getPlans() {
         return inquiryPlanService.getPlans();
     }
 
     @GetMapping("/api/plans/{planId}")
-    public CreatePlanDto getPlan(@PathVariable Long planId) {
+    public ReadPlanDto getPlan(@PathVariable Long planId) {
         return inquiryPlanService.getPlan(planId);
     }
 
     @GetMapping("/api/plans/{planId}/spots")
-    public List<CreateSpotDto> getSpots(@PathVariable Long planId) {
+    public List<ReadSpotDto> getSpots(@PathVariable Long planId) {
         return inquiryPlanService.getSpots(planId);
     }
 
     @GetMapping("/api/plans/{planId}/previews")
-    public List<CreatePreviewDto> getPreviews(@PathVariable Long planId) {
+    public List<ReadPreviewDto> getPreviews(@PathVariable Long planId) {
         return inquiryPlanService.getPreviews(planId);
     }
 

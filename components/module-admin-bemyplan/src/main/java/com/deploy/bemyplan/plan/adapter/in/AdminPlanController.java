@@ -10,8 +10,8 @@ import com.deploy.bemyplan.plan.application.port.in.ReadPreviewDto;
 import com.deploy.bemyplan.plan.application.port.in.ReadSpotDto;
 import com.deploy.bemyplan.plan.application.port.in.UpdatePlanRequest;
 import com.deploy.bemyplan.plan.application.port.in.UpdatePlanUseCase;
-import com.deploy.bemyplan.plan.application.port.in.UpdatePreviewRequest;
-import com.deploy.bemyplan.plan.application.port.in.UpdateSpotRequest;
+import com.deploy.bemyplan.plan.application.port.in.UpdatePreviewRequests;
+import com.deploy.bemyplan.plan.application.port.in.UpdateSpotRequests;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
@@ -81,15 +82,19 @@ public class AdminPlanController {
                 param.getRecommendTargets()));
     }
 
-    @PutMapping("/api/plans/spots")
-    void updateSpots(@RequestBody List<UpdateSpotRequest> requests) {
-        updatePlanUseCase.updateSpots(requests);
+    @PutMapping("/api/plans/{planId}/spots")
+    void updateSpots(@PathVariable long planId, @RequestBody List<UpdateSpotParam> params) {
+        updatePlanUseCase.updateSpots(UpdateSpotRequests.of(planId, params.stream()
+                .map(UpdateSpotParam::toRequest)
+                .collect(Collectors.toList())));
     }
 
 
-    @PutMapping("/api/plans/previews")
-    void updatePreviews(@RequestBody List<UpdatePreviewRequest> requests) {
-        updatePlanUseCase.updatePreviews(requests);
+    @PutMapping("/api/plans/{planId}/previews")
+    void updatePreviews(@PathVariable long planId, @RequestBody List<UpdatePreviewParam> params) {
+        updatePlanUseCase.updatePreviews(UpdatePreviewRequests.of(planId, params.stream()
+                .map(UpdatePreviewParam::toRequest)
+                .collect(Collectors.toList())));
     }
 
     @GetMapping("/api/creator")

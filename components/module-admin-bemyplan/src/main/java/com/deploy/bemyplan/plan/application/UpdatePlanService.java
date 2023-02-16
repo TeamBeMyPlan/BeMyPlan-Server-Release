@@ -14,14 +14,13 @@ import com.deploy.bemyplan.domain.plan.TagInfo;
 import com.deploy.bemyplan.image.s3.S3Locator;
 import com.deploy.bemyplan.plan.application.port.in.UpdatePlanRequest;
 import com.deploy.bemyplan.plan.application.port.in.UpdatePlanUseCase;
-import com.deploy.bemyplan.plan.application.port.in.UpdatePreviewRequest;
-import com.deploy.bemyplan.plan.application.port.in.UpdateSpotRequest;
+import com.deploy.bemyplan.plan.application.port.in.UpdatePreviewRequests;
+import com.deploy.bemyplan.plan.application.port.in.UpdateSpotRequests;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Transactional
@@ -55,8 +54,8 @@ class UpdatePlanService implements UpdatePlanUseCase {
     }
 
     @Override
-    public void updateSpots(List<UpdateSpotRequest> requests) {
-        requests.stream()
+    public void updateSpots(UpdateSpotRequests requests) {
+        requests.getItems().stream()
                 .forEach(spotDto -> {
                     Spot spot = spotRepository.findById(spotDto.getId())
                             .orElseThrow(IllegalArgumentException::new);
@@ -74,8 +73,8 @@ class UpdatePlanService implements UpdatePlanUseCase {
     }
 
     @Override
-    public void updatePreviews(List<UpdatePreviewRequest> requests) {
-        requests.stream()
+    public void updatePreviews(UpdatePreviewRequests requests) {
+        requests.getItems().stream()
                 .forEach(request -> {
                     Preview preview = previewRepository.findById(request.getId())
                             .orElseThrow(IllegalArgumentException::new);

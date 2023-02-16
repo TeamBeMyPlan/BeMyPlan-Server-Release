@@ -1,13 +1,12 @@
 package com.deploy.bemyplan.plan.application.port.in;
 
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@RequiredArgsConstructor
 public class UpdatePreviewRequest {
-    private long id;
-    private long spotId;
-    private String description;
+    private final long id;
+    private final long spotId;
+    private final String description;
 }

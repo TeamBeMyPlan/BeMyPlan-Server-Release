@@ -116,7 +116,7 @@ class ProductStep2 extends Component {
             nextSpotVehicle,
         } = this.state;
 
-        const newSpot = this.props.spots[editSpotSeq];
+        const newSpot = this.props.spots.find(spot => spot.seq === editSpotSeq);
         newSpot.name = name;
         newSpot.review = review;
         newSpot.tip = tip;

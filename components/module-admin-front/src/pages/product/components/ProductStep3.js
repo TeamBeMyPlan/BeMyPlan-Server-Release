@@ -15,10 +15,7 @@ class ProductStep3 extends Component {
     componentDidMount() {
         const { spots } = this.props;
 
-        const comboBoxItems = [{
-            value: null,
-            label: '-'
-        }, ...spots.map(spot => ({
+        const comboBoxItems = [...spots.map(spot => ({
             value: spot.seq,
             label: spot.name
         }))];
@@ -33,7 +30,7 @@ class ProductStep3 extends Component {
         const { previews } = this.state;
         this.setState({
             previews: [...previews, {
-                spotId: -1,
+                spotSeq: 0,
                 image: '',
                 description: ''
             }]

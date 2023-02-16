@@ -16,7 +16,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +43,7 @@ public class Preview {
     @Enumerated(EnumType.STRING)
     private PreviewContentStatus status;
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "spot_id", nullable = false)
     private Spot spot;
 

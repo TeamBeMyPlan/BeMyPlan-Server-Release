@@ -1,8 +1,7 @@
-package com.deploy.bemyplan.plan;
+package com.deploy.bemyplan.plan.application.port.in;
 
 import com.deploy.bemyplan.domain.plan.Preview;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -13,7 +12,6 @@ public class PreviewDto {
     private String description;
     private String image;
 
-    @Builder(builderMethodName = "testBuilder")
     PreviewDto(int spotSeq, String description, String image) {
         this.spotSeq = spotSeq;
         this.description = description;

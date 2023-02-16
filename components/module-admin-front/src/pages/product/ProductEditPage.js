@@ -56,6 +56,7 @@ class ProductEditPage extends Component {
     async fetchSpots(id) {
         const spots = await planApi.getSpots(id);
         if (spots.code === 200) {
+            console.log(spots.data)
             this.setState({
                 spots: [...spots.data]
             })
@@ -65,6 +66,7 @@ class ProductEditPage extends Component {
     async fetchPreviews(id) {
         const previews = await planApi.getPreviews(id);
         if (previews.code === 200) {
+            console.log(previews.data)
             this.setState({
                 previews: [...previews.data]
             })

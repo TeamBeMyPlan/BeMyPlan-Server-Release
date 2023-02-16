@@ -1,6 +1,5 @@
-package com.deploy.bemyplan.plan;
+package com.deploy.bemyplan.plan.application.port.in;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -13,8 +12,7 @@ public class CreatePlanRequest {
     private List<SpotDto> spots;
     private List<PreviewDto> previews;
 
-    @Builder(builderMethodName = "testBuilder")
-    CreatePlanRequest(final PlanDto plan, final List<SpotDto> spots, final List<PreviewDto> previews) {
+    public CreatePlanRequest(final PlanDto plan, final List<SpotDto> spots, final List<PreviewDto> previews) {
         this.plan = plan;
         this.spots = spots;
         this.previews = previews;

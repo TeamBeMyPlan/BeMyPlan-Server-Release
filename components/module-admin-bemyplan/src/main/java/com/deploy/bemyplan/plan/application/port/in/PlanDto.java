@@ -1,4 +1,4 @@
-package com.deploy.bemyplan.plan;
+package com.deploy.bemyplan.plan.application.port.in;
 
 import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.plan.Region;

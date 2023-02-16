@@ -6,6 +6,7 @@ import com.deploy.bemyplan.domain.plan.PreviewContentStatus;
 import com.deploy.bemyplan.domain.plan.PreviewRepository;
 import com.deploy.bemyplan.domain.plan.Spot;
 import com.deploy.bemyplan.image.s3.S3Locator;
+import com.deploy.bemyplan.plan.application.port.in.PreviewDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

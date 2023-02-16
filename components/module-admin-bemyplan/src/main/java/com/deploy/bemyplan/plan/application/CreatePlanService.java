@@ -1,4 +1,4 @@
-package com.deploy.bemyplan.plan;
+package com.deploy.bemyplan.plan.application;
 
 import com.deploy.bemyplan.domain.plan.Location;
 import com.deploy.bemyplan.domain.plan.Plan;
@@ -6,9 +6,13 @@ import com.deploy.bemyplan.domain.plan.PlanRepository;
 import com.deploy.bemyplan.domain.plan.Spot;
 import com.deploy.bemyplan.domain.plan.SpotImage;
 import com.deploy.bemyplan.domain.plan.SpotRepository;
-import com.deploy.bemyplan.domain.user.Creator;
-import com.deploy.bemyplan.domain.user.CreatorRepository;
 import com.deploy.bemyplan.image.s3.S3Locator;
+import com.deploy.bemyplan.plan.PreviewAdapter;
+import com.deploy.bemyplan.plan.application.port.in.CreatePlanRequest;
+import com.deploy.bemyplan.plan.application.port.in.CreatePlanUseCase;
+import com.deploy.bemyplan.plan.application.port.in.PlanDto;
+import com.deploy.bemyplan.plan.application.port.in.PreviewDto;
+import com.deploy.bemyplan.plan.application.port.in.SpotDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,13 +22,11 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-public class CreatePlanService {
+class CreatePlanService implements CreatePlanUseCase {
     private final SpotRepository spotRepository;
     private final PreviewAdapter previewAdapter;
     private final PlanRepository planRepository;
     private final PlanMapper planMapper;
-
-    private final CreatorRepository creatorRepository;
 
     @Transactional
     public void createPlan(CreatePlanRequest request) {
@@ -35,9 +37,6 @@ public class CreatePlanService {
         createPreviews(request.getPreviews(), plan, spots);
     }
 
-    public List<Creator> getCreators() {
-        return creatorRepository.findAll();
-    }
 
     private void createPreviews(List<PreviewDto> previewDtos, Plan plan, List<Spot> spots) {
         previewAdapter.saveAll(previewDtos, plan, spots);

@@ -1,9 +1,15 @@
-package com.deploy.bemyplan.plan;
+package com.deploy.bemyplan.plan.application;
 
 import com.deploy.bemyplan.domain.plan.PlanRepository;
 import com.deploy.bemyplan.domain.plan.PreviewRepository;
 import com.deploy.bemyplan.domain.plan.Spot;
 import com.deploy.bemyplan.domain.plan.SpotRepository;
+import com.deploy.bemyplan.domain.user.Creator;
+import com.deploy.bemyplan.domain.user.CreatorRepository;
+import com.deploy.bemyplan.plan.application.port.in.InquiryPlanUseCase;
+import com.deploy.bemyplan.plan.application.port.in.PlanDto;
+import com.deploy.bemyplan.plan.application.port.in.PreviewDto;
+import com.deploy.bemyplan.plan.application.port.in.SpotDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +20,7 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
-class InquiryPlanService {
+class InquiryPlanService implements InquiryPlanUseCase {
 
     private final PlanRepository planRepository;
 
@@ -22,6 +28,14 @@ class InquiryPlanService {
 
     private final PreviewRepository previewRepository;
 
+    private final CreatorRepository creatorRepository;
+
+    @Override
+    public List<Creator> getCreators() {
+        return creatorRepository.findAll();
+    }
+
+    @Override
     public List<PlanDto> getPlans() {
         return planRepository.findAll()
                 .stream()
@@ -29,12 +43,14 @@ class InquiryPlanService {
                 .collect(Collectors.toList());
     }
 
+    @Override
     public PlanDto getPlan(Long planId) {
         return planRepository.findById(planId)
                 .map(PlanDto::from)
                 .orElseThrow(IllegalStateException::new);
     }
 
+    @Override
     public List<SpotDto> getSpots(Long planId) {
         List<Spot> spots = spotRepository.findAllByPlanId(planId);
         return spots
@@ -46,6 +62,7 @@ class InquiryPlanService {
                 .collect(Collectors.toList());
     }
 
+    @Override
     public List<PreviewDto> getPreviews(Long planId) {
         List<Spot> spots = spotRepository.findAllByPlanId(planId);
 

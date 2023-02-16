@@ -4,6 +4,7 @@ import com.deploy.bemyplan.domain.common.ListToStringConverter;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Convert;
@@ -19,6 +20,7 @@ import javax.persistence.ManyToOne;
 import java.util.ArrayList;
 import java.util.List;
 
+@Setter
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

@@ -4,6 +4,8 @@ import com.deploy.bemyplan.domain.plan.Location;
 import com.deploy.bemyplan.domain.plan.Money;
 import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.plan.PlanRepository;
+import com.deploy.bemyplan.domain.plan.Preview;
+import com.deploy.bemyplan.domain.plan.PreviewRepository;
 import com.deploy.bemyplan.domain.plan.RcmndStatus;
 import com.deploy.bemyplan.domain.plan.Spot;
 import com.deploy.bemyplan.domain.plan.SpotImage;
@@ -28,6 +30,7 @@ import java.util.stream.Collectors;
 class UpdatePlanService implements UpdatePlanUseCase {
     private final PlanRepository planRepository;
     private final SpotRepository spotRepository;
+    private final PreviewRepository previewRepository;
 
     @Override
     public void updatePlan(UpdatePlanRequest request) {
@@ -72,6 +75,16 @@ class UpdatePlanService implements UpdatePlanUseCase {
 
     @Override
     public void updatePreviews(List<UpdatePreviewRequest> requests) {
+        requests.stream()
+                .forEach(request -> {
+                    Preview preview = previewRepository.findById(request.getId())
+                            .orElseThrow(IllegalArgumentException::new);
 
+                    Spot spot = spotRepository.findById(request.getSpotId())
+                            .orElseThrow(IllegalArgumentException::new);
+
+                    preview.setDescription(preview.getDescription());
+                    preview.setSpot(spot);
+                });
     }
 }

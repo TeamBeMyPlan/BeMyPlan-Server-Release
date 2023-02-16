@@ -4,6 +4,7 @@ import com.deploy.bemyplan.domain.common.AuditingTimeEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -21,6 +22,7 @@ import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 
+@Setter
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

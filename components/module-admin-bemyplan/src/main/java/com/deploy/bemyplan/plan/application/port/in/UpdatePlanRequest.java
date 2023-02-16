@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class UpdatePlanDto {
+public class UpdatePlanRequest {
     private final long planId;
     private final Long creatorId;
     private final String title;

@@ -8,8 +8,9 @@ import com.deploy.bemyplan.plan.application.port.in.ReadPlanDto;
 import com.deploy.bemyplan.plan.application.port.in.ReadPlanUseCase;
 import com.deploy.bemyplan.plan.application.port.in.ReadPreviewDto;
 import com.deploy.bemyplan.plan.application.port.in.ReadSpotDto;
-import com.deploy.bemyplan.plan.application.port.in.UpdatePlanDto;
+import com.deploy.bemyplan.plan.application.port.in.UpdatePlanRequest;
 import com.deploy.bemyplan.plan.application.port.in.UpdatePlanUseCase;
+import com.deploy.bemyplan.plan.application.port.in.UpdateSpotRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -61,8 +62,8 @@ public class AdminPlanController {
     }
 
     @PutMapping("/api/plans/{planId}")
-    void updatePlan(@PathVariable long planId, @RequestBody UpdatePlanRequest request) {
-        updatePlanUseCase.updatePlan(new UpdatePlanDto(planId,
+    void updatePlan(@PathVariable long planId, @RequestBody com.deploy.bemyplan.plan.adapter.in.UpdatePlanRequest request) {
+        updatePlanUseCase.updatePlan(new UpdatePlanRequest(planId,
                 request.getCreatorId(),
                 request.getTitle(),
                 request.getDescription(),
@@ -77,6 +78,11 @@ public class AdminPlanController {
                 request.getRegion(),
                 request.getTags(),
                 request.getRecommendTargets()));
+    }
+
+    @PutMapping("/api/plans/{planId}/spots")
+    void updateSpots(@PathVariable long planId, @RequestBody List<UpdateSpotRequest> requests) {
+        updatePlanUseCase.updateSpots(requests);
     }
 
     @GetMapping("/api/creator")

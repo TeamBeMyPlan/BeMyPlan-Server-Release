@@ -6,4 +6,6 @@ public interface UpdatePlanUseCase {
     void updatePlan(UpdatePlanRequest updatePlanRequest);
 
     void updateSpots(List<UpdateSpotRequest> requests);
+
+    void updatePreviews(List<UpdatePreviewRequest> requests);
 }

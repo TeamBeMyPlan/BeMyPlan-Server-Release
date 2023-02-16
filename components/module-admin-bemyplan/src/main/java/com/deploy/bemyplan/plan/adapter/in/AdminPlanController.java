@@ -10,6 +10,7 @@ import com.deploy.bemyplan.plan.application.port.in.ReadPreviewDto;
 import com.deploy.bemyplan.plan.application.port.in.ReadSpotDto;
 import com.deploy.bemyplan.plan.application.port.in.UpdatePlanRequest;
 import com.deploy.bemyplan.plan.application.port.in.UpdatePlanUseCase;
+import com.deploy.bemyplan.plan.application.port.in.UpdatePreviewRequest;
 import com.deploy.bemyplan.plan.application.port.in.UpdateSpotRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -80,9 +81,15 @@ public class AdminPlanController {
                 request.getRecommendTargets()));
     }
 
-    @PutMapping("/api/plans/{planId}/spots")
-    void updateSpots(@PathVariable long planId, @RequestBody List<UpdateSpotRequest> requests) {
+    @PutMapping("/api/plans/spots")
+    void updateSpots(@RequestBody List<UpdateSpotRequest> requests) {
         updatePlanUseCase.updateSpots(requests);
+    }
+
+
+    @PutMapping("/api/plans/previews")
+    void updatePreviews(@RequestBody List<UpdatePreviewRequest> requests) {
+        updatePlanUseCase.updatePreviews(requests);
     }
 
     @GetMapping("/api/creator")

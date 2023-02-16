@@ -12,6 +12,7 @@ import com.deploy.bemyplan.domain.plan.TagInfo;
 import com.deploy.bemyplan.image.s3.S3Locator;
 import com.deploy.bemyplan.plan.application.port.in.UpdatePlanRequest;
 import com.deploy.bemyplan.plan.application.port.in.UpdatePlanUseCase;
+import com.deploy.bemyplan.plan.application.port.in.UpdatePreviewRequest;
 import com.deploy.bemyplan.plan.application.port.in.UpdateSpotRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -67,5 +68,10 @@ class UpdatePlanService implements UpdatePlanUseCase {
                             .map(image -> new SpotImage(S3Locator.get(image), spot))
                             .collect(Collectors.toList()));
                 });
+    }
+
+    @Override
+    public void updatePreviews(List<UpdatePreviewRequest> requests) {
+
     }
 }

@@ -16,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,18 +44,19 @@ public class Preview {
     @Enumerated(EnumType.STRING)
     private PreviewContentStatus status;
 
-    @Column(nullable = false)
-    private Long spotId;
+    @OneToOne
+    @JoinColumn(name = "spot_id", nullable = false)
+    private Spot spot;
 
-    private Preview(final Plan plan, final List<String> imageUrls, final String description, final PreviewContentStatus status, final Long spotId) {
+    private Preview(final Plan plan, final List<String> imageUrls, final String description, final PreviewContentStatus status, final Spot spot) {
         this.plan = plan;
         this.imageUrls.addAll(imageUrls);
         this.description = description;
         this.status = status;
-        this.spotId = spotId;
+        this.spot = spot;
     }
 
-    public static Preview newInstance(final Plan plan, final List<String> imageUrls, final String description, final PreviewContentStatus status, final Long spotId) {
-        return new Preview(plan, imageUrls, description, status, spotId);
+    public static Preview newInstance(final Plan plan, final List<String> imageUrls, final String description, final PreviewContentStatus status, final Spot spot) {
+        return new Preview(plan, imageUrls, description, status, spot);
     }
 }

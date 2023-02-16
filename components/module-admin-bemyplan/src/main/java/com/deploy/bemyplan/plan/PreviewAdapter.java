@@ -20,10 +20,12 @@ public class PreviewAdapter {
 
     public void saveAll(final List<CreatePreviewDto> createPreviewDtos, final Plan plan, final List<Spot> spots) {
         final List<Preview> previews = createPreviewDtos.stream()
-                .map(preview -> Preview.newInstance(plan, List.of(S3Locator.get(preview.getImage())),
+                .map(preview -> Preview.newInstance(
+                        plan,
+                        List.of(S3Locator.get(preview.getImage())),
                         preview.getDescription(),
                         PreviewContentStatus.ACTIVE,
-                        spots.get(preview.getSpotSeq()).getId()))
+                        spots.get(preview.getSpotSeq())))
                 .collect(Collectors.toList());
         savePreviews(previews);
     }

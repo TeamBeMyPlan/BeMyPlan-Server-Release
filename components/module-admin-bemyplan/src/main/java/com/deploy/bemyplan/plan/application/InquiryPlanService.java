@@ -69,7 +69,7 @@ class InquiryPlanService implements InquiryPlanUseCase {
         return previewRepository.findAllPreviewByPlanId(planId)
                 .stream()
                 .map(preview -> {
-                    int spotSeq = getSpotSeq(spots, preview.getSpotId());
+                    int spotSeq = getSpotSeq(spots, preview.getSpot().getId());
                     return CreatePreviewDto.from(spotSeq, preview);
                 })
                 .collect(Collectors.toList());

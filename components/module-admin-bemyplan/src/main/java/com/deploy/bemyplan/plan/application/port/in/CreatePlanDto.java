@@ -14,7 +14,6 @@ import lombok.NoArgsConstructor;
 public class CreatePlanDto {
 
     private Long creatorId;
-    private Long id;
     private String title;
     private String description;
     private String thumbnail;
@@ -29,9 +28,8 @@ public class CreatePlanDto {
     private String tags;
     private String recommendTargets;
 
-    public CreatePlanDto(final Long creatorId, final Long id, final String title, final String description, final String thumbnail, final int price, final boolean recommend, final TravelMobility vehicle, final TravelTheme concept, final int cost, final int period, final TravelPartner partner, final Region region, final String tags, final String recommendTargets) {
+    public CreatePlanDto(final Long creatorId, final String title, final String description, final String thumbnail, final int price, final boolean recommend, final TravelMobility vehicle, final TravelTheme concept, final int cost, final int period, final TravelPartner partner, final Region region, final String tags, final String recommendTargets) {
         this.creatorId = creatorId;
-        this.id = id;
         this.title = title;
         this.description = description;
         this.thumbnail = thumbnail;
@@ -50,7 +48,6 @@ public class CreatePlanDto {
     public static CreatePlanDto from(Plan plan) {
         return new CreatePlanDto(
                 plan.getCreatorId(),
-                plan.getId(),
                 plan.getTitle(),
                 plan.getDescription(),
                 plan.getThumbnailUrl(),

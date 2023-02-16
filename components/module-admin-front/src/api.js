@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// const serverUrl = 'http://3.39.166.87';
-const serverUrl = 'http://localhost:8080';
+const serverUrl = 'http://3.39.166.87';
+// const serverUrl = 'http://localhost:8080';
 const api = {
   get: async (url, data) => {
     try {

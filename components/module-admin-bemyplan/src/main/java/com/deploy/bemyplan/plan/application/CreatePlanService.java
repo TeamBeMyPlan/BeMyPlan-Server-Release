@@ -3,11 +3,13 @@ package com.deploy.bemyplan.plan.application;
 import com.deploy.bemyplan.domain.plan.Location;
 import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.plan.PlanRepository;
+import com.deploy.bemyplan.domain.plan.Preview;
+import com.deploy.bemyplan.domain.plan.PreviewContentStatus;
+import com.deploy.bemyplan.domain.plan.PreviewRepository;
 import com.deploy.bemyplan.domain.plan.Spot;
 import com.deploy.bemyplan.domain.plan.SpotImage;
 import com.deploy.bemyplan.domain.plan.SpotRepository;
 import com.deploy.bemyplan.image.s3.S3Locator;
-import com.deploy.bemyplan.plan.PreviewAdapter;
 import com.deploy.bemyplan.plan.application.port.in.CreatePlanDto;
 import com.deploy.bemyplan.plan.application.port.in.CreatePlanRequest;
 import com.deploy.bemyplan.plan.application.port.in.CreatePlanUseCase;
@@ -24,7 +26,7 @@ import java.util.stream.Collectors;
 @Service
 class CreatePlanService implements CreatePlanUseCase {
     private final SpotRepository spotRepository;
-    private final PreviewAdapter previewAdapter;
+    private final PreviewRepository previewRepository;
     private final PlanRepository planRepository;
     private final PlanMapper planMapper;
 
@@ -39,7 +41,15 @@ class CreatePlanService implements CreatePlanUseCase {
 
 
     private void createPreviews(List<CreatePreviewDto> createPreviewDtos, Plan plan, List<Spot> spots) {
-        previewAdapter.saveAll(createPreviewDtos, plan, spots);
+        final List<Preview> previews = createPreviewDtos.stream()
+                .map(preview -> Preview.newInstance(
+                        plan,
+                        List.of(S3Locator.get(preview.getImage())),
+                        preview.getDescription(),
+                        PreviewContentStatus.ACTIVE,
+                        spots.get(preview.getSpotSeq())))
+                .collect(Collectors.toList());
+        previewRepository.saveAll(previews);
     }
 
     private List<Spot> createSpotsBySchedules(Plan plan, List<CreateSpotDto> createSpotDtos) {

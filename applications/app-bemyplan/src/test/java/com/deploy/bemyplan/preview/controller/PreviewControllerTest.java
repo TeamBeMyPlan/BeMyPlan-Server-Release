@@ -60,8 +60,8 @@ class PreviewControllerTest {
     void getPreviewContent_ReturnsPreviewContentsDto() throws Exception {
         //given
         final Plan givenPlan = Plan.newInstance(1L, RegionCategory.JEJU, Region.JEJUALL, "", "", "", TagInfo.testBuilder().build(), 0, PlanStatus.ACTIVE, RcmndStatus.NONE, Collections.emptyList(), Collections.emptyList());
-        final Preview givenPreview1 = Preview.newInstance(givenPlan, List.of("image.png", "image2.png"), "description", PreviewContentStatus.ACTIVE, null);
-        final Preview givenPreview2 = Preview.newInstance(givenPlan, List.of("image3.png", "image4.png"), "description2", PreviewContentStatus.ACTIVE, null);
+        final Preview givenPreview1 = Preview.newInstance(givenPlan,"description", PreviewContentStatus.ACTIVE, null);
+        final Preview givenPreview2 = Preview.newInstance(givenPlan,"description2", PreviewContentStatus.ACTIVE, null);
         given(stubPreviewService.getPreviewContent(any())).willReturn(PreviewContentListResponse.of(List.of(givenPreview1, givenPreview2)));
 
         mockMvc.perform(get("/api/v2/preview/{planId}", 1))

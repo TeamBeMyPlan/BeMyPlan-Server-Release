@@ -10,13 +10,11 @@ public class ReadPreviewDto {
     private final long id;
     private final long spotId;
     private final String description;
-    private final String image;
 
     public static ReadPreviewDto from(Preview preview) {
         return new ReadPreviewDto(
                 preview.getId(),
                 preview.getSpot().getId(),
-                preview.getDescription(),
-                preview.getImageUrls().get(0));
+                preview.getDescription());
     }
 }

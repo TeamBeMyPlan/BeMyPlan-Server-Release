@@ -44,7 +44,6 @@ class CreatePlanService implements CreatePlanUseCase {
         final List<Preview> previews = createPreviewDtos.stream()
                 .map(preview -> Preview.newInstance(
                         plan,
-                        List.of(S3Locator.get(preview.getImage())),
                         preview.getDescription(),
                         PreviewContentStatus.ACTIVE,
                         spots.get(preview.getSpotSeq())))

@@ -6,6 +6,9 @@ import com.deploy.bemyplan.domain.plan.PlanRepository;
 import com.deploy.bemyplan.domain.plan.Preview;
 import com.deploy.bemyplan.domain.plan.PreviewRepository;
 import com.deploy.bemyplan.domain.plan.RegionCategory;
+import com.deploy.bemyplan.domain.plan.Spot;
+import com.deploy.bemyplan.domain.plan.SpotImage;
+import com.deploy.bemyplan.domain.plan.SpotRepository;
 import com.deploy.bemyplan.domain.user.Creator;
 import com.deploy.bemyplan.domain.user.CreatorRepository;
 import com.deploy.bemyplan.plan.controller.RetrievePlansRequest;
@@ -32,6 +35,8 @@ public class PlanService {
     private final PlanRepository planRepository;
     private final CreatorRepository creatorRepository;
 
+    private final SpotRepository spotRepository;
+
     public List<PlanRandomResponse> getPlanListByRandom(final Long planId, final RegionCategory region) {
         final Pageable size = PageRequest.of(0, 10);
         final List<Plan> plans = planRepository.findPlansByRegionAndSize(planId, region, size);
@@ -53,8 +58,15 @@ public class PlanService {
 
     @NotNull
     private List<String> getPreviewImages(final List<Preview> previews) {
+
         return previews.stream()
-                .map(preview -> preview.getImageUrls().get(0))
+                .map(preview -> getSpotImages(preview.getSpot()).get(0))
+                .collect(Collectors.toList());
+    }
+
+    private List<String> getSpotImages(final Spot spot) {
+        return spot.getImages().stream()
+                .map(SpotImage::getUrl)
                 .collect(Collectors.toList());
     }
 

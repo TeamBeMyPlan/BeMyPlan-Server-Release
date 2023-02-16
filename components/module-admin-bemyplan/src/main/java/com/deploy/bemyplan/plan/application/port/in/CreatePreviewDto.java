@@ -10,18 +10,15 @@ import lombok.NoArgsConstructor;
 public class CreatePreviewDto {
     private int spotSeq;
     private String description;
-    private String image;
 
-    CreatePreviewDto(int spotSeq, String description, String image) {
+    CreatePreviewDto(int spotSeq, String description) {
         this.spotSeq = spotSeq;
         this.description = description;
-        this.image = image;
     }
 
     public static CreatePreviewDto from(int spotSeq, Preview preview) {
         return new CreatePreviewDto(
                 spotSeq,
-                preview.getDescription(),
-                preview.getImageUrls().get(0));
+                preview.getDescription());
     }
 }

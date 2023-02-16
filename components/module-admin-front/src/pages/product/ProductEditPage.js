@@ -176,10 +176,10 @@ class ProductEditPage extends Component {
     }
 
     saveSpots = async () => {
-        const { planTitle, spots } = this.state;
+        const { id, planTitle, spots } = this.state;
         if (window.confirm(`[${planTitle}] 장소 정보를 수정하시겠습니까 [미구현]`)) {
             console.log(spots);
-            const response = await planApi.putSpots(spots);
+            const response = await planApi.putSpots(id, spots);
 
             if (response.status === 200) {
                 console.log(response.data);
@@ -189,11 +189,11 @@ class ProductEditPage extends Component {
     }
 
     savePreviews = async () => {
-        const { planTitle, previews } = this.state;
+        const { id, planTitle, previews } = this.state;
         if (window.confirm(`[${planTitle}] 미리보기 정보를 수정하시겠습니까 [미구현]`)) {
             console.log(previews);
             
-            const response = await planApi.putPreviews(previews);
+            const response = await planApi.putPreviews(id, previews);
 
             if (response.status === 200) {
                 console.log(response.data);

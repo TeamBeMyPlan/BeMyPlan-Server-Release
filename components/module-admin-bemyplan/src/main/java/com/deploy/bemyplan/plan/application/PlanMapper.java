@@ -7,7 +7,7 @@ import com.deploy.bemyplan.domain.plan.RcmndStatus;
 import com.deploy.bemyplan.domain.plan.RegionCategory;
 import com.deploy.bemyplan.domain.plan.TagInfo;
 import com.deploy.bemyplan.image.s3.S3Locator;
-import com.deploy.bemyplan.plan.application.port.in.PlanDto;
+import com.deploy.bemyplan.plan.application.port.in.CreatePlanDto;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -15,25 +15,25 @@ import java.util.Arrays;
 @Component
 class PlanMapper {
 
-    Plan toDomain(PlanDto planDto, int totalDays) {
+    Plan toDomain(CreatePlanDto createPlanDto, int totalDays) {
         return Plan.newInstance(
-                planDto.getCreatorId(),
+                createPlanDto.getCreatorId(),
                 RegionCategory.JEJU,
-                planDto.getRegion(),
-                S3Locator.get(planDto.getThumbnail()),
-                planDto.getTitle(),
-                planDto.getDescription(),
-                new TagInfo(planDto.getConcept(),
-                        planDto.getPartner(),
-                        planDto.getVehicle()
-                        , Money.wons(planDto.getCost()),
-                        planDto.getPeriod(),
+                createPlanDto.getRegion(),
+                S3Locator.get(createPlanDto.getThumbnail()),
+                createPlanDto.getTitle(),
+                createPlanDto.getDescription(),
+                new TagInfo(createPlanDto.getConcept(),
+                        createPlanDto.getPartner(),
+                        createPlanDto.getVehicle()
+                        , Money.wons(createPlanDto.getCost()),
+                        createPlanDto.getPeriod(),
                         totalDays),
-                planDto.getPrice(),
+                createPlanDto.getPrice(),
                 PlanStatus.ACTIVE,
-                RcmndStatus.of(planDto.isRecommend()),
-                Arrays.asList(planDto.getTags().split(",")),
-                Arrays.asList(planDto.getRecommendTargets().split(","))
+                RcmndStatus.of(createPlanDto.isRecommend()),
+                Arrays.asList(createPlanDto.getTags().split(",")),
+                Arrays.asList(createPlanDto.getRecommendTargets().split(","))
         );
     }
 }

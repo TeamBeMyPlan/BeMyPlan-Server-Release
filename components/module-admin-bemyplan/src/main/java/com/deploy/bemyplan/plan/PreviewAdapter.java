@@ -6,7 +6,7 @@ import com.deploy.bemyplan.domain.plan.PreviewContentStatus;
 import com.deploy.bemyplan.domain.plan.PreviewRepository;
 import com.deploy.bemyplan.domain.plan.Spot;
 import com.deploy.bemyplan.image.s3.S3Locator;
-import com.deploy.bemyplan.plan.application.port.in.PreviewDto;
+import com.deploy.bemyplan.plan.application.port.in.CreatePreviewDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -18,8 +18,8 @@ import java.util.stream.Collectors;
 public class PreviewAdapter {
     private final PreviewRepository previewRepository;
 
-    public void saveAll(final List<PreviewDto> previewDtos, final Plan plan, final List<Spot> spots) {
-        final List<Preview> previews = previewDtos.stream()
+    public void saveAll(final List<CreatePreviewDto> createPreviewDtos, final Plan plan, final List<Spot> spots) {
+        final List<Preview> previews = createPreviewDtos.stream()
                 .map(preview -> Preview.newInstance(plan, List.of(S3Locator.get(preview.getImage())),
                         preview.getDescription(),
                         PreviewContentStatus.ACTIVE,

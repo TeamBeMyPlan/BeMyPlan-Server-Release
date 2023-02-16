@@ -7,19 +7,19 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class PreviewDto {
+public class CreatePreviewDto {
     private int spotSeq;
     private String description;
     private String image;
 
-    PreviewDto(int spotSeq, String description, String image) {
+    CreatePreviewDto(int spotSeq, String description, String image) {
         this.spotSeq = spotSeq;
         this.description = description;
         this.image = image;
     }
 
-    public static PreviewDto from(int spotSeq, Preview preview) {
-        return new PreviewDto(
+    public static CreatePreviewDto from(int spotSeq, Preview preview) {
+        return new CreatePreviewDto(
                 spotSeq,
                 preview.getDescription(),
                 preview.getImageUrls().get(0));

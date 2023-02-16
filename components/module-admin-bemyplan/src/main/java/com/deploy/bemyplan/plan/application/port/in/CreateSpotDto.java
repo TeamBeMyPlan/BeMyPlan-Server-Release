@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class SpotDto {
+public class CreateSpotDto {
     private int seq;
     private String address;
     private SpotCategoryType type;
@@ -27,7 +27,7 @@ public class SpotDto {
     private TravelMobility vehicle;
     private Integer spentTime;
 
-    private SpotDto(final int seq, final SpotCategoryType type, final int date, final String address, final double latitude, final double longitude, final String name, final String review, final List<String> savedImages, final String tip, final TravelMobility vehicle, final Integer spentTime) {
+    private CreateSpotDto(final int seq, final SpotCategoryType type, final int date, final String address, final double latitude, final double longitude, final String name, final String review, final List<String> savedImages, final String tip, final TravelMobility vehicle, final Integer spentTime) {
         this.seq = seq;
         this.type = type;
         this.date = date;
@@ -41,8 +41,8 @@ public class SpotDto {
         this.vehicle = vehicle;
         this.spentTime = spentTime;
     }
-    public static SpotDto from(int seq, Spot spot) {
-        return new SpotDto(seq, spot.getCategory(),
+    public static CreateSpotDto from(int seq, Spot spot) {
+        return new CreateSpotDto(seq, spot.getCategory(),
                 spot.getDay(),
                 spot.getLocation().getAddress(),
                 spot.getLocation().getLatitude(),

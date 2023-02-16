@@ -6,10 +6,10 @@ import com.deploy.bemyplan.domain.plan.Spot;
 import com.deploy.bemyplan.domain.plan.SpotRepository;
 import com.deploy.bemyplan.domain.user.Creator;
 import com.deploy.bemyplan.domain.user.CreatorRepository;
+import com.deploy.bemyplan.plan.application.port.in.CreatePlanDto;
+import com.deploy.bemyplan.plan.application.port.in.CreatePreviewDto;
+import com.deploy.bemyplan.plan.application.port.in.CreateSpotDto;
 import com.deploy.bemyplan.plan.application.port.in.InquiryPlanUseCase;
-import com.deploy.bemyplan.plan.application.port.in.PlanDto;
-import com.deploy.bemyplan.plan.application.port.in.PreviewDto;
-import com.deploy.bemyplan.plan.application.port.in.SpotDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,41 +36,41 @@ class InquiryPlanService implements InquiryPlanUseCase {
     }
 
     @Override
-    public List<PlanDto> getPlans() {
+    public List<CreatePlanDto> getPlans() {
         return planRepository.findAll()
                 .stream()
-                .map(PlanDto::from)
+                .map(CreatePlanDto::from)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public PlanDto getPlan(Long planId) {
+    public CreatePlanDto getPlan(Long planId) {
         return planRepository.findById(planId)
-                .map(PlanDto::from)
+                .map(CreatePlanDto::from)
                 .orElseThrow(IllegalStateException::new);
     }
 
     @Override
-    public List<SpotDto> getSpots(Long planId) {
+    public List<CreateSpotDto> getSpots(Long planId) {
         List<Spot> spots = spotRepository.findAllByPlanId(planId);
         return spots
                 .stream()
                 .map(spot -> {
                     int spotSeq = getSpotSeq(spots, spot.getId());
-                    return SpotDto.from(spotSeq, spot);
+                    return CreateSpotDto.from(spotSeq, spot);
                 })
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<PreviewDto> getPreviews(Long planId) {
+    public List<CreatePreviewDto> getPreviews(Long planId) {
         List<Spot> spots = spotRepository.findAllByPlanId(planId);
 
         return previewRepository.findAllPreviewByPlanId(planId)
                 .stream()
                 .map(preview -> {
                     int spotSeq = getSpotSeq(spots, preview.getSpotId());
-                    return PreviewDto.from(spotSeq, preview);
+                    return CreatePreviewDto.from(spotSeq, preview);
                 })
                 .collect(Collectors.toList());
     }

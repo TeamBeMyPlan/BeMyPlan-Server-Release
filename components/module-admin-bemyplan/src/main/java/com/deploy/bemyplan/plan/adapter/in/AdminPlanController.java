@@ -1,13 +1,13 @@
 package com.deploy.bemyplan.plan.adapter.in;
 
 import com.deploy.bemyplan.domain.user.Creator;
+import com.deploy.bemyplan.plan.application.port.in.CreatePlanDto;
 import com.deploy.bemyplan.plan.application.port.in.CreatePlanRequest;
 import com.deploy.bemyplan.plan.application.port.in.CreatePlanUseCase;
+import com.deploy.bemyplan.plan.application.port.in.CreatePreviewDto;
+import com.deploy.bemyplan.plan.application.port.in.CreateSpotDto;
 import com.deploy.bemyplan.plan.application.port.in.DeletePlanUseCase;
 import com.deploy.bemyplan.plan.application.port.in.InquiryPlanUseCase;
-import com.deploy.bemyplan.plan.application.port.in.PlanDto;
-import com.deploy.bemyplan.plan.application.port.in.PreviewDto;
-import com.deploy.bemyplan.plan.application.port.in.SpotDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,22 +33,22 @@ public class AdminPlanController {
     }
 
     @GetMapping("/api/plans")
-    public List<PlanDto> getPlans() {
+    public List<CreatePlanDto> getPlans() {
         return inquiryPlanService.getPlans();
     }
 
     @GetMapping("/api/plans/{planId}")
-    public PlanDto getPlan(@PathVariable Long planId) {
+    public CreatePlanDto getPlan(@PathVariable Long planId) {
         return inquiryPlanService.getPlan(planId);
     }
 
     @GetMapping("/api/plans/{planId}/spots")
-    public List<SpotDto> getSpots(@PathVariable Long planId) {
+    public List<CreateSpotDto> getSpots(@PathVariable Long planId) {
         return inquiryPlanService.getSpots(planId);
     }
 
     @GetMapping("/api/plans/{planId}/previews")
-    public List<PreviewDto> getPreviews(@PathVariable Long planId) {
+    public List<CreatePreviewDto> getPreviews(@PathVariable Long planId) {
         return inquiryPlanService.getPreviews(planId);
     }
 

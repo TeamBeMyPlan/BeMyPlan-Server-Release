@@ -7,11 +7,11 @@ import java.util.List;
 public interface InquiryPlanUseCase {
     List<Creator> getCreators();
 
-    List<PlanDto> getPlans();
+    List<CreatePlanDto> getPlans();
 
-    PlanDto getPlan(Long planId);
+    CreatePlanDto getPlan(Long planId);
 
-    List<SpotDto> getSpots(Long planId);
+    List<CreateSpotDto> getSpots(Long planId);
 
-    List<PreviewDto> getPreviews(Long planId);
+    List<CreatePreviewDto> getPreviews(Long planId);
 }

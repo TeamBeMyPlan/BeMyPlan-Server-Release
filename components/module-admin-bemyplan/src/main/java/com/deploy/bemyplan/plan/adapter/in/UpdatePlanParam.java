@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-class UpdatePlanRequest {
+class UpdatePlanParam {
     private Long creatorId;
     private String title;
     private String description;

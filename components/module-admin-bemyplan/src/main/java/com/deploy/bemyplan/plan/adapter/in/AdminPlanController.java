@@ -63,22 +63,22 @@ public class AdminPlanController {
     }
 
     @PutMapping("/api/plans/{planId}")
-    void updatePlan(@PathVariable long planId, @RequestBody UpdatePlanRequest request) {
+    void updatePlan(@PathVariable long planId, @RequestBody UpdatePlanParam param) {
         updatePlanUseCase.updatePlan(new UpdatePlanRequest(planId,
-                request.getCreatorId(),
-                request.getTitle(),
-                request.getDescription(),
-                request.getThumbnail(),
-                request.getPrice(),
-                request.isRecommend(),
-                request.getVehicle(),
-                request.getConcept(),
-                request.getCost(),
-                request.getPeriod(),
-                request.getPartner(),
-                request.getRegion(),
-                request.getTags(),
-                request.getRecommendTargets()));
+                param.getCreatorId(),
+                param.getTitle(),
+                param.getDescription(),
+                param.getThumbnail(),
+                param.getPrice(),
+                param.isRecommend(),
+                param.getVehicle(),
+                param.getConcept(),
+                param.getCost(),
+                param.getPeriod(),
+                param.getPartner(),
+                param.getRegion(),
+                param.getTags(),
+                param.getRecommendTargets()));
     }
 
     @PutMapping("/api/plans/spots")

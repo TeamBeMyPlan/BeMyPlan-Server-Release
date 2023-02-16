@@ -58,9 +58,8 @@ public class PlanService {
 
     @NotNull
     private List<String> getPreviewImages(final List<Preview> previews) {
-
         return previews.stream()
-                .map(preview -> getSpotImages(preview.getSpot()).get(0))
+                .map(preview -> getSpotImages(preview.getSpot()).stream().findFirst().orElse(""))
                 .collect(Collectors.toList());
     }
 

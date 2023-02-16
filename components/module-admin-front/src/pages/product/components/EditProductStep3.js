@@ -33,7 +33,6 @@ class EditProductStep3 extends Component {
         this.setState({
             previews: [...previews, {
                 spotId: -1,
-                image: '',
                 description: ''
             }]
         })
@@ -56,7 +55,6 @@ class EditProductStep3 extends Component {
             newPreviews[index] = {
                 id: prevPreview.id,
                 spotId: prevPreview.spotId,
-                image: prevPreview.image,
                 description: e.target.value
             }
             return {
@@ -83,7 +81,6 @@ class EditProductStep3 extends Component {
             newPreviews[index] = {
                 id: prevPreview.id,
                 spotId: targetSpot.id,
-                image: targetSpot.savedImages[0],
                 description: prevPreview.description
             }
             return {

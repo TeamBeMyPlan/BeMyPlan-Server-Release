@@ -71,8 +71,7 @@ class ProductCreatePage extends Component {
             previews,
         } = this.state;
 
-        // const response = await planApi.create({
-        console.log({
+        const response = await planApi.create({
             plan: {
                 creatorId: creatorId,
                 title: planTitle,
@@ -94,11 +93,11 @@ class ProductCreatePage extends Component {
         });
 
 
-        // alert('새로운 플랜 등록 완료!');
-        // window.location = '/';
+        alert('새로운 플랜 등록 완료!');
+        window.location = '/';
 
-        // console.log(response);
-        // console.log(response.data);
+        console.log(response);
+        console.log(response.data);
     }
 
     nextPage = () => {

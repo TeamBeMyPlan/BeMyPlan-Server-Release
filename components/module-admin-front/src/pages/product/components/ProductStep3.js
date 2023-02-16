@@ -16,7 +16,7 @@ class ProductStep3 extends Component {
         const { spots } = this.props;
 
         const comboBoxItems = [{
-            value: -1,
+            value: null,
             label: '-'
         }, ...spots.map(spot => ({
             value: spot.seq,

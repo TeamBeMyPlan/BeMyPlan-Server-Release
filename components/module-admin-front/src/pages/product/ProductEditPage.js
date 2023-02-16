@@ -133,28 +133,28 @@ class ProductEditPage extends Component {
 
     savePlan = () => {
         const { planTitle } = this.state;
-        // if (window.confirm(`[${planTitle}] 일정 정보를 수정하시겠습니까 [미구현]`)) {
+        if (window.confirm(`[${planTitle}] 일정 정보를 수정하시겠습니까 [미구현]`)) {
             this.nextPage();
-        // }
+        }
     }
 
     saveSpots = () => {
         const { planTitle, spots } = this.state;
-        // if (window.confirm(`[${planTitle}] 장소 정보를 수정하시겠습니까 [미구현]`)) {
+        if (window.confirm(`[${planTitle}] 장소 정보를 수정하시겠습니까 [미구현]`)) {
             console.log(spots);
             this.nextPage();
-        // }
+        }
     }
 
     savePreviews = () => {
         const { planTitle, previews } = this.state;
-        // if (window.confirm(`[${planTitle}] 미리보기 정보를 수정하시겠습니까 [미구현]`)) {
+        if (window.confirm(`[${planTitle}] 미리보기 정보를 수정하시겠습니까 [미구현]`)) {
             console.log(previews);
             
             
-            // alert('수정 완료 [미구현]');
-            // window.location = '/';
-        // }
+            alert('수정 완료 [미구현]');
+            window.location = '/';
+        }
     }
 
     getPage = () => {

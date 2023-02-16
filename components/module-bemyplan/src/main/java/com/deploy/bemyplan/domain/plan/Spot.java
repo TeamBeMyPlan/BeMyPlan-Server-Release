@@ -64,6 +64,7 @@ public class Spot extends AuditingTimeEntity {
                 int day,
                 TravelMobility vehicle,
                 Integer spentMinute) {
+        this.id = id;
         this.title = title;
         this.category = category;
         this.location = location;

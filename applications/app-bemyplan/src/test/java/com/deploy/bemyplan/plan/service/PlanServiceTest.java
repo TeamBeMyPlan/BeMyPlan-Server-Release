@@ -10,6 +10,8 @@ import com.deploy.bemyplan.domain.plan.PreviewRepository;
 import com.deploy.bemyplan.domain.plan.RcmndStatus;
 import com.deploy.bemyplan.domain.plan.Region;
 import com.deploy.bemyplan.domain.plan.RegionCategory;
+import com.deploy.bemyplan.domain.plan.Spot;
+import com.deploy.bemyplan.domain.plan.SpotImage;
 import com.deploy.bemyplan.domain.plan.TagInfo;
 import com.deploy.bemyplan.plan.service.dto.response.PlanPreviewResponseDto;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,7 +46,8 @@ class PlanServiceTest {
     @Test
     void getPlanPreview_callsPlanFromRepository() {
         Plan givenPlan = newInstance(1L, RegionCategory.JEJU, Region.JEJUALL, "thumbnailUrl", "title", "description", TagInfo.testBuilder().build(), 10000, PlanStatus.ACTIVE, RcmndStatus.NONE, Collections.emptyList(), Collections.emptyList());
-        Preview givenPreview = Preview.newInstance(givenPlan, "", PreviewContentStatus.ACTIVE, null);
+
+        Preview givenPreview = Preview.newInstance(givenPlan, "", PreviewContentStatus.ACTIVE, getDefaultSpot());
         given(spyPlanRepository.findById(any())).willReturn(Optional.of(givenPlan));
         given(spyPreviewRepository.findAllPreviewByPlanId(givenPlan.getId())).willReturn(List.of(givenPreview));
 
@@ -56,7 +59,8 @@ class PlanServiceTest {
     @Test
     void getPlanPreview_callsPreviewFromRepository() {
         Plan givenPlan = newInstance(1L, RegionCategory.JEJU, Region.JEJUALL, "", "", "", TagInfo.testBuilder().build(), 0, PlanStatus.ACTIVE, RcmndStatus.NONE, Collections.emptyList(), Collections.emptyList());
-        Preview givenPreview = Preview.newInstance(givenPlan, "description", PreviewContentStatus.ACTIVE, null);
+
+        Preview givenPreview = Preview.newInstance(givenPlan, "description", PreviewContentStatus.ACTIVE, getDefaultSpot());
         given(spyPlanRepository.findById(any())).willReturn(Optional.of(givenPlan));
         given(spyPreviewRepository.findAllPreviewByPlanId(givenPlan.getId())).willReturn(List.of(givenPreview));
 
@@ -68,8 +72,8 @@ class PlanServiceTest {
     @Test
     void getPlanPreview_returnsPlanPreview() {
         Plan givenPlan = newInstance(1L, RegionCategory.JEJU, Region.JEJUALL, "", "", "", TagInfo.testBuilder().build(), 0, PlanStatus.ACTIVE, RcmndStatus.NONE, Collections.emptyList(), Collections.emptyList());
-        Preview givenPreview1 = Preview.newInstance(givenPlan, "description", PreviewContentStatus.ACTIVE, null);
-        Preview givenPreview2 = Preview.newInstance(givenPlan, "description", PreviewContentStatus.ACTIVE, null);
+        Preview givenPreview1 = Preview.newInstance(givenPlan, "description", PreviewContentStatus.ACTIVE, getDefaultSpot());
+        Preview givenPreview2 = Preview.newInstance(givenPlan, "description", PreviewContentStatus.ACTIVE, getDefaultSpot());
         given(spyPlanRepository.findById(any())).willReturn(Optional.of(givenPlan));
         given(spyPreviewRepository.findAllPreviewByPlanId(givenPlan.getId())).willReturn(List.of(givenPreview1, givenPreview2));
 
@@ -96,5 +100,12 @@ class PlanServiceTest {
 
         assertThatThrownBy(() -> planService.getPlanPreview(1L))
                 .isInstanceOf(NotFoundException.class);
+    }
+
+    private Spot getDefaultSpot() {
+        Spot spot = new Spot(null, null, null, null, null, null, 0, null, null);
+        spot.setImage(List.of(new SpotImage("image.png", spot), new SpotImage("image2.png", spot)));
+
+        return spot;
     }
 }

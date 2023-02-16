@@ -188,14 +188,18 @@ class ProductEditPage extends Component {
         }
     }
 
-    savePreviews = () => {
+    savePreviews = async () => {
         const { planTitle, previews } = this.state;
         if (window.confirm(`[${planTitle}] 미리보기 정보를 수정하시겠습니까 [미구현]`)) {
             console.log(previews);
             
-            
-            alert('수정 완료 [미구현]');
-            window.location = '/';
+            const response = await planApi.putPreviews(previews);
+
+            if (response.status === 200) {
+                console.log(response.data);
+                alert('수정 완료 [미구현]');
+                window.location = '/';
+            }
         }
     }
 

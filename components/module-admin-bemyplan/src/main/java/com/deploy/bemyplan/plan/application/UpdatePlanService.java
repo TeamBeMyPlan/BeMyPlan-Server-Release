@@ -83,7 +83,7 @@ class UpdatePlanService implements UpdatePlanUseCase {
                     Spot spot = spotRepository.findById(request.getSpotId())
                             .orElseThrow(IllegalArgumentException::new);
 
-                    preview.setDescription(preview.getDescription());
+                    preview.setDescription(request.getDescription());
                     preview.setSpot(spot);
                 });
     }

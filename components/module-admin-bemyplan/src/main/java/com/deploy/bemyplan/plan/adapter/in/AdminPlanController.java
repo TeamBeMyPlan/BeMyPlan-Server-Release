@@ -63,7 +63,7 @@ public class AdminPlanController {
     }
 
     @PutMapping("/api/plans/{planId}")
-    void updatePlan(@PathVariable long planId, @RequestBody com.deploy.bemyplan.plan.adapter.in.UpdatePlanRequest request) {
+    void updatePlan(@PathVariable long planId, @RequestBody UpdatePlanRequest request) {
         updatePlanUseCase.updatePlan(new UpdatePlanRequest(planId,
                 request.getCreatorId(),
                 request.getTitle(),

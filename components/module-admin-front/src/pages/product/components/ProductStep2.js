@@ -116,7 +116,7 @@ class ProductStep2 extends Component {
             nextSpotVehicle,
         } = this.state;
 
-        const newSpot = this.props.spots.find(spot => spot.seq === editSpotSeq);
+        const newSpot = this.props.spots[editSpotSeq];
         newSpot.name = name;
         newSpot.review = review;
         newSpot.tip = tip;
@@ -171,10 +171,10 @@ class ProductStep2 extends Component {
         this.clear();
     }
 
-    changeEditableMode = (spot) => {
+    changeEditableMode = (spot, index) => {
         this.setState({
             editable: true,
-            editSpotSeq: spot.seq,
+            editSpotSeq: index,
             name: spot.name,
             review: spot.review,
             tip: spot.tip,
@@ -324,7 +324,7 @@ class ProductStep2 extends Component {
                                             <TableCell>{spot.name}</TableCell>
                                             <TableCell>{spot.address}</TableCell>
                                             <TableCell>{spot.date}</TableCell>
-                                            <TableCell><Button msg="선택" onClick={() => changeEditableMode(spot)} /></TableCell>
+                                            <TableCell><Button msg="선택" onClick={() => changeEditableMode(spot, index)} /></TableCell>
                                         </TableRow>
                                     ))
                                 }

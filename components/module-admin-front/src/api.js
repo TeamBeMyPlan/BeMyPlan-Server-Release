@@ -38,6 +38,15 @@ const api = {
       return Promise.reject(err);
     }
   },
+  put: async (url, data, config = {}) => {
+    try {
+      const response = await axios.put(`${serverUrl}/${url}`, data, config);
+
+      return response;
+    } catch (err) {
+      return Promise.reject(err);
+    }
+  },
 };
 
 export default api;

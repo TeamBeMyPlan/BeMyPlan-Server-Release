@@ -31,6 +31,11 @@ const planApi = {
 
         return result;
     },
+    put: async (id, data) => {
+        const result = await api.put(`api/plans/${id}`, data);
+
+        return result;
+    }
 }
 
 export default planApi;

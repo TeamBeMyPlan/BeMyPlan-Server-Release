@@ -131,10 +131,47 @@ class ProductEditPage extends Component {
         this.setState({ previews: [...newPreviews] }, () => this.savePreviews());
     }
 
-    savePlan = () => {
-        const { planTitle } = this.state;
-        if (window.confirm(`[${planTitle}] 일정 정보를 수정하시겠습니까 [미구현]`)) {
-            this.nextPage();
+    savePlan = async () => {
+        const {
+            id,
+            creatorId,
+            planTitle,
+            planDescription,
+            thumbnail,
+            concept,
+            partner,
+            period,
+            cost,
+            vehicle,
+            recommend,
+            region,
+            price,
+            tags,
+            recommendTargets,
+        } = this.state;
+
+        if (window.confirm(`[${planTitle}] 일정 정보를 수정하시겠습니까`)) {
+            const response = await planApi.put(id, {
+                creatorId: creatorId,
+                title: planTitle,
+                description: planDescription,
+                thumbnail: thumbnail,
+                concept: concept,
+                partner: partner,
+                period: period,
+                cost: cost,
+                vehicle: vehicle,
+                recommend: recommend,
+                region: region,
+                price: price,
+                tags: tags,
+                recommendTargets: recommendTargets,
+            });
+
+            if (response.code === 200) {
+                console.log(response.data);
+                this.nextPage();
+            }
         }
     }
 

@@ -14,7 +14,7 @@ class ProductCreatePage extends Component {
         step3: {},
 
         creators: [],
-        creatorId: 1,
+        creatorId: 0,
         planTitle: '',
         planDescription: '',
         thumbnail: '',

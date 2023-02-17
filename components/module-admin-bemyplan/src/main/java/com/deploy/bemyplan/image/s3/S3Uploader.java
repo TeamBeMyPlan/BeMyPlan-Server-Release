@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component
 @RequiredArgsConstructor
@@ -32,25 +33,31 @@ public class S3Uploader {
     public String profile;
 
     public List<String> upload(final MultipartFile[] files) {
-        final List<String> fileNameList = new ArrayList<>();
+        try {
+            final List<String> fileNameList = new ArrayList<>();
 
-        Arrays.stream(files)
-                .forEach(file -> {
-                    final String fileName = createFileName();
-                    final ObjectMetadata metadata = new ObjectMetadata();
-                    metadata.setContentLength(file.getSize());
-                    metadata.setContentType(file.getContentType());
+            Arrays.stream(files)
+                    .forEach(file -> {
+                        final String fileName = createFileName();
+                        final ObjectMetadata metadata = new ObjectMetadata();
+                        metadata.setContentLength(file.getSize());
+                        metadata.setContentType(file.getContentType());
 
-                    try(final InputStream inputStream = file.getInputStream()) {
-                        s3Client.putObject(new PutObjectRequest(bucket, fileName, inputStream, metadata)
-                                .withCannedAcl(CannedAccessControlList.PublicRead));
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
+                        try(final InputStream inputStream = file.getInputStream()) {
+                            s3Client.putObject(new PutObjectRequest(bucket, fileName, inputStream, metadata)
+                                    .withCannedAcl(CannedAccessControlList.PublicRead));
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
 
-                    fileNameList.add(fileName);
-                });
-        return fileNameList;
+                        fileNameList.add(fileName);
+                    });
+            return fileNameList;
+        } catch (Exception e) {
+            return Stream.generate(() -> "common/failure.png")
+                    .limit(files.length)
+                    .collect(Collectors.toList());
+        }
     }
 
     private String createFileName() {

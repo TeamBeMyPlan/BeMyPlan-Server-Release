@@ -1,7 +1,6 @@
 package com.deploy.bemyplan.domain.plan;
 
 import com.deploy.bemyplan.domain.plan.repository.PlanRepositoryCustom;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -9,8 +8,9 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface PlanRepository extends JpaRepository<Plan, Long>, PlanRepositoryCustom {
-    @Query("SELECT p from Plan p where p.regionCategory = :region AND p.id <> :planId")
-    List<Plan> findPlansByRegionAndSize(@Param("planId") Long planId, @Param("region") RegionCategory region, Pageable pageable);
+    @Query(value = "SELECT * from plan p where p.region_category = :region AND p.id <> :planId ORDER BY RAND() LIMIT :size",
+            nativeQuery = true)
+    List<Plan> findPlansByRegionAndSize(@Param("planId") Long planId, @Param("region") String region, @Param("size") int size);
 
     @Query("select p from Plan p where p.regionCategory = :region and p.status = 'ACTIVE' ORDER BY p.id desc ")
     List<Plan> findAllPlanByRegionCategory(@Param("region") RegionCategory regionCategory);

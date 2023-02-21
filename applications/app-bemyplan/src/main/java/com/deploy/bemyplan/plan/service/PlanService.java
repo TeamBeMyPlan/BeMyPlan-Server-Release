@@ -8,7 +8,6 @@ import com.deploy.bemyplan.domain.plan.PreviewRepository;
 import com.deploy.bemyplan.domain.plan.RegionCategory;
 import com.deploy.bemyplan.domain.plan.Spot;
 import com.deploy.bemyplan.domain.plan.SpotImage;
-import com.deploy.bemyplan.domain.plan.SpotRepository;
 import com.deploy.bemyplan.domain.user.Creator;
 import com.deploy.bemyplan.domain.user.CreatorRepository;
 import com.deploy.bemyplan.plan.controller.RetrievePlansRequest;
@@ -17,13 +16,10 @@ import com.deploy.bemyplan.plan.service.dto.response.PlanListResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanPreviewResponseDto;
 import com.deploy.bemyplan.plan.service.dto.response.PlanRandomResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.NotNull;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,12 +31,9 @@ public class PlanService {
     private final PlanRepository planRepository;
     private final CreatorRepository creatorRepository;
 
-    private final SpotRepository spotRepository;
-
     public List<PlanRandomResponse> getPlanListByRandom(final Long planId, final RegionCategory region) {
-        final Pageable size = PageRequest.of(0, 10);
-        final List<Plan> plans = planRepository.findPlansByRegionAndSize(planId, region, size);
-        Collections.shuffle(plans);
+        final int size = 10;
+        final List<Plan> plans = planRepository.findPlansByRegionAndSize(planId, region.name(), size);
         return plans.stream()
                 .map(p -> PlanRandomResponse.of(p.getId(), p.getThumbnailUrl(), p.getTitle(), p.getRegionCategory(), p.getRegion()))
                 .collect(Collectors.toList());

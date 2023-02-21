@@ -8,7 +8,9 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface PlanRepository extends JpaRepository<Plan, Long>, PlanRepositoryCustom {
-    @Query(value = "SELECT * from plan p where p.region_category = :region AND p.id <> :planId ORDER BY RAND() LIMIT :size",
+    @Query(value = "SELECT * from plan p " +
+            "WHERE p.region_category = :region AND p.id <> :planId AND p.status = 'ACTIVE' " +
+            "ORDER BY RAND() LIMIT :size",
             nativeQuery = true)
     List<Plan> findPlansByRegionAndSize(@Param("planId") Long planId, @Param("region") String region, @Param("size") int size);
 

@@ -9,6 +9,7 @@ spring:
       max-request-size: 11MB
   response:
     black-list:
+      - "/"
       - "/v*/api-docs"
       - "/swagger-resources/**"
       - "/swagger-ui.html"

@@ -3,9 +3,6 @@ package com.deploy.bemyplan.domain.plan.repository;
 import com.deploy.bemyplan.domain.order.OrderStatus;
 import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.plan.PlanStatus;
-import com.deploy.bemyplan.domain.plan.PreviewContent;
-import com.deploy.bemyplan.domain.plan.PreviewContentStatus;
-import com.deploy.bemyplan.domain.plan.RegionCategory;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -21,42 +18,13 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.deploy.bemyplan.domain.order.QOrder.order;
-import static com.deploy.bemyplan.domain.plan.QDailySchedule.dailySchedule;
 import static com.deploy.bemyplan.domain.plan.QPlan.plan;
-import static com.deploy.bemyplan.domain.plan.QPreviewContent.previewContent;
 import static com.deploy.bemyplan.domain.scrap.QScrap.scrap;
 
 @RequiredArgsConstructor
 public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
-
-    @Override
-    public List<Plan> findAllByIds(List<Long> planIds) {
-        return queryFactory
-                .selectFrom(plan).distinct()
-                .where(
-                        plan.id.in(planIds)
-                )
-                .fetch();
-    }
-
-    @Override
-    public Plan findPlanById(Long planId) {
-        return queryFactory.selectFrom(plan)
-                .where(plan.id.eq(planId))
-                .fetchOne();
-    }
-
-    @Override
-    public Plan findPlanByIdFetchJoinSchedule(Long planId) {
-        return queryFactory.selectFrom(plan).distinct()
-                .innerJoin(plan.schedules, dailySchedule).fetchJoin()
-                .where(
-                        plan.id.eq(planId),
-                        plan.status.eq(PlanStatus.ACTIVE)
-                ).fetchOne();
-    }
 
     @Override
     public List<Plan> findMyBookmarkListUsingCursor(Long userId, @Nullable Pageable pageable, int size, @Nullable Long lastScrapId) {
@@ -94,25 +62,6 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
         }
     }
 
-    @Override
-    public List<PreviewContent> findPreviewContentsByPlanId(Long planId) {
-        return queryFactory
-                .selectFrom(previewContent)
-                .where(
-                        previewContent.plan.id.eq(planId),
-                        previewContent.status.eq(PreviewContentStatus.ACTIVE)
-                )
-                .orderBy(previewContent.id.asc())
-                .fetch();
-    }
-
-    private BooleanExpression lessThanId(Long lastPlanId) {
-        if (Objects.isNull(lastPlanId)) {
-            return null;
-        }
-        return plan.id.lt(lastPlanId);
-    }
-
     private BooleanExpression lessThanScrapId(Long lastScrapId) {
         if (Objects.isNull(lastScrapId)) {
             return null;
@@ -127,20 +76,6 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
         return order.id.lt(lastOrderId);
     }
 
-    private BooleanExpression eqRegion(@Nullable RegionCategory regionCategory) {
-        if (Objects.isNull(regionCategory)) {
-            return null;
-        }
-        return plan.regionCategory.eq(regionCategory);
-    }
-
-    private BooleanExpression eqUserId(@Nullable Long SpecificUserId) {
-        if (Objects.isNull(SpecificUserId)) {
-            return null;
-        }
-        return plan.creatorId.eq(SpecificUserId);
-    }
-
     private BooleanExpression inPlanIdsWithScrap(Long userId, Long lastScrapId, int size) {
         List<Long> planIds = queryFactory.
                 select(scrap.planId).distinct()
@@ -149,7 +84,6 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
                         scrap.userId.eq(userId),
                         lessThanScrapId(lastScrapId)
                 )
-                .orderBy(scrap.id.desc())
                 .limit(size)
                 .fetch();
         if (Objects.isNull(planIds)) {

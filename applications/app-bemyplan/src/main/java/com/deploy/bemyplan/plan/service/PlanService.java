@@ -6,6 +6,8 @@ import com.deploy.bemyplan.domain.plan.PlanRepository;
 import com.deploy.bemyplan.domain.plan.Preview;
 import com.deploy.bemyplan.domain.plan.PreviewRepository;
 import com.deploy.bemyplan.domain.plan.RegionCategory;
+import com.deploy.bemyplan.domain.plan.Spot;
+import com.deploy.bemyplan.domain.plan.SpotImage;
 import com.deploy.bemyplan.domain.user.Creator;
 import com.deploy.bemyplan.domain.user.CreatorRepository;
 import com.deploy.bemyplan.plan.controller.RetrievePlansRequest;
@@ -14,13 +16,10 @@ import com.deploy.bemyplan.plan.service.dto.response.PlanListResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanPreviewResponseDto;
 import com.deploy.bemyplan.plan.service.dto.response.PlanRandomResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.NotNull;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,10 +31,9 @@ public class PlanService {
     private final PlanRepository planRepository;
     private final CreatorRepository creatorRepository;
 
-    public List<PlanRandomResponse> getPlanListByRandom(final RegionCategory region) {
-        final Pageable RandomTen = PageRequest.of(0, 10);
-        final List<Plan> plans = planRepository.findPlansByRegionAndSize(region, RandomTen);
-        Collections.shuffle(plans);
+    public List<PlanRandomResponse> getPlanListByRandom(final Long planId, final RegionCategory region) {
+        final int size = 10;
+        final List<Plan> plans = planRepository.findPlansByRegionAndSize(planId, region.name(), size);
         return plans.stream()
                 .map(p -> PlanRandomResponse.of(p.getId(), p.getThumbnailUrl(), p.getTitle(), p.getRegionCategory(), p.getRegion()))
                 .collect(Collectors.toList());
@@ -54,7 +52,13 @@ public class PlanService {
     @NotNull
     private List<String> getPreviewImages(final List<Preview> previews) {
         return previews.stream()
-                .map(preview -> preview.getImageUrls().get(0))
+                .map(preview -> getSpotImages(preview.getSpot()).stream().findFirst().orElse(""))
+                .collect(Collectors.toList());
+    }
+
+    private List<String> getSpotImages(final Spot spot) {
+        return spot.getImages().stream()
+                .map(SpotImage::getUrl)
                 .collect(Collectors.toList());
     }
 

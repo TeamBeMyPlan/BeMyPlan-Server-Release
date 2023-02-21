@@ -1,17 +1,13 @@
 package com.deploy.bemyplan.plan.service.dto.response;
 
-import com.deploy.bemyplan.domain.plan.SpotMoveInfo;
 import com.deploy.bemyplan.domain.plan.TravelMobility;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.jetbrains.annotations.NotNull;
 
 @ToString
 @Getter
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class SpotMoveInfoDetailResponse {
 
@@ -20,12 +16,10 @@ public class SpotMoveInfoDetailResponse {
     private TravelMobility mobility;
     private int spentMinute;
 
-    public static SpotMoveInfoDetailResponse of(@NotNull SpotMoveInfo moveInfo) {
-        return new SpotMoveInfoDetailResponse(
-                moveInfo.getFromSpotId(),
-                moveInfo.getToSpotId(),
-                moveInfo.getMobility(),
-                moveInfo.getSpentMinute()
-        );
+    public SpotMoveInfoDetailResponse(final Long fromSpotId, final Long toSpotId, final TravelMobility mobility, final int spentMinute) {
+        this.fromSpotId = fromSpotId;
+        this.toSpotId = toSpotId;
+        this.mobility = mobility;
+        this.spentMinute = spentMinute;
     }
 }

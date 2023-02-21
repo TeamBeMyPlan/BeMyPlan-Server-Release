@@ -6,8 +6,8 @@ import com.deploy.bemyplan.domain.order.OrderRepository;
 import com.deploy.bemyplan.domain.order.OrderStatus;
 import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.plan.PlanRepository;
-import com.deploy.bemyplan.domain.plan.PreviewContent;
 import com.deploy.bemyplan.domain.plan.RegionCategory;
+import com.deploy.bemyplan.domain.plan.Spot;
 import com.deploy.bemyplan.domain.scrap.Scrap;
 import com.deploy.bemyplan.domain.scrap.ScrapRepository;
 import com.deploy.bemyplan.domain.user.Creator;
@@ -18,16 +18,21 @@ import com.deploy.bemyplan.plan.service.dto.response.OrdersScrollResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanDetailResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanInfoResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanListResponse;
-import com.deploy.bemyplan.plan.service.dto.response.PlanPreviewResponse;
+import com.deploy.bemyplan.plan.service.dto.response.PlanScrapResponse;
 import com.deploy.bemyplan.plan.service.dto.response.ScrapsScrollResponse;
+import com.deploy.bemyplan.plan.service.dto.response.SpotMoveInfoDetailResponse;
 import com.deploy.bemyplan.plan.service.dto.response.SpotMoveInfoResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.groupingBy;
 
 @RequiredArgsConstructor
 @Service
@@ -49,18 +54,9 @@ public class PlanRetrieveService {
         return getPlanListWithPersonalStatus(planList, userId);
     }
 
-    public PlanPreviewResponse getPreviewPlanInfo(final Long planId) {
-        final Plan plan = PlanServiceUtils.findPlanByIdFetchJoinSchedule(planRepository, planId);
-        final Creator creator = creatorRepository.findById(plan.getCreatorId())
-                .orElseThrow(() -> new NotFoundException("존재하지 않는 크리에이터입니다."));
-
-        final List<PreviewContent> previewContents = planRepository.findPreviewContentsByPlanId(plan.getId());
-
-        return PlanPreviewResponse.of(plan, creator.getName(), previewContents);
-    }
-
     public PlanDetailResponse getPlanDetailInfo(final Long planId) {
-        final Plan plan = PlanServiceUtils.findPlanByIdFetchJoinSchedule(planRepository, planId);
+        final Plan plan = planRepository.findById(planId)
+                .orElseThrow(() -> new NotFoundException(String.format("존재하지 않는 일정 (%s) 입니다", planId)));
         final Creator creator = creatorRepository.findById(plan.getCreatorId())
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 크리에이터입니다."));
 
@@ -68,11 +64,27 @@ public class PlanRetrieveService {
     }
 
     public List<SpotMoveInfoResponse> getSpotMoveInfos(final Long planId) {
-        final Plan plan = PlanServiceUtils.findPlanById(planRepository, planId);
+        final Plan plan = planRepository.findById(planId)
+                .orElseThrow(() -> new NotFoundException(String.format("존재하지 않는 일정 (%s) 입니다", planId)));
 
-        return plan.getSchedules().stream()
-                .map(SpotMoveInfoResponse::of)
-                .collect(Collectors.toList());
+        final List<SpotMoveInfoResponse> result = new ArrayList<>();
+
+        final Map<Integer, List<Spot>> spotsPerDate = plan.getSpots().stream().collect(groupingBy(Spot::getDay));
+        for (final int day : spotsPerDate.keySet()) {
+            final List<Spot> spots = spotsPerDate.get(day);
+
+            final List<SpotMoveInfoDetailResponse> moveInfos = new ArrayList<>();
+            for (int i = 0; i < spots.size() - 1; i++) {
+                final Spot prev = spots.get(i);
+                final Spot next = spots.get(i + 1);
+
+                moveInfos.add(new SpotMoveInfoDetailResponse(prev.getId(), next.getId(), prev.getVehicle(), prev.getSpentMinute()));
+            }
+
+            result.add(new SpotMoveInfoResponse(day, moveInfos));
+        }
+
+        return result;
     }
 
     public ScrapsScrollResponse retrieveMyBookmarkList(final RetrieveMyBookmarkListRequestDto request, final Long userId, final Pageable pageable) {
@@ -89,6 +101,19 @@ public class PlanRetrieveService {
         }
         final Scrap nextCursor = scrapRepository.findActiveByUserIdAndPlanId(plansCursor.getNextCursor().getId(), userId);
         return ScrapsScrollResponse.newCursorHasNext(plansCursor.getCurrentScrollItems(), scrapDictionary, orderDictionary, authors, nextCursor.getId());
+    }
+
+    public List<PlanScrapResponse> getPlanWithScrapOrderByCountDesc(final Long userId) {
+        final List<Plan> findPlans = planRepository.findPlanOrderByScrapCountDesc(userId);
+
+        return findPlans.stream()
+                .map(plan -> PlanScrapResponse.of(
+                        plan.getId(),
+                        plan.getThumbnailUrl(),
+                        plan.getTitle(),
+                        isScraped(userId, plan),
+                        isOrdered(userId, plan)))
+                .collect(Collectors.toList());
     }
 
     public OrdersScrollResponse retrieveMyOrderList(final RetrieveMyOrderListRequestDto request, final Long userId, final Pageable pageable) {
@@ -117,11 +142,11 @@ public class PlanRetrieveService {
     }
 
     private boolean isScraped(final Long userId, final Plan plan) {
-        return userId != null && scrapRepository.existsScrapByUserIdAndPlanId(userId, plan.getId());
+        return null != userId && scrapRepository.existsScrapByUserIdAndPlanId(userId, plan.getId());
     }
 
     private boolean isOrdered(final Long userId, final Plan plan) {
-        return userId != null && orderRepository.existsOrderByUserIdAndPlanIdAndStatus(userId, plan.getId(), OrderStatus.COMPLETED);
+        return null != userId && orderRepository.existsOrderByUserIdAndPlanIdAndStatus(userId, plan.getId(), OrderStatus.COMPLETED);
     }
 
     private Creator getAuthorByPlanId(final Plan plan) {
@@ -133,7 +158,7 @@ public class PlanRetrieveService {
         final List<Long> planIds = plans.stream()
                 .map(Plan::getId)
                 .collect(Collectors.toList());
-        return ScrapDictionary.of(scrapRepository.findByUserIdAndPlanIds(planIds, userId));
+        return ScrapDictionary.of(scrapRepository.findAllByUserIdAndPlanIdIn(userId, planIds));
     }
 
     private OrderDictionary findOrderByUserIdAndPlans(final Long userId, final List<Plan> plans) {

@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import { Link } from "react-router-dom";
 import Button from '../../components/button/Button';
 import Inputs from '../../components/inputs/Inputs';
 import planApi from '../../components/planApi';
@@ -24,19 +25,42 @@ class ProductListPage extends Component {
         }
     }
 
-    render() {
+    getPage = () => {
         const { plans } = this.state;
-        const planList = plans.map(plan => 
-            <Inputs msg={plan.title}>
-                <Button msg="수정" onClick={() => alert('수정')} />
-                <Button primary={false} msg="삭제" onClick={() => alert('삭제')} />
+        const { deletePlan } = this;
+
+        const planList = plans.map(plan => {
+            const edit = `${plan.id}`;
+            return <Inputs key={plan.id} msg={plan.title}>
+                <Link to={edit}><Button msg="수정" /></Link>
+                <Button primary={false} msg="삭제" onClick={() => deletePlan({
+                    planId: plan.id,
+                    planTitle: plan.title
+                })} />
             </Inputs>
-        
+        }
+
         )
+
+        return planList;
+    }
+
+    deletePlan = async ({ planId, planTitle }) => {
+        if (window.confirm(`[${planTitle}] 해당 일정을 정말 삭제하시겠습니까`)) {
+            console.log('hi');
+            await planApi.delete(planId);
+            window.location = '/';
+        }
+    }
+
+    render() {
+        const { getPage } = this;
 
         return (
             <ProductTemplate>
-                {planList}
+                {
+                    getPage()
+                }
             </ProductTemplate>
         )
     }

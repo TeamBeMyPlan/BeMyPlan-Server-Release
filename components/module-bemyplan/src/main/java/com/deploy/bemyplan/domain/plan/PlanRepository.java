@@ -1,7 +1,6 @@
 package com.deploy.bemyplan.domain.plan;
 
 import com.deploy.bemyplan.domain.plan.repository.PlanRepositoryCustom;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -9,8 +8,11 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface PlanRepository extends JpaRepository<Plan, Long>, PlanRepositoryCustom {
-    @Query("SELECT p from Plan p where p.regionCategory = :region")
-    List<Plan> findPlansByRegionAndSize(@Param("region") RegionCategory region, Pageable pageable);
+    @Query(value = "SELECT * from plan p " +
+            "WHERE p.region_category = :region AND p.id <> :planId AND p.status = 'ACTIVE' " +
+            "ORDER BY RAND() LIMIT :size",
+            nativeQuery = true)
+    List<Plan> findPlansByRegionAndSize(@Param("planId") Long planId, @Param("region") String region, @Param("size") int size);
 
     @Query("select p from Plan p where p.regionCategory = :region and p.status = 'ACTIVE' ORDER BY p.id desc ")
     List<Plan> findAllPlanByRegionCategory(@Param("region") RegionCategory regionCategory);
@@ -28,4 +30,8 @@ public interface PlanRepository extends JpaRepository<Plan, Long>, PlanRepositor
     List<OrderedPlan> findAllByOrderAndUserId(@Param("userId") Long userId);
 
     List<Plan> findAllByCreatorId(Long creatorId);
+
+    @Query(value = "select *, (select count(*) FROM scrap s WHERE s.plan_id = p.id) as scp_count from plan p " +
+            "inner join scrap s2 on p.id = s2.plan_id where s2.user_id = :userId order by scp_count desc", nativeQuery = true)
+    List<Plan> findPlanOrderByScrapCountDesc(@Param("userId") Long userId);
 }

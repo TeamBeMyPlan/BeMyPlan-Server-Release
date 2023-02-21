@@ -3,10 +3,10 @@ package com.deploy.bemyplan.preview.controller;
 import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.plan.PlanStatus;
 import com.deploy.bemyplan.domain.plan.Preview;
-import com.deploy.bemyplan.domain.plan.PreviewContentStatus;
 import com.deploy.bemyplan.domain.plan.RcmndStatus;
 import com.deploy.bemyplan.domain.plan.Region;
 import com.deploy.bemyplan.domain.plan.RegionCategory;
+import com.deploy.bemyplan.domain.plan.Spot;
 import com.deploy.bemyplan.domain.plan.TagInfo;
 import com.deploy.bemyplan.preview.service.PreviewService;
 import com.deploy.bemyplan.preview.service.dto.PreviewContentListResponse;
@@ -60,8 +60,10 @@ class PreviewControllerTest {
     void getPreviewContent_ReturnsPreviewContentsDto() throws Exception {
         //given
         final Plan givenPlan = Plan.newInstance(1L, RegionCategory.JEJU, Region.JEJUALL, "", "", "", TagInfo.testBuilder().build(), 0, PlanStatus.ACTIVE, RcmndStatus.NONE, Collections.emptyList(), Collections.emptyList());
-        final Preview givenPreview1 = Preview.newInstance(givenPlan, List.of("image.png", "image2.png"), "description", PreviewContentStatus.ACTIVE, 1L);
-        final Preview givenPreview2 = Preview.newInstance(givenPlan, List.of("image3.png", "image4.png"), "description2", PreviewContentStatus.ACTIVE, 2L);
+        Spot spot1 = new Spot(null, null, null, null, null, List.of("image.png", "image2.png"), null, 0, null, null);
+        final Preview givenPreview1 = new Preview(givenPlan,"description", spot1);
+        Spot spot2 = new Spot(null, null, null, null, null, List.of("image3.png", "image4.png"), null, 0, null, null);
+        final Preview givenPreview2 = new Preview(givenPlan,"description2", spot2);
         given(stubPreviewService.getPreviewContent(any())).willReturn(PreviewContentListResponse.of(List.of(givenPreview1, givenPreview2)));
 
         mockMvc.perform(get("/api/v2/preview/{planId}", 1))

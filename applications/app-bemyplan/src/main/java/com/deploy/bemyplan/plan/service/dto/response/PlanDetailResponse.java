@@ -1,7 +1,6 @@
 package com.deploy.bemyplan.plan.service.dto.response;
 
 import com.deploy.bemyplan.common.controller.AuditingTimeResponse;
-import com.deploy.bemyplan.domain.plan.DailySchedule;
 import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.user.Creator;
 import com.deploy.bemyplan.user.service.dto.response.CreatorInfoResponse;
@@ -44,10 +43,9 @@ public class PlanDetailResponse extends AuditingTimeResponse {
                 CreatorInfoResponse.of(creator)
         );
 
-        for (DailySchedule schedule : plan.getSchedules()) {
-            ScheduleDetailResponse content = ScheduleDetailResponse.of(schedule.getSpots());
-            response.contents.add(content);
-        }
+        ScheduleDetailResponse content = ScheduleDetailResponse.of(plan.getSpots());
+        response.contents.add(content);
+
         response.setBaseTime(plan.getCreatedAt(), plan.getUpdatedAt());
         return response;
     }

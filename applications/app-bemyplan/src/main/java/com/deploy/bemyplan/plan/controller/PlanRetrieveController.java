@@ -9,7 +9,7 @@ import com.deploy.bemyplan.plan.service.dto.request.RetrieveMyOrderListRequestDt
 import com.deploy.bemyplan.plan.service.dto.response.OrdersScrollResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanDetailResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanListResponse;
-import com.deploy.bemyplan.plan.service.dto.response.PlanPreviewResponse;
+import com.deploy.bemyplan.plan.service.dto.response.PlanScrapResponse;
 import com.deploy.bemyplan.plan.service.dto.response.ScrapsScrollResponse;
 import com.deploy.bemyplan.plan.service.dto.response.SpotMoveInfoResponse;
 import io.swagger.annotations.ApiOperation;
@@ -52,12 +52,6 @@ public class PlanRetrieveController {
         return planRetrieveService.getPlanDetailInfo(planId);
     }
 
-    @ApiOperation("여행일정 페이지 - 특정 여행일정의 미리보기 정보를 조회합니다")
-    @GetMapping("/v1/plan/{planId}/preview")
-    public PlanPreviewResponse getPreviewPlanInfo(@PathVariable final Long planId) {
-        return planRetrieveService.getPreviewPlanInfo(planId);
-    }
-
     @ApiOperation("여행일정 페이지 - 장소 간 이동수단/소요시간을 조회합니다. (일자별 조회)")
     @GetMapping("/v1/plan/{planId}/moveInfo")
     public List<SpotMoveInfoResponse> getSpotMoveInfos(@PathVariable final Long planId) {
@@ -78,5 +72,12 @@ public class PlanRetrieveController {
     public OrdersScrollResponse retrieveMyOrderList(@UserId final Long userId, @Valid final RetrieveMyOrderListRequestDto request,
                                                     @AllowedSortProperties({"id", "createdAt", "orderCnt"}) final Pageable pageable) {
         return planRetrieveService.retrieveMyOrderList(request, userId, pageable);
+    }
+
+    @ApiOperation("[인증] 내 일정에서 스크랩 많은 순으로 일정을 조회합니다.")
+    @Auth
+    @GetMapping("/v1/plans/scrap")
+    public List<PlanScrapResponse> getPlanWithScrapOrderByCountDesc(@UserId final Long userId){
+        return planRetrieveService.getPlanWithScrapOrderByCountDesc(userId);
     }
 }

@@ -10,7 +10,8 @@ public enum TravelMobility {
     CAR("승용차"),
     PUBLIC("대중교통"),
     WALK("도보"),
-    BICYCLE("자전거");
+    BICYCLE("자전거"),
+    NONE("");
 
     private final String value;
 }

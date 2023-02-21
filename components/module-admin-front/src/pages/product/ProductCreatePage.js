@@ -4,58 +4,96 @@ import ProductStep1 from './components/ProductStep1';
 import ProductStep2 from './components/ProductStep2';
 import ProductStep3 from './components/ProductStep3';
 import planApi from '../../components/planApi';
+import creatorApi from '../../components/creatorApi'
+import imageCompression from 'browser-image-compression';
+import imageApi, { compressionOptions } from '../../components/imageApi'
 
 class ProductCreatePage extends Component {
     state = {
         page: 0,
-        step1: {},
-        step2: {},
-        step3: {}
+        step3: {},
+
+        creators: [],
+        creatorId: 0,
+        planTitle: '',
+        planDescription: '',
+        thumbnail: '',
+        concept: 'HEALING',
+        partner: 'FAMILY',
+        period: 0,
+        cost: 0,
+        vehicle: 'CAR',
+        recommend: false,
+        region: 'JEJUALL',
+        price: 0,
+        tags: '',
+        recommendTargets: '',
+
+        spots: [],
+        previews: [
+            {
+                spotSeq: 0,
+                description: ''
+            }
+        ]
     }
 
-    updateStep1 = (updatedStep1) => {
-        this.setState({ step1: updatedStep1 })
+    async componentDidMount() {
+        await this.fetchCreators();
     }
 
-    updateStep2 = (updatedStep2) => {
-        this.setState({ step2: updatedStep2 })
-    }
-
-    updateStep3 = (updatedStep3) => {
-        this.setState({ step3: updatedStep3 }, this.saveNewPlan)
+    async fetchCreators() {
+        const creators = await creatorApi.getCreators();
+        this.setState({
+            creators: [...creators.data]
+        })
     }
 
     saveNewPlan = async () => {
-        const { step1, step2, step3 } = this.state;
+        const {
+            creatorId,
+            planTitle,
+            planDescription,
+            thumbnail,
+            concept,
+            partner,
+            period,
+            cost,
+            vehicle,
+            recommend,
+            region,
+            price,
+            tags,
+            recommendTargets,
 
-        console.log(step1);
-        console.log(step2);
-        console.log(step3);
+            spots,
+            previews,
+        } = this.state;
 
         const response = await planApi.create({
-            creator: {
-                id: step1.creatorId
-            },
             plan: {
-                title: step1.planTitle,
-                description: step1.planDescription,
-                price: step1.price,
-                thumbnail: step1.thumbnail,
-                recommend: step1.recommend,
-                vehicle: step1.vehicle,
-                concept: step1.concept,
-                cost: step1.cost,
-                period: step1.period,
-                partner: step1.partner,
-                region: step1.region,
-                tags: step1.tags,
-                recommendTargets: step1.recommendTargets,
+                creatorId: creatorId,
+                title: planTitle,
+                description: planDescription,
+                thumbnail: thumbnail,
+                concept: concept,
+                partner: partner,
+                period: period,
+                cost: cost,
+                vehicle: vehicle,
+                recommend: recommend,
+                region: region,
+                price: price,
+                tags: tags,
+                recommendTargets: recommendTargets,
             },
-            spots: step2.spots,
-            previews: step3.previews
+            spots: spots,
+            previews: previews,
         });
 
+
         alert('새로운 플랜 등록 완료!');
+        window.location = '/';
 
         console.log(response);
         console.log(response.data);
@@ -63,36 +101,118 @@ class ProductCreatePage extends Component {
 
     nextPage = () => {
         const { page } = this.state;
-
-        if (page >= 2) {
-            // window.location = '/products';
-            this.saveNewPlan();
-            return;
-        }
-
         const nextPage = page + 1;
         this.setState({
             page: nextPage
         });
     }
 
+    handleCreatorName = (e) => { this.setState({ creatorId: e.target.value }) }
+    handlePlanTitle = (e) => { this.setState({ planTitle: e.target.value }) }
+    handlePlanDescription = (e) => { this.setState({ planDescription: e.target.value }) }
+    handleConcept = (e) => { this.setState({ concept: e.target.value }) }
+    handlePartner = (e) => { this.setState({ partner: e.target.value }) }
+    handlePeriod = (e) => { this.setState({ period: Number(e.target.value) }) }
+    handleCost = (e) => { this.setState({ cost: Number(e.target.value) }) }
+    handleVehicle = (e) => { this.setState({ vehicle: e.target.value }) }
+    handleRecommend = (e) => { this.setState({ recommend: JSON.parse(e.target.value) }) }
+    handlePrice = (e) => { this.setState({ price: Number(e.target.value) }) }
+    handleRegion = (e) => { this.setState({ region: e.target.value }) }
+    handleTags = (e) => { this.setState({ tags: e.target.value }) }
+    handleRecommendTargets = (e) => { this.setState({ recommendTargets: e.target.value }) }
+    fileChangedHandler = async e => {
+        const files = e.target.files;
+        const formData = new FormData();
+
+        for (let i = 0; i < files.length; i++) {
+            const compressed = await imageCompression(files[i], compressionOptions);
+            formData.append('files', compressed);
+        }
+
+        const response = await imageApi.upload(formData);
+        this.setState({
+            thumbnail: response.data[0]
+        });
+    }
+
+    updateSpots = (spots) => {
+        this.setState({ spots: [...spots] });
+    }
+
+    updatePreviews = (newPreviews) => {
+        this.setState({ previews: [...newPreviews] }, () => this.saveNewPlan());
+    }
+
     getPage = () => {
-        const { page, step2 } = this.state;
+        const { page,
+            creators,
+            creatorId,
+            planTitle,
+            planDescription,
+            cost,
+            concept,
+            partner,
+            region,
+            vehicle,
+            price,
+            tags,
+            period,
+            recommend,
+            recommendTargets,
+            spots,
+            previews,
+        } = this.state;
+        const {
+            handleCreatorName,
+            handlePlanTitle,
+            handlePlanDescription,
+            handleConcept,
+            handlePartner,
+            handlePeriod,
+            handleCost,
+            handleVehicle,
+            handleRecommend,
+            handleRegion,
+            handlePrice,
+            handleTags,
+            handleRecommendTargets,
+            fileChangedHandler,
+            updateSpots,
+            updatePreviews,
+        } = this;
+
         if (page === 0) {
             return (
-                <ProductStep1 update={this.updateStep1} nextPage={this.nextPage} />
+                <ProductStep1 nextPage={this.nextPage}
+                    creatorId={creatorId} creators={creators} onChangeCreator={handleCreatorName}
+                    planTitle={planTitle} onChangePlanTitle={handlePlanTitle}
+                    onChangeThumbnail={fileChangedHandler}
+                    planDescription={planDescription} onChangePlanDescription={handlePlanDescription}
+                    concept={concept} onChangeConcept={handleConcept}
+                    partner={partner} onChangePartner={handlePartner}
+                    period={period} onChangePeriod={handlePeriod}
+                    cost={cost} onChangeCost={handleCost}
+                    vehicle={vehicle} onChangeVehicle={handleVehicle}
+                    recommend={recommend} onChangeRecommend={handleRecommend}
+                    region={region} onChangeRegion={handleRegion}
+                    price={price} onChangePrice={handlePrice}
+                    tags={tags} onChangeTags={handleTags}
+                    recommendTargets={recommendTargets} onChangeRecommendTargets={handleRecommendTargets}
+                />
             )
         }
 
         if (page === 1) {
             return (
-                <ProductStep2 update={this.updateStep2} nextPage={this.nextPage} />
+                <ProductStep2 nextPage={this.nextPage}
+                    spots={spots} onChangeSpots={updateSpots} />
             )
         }
 
         if (page === 2) {
             return (
-                <ProductStep3 update={this.updateStep3} nextPage={this.nextPage} step2={step2} />
+                <ProductStep3 nextPage={this.nextPage}
+                    spots={spots} previews={previews} onChangePreviews={updatePreviews} />
             )
         }
 

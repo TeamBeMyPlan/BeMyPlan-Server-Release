@@ -2,7 +2,7 @@ import api from '../api'
 
 const creatorApi = {
     getCreators: async (config = {}) => {
-        const result = await api.get('api/v1/creator');
+        const result = await api.get('api/creator');
 
         return result;
     }

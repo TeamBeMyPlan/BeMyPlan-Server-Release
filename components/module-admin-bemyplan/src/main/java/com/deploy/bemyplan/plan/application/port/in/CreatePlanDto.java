@@ -1,4 +1,4 @@
-package com.deploy.bemyplan.plan;
+package com.deploy.bemyplan.plan.application.port.in;
 
 import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.plan.Region;
@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class PlanDto {
+public class CreatePlanDto {
 
-    private Long id;
+    private Long creatorId;
     private String title;
     private String description;
     private String thumbnail;
@@ -28,8 +28,8 @@ public class PlanDto {
     private String tags;
     private String recommendTargets;
 
-    public PlanDto(final Long id, final String title, final String description, final String thumbnail, final int price, final boolean recommend, final TravelMobility vehicle, final TravelTheme concept, final int cost, final int period, final TravelPartner partner, final Region region, final String tags, final String recommendTargets) {
-        this.id = id;
+    public CreatePlanDto(final Long creatorId, final String title, final String description, final String thumbnail, final int price, final boolean recommend, final TravelMobility vehicle, final TravelTheme concept, final int cost, final int period, final TravelPartner partner, final Region region, final String tags, final String recommendTargets) {
+        this.creatorId = creatorId;
         this.title = title;
         this.description = description;
         this.thumbnail = thumbnail;
@@ -45,8 +45,9 @@ public class PlanDto {
         this.recommendTargets = recommendTargets;
     }
 
-    public static PlanDto from(Plan plan) {
-        return new PlanDto(plan.getId(),
+    public static CreatePlanDto from(Plan plan) {
+        return new CreatePlanDto(
+                plan.getCreatorId(),
                 plan.getTitle(),
                 plan.getDescription(),
                 plan.getThumbnailUrl(),

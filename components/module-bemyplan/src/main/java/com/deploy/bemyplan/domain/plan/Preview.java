@@ -1,12 +1,11 @@
 package com.deploy.bemyplan.domain.plan;
 
-import com.deploy.bemyplan.domain.common.ListToStringConverter;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Column;
-import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -16,9 +15,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import java.util.ArrayList;
-import java.util.List;
 
+@Setter
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -29,11 +27,8 @@ public class Preview {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "plan_id", nullable = false)
-    private Plan plan;
 
-    @Column(length = 1000)
-    @Convert(converter = ListToStringConverter.class)
-    private List<String> imageUrls = new ArrayList<>();
+    private Plan plan;
 
     @Column(length = 2000)
     private String description;
@@ -42,18 +37,19 @@ public class Preview {
     @Enumerated(EnumType.STRING)
     private PreviewContentStatus status;
 
-    @Column(nullable = false)
-    private Long spotId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "spot_id", nullable = false)
+    private Spot spot;
 
-    private Preview(final Plan plan, final List<String> imageUrls, final String description, final PreviewContentStatus status, final Long spotId) {
+    public Preview(final Long id, final Plan plan, final String description, final Spot spot) {
+        this.id = id;
         this.plan = plan;
-        this.imageUrls.addAll(imageUrls);
         this.description = description;
-        this.status = status;
-        this.spotId = spotId;
+        this.spot = spot;
+        this.status = PreviewContentStatus.ACTIVE;
     }
 
-    public static Preview newInstance(final Plan plan, final List<String> imageUrls, final String description, final PreviewContentStatus status, final Long spotId) {
-        return new Preview(plan, imageUrls, description, status, spotId);
+    public Preview(final Plan plan, final String description, final Spot spot) {
+        this(null, plan, description, spot);
     }
 }

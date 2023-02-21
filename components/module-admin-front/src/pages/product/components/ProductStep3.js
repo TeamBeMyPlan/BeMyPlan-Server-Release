@@ -8,30 +8,21 @@ import './ProductStep.css'
 class ProductStep3 extends Component {
 
     state = {
-        spots: [],
         spotItems: [],
-        previews: [
-            {
-                spotId: -1,
-                image: '',
-                description: ''
-            }
-        ]
+        previews: []
     }
 
     componentDidMount() {
-        const { step2 } = this.props;
-        const comboBoxItems = [{
-            value: -1,
-            label: '-'
-        }, ...step2.spots.map(spot => ({
-            value: spot.id,
+        const { spots } = this.props;
+
+        const comboBoxItems = [...spots.map(spot => ({
+            value: spot.seq,
             label: spot.name
         }))];
 
         this.setState({
-            spots: step2.spots,
-            spotItems: comboBoxItems
+            spotItems: comboBoxItems,
+            previews: [...this.props.previews]
         });
     }
 
@@ -39,7 +30,7 @@ class ProductStep3 extends Component {
         const { previews } = this.state;
         this.setState({
             previews: [...previews, {
-                spotId: -1,
+                spotSeq: 0,
                 image: '',
                 description: ''
             }]
@@ -49,7 +40,7 @@ class ProductStep3 extends Component {
     removePreview = () => {
         const { previews } = this.state;
         previews.pop();
-        
+
         this.setState({
             previews: [...previews]
         })
@@ -61,7 +52,7 @@ class ProductStep3 extends Component {
             const prevPreview = newPreviews[index];
 
             newPreviews[index] = {
-                spotId: prevPreview.spotId,
+                spotSeq: prevPreview.spotSeq,
                 image: prevPreview.image,
                 description: e.target.value
             }
@@ -72,16 +63,20 @@ class ProductStep3 extends Component {
     }
 
     handleSpot = (e, index) => {
-        const spotId = Number(e.target.value);
-        const { spots } = this.state;
-        const targetSpot = spots.find(spot => spot.id === spotId);
+        const spotSeq = Number(e.target.value);
+        const { spots } = this.props;
+        const targetSpot = spots.find(spot => spot.seq === spotSeq);
 
+        if (targetSpot === undefined) {
+            return;
+        }
+        
         this.setState((state) => {
             const newPreviews = [...state.previews];
             const prevPreview = newPreviews[index];
 
             newPreviews[index] = {
-                spotId: targetSpot.id,
+                spotSeq: targetSpot.seq,
                 image: targetSpot.savedImages[0],
                 description: prevPreview.description
             }
@@ -92,10 +87,9 @@ class ProductStep3 extends Component {
     }
 
     saveAndNext = () => {
-        const { update } = this.props;
+        const { onChangePreviews } = this.props;
         const { previews } = this.state;
-
-        update({previews});
+        onChangePreviews(previews);
     }
 
     render() {
@@ -110,21 +104,22 @@ class ProductStep3 extends Component {
             <>
                 <div>
                     {
-                        previews.map((preview, index) => (
+                        previews.map((preview, index) => {
+                            return (
                             <div key={index}>
                                 <h3>미리보기 {index + 1}</h3>
                                 <Inputs msg='여행지'>
-                                    <ComboBox items={spotItems}
+                                    <ComboBox selectedValue={preview.spotSeq} items={spotItems}
                                         onChange={(e) => handleSpot(e, index)} />
                                 </Inputs>
                                 <Inputs msg='설명'>
                                     <Textbox hint='미리보기 설명' value={preview.description} onChange={(e) => handleDescription(e, index)} />
                                 </Inputs>
                                 <Inputs>
-                                    <Button msg="삭제" onClick={removePreview}/>
+                                    <Button msg="삭제" onClick={removePreview} />
                                 </Inputs>
                             </div>
-                        ))
+                        )})
                     }
                     <div className="next-button-wrapper">
                         <Button msg="추가" onClick={addPreview} />

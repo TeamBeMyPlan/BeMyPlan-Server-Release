@@ -5,11 +5,11 @@ import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.plan.PlanRepository;
 import com.deploy.bemyplan.domain.plan.PlanStatus;
 import com.deploy.bemyplan.domain.plan.Preview;
-import com.deploy.bemyplan.domain.plan.PreviewContentStatus;
 import com.deploy.bemyplan.domain.plan.PreviewRepository;
 import com.deploy.bemyplan.domain.plan.RcmndStatus;
 import com.deploy.bemyplan.domain.plan.Region;
 import com.deploy.bemyplan.domain.plan.RegionCategory;
+import com.deploy.bemyplan.domain.plan.Spot;
 import com.deploy.bemyplan.domain.plan.TagInfo;
 import com.deploy.bemyplan.plan.service.dto.response.PlanPreviewResponseDto;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,7 +44,8 @@ class PlanServiceTest {
     @Test
     void getPlanPreview_callsPlanFromRepository() {
         Plan givenPlan = newInstance(1L, RegionCategory.JEJU, Region.JEJUALL, "thumbnailUrl", "title", "description", TagInfo.testBuilder().build(), 10000, PlanStatus.ACTIVE, RcmndStatus.NONE, Collections.emptyList(), Collections.emptyList());
-        Preview givenPreview = Preview.newInstance(givenPlan, List.of("img1.png"), "", PreviewContentStatus.ACTIVE, 1L);
+
+        Preview givenPreview = new Preview(givenPlan, "", getDefaultSpot());
         given(spyPlanRepository.findById(any())).willReturn(Optional.of(givenPlan));
         given(spyPreviewRepository.findAllPreviewByPlanId(givenPlan.getId())).willReturn(List.of(givenPreview));
 
@@ -56,7 +57,8 @@ class PlanServiceTest {
     @Test
     void getPlanPreview_callsPreviewFromRepository() {
         Plan givenPlan = newInstance(1L, RegionCategory.JEJU, Region.JEJUALL, "", "", "", TagInfo.testBuilder().build(), 0, PlanStatus.ACTIVE, RcmndStatus.NONE, Collections.emptyList(), Collections.emptyList());
-        Preview givenPreview = Preview.newInstance(givenPlan, List.of("image.png"), "description", PreviewContentStatus.ACTIVE, 1L);
+
+        Preview givenPreview = new Preview(givenPlan, "description", getDefaultSpot());
         given(spyPlanRepository.findById(any())).willReturn(Optional.of(givenPlan));
         given(spyPreviewRepository.findAllPreviewByPlanId(givenPlan.getId())).willReturn(List.of(givenPreview));
 
@@ -68,8 +70,8 @@ class PlanServiceTest {
     @Test
     void getPlanPreview_returnsPlanPreview() {
         Plan givenPlan = newInstance(1L, RegionCategory.JEJU, Region.JEJUALL, "", "", "", TagInfo.testBuilder().build(), 0, PlanStatus.ACTIVE, RcmndStatus.NONE, Collections.emptyList(), Collections.emptyList());
-        Preview givenPreview1 = Preview.newInstance(givenPlan, List.of("image.png", "image2.png"), "description", PreviewContentStatus.ACTIVE, 1L);
-        Preview givenPreview2 = Preview.newInstance(givenPlan, List.of("2ndImage.png", "image2.png"), "description", PreviewContentStatus.ACTIVE, 1L);
+        Preview givenPreview1 = new Preview(givenPlan, "description", getDefaultSpot());
+        Preview givenPreview2 = new Preview(givenPlan, "description", getDefaultSpot());
         given(spyPlanRepository.findById(any())).willReturn(Optional.of(givenPlan));
         given(spyPreviewRepository.findAllPreviewByPlanId(givenPlan.getId())).willReturn(List.of(givenPreview1, givenPreview2));
 
@@ -78,7 +80,6 @@ class PlanServiceTest {
         assertThat(result.getPlanId()).isEqualTo(givenPlan.getId());
         assertThat(result.getTitle()).isEqualTo(givenPlan.getTitle());
         assertThat(result.getDescription()).isEqualTo(givenPlan.getDescription());
-        assertThat(result.getThumbnail()).isEqualTo(List.of(givenPreview1.getImageUrls().get(0), givenPreview2.getImageUrls().get(0)));
         assertThat(result.getHashtag()).isEqualTo(givenPlan.getHashtags());
         assertThat(result.getTheme()).isEqualTo(givenPlan.getTagInfo().getTheme());
         assertThat(result.getSpotCount()).isEqualTo(0);
@@ -97,5 +98,9 @@ class PlanServiceTest {
 
         assertThatThrownBy(() -> planService.getPlanPreview(1L))
                 .isInstanceOf(NotFoundException.class);
+    }
+
+    private Spot getDefaultSpot() {
+        return new Spot(null, null, null, null, null, List.of("image.png", "image2.png"),null, 0, null, null);
     }
 }

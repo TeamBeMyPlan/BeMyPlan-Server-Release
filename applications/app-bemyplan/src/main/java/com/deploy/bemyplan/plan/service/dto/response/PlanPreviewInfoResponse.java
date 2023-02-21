@@ -35,12 +35,9 @@ public class PlanPreviewInfoResponse {
 
 
     public static PlanPreviewInfoResponse of(@NotNull Plan plan, String nickname) {
-        int spotCnt = (int) plan.getSchedules().stream()
-                .flatMap(dailySchedule -> dailySchedule.getSpots().stream())
-                .count();
+        int spotCnt = (int) plan.getSpots().stream().count();
 
-        int rstrnCnt = (int) plan.getSchedules().stream()
-                .flatMap(dailySchedule -> dailySchedule.getSpots().stream())
+        int rstrnCnt = (int) plan.getSpots().stream()
                 .filter(spot -> spot.getCategory().equals(SpotCategoryType.RESTAURANT))
                 .count();
 

@@ -18,7 +18,7 @@ public class PlanRandomResponse {
     private Region region;
 
 
-    public PlanRandomResponse(Long planId, String thumbnailUrl, String title, RegionCategory regionCategory, Region region) {
+    private PlanRandomResponse(Long planId, String thumbnailUrl, String title, RegionCategory regionCategory, Region region) {
         this.planId = planId;
         this.thumbnailUrl = thumbnailUrl;
         this.title = title;

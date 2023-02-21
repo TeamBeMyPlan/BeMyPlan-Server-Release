@@ -104,7 +104,7 @@ public class PlanRetrieveService {
     }
 
     public List<PlanScrapResponse> getPlanWithScrapOrderByCountDesc(final Long userId) {
-        final List<Plan> findPlans = planRepository.findPlanWithScrapCountOrderByScrapCountDesc(userId);
+        final List<Plan> findPlans = planRepository.findPlanOrderByScrapCountDesc(userId);
 
         return findPlans.stream()
                 .map(plan -> PlanScrapResponse.of(

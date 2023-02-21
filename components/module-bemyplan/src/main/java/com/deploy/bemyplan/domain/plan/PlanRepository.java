@@ -30,4 +30,8 @@ public interface PlanRepository extends JpaRepository<Plan, Long>, PlanRepositor
     List<OrderedPlan> findAllByOrderAndUserId(@Param("userId") Long userId);
 
     List<Plan> findAllByCreatorId(Long creatorId);
+
+    @Query(value = "select *, (select count(*) FROM scrap s WHERE s.plan_id = p.id) as scp_count from plan p " +
+            "inner join scrap s2 on p.id = s2.plan_id where s2.user_id = :userId order by scp_count desc", nativeQuery = true)
+    List<Plan> findPlanWithScrapCountOrderByScrapCountDesc(@Param("userId") Long userId);
 }

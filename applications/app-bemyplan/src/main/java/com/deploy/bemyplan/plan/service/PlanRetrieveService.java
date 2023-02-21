@@ -18,6 +18,7 @@ import com.deploy.bemyplan.plan.service.dto.response.OrdersScrollResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanDetailResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanInfoResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanListResponse;
+import com.deploy.bemyplan.plan.service.dto.response.PlanScrapResponse;
 import com.deploy.bemyplan.plan.service.dto.response.ScrapsScrollResponse;
 import com.deploy.bemyplan.plan.service.dto.response.SpotMoveInfoDetailResponse;
 import com.deploy.bemyplan.plan.service.dto.response.SpotMoveInfoResponse;
@@ -66,16 +67,16 @@ public class PlanRetrieveService {
         final Plan plan = planRepository.findById(planId)
                 .orElseThrow(() -> new NotFoundException(String.format("존재하지 않는 일정 (%s) 입니다", planId)));
 
-        List<SpotMoveInfoResponse> result = new ArrayList<>();
+        final List<SpotMoveInfoResponse> result = new ArrayList<>();
 
-        Map<Integer, List<Spot>> spotsPerDate = plan.getSpots().stream().collect(groupingBy(Spot::getDay));
-        for (int day : spotsPerDate.keySet()) {
-            List<Spot> spots = spotsPerDate.get(day);
+        final Map<Integer, List<Spot>> spotsPerDate = plan.getSpots().stream().collect(groupingBy(Spot::getDay));
+        for (final int day : spotsPerDate.keySet()) {
+            final List<Spot> spots = spotsPerDate.get(day);
 
-            List<SpotMoveInfoDetailResponse> moveInfos = new ArrayList<>();
+            final List<SpotMoveInfoDetailResponse> moveInfos = new ArrayList<>();
             for (int i = 0; i < spots.size() - 1; i++) {
-                Spot prev = spots.get(i);
-                Spot next = spots.get(i + 1);
+                final Spot prev = spots.get(i);
+                final Spot next = spots.get(i + 1);
 
                 moveInfos.add(new SpotMoveInfoDetailResponse(prev.getId(), next.getId(), prev.getVehicle(), prev.getSpentMinute()));
             }
@@ -100,6 +101,19 @@ public class PlanRetrieveService {
         }
         final Scrap nextCursor = scrapRepository.findActiveByUserIdAndPlanId(plansCursor.getNextCursor().getId(), userId);
         return ScrapsScrollResponse.newCursorHasNext(plansCursor.getCurrentScrollItems(), scrapDictionary, orderDictionary, authors, nextCursor.getId());
+    }
+
+    public List<PlanScrapResponse> getPlanWithScrapOrderByCountDesc(final Long userId) {
+        final List<Plan> findPlans = planRepository.findPlanWithScrapCountOrderByScrapCountDesc(userId);
+
+        return findPlans.stream()
+                .map(plan -> PlanScrapResponse.of(
+                        plan.getId(),
+                        plan.getThumbnailUrl(),
+                        plan.getTitle(),
+                        isScraped(userId, plan),
+                        isOrdered(userId, plan)))
+                .collect(Collectors.toList());
     }
 
     public OrdersScrollResponse retrieveMyOrderList(final RetrieveMyOrderListRequestDto request, final Long userId, final Pageable pageable) {
@@ -128,11 +142,11 @@ public class PlanRetrieveService {
     }
 
     private boolean isScraped(final Long userId, final Plan plan) {
-        return userId != null && scrapRepository.existsScrapByUserIdAndPlanId(userId, plan.getId());
+        return null != userId && scrapRepository.existsScrapByUserIdAndPlanId(userId, plan.getId());
     }
 
     private boolean isOrdered(final Long userId, final Plan plan) {
-        return userId != null && orderRepository.existsOrderByUserIdAndPlanIdAndStatus(userId, plan.getId(), OrderStatus.COMPLETED);
+        return null != userId && orderRepository.existsOrderByUserIdAndPlanIdAndStatus(userId, plan.getId(), OrderStatus.COMPLETED);
     }
 
     private Creator getAuthorByPlanId(final Plan plan) {

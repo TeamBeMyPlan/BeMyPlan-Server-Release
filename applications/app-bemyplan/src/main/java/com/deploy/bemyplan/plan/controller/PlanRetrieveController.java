@@ -6,11 +6,7 @@ import com.deploy.bemyplan.config.validator.AllowedSortProperties;
 import com.deploy.bemyplan.plan.service.PlanRetrieveService;
 import com.deploy.bemyplan.plan.service.dto.request.RetrieveMyBookmarkListRequestDto;
 import com.deploy.bemyplan.plan.service.dto.request.RetrieveMyOrderListRequestDto;
-import com.deploy.bemyplan.plan.service.dto.response.OrdersScrollResponse;
-import com.deploy.bemyplan.plan.service.dto.response.PlanDetailResponse;
-import com.deploy.bemyplan.plan.service.dto.response.PlanListResponse;
-import com.deploy.bemyplan.plan.service.dto.response.ScrapsScrollResponse;
-import com.deploy.bemyplan.plan.service.dto.response.SpotMoveInfoResponse;
+import com.deploy.bemyplan.plan.service.dto.response.*;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -71,5 +67,12 @@ public class PlanRetrieveController {
     public OrdersScrollResponse retrieveMyOrderList(@UserId final Long userId, @Valid final RetrieveMyOrderListRequestDto request,
                                                     @AllowedSortProperties({"id", "createdAt", "orderCnt"}) final Pageable pageable) {
         return planRetrieveService.retrieveMyOrderList(request, userId, pageable);
+    }
+
+    @ApiOperation("[인증] 내 일정에서 스크랩 많은 순으로 일정을 조회합니다.")
+    @Auth
+    @GetMapping("/v1/plans/scrap")
+    public List<PlanScrapResponse> getPlanWithScrapOrderByCountDesc(@UserId final Long userId){
+        return planRetrieveService.getPlanWithScrapOrderByCountDesc(userId);
     }
 }

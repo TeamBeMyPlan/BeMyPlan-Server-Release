@@ -135,8 +135,8 @@ public class PlanRetrieveService {
                         plan.getId(),
                         plan.getThumbnailUrl(),
                         plan.getTitle(),
-                        isScrap(userId, plan.getId()),
-                        isOrder(userId, plan.getId()),
+                        isScraped(userId, plan.getId()),
+                        isOrdered(userId, plan.getId()),
                         plan.getCreatedAt()))
                 .collect(Collectors.toList());
     }
@@ -161,23 +161,16 @@ public class PlanRetrieveService {
         return PlanListResponse.of(planList.stream()
                 .map(plan -> PlanInfoResponse.of(plan,
                         getAuthorByPlanId(plan),
-                        isScraped(userId, plan),
-                        isOrdered(userId, plan)))
+                        isScraped(userId, plan.getId()),
+                        isOrdered(userId, plan.getId())))
                 .collect(Collectors.toList()));
     }
-    private boolean isScrap(final Long userId, final Long planId) {
+    private boolean isScraped(final Long userId, final Long planId) {
         return null != userId && scrapRepository.existsScrapByUserIdAndPlanId(userId, planId);
     }
-    private boolean isOrder(final Long userId, final Long planId) {
+
+    private boolean isOrdered(final Long userId, final Long planId) {
         return null != userId && orderRepository.existsOrderByUserIdAndPlanIdAndStatus(userId, planId, OrderStatus.COMPLETED);
-    }
-
-    private boolean isScraped(final Long userId, final Plan plan) {
-        return null != userId && scrapRepository.existsScrapByUserIdAndPlanId(userId, plan.getId());
-    }
-
-    private boolean isOrdered(final Long userId, final Plan plan) {
-        return null != userId && orderRepository.existsOrderByUserIdAndPlanIdAndStatus(userId, plan.getId(), OrderStatus.COMPLETED);
     }
 
     private Creator getAuthorByPlanId(final Plan plan) {

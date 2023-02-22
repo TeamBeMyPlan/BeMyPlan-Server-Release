@@ -31,7 +31,15 @@ public interface PlanRepository extends JpaRepository<Plan, Long>, PlanRepositor
 
     List<Plan> findAllByCreatorId(Long creatorId);
 
-    @Query(value = "select *, (select count(*) FROM scrap s WHERE s.plan_id = p.id) as scp_count from plan p " +
+    @Query(value = "select p.id, p.title, p.thumbnail_url as thumbnailUrl, s2.created_at as createdAt, (select count(*) FROM scrap s WHERE s.plan_id = p.id) as scp_count from plan p " +
             "inner join scrap s2 on p.id = s2.plan_id where s2.user_id = :userId order by scp_count desc", nativeQuery = true)
-    List<Plan> findPlanOrderByScrapCountDesc(@Param("userId") Long userId);
+    List<ScrapedPlan> findScrapPlanOrderByScrapCount(@Param("userId") Long userId);
+
+    @Query(value = "select p.id, p.title, p.thumbnail_url as thumbnailUrl, s.created_at as createdAt from plan p inner join scrap s on p.id = s.plan_id where s.user_id = :userId " +
+            "order by p.created_at desc", nativeQuery = true)
+    List<ScrapedPlan> findScrapPlanOrderByCreatedAtDesc(@Param("userId") Long userId);
+
+    @Query(value = "select p.id, p.title, p.thumbnail_url as thumbnailUrl, s.created_at as createdAt from plan p inner join scrap s on p.id = s.plan_id where s.user_id = :userId " +
+            "order by p.order_cnt desc", nativeQuery = true)
+    List<ScrapedPlan> findScrapPlanOrderByOrderCount(@Param("userId") Long userId);
 }

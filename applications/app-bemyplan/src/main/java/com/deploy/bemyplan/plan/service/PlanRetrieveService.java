@@ -7,6 +7,7 @@ import com.deploy.bemyplan.domain.order.OrderStatus;
 import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.plan.PlanRepository;
 import com.deploy.bemyplan.domain.plan.RegionCategory;
+import com.deploy.bemyplan.domain.plan.ScrapedPlan;
 import com.deploy.bemyplan.domain.plan.Spot;
 import com.deploy.bemyplan.domain.scrap.Scrap;
 import com.deploy.bemyplan.domain.scrap.ScrapRepository;
@@ -114,28 +115,29 @@ public class PlanRetrieveService {
     }
 
     private List<PlanScrapResponse> getScrapPlanByOrderCount(final Long userId) {
-        final List<Plan> findPlans = planRepository.findScrapPlanOrderByOrderCount(userId);
+        final List<ScrapedPlan> findPlans = planRepository.findScrapPlanOrderByOrderCount(userId);
         return getPlanScrapResponses(userId, findPlans);
     }
 
     private List<PlanScrapResponse> getScrapPlanByCreatedAt(final Long userId) {
-        final List<Plan> findPlans = planRepository.findScrapPlanOrderByCreatedAtDesc(userId);
+        final List<ScrapedPlan> findPlans = planRepository.findScrapPlanOrderByCreatedAtDesc(userId);
         return getPlanScrapResponses(userId, findPlans);
     }
 
     private List<PlanScrapResponse> getScrapPlanByScrapCount(final Long userId) {
-        final List<Plan> findPlans = planRepository.findScrapPlanOrderByScrapCount(userId);
+        final List<ScrapedPlan> findPlans = planRepository.findScrapPlanOrderByScrapCount(userId);
         return getPlanScrapResponses(userId, findPlans);
     }
 
-    private List<PlanScrapResponse> getPlanScrapResponses(Long userId, List<Plan> findPlans) {
+    private List<PlanScrapResponse> getPlanScrapResponses(final Long userId, final List<ScrapedPlan> findPlans) {
         return findPlans.stream()
                 .map(plan -> PlanScrapResponse.of(
                         plan.getId(),
                         plan.getThumbnailUrl(),
                         plan.getTitle(),
-                        isScraped(userId, plan),
-                        isOrdered(userId, plan)))
+                        isScrap(userId, plan.getId()),
+                        isOrder(userId, plan.getId()),
+                        plan.getCreatedAt()))
                 .collect(Collectors.toList());
     }
 
@@ -162,6 +164,12 @@ public class PlanRetrieveService {
                         isScraped(userId, plan),
                         isOrdered(userId, plan)))
                 .collect(Collectors.toList()));
+    }
+    private boolean isScrap(final Long userId, final Long planId) {
+        return null != userId && scrapRepository.existsScrapByUserIdAndPlanId(userId, planId);
+    }
+    private boolean isOrder(final Long userId, final Long planId) {
+        return null != userId && orderRepository.existsOrderByUserIdAndPlanIdAndStatus(userId, planId, OrderStatus.COMPLETED);
     }
 
     private boolean isScraped(final Long userId, final Plan plan) {

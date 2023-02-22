@@ -105,8 +105,9 @@ public class PlanRetrieveService {
 
     public List<PlanScrapResponse> getPlanWithScrap(final Long userId, final String sort) {
         if ("scrapCnt".equals(sort)) {
-            return getPlansByScrapCount(userId);
-        } else if ("orderCnt".equals(sort)) {
+            return getScrapPlanByScrapCount(userId);
+        }
+        if ("orderCnt".equals(sort)) {
             return getScrapPlanByOrderCount(userId);
         }
         return getScrapPlanByCreatedAt(userId);
@@ -122,8 +123,8 @@ public class PlanRetrieveService {
         return getPlanScrapResponses(userId, findPlans);
     }
 
-    private List<PlanScrapResponse> getPlansByScrapCount(final Long userId) {
-        final List<Plan> findPlans = planRepository.findPlanOrderByScrapCountDesc(userId);
+    private List<PlanScrapResponse> getScrapPlanByScrapCount(final Long userId) {
+        final List<Plan> findPlans = planRepository.findScrapPlanOrderByScrapCount(userId);
         return getPlanScrapResponses(userId, findPlans);
     }
 

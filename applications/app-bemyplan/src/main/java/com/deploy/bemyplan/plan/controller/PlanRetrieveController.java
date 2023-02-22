@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -33,7 +34,7 @@ public class PlanRetrieveController {
 
     @ApiOperation("[인증] 여행일정 목록들을 조회합니다 (여행지별 O, 정렬 O)")
     @GetMapping("/v1/plans")
-    public PlanListResponse getPlans(@UserId Long userId, @ModelAttribute @Valid RetrievePlansRequest request) {
+    public PlanListResponse getPlans(@UserId final Long userId, @ModelAttribute @Valid final RetrievePlansRequest request) {
         return planRetrieveService.retrievePlans(
                 userId,
                 request.getRegion()
@@ -42,7 +43,7 @@ public class PlanRetrieveController {
 
     @ApiOperation("[인증] 비마이플랜이 추천하는 여행일정 목록들을 조회합니다.")
     @GetMapping("/v1/plans/bemyplanPick")
-    public PlanListResponse getPickList(@UserId Long userId) {
+    public PlanListResponse getPickList(@UserId final Long userId) {
         return planRetrieveService.getPickList(userId);
     }
 
@@ -74,10 +75,10 @@ public class PlanRetrieveController {
         return planRetrieveService.retrieveMyOrderList(request, userId, pageable);
     }
 
-    @ApiOperation("[인증] 내 일정에서 스크랩 많은 순으로 일정을 조회합니다.")
+    @ApiOperation("[인증] 내가 스크랩한 여행 일정을 조회합니다. (정렬 기준 - 스크랩 많은 순, 구매 많은 순, 최신 순)")
     @Auth
     @GetMapping("/v1/plans/scrap")
-    public List<PlanScrapResponse> getPlanWithScrapOrderByCountDesc(@UserId final Long userId){
-        return planRetrieveService.getPlanWithScrapOrderByCountDesc(userId);
+    public List<PlanScrapResponse> getPlanWithScrap(@UserId final Long userId, @RequestParam(defaultValue = "createdAt") final String sort){
+        return planRetrieveService.getPlanWithScrap(userId, sort);
     }
 }

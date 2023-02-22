@@ -103,9 +103,32 @@ public class PlanRetrieveService {
         return ScrapsScrollResponse.newCursorHasNext(plansCursor.getCurrentScrollItems(), scrapDictionary, orderDictionary, authors, nextCursor.getId());
     }
 
-    public List<PlanScrapResponse> getPlanWithScrapOrderByCountDesc(final Long userId) {
-        final List<Plan> findPlans = planRepository.findPlanOrderByScrapCountDesc(userId);
+    public List<PlanScrapResponse> getPlanWithScrap(final Long userId, final String sort) {
+        if ("scrapCnt".equals(sort)) {
+            return getScrapPlanByScrapCount(userId);
+        }
+        if ("orderCnt".equals(sort)) {
+            return getScrapPlanByOrderCount(userId);
+        }
+        return getScrapPlanByCreatedAt(userId);
+    }
 
+    private List<PlanScrapResponse> getScrapPlanByOrderCount(final Long userId) {
+        final List<Plan> findPlans = planRepository.findScrapPlanOrderByOrderCount(userId);
+        return getPlanScrapResponses(userId, findPlans);
+    }
+
+    private List<PlanScrapResponse> getScrapPlanByCreatedAt(final Long userId) {
+        final List<Plan> findPlans = planRepository.findScrapPlanOrderByCreatedAtDesc(userId);
+        return getPlanScrapResponses(userId, findPlans);
+    }
+
+    private List<PlanScrapResponse> getScrapPlanByScrapCount(final Long userId) {
+        final List<Plan> findPlans = planRepository.findScrapPlanOrderByScrapCount(userId);
+        return getPlanScrapResponses(userId, findPlans);
+    }
+
+    private List<PlanScrapResponse> getPlanScrapResponses(Long userId, List<Plan> findPlans) {
         return findPlans.stream()
                 .map(plan -> PlanScrapResponse.of(
                         plan.getId(),

@@ -19,11 +19,11 @@ import static com.deploy.bemyplan.domain.plan.RegionCategory.RegionTypeStatus.LO
 public enum RegionCategory {
 
     JEJU("제주", List.of(JEJUWEST, JEJUEAST, JEJUCITY, JEJUALL), "https://bemyplan-deploy.s3.ap-northeast-2.amazonaws.com/%EC%97%AC%ED%96%89%EC%A7%80%EC%82%AC%EC%A7%84/%EC%A0%9C%EC%A3%BC.png", ACTIVE, 1),
-    BUSAN("부산", Collections.emptyList(), "https://bemyplan-deploy.s3.ap-northeast-2.amazonaws.com/%EC%97%AC%ED%96%89%EC%A7%80%EC%82%AC%EC%A7%84/%EB%B6%80%EC%82%B0.png", LOCKED, 2),
-    GANGNEUNG("강릉", Collections.emptyList(), "https://bemyplan-deploy.s3.ap-northeast-2.amazonaws.com/%EC%97%AC%ED%96%89%EC%A7%80%EC%82%AC%EC%A7%84/%EA%B0%95%EB%A6%89.png", LOCKED, 3),
-    YEOSU("여수", Collections.emptyList(), "https://bemyplan-deploy.s3.ap-northeast-2.amazonaws.com/%EC%97%AC%ED%96%89%EC%A7%80%EC%82%AC%EC%A7%84/%EC%97%AC%EC%88%98.png", LOCKED, 4),
-    GYEONGJU("경주", Collections.emptyList(), "https://bemyplan-deploy.s3.ap-northeast-2.amazonaws.com/%EC%97%AC%ED%96%89%EC%A7%80%EC%82%AC%EC%A7%84/%EA%B2%BD%EC%A3%BC.png", LOCKED, 5),
-    TONGYEONG_GEOJE("통영/거제", Collections.emptyList(), "https://bemyplan-deploy.s3.ap-northeast-2.amazonaws.com/%EC%97%AC%ED%96%89%EC%A7%80%EC%82%AC%EC%A7%84/%ED%86%B5%EC%98%81_%EA%B1%B0%EC%A0%9C.png", LOCKED, 6);
+    JAPAN("일본", Collections.emptyList(), "https://bemyplan-deploy.s3.ap-northeast-2.amazonaws.com/%EC%97%AC%ED%96%89%EC%A7%80%EC%82%AC%EC%A7%84/%E1%84%8B%E1%85%B5%E1%86%AF%E1%84%87%E1%85%A9%E1%86%AB.jpg", LOCKED, 2),
+    THAILAND("태국", Collections.emptyList(), "https://bemyplan-deploy.s3.ap-northeast-2.amazonaws.com/%EC%97%AC%ED%96%89%EC%A7%80%EC%82%AC%EC%A7%84/%E1%84%90%E1%85%A2%E1%84%80%E1%85%AE%E1%86%A8.jpg", LOCKED, 3),
+    VIETNAM("베트남", Collections.emptyList(), "https://bemyplan-deploy.s3.ap-northeast-2.amazonaws.com/%EC%97%AC%ED%96%89%EC%A7%80%EC%82%AC%EC%A7%84/%E1%84%87%E1%85%A6%E1%84%90%E1%85%B3%E1%84%82%E1%85%A1%E1%86%B7.jpg", LOCKED, 4),
+    TAIWAN("대만", Collections.emptyList(), "https://bemyplan-deploy.s3.ap-northeast-2.amazonaws.com/%EC%97%AC%ED%96%89%EC%A7%80%EC%82%AC%EC%A7%84/%E1%84%83%E1%85%A2%E1%84%86%E1%85%A1%E1%86%AB.jpg", LOCKED, 5),
+    SINGAPORE("싱가포르", Collections.emptyList(), "https://bemyplan-deploy.s3.ap-northeast-2.amazonaws.com/%EC%97%AC%ED%96%89%EC%A7%80%EC%82%AC%EC%A7%84/%E1%84%89%E1%85%B5%E1%86%BC%E1%84%80%E1%85%A1%E1%84%91%E1%85%A9%E1%84%85%E1%85%B3.jpg", LOCKED, 6);
 
     private final String regionCategoryName;
     private final List<Region> regions;

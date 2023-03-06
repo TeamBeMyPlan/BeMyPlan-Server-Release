@@ -2,6 +2,7 @@ package com.deploy.bemyplan.plan.service.dto.response;
 
 import com.deploy.bemyplan.common.controller.AuditingTimeResponse;
 import com.deploy.bemyplan.domain.plan.Plan;
+import com.deploy.bemyplan.domain.plan.Spot;
 import com.deploy.bemyplan.domain.user.Creator;
 import com.deploy.bemyplan.user.service.dto.response.CreatorInfoResponse;
 import lombok.AccessLevel;
@@ -12,7 +13,12 @@ import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @ToString
 @Getter
@@ -43,8 +49,13 @@ public class PlanDetailResponse extends AuditingTimeResponse {
                 CreatorInfoResponse.of(creator)
         );
 
-        ScheduleDetailResponse content = ScheduleDetailResponse.of(plan.getSpots());
-        response.contents.add(content);
+        Map<Integer, List<Spot>> spotsByDay = plan.getSpots().stream()
+                .collect(Collectors.groupingBy(Spot::getDay));
+
+        spotsByDay.entrySet().stream()
+                .sorted(Comparator.comparingInt(Map.Entry::getKey))
+                .map(Map.Entry::getValue)
+                .forEach(spots -> response.contents.add(ScheduleDetailResponse.of(spots)));
 
         response.setBaseTime(plan.getCreatedAt(), plan.getUpdatedAt());
         return response;

@@ -97,6 +97,11 @@ public class AdminPlanController {
                 .collect(Collectors.toList())));
     }
 
+    @DeleteMapping("/api/spots/{spotId}")
+    void deleteSpot(@PathVariable long spotId) {
+        deletePlanUseCase.deleteSpot(spotId);
+    }
+
     @GetMapping("/api/creator")
     public List<Creator> getCreator() {
         return readPlanUseCase.getCreators();

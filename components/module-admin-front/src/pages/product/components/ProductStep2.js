@@ -171,10 +171,10 @@ class ProductStep2 extends Component {
         this.clear();
     }
 
-    changeEditableMode = (spot, index) => {
+    changeEditableMode = (spot, seq) => {
         this.setState({
             editable: true,
-            editSpotSeq: index,
+            editSpotSeq: seq,
             name: spot.name,
             review: spot.review,
             tip: spot.tip,
@@ -187,6 +187,13 @@ class ProductStep2 extends Component {
             nextSpotVehicle: spot.vehicle,
             savedImages: [...spot.savedImages]
         })
+    }
+
+    removeSpot = (spot) => {
+        if (window.confirm(`[${spot.name}] 을 삭제하시겠습니까`)) {
+            this.props.onChangeSpots(this.props.spots.filter(s => s !== spot));
+            this.props.onDeleteSpot(spot);
+        }
     }
 
     handleName = (e) => { this.setState({ name: e.target.value }) }
@@ -229,6 +236,7 @@ class ProductStep2 extends Component {
             addSpot,
             editSpot,
             changeEditableMode,
+            removeSpot,
         } = this;
 
         const {
@@ -302,7 +310,7 @@ class ProductStep2 extends Component {
                         </Inputs>
                     </Inputs>
                     <div className="next-button-wrapper">
-                        <Button msg={editable ? "수정" : "추가"} onClick={editable ? editSpot : addSpot} />
+                        <Button primary={!editable} msg={editable ? "수정" : "추가"} onClick={editable ? editSpot : addSpot} />
                     </div>
                 </div>
                 <div>
@@ -315,16 +323,18 @@ class ProductStep2 extends Component {
                                     <TableCell>주소</TableCell>
                                     <TableCell>일차</TableCell>
                                     <TableCell>수정</TableCell>
+                                    <TableCell>삭제</TableCell>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
                                 {
-                                    this.props.spots.map((spot, index) => (
-                                        <TableRow key={index} onClick={() => alert(index)}>
+                                    this.props.spots.map((spot, seq) => (
+                                        <TableRow key={seq} onClick={() => alert(seq)}>
                                             <TableCell>{spot.name}</TableCell>
                                             <TableCell>{spot.address}</TableCell>
                                             <TableCell>{spot.date}</TableCell>
-                                            <TableCell><Button msg="선택" onClick={() => changeEditableMode(spot, index)} /></TableCell>
+                                            <TableCell><Button msg="선택" onClick={() => changeEditableMode(spot, seq)} /></TableCell>
+                                            <TableCell><Button primary={false} msg="삭제" onClick={() => removeSpot(spot)} /></TableCell>
                                         </TableRow>
                                     ))
                                 }

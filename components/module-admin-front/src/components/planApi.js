@@ -45,6 +45,11 @@ const planApi = {
         const result = await api.put(`api/plans/${id}/previews`, data);
 
         return result;
+    },
+    deleteSpot: async (id) => {
+        const result = await api.delete(`api/spots/${id}`);
+
+        return result;
     }
 }
 

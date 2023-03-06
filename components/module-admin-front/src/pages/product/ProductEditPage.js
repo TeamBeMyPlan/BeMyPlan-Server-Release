@@ -127,6 +127,12 @@ class ProductEditPage extends Component {
         this.setState({ spots: [...spots] });
     }
 
+    deleteSpot = async (spot) => {
+        await planApi.deleteSpot(spot.id);
+        const { id } = this.state;
+        await this.fetchPreviews(id);
+    }
+
     updatePreviews = (newPreviews) => {
         this.setState({ previews: [...newPreviews] }, () => this.savePreviews());
     }
@@ -177,12 +183,13 @@ class ProductEditPage extends Component {
 
     saveSpots = async () => {
         const { id, planTitle, spots } = this.state;
-        if (window.confirm(`[${planTitle}] 장소 정보를 수정하시겠습니까 [미구현]`)) {
+        if (window.confirm(`[${planTitle}] 장소 정보를 수정하시겠습니까`)) {
             console.log(spots);
             const response = await planApi.putSpots(id, spots);
 
             if (response.status === 200) {
                 console.log(response.data);
+                await this.fetchSpots(id);
                 this.nextPage();
             }
         }
@@ -190,14 +197,14 @@ class ProductEditPage extends Component {
 
     savePreviews = async () => {
         const { id, planTitle, previews } = this.state;
-        if (window.confirm(`[${planTitle}] 미리보기 정보를 수정하시겠습니까 [미구현]`)) {
+        if (window.confirm(`[${planTitle}] 미리보기 정보를 수정하시겠습니까`)) {
             console.log(previews);
             
             const response = await planApi.putPreviews(id, previews);
 
             if (response.status === 200) {
                 console.log(response.data);
-                alert('수정 완료 [미구현]');
+                alert('수정 완료');
                 window.location = '/';
             }
         }
@@ -239,6 +246,7 @@ class ProductEditPage extends Component {
             handleRecommendTargets,
             fileChangedHandler,
             updateSpots,
+            deleteSpot,
             updatePreviews,
         } = this;
 
@@ -266,7 +274,7 @@ class ProductEditPage extends Component {
         if (page === 1) {
             return (
                 <ProductStep2 nextPage={this.saveSpots}
-                    spots={spots} onChangeSpots={updateSpots} />
+                    spots={spots} onChangeSpots={updateSpots} onDeleteSpot={deleteSpot} />
             )
         }
 

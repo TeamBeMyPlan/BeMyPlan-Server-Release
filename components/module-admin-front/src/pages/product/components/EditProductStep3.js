@@ -9,7 +9,8 @@ class EditProductStep3 extends Component {
 
     state = {
         spotItems: [],
-        previews: []
+        previews: [],
+        defaultSpotId: -1,
     }
 
     componentDidMount() {
@@ -21,15 +22,16 @@ class EditProductStep3 extends Component {
 
         this.setState({
             spotItems: comboBoxItems,
-            previews: [...this.props.previews]
+            previews: [...this.props.previews],
+            defaultSpotId: spots.length > 0 ? spots[0].id : -1,
         });
     }
 
     addPreview = () => {
-        const { previews } = this.state;
+        const { previews, defaultSpotId } = this.state;
         this.setState({
             previews: [...previews, {
-                spotId: -1,
+                spotId: defaultSpotId,
                 description: ''
             }]
         })

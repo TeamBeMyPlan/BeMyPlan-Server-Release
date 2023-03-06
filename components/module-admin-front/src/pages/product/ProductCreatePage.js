@@ -205,7 +205,7 @@ class ProductCreatePage extends Component {
         if (page === 1) {
             return (
                 <ProductStep2 nextPage={this.nextPage}
-                    spots={spots} onChangeSpots={updateSpots} />
+                    spots={spots} onChangeSpots={updateSpots} onDeleteSpot={() => console.log()}/>
             )
         }
 

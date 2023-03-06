@@ -37,13 +37,15 @@ class EditProductStep3 extends Component {
         })
     }
 
-    removePreview = () => {
+    removePreview = (preview) => {
         const { previews } = this.state;
-        previews.pop();
 
-        this.setState({
-            previews: [...previews]
-        })
+        if (window.confirm('미리보기를 삭제하시겠습니까')) {
+            this.props.onDeletePreview(preview);
+            this.setState({
+                previews: previews.filter(p => p !== preview)
+            })
+        }
     }
 
     handleDescription = (e, index) => {
@@ -118,7 +120,7 @@ class EditProductStep3 extends Component {
                                     <Textbox hint='미리보기 설명' value={preview.description} onChange={(e) => handleDescription(e, index)} />
                                 </Inputs>
                                 <Inputs>
-                                    <Button msg="삭제" onClick={removePreview} />
+                                    <Button msg="삭제" onClick={() => removePreview(preview)} />
                                 </Inputs>
                             </div>
                         )})

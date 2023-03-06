@@ -136,6 +136,10 @@ class ProductEditPage extends Component {
     updatePreviews = (newPreviews) => {
         this.setState({ previews: [...newPreviews] }, () => this.savePreviews());
     }
+    
+    deletePreview = async (preview) => {
+        await planApi.deletePreview(preview.id);
+    }
 
     savePlan = async () => {
         const {
@@ -248,6 +252,7 @@ class ProductEditPage extends Component {
             updateSpots,
             deleteSpot,
             updatePreviews,
+            deletePreview,
         } = this;
 
         if (page === 0) {
@@ -281,7 +286,7 @@ class ProductEditPage extends Component {
         if (page === 2) {
             return (
                 <EditProductStep3 nextPage={this.nextPage}
-                    spots={spots} previews={previews} onChangePreviews={updatePreviews}/>
+                    spots={spots} previews={previews} onChangePreviews={updatePreviews} onDeletePreview={deletePreview}/>
             )
         }
 

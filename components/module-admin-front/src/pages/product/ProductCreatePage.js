@@ -212,7 +212,7 @@ class ProductCreatePage extends Component {
         if (page === 2) {
             return (
                 <ProductStep3 nextPage={this.nextPage}
-                    spots={spots} previews={previews} onChangePreviews={updatePreviews} />
+                    spots={spots} previews={previews} onChangePreviews={updatePreviews}/>
             )
         }
 

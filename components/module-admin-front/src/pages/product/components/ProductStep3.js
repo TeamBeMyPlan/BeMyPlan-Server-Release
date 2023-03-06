@@ -37,12 +37,17 @@ class ProductStep3 extends Component {
         })
     }
 
-    removePreview = () => {
-        const { previews } = this.state;
-        previews.pop();
+    removeSpot = (spot) => {
+        if (window.confirm(`[${spot.name}] 을 삭제하시겠습니까`)) {
+            this.props.onChangeSpots(this.props.spots.filter(s => s !== spot));
+            this.props.onDeleteSpot(spot);
+        }
+    }
 
+    removePreview = (preview) => {
+        const { previews } = this.state;
         this.setState({
-            previews: [...previews]
+            previews: previews.filter(p => p !== preview)
         })
     }
 
@@ -116,7 +121,7 @@ class ProductStep3 extends Component {
                                     <Textbox hint='미리보기 설명' value={preview.description} onChange={(e) => handleDescription(e, index)} />
                                 </Inputs>
                                 <Inputs>
-                                    <Button msg="삭제" onClick={removePreview} />
+                                    <Button msg="삭제" onClick={() => removePreview(preview)} />
                                 </Inputs>
                             </div>
                         )})

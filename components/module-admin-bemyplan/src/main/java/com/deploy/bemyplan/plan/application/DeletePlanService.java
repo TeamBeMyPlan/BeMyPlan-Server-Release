@@ -28,4 +28,9 @@ class DeletePlanService implements DeletePlanUseCase {
         previewRepository.deleteBySpotId(spotId);
         spotRepository.deleteById(spotId);
     }
+
+    @Override
+    public void deletePreview(long previewId) {
+        previewRepository.deleteById(previewId);
+    }
 }

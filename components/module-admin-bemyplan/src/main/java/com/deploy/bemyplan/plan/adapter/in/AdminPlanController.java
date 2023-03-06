@@ -102,6 +102,11 @@ public class AdminPlanController {
         deletePlanUseCase.deleteSpot(spotId);
     }
 
+    @DeleteMapping("/api/previews/{previewId}")
+    void deletePreviews(@PathVariable long previewId) {
+        deletePlanUseCase.deletePreview(previewId);
+    }
+
     @GetMapping("/api/creator")
     public List<Creator> getCreator() {
         return readPlanUseCase.getCreators();

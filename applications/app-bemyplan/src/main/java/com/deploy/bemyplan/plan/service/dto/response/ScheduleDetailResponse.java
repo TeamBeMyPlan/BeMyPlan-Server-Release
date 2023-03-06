@@ -20,12 +20,10 @@ public class ScheduleDetailResponse {
     private List<SpotDetailResponse> spots = new ArrayList<>();
 
     public static ScheduleDetailResponse of(List<Spot> spots) {
-        ScheduleDetailResponse response = new ScheduleDetailResponse();
-        response.spots.addAll(
-                spots.stream()
-                        .map(spot -> SpotDetailResponse.of(spot))
-                        .collect(Collectors.toList())
-        );
-        return response;
+        List<SpotDetailResponse> spotDetails = spots.stream()
+                .map(SpotDetailResponse::of)
+                .collect(Collectors.toList());
+
+        return new ScheduleDetailResponse(spotDetails);
     }
 }

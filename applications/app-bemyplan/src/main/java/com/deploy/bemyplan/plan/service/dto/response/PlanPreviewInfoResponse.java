@@ -2,6 +2,7 @@ package com.deploy.bemyplan.plan.service.dto.response;
 
 import com.deploy.bemyplan.domain.plan.Money;
 import com.deploy.bemyplan.domain.plan.Plan;
+import com.deploy.bemyplan.domain.plan.Spot;
 import com.deploy.bemyplan.domain.plan.SpotCategoryType;
 import com.deploy.bemyplan.domain.plan.TravelMobility;
 import com.deploy.bemyplan.domain.plan.TravelPartner;
@@ -12,6 +13,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.stream.Collectors;
 
 @ToString
 @Getter
@@ -35,11 +38,18 @@ public class PlanPreviewInfoResponse {
 
 
     public static PlanPreviewInfoResponse of(@NotNull Plan plan, String nickname) {
+
         int spotCnt = (int) plan.getSpots().stream().count();
 
         int rstrnCnt = (int) plan.getSpots().stream()
                 .filter(spot -> spot.getCategory().equals(SpotCategoryType.RESTAURANT))
                 .count();
+
+        final int totalDays = plan.getSpots().stream()
+                .mapToInt(Spot::getDay)
+                .boxed()
+                .collect(Collectors.toSet())
+                .size();
 
         return new PlanPreviewInfoResponse(
                 plan.getId(),
@@ -51,7 +61,7 @@ public class PlanPreviewInfoResponse {
                 plan.getPrice(),
                 plan.getTagInfo().getBudget(),
                 plan.getTagInfo().getMonth(),
-                plan.getTagInfo().getTotalDay(),
+                totalDays,
                 plan.getTagInfo().getTheme(),
                 plan.getTagInfo().getPartner(),
                 plan.getTagInfo().getMobility()

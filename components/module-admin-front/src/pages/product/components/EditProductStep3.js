@@ -9,7 +9,8 @@ class EditProductStep3 extends Component {
 
     state = {
         spotItems: [],
-        previews: []
+        previews: [],
+        defaultSpotId: -1,
     }
 
     componentDidMount() {
@@ -21,27 +22,30 @@ class EditProductStep3 extends Component {
 
         this.setState({
             spotItems: comboBoxItems,
-            previews: [...this.props.previews]
+            previews: [...this.props.previews],
+            defaultSpotId: spots.length > 0 ? spots[0].id : -1,
         });
     }
 
     addPreview = () => {
-        const { previews } = this.state;
+        const { previews, defaultSpotId } = this.state;
         this.setState({
             previews: [...previews, {
-                spotId: -1,
+                spotId: defaultSpotId,
                 description: ''
             }]
         })
     }
 
-    removePreview = () => {
+    removePreview = (preview) => {
         const { previews } = this.state;
-        previews.pop();
 
-        this.setState({
-            previews: [...previews]
-        })
+        if (window.confirm('미리보기를 삭제하시겠습니까')) {
+            this.props.onDeletePreview(preview);
+            this.setState({
+                previews: previews.filter(p => p !== preview)
+            })
+        }
     }
 
     handleDescription = (e, index) => {
@@ -116,7 +120,7 @@ class EditProductStep3 extends Component {
                                     <Textbox hint='미리보기 설명' value={preview.description} onChange={(e) => handleDescription(e, index)} />
                                 </Inputs>
                                 <Inputs>
-                                    <Button msg="삭제" onClick={removePreview} />
+                                    <Button msg="삭제" onClick={() => removePreview(preview)} />
                                 </Inputs>
                             </div>
                         )})

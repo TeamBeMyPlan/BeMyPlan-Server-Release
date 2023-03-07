@@ -37,6 +37,6 @@ public class TempSpotDetailResponse extends AuditingTimeResponse {
     }
 
     public static TempSpotDetailResponse of(String name, String address, double latitude, double longitude, String tip, String review, List<TempSpotImageResponse> images) {
-        return new TempSpotDetailResponse(name, address, longitude, latitude, tip, review, images);
+        return new TempSpotDetailResponse(name, address, latitude, longitude, tip, review, images);
     }
 }

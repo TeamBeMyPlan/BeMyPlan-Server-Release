@@ -10,6 +10,7 @@ import imageApi, { compressionOptions } from '../../../components/imageApi'
 import imageCompression from 'browser-image-compression';
 import './ProductStep.css'
 import './Table.css'
+import Loading from '../../../components/loading/Loading';
 
 const TableContainer = ({ striped, children }) => (
     <table className={striped ? "table-striped" : ""}>{children}</table>
@@ -26,6 +27,7 @@ class ProductStep2 extends Component {
     }
 
     state = {
+        isLoading: false,
         editable: false,
         editSpotSeq: 0,
         openPostCode: false,
@@ -65,6 +67,10 @@ class ProductStep2 extends Component {
     }
 
     fileChangedHandler = async e => {
+        this.setState({
+            isLoading: true,
+        });
+
         const files = e.target.files;
         const formData = new FormData();
         for (let i = 0; i < files.length; i++) {
@@ -74,7 +80,8 @@ class ProductStep2 extends Component {
 
         const response = await imageApi.upload(formData);
         this.setState({
-            savedImages: response.data
+            savedImages: response.data,
+            isLoading: false,
         });
     }
 
@@ -208,6 +215,7 @@ class ProductStep2 extends Component {
 
     render() {
         const {
+            isLoading,
             editable,
             openPostCode,
             name,
@@ -246,6 +254,7 @@ class ProductStep2 extends Component {
         return (
             <>
                 <div>
+                    {isLoading ? <Loading/> : null}
                     <h3>여행지 추가</h3>
                     <Inputs msg='여행지 이름'>
                         <Textbox hint='여행지 이름' value={name} onChange={handleName} />

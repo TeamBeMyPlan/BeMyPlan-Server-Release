@@ -31,7 +31,7 @@ class ProductListPage extends Component {
 
         const planList = plans.map(plan => {
             const edit = `${plan.id}`;
-            return <Inputs key={plan.id} msg={plan.title}>
+            return <Inputs key={plan.id} msg={'ID:[' + plan.id + '] ' + plan.title}>
                 <Link to={edit}><Button msg="수정" /></Link>
                 <Button primary={false} msg="삭제" onClick={() => deletePlan({
                     planId: plan.id,

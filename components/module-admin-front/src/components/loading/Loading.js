@@ -20,11 +20,13 @@ const LoadingText = styled.div`
   text-align: center;
 `;
 
-export default () => {
-  return (
-    <Background>
-      <LoadingText>업로드 중.</LoadingText>
-      <img src={Spinner} alt="로딩중" width="5%" />
-    </Background>
-  );
+const Loading = () => {
+    return (
+        <Background>
+            <LoadingText>업로드 중.</LoadingText>
+            <img src={Spinner} alt="로딩중" width="5%" />
+        </Background>
+    );
 };
+
+export default Loading;

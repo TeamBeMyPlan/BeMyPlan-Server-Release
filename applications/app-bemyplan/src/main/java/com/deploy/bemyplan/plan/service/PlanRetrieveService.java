@@ -19,11 +19,13 @@ import com.deploy.bemyplan.plan.service.dto.response.OrdersScrollResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanDetailResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanInfoResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanListResponse;
+import com.deploy.bemyplan.plan.service.dto.response.PlanMainInfoResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanScrapResponse;
 import com.deploy.bemyplan.plan.service.dto.response.ScrapsScrollResponse;
 import com.deploy.bemyplan.plan.service.dto.response.SpotMoveInfoDetailResponse;
 import com.deploy.bemyplan.plan.service.dto.response.SpotMoveInfoResponse;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -190,5 +192,27 @@ public class PlanRetrieveService {
                 .map(Plan::getId)
                 .collect(Collectors.toList());
         return OrderDictionary.of(orderRepository.findByUserIdAndPlanIds(planIds, userId));
+    }
+
+    public List<PlanMainInfoResponse> getPlansByOrder(final Long userId, final String sort) {
+        if ("orderCnt".equals(sort)){
+            final List<Plan> plans = planRepository.findAllByOrderCntDesc();
+            return getPlanMainInfoResponses(userId, plans);
+        }
+        List<Plan> plans = planRepository.findAllByCreatedAtDesc();
+        return getPlanMainInfoResponses(userId, plans);
+    }
+
+    @NotNull
+    private List<PlanMainInfoResponse> getPlanMainInfoResponses(final Long userId, final List<Plan> plans) {
+        return plans.stream()
+                .map(plan -> PlanMainInfoResponse.of(
+                        plan.getId(),
+                        plan.getThumbnailUrl(),
+                        plan.getTitle(),
+                        isScraped(userId, plan.getId()),
+                        isOrdered(userId, plan.getId()),
+                        plan.getCreatedAt()
+                )).collect(Collectors.toList());
     }
 }

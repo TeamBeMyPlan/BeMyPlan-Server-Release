@@ -42,4 +42,10 @@ public interface PlanRepository extends JpaRepository<Plan, Long>, PlanRepositor
     @Query(value = "select p.id, p.title, p.thumbnail_url as thumbnailUrl, s.created_at as createdAt from plan p inner join scrap s on p.id = s.plan_id where s.user_id = :userId " +
             "order by p.order_cnt desc", nativeQuery = true)
     List<ScrapedPlan> findScrapPlanOrderByOrderCount(@Param("userId") Long userId);
+
+    @Query(value = "select * from plan p order by order_cnt desc limit 10", nativeQuery = true)
+    List<Plan> findAllByOrderCntDesc();
+
+    @Query(value = "select * from plan p order by created_at desc limit 10", nativeQuery = true)
+    List<Plan> findAllByCreatedAtDesc();
 }

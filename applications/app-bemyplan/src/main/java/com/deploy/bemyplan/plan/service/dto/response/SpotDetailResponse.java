@@ -34,7 +34,7 @@ public class SpotDetailResponse extends AuditingTimeResponse {
         this.address = address;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.tip = Arrays.stream(tip.split("$")).collect(Collectors.toList());
+        this.tip = Arrays.stream(tip.split("\\$")).collect(Collectors.toList());
         this.review = review;
         this.images.addAll(images);
     }

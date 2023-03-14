@@ -26,7 +26,10 @@ public class PreviewContentListResponse {
     private static List<PreviewContentResponse> toPreviewContentListResponse(List<Preview> previews) {
         return previews.stream()
                 .map(preview -> PreviewContentResponse.of(
-                        preview.getSpot().getImages().stream().map(SpotImage::getUrl).collect(Collectors.toList()),
+                        preview.getSpot().getImages().stream()
+                                .map(SpotImage::getUrl)
+                                .limit(3)
+                                .collect(Collectors.toList()),
                         preview.getDescription()))
                 .collect(Collectors.toList());
     }

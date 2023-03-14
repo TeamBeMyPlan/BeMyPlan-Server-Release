@@ -10,6 +10,7 @@ import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,19 +23,20 @@ public class SpotDetailResponse extends AuditingTimeResponse {
     private String address;
     private double latitude;
     private double longitude;
-    private String tip;
+    private List<String> tip;
     private String review;
 
     private final List<SpotImageResponse> images = new ArrayList<>();
 
     @Builder(access = AccessLevel.PRIVATE)
-    private SpotDetailResponse(String name, String address, double latitude, double longitude, String tip, String review) {
+    private SpotDetailResponse(String name, String address, double latitude, double longitude, String tip, String review, List<SpotImageResponse> images) {
         this.name = name;
         this.address = address;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.tip = tip;
+        this.tip = Arrays.stream(tip.split("$")).collect(Collectors.toList());
         this.review = review;
+        this.images.addAll(images);
     }
 
     public static SpotDetailResponse of(@NotNull Spot spot) {
@@ -44,13 +46,12 @@ public class SpotDetailResponse extends AuditingTimeResponse {
                 spot.getLocation().getLatitude(),
                 spot.getLocation().getLongitude(),
                 spot.getTip(),
-                spot.getReview()
-        );
-        response.images.addAll(
+                spot.getReview(),
                 spot.getImages().stream()
                         .map(SpotImageResponse::of)
                         .collect(Collectors.toList())
         );
+
         response.setBaseTime(spot.getCreatedAt(), spot.getUpdatedAt());
         return response;
     }

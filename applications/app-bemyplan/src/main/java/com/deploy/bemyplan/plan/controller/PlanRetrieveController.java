@@ -9,6 +9,7 @@ import com.deploy.bemyplan.plan.service.dto.request.RetrieveMyOrderListRequestDt
 import com.deploy.bemyplan.plan.service.dto.response.OrdersScrollResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanDetailResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanListResponse;
+import com.deploy.bemyplan.plan.service.dto.response.PlanMainInfoResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanScrapResponse;
 import com.deploy.bemyplan.plan.service.dto.response.ScrapsScrollResponse;
 import com.deploy.bemyplan.plan.service.dto.response.SpotMoveInfoResponse;
@@ -80,5 +81,12 @@ public class PlanRetrieveController {
     @GetMapping("/v1/plans/scrap")
     public List<PlanScrapResponse> getPlanWithScrap(@UserId final Long userId, @RequestParam(defaultValue = "createdAt") final String sort){
         return planRetrieveService.getPlanWithScrap(userId, sort);
+    }
+
+    @ApiOperation("[인증] 홈 화면 여행 일정 목록을 조회합니다. (정렬 기준 - 구매 많은 순 10개, 최신 순 10개)")
+    @Auth
+    @GetMapping("/v2/main/plans")
+    public List<PlanMainInfoResponse> getPlansByOrder(@UserId final Long userId, @RequestParam(defaultValue = "createdAt") final String sort){
+        return planRetrieveService.getPlansByOrder(userId, sort);
     }
 }

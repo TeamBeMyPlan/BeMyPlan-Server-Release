@@ -19,24 +19,24 @@ public class TempSpotDetailResponse extends AuditingTimeResponse {
     private String address;
     private double latitude;
     private double longitude;
-    private String tip;
+    private List<String> tip = new ArrayList<>();
     private String review;
 
     private List<TempSpotImageResponse> images = new ArrayList<>();
 
-    private TempSpotDetailResponse(final String name, final String address, final double latitude, final double longitude, final String tip, final String review, final List<TempSpotImageResponse> images) {
+    private TempSpotDetailResponse(final String name, final String address, final double latitude, final double longitude, final List<String> tip, final String review, final List<TempSpotImageResponse> images) {
         this.name = name;
         this.address = address;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.tip = tip;
+        this.tip.addAll(tip);
         this.review = review;
         this.images = images;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }
 
-    public static TempSpotDetailResponse of(String name, String address, double latitude, double longitude, String tip, String review, List<TempSpotImageResponse> images) {
+    public static TempSpotDetailResponse of(String name, String address, double latitude, double longitude, List<String> tip, String review, List<TempSpotImageResponse> images) {
         return new TempSpotDetailResponse(name, address, latitude, longitude, tip, review, images);
     }
 }

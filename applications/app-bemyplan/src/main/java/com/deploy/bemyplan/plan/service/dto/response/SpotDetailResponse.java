@@ -8,9 +8,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,7 +36,7 @@ public class SpotDetailResponse extends AuditingTimeResponse {
         this.address = address;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.tip = Arrays.stream(tip.split("\\$")).collect(Collectors.toList());
+        this.tip = StringUtils.hasText(tip) ? Arrays.stream(tip.split("\\$")).collect(Collectors.toList()) : Collections.emptyList();
         this.review = review;
         this.images.addAll(images);
     }

@@ -7,7 +7,6 @@ import com.deploy.bemyplan.domain.plan.TravelMobility;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -54,9 +53,5 @@ public class CreateSpotDto {
                 spot.getTip(),
                 spot.getVehicle(),
                 spot.getSpentMinute());
-    }
-
-    public String getTip() {
-        return StringUtils.hasLength(tip) ? tip : null;
     }
 }

@@ -56,7 +56,7 @@ class CreatePlanService implements CreatePlanUseCase {
                                 Location.of(spotDto.getAddress(), spotDto.getLatitude(), spotDto.getLongitude()),
                                 spotDto.getTip(),
                                 spotDto.getReview(),
-                                spotDto.getSavedImages().stream().map(S3Locator::get).collect(Collectors.toList()),
+                                spotDto.getSavedImages().stream().map(image -> S3Locator.get(image)).collect(Collectors.toList()),
                                 plan,
                                 spotDto.getDate(),
                                 spotDto.getVehicle(),

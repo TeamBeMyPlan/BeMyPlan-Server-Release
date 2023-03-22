@@ -9,7 +9,7 @@ import com.deploy.bemyplan.plan.service.dto.request.RetrieveMyOrderListRequestDt
 import com.deploy.bemyplan.plan.service.dto.response.OrdersScrollResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanDetailResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanListResponse;
-import com.deploy.bemyplan.plan.service.dto.response.PlanMainInfoResponse;
+import com.deploy.bemyplan.plan.service.dto.response.PlanResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanScrapResponse;
 import com.deploy.bemyplan.plan.service.dto.response.ScrapsScrollResponse;
 import com.deploy.bemyplan.plan.service.dto.response.SpotMoveInfoResponse;
@@ -44,8 +44,8 @@ public class PlanRetrieveController {
 
     @ApiOperation("[인증] 비마이플랜이 추천하는 여행일정 목록들을 조회합니다.")
     @GetMapping("/v1/plans/bemyplanPick")
-    public PlanListResponse getPickList(@UserId final Long userId) {
-        return planRetrieveService.getPickList(userId);
+    public List<PlanResponse> getPickList() {
+        return planRetrieveService.getPickList();
     }
 
     @ApiOperation("여행일정 페이지 - 특정 여행일정의 내용을 상세조회합니다.")
@@ -84,9 +84,8 @@ public class PlanRetrieveController {
     }
 
     @ApiOperation("[인증] 홈 화면 여행 일정 목록을 조회합니다. (정렬 기준 - 구매 많은 순 10개, 최신 순 10개)")
-    @Auth
     @GetMapping("/v2/main/plans")
-    public List<PlanMainInfoResponse> getPlansByOrder(@UserId final Long userId, @RequestParam(defaultValue = "createdAt") final String sort){
-        return planRetrieveService.getPlansByOrder(userId, sort);
+    public List<PlanResponse> getPlansByOrder(@RequestParam(defaultValue = "createdAt") final String sort){
+        return planRetrieveService.getPlansByOrder(sort);
     }
 }

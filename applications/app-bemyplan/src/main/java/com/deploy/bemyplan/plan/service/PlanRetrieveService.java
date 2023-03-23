@@ -19,7 +19,7 @@ import com.deploy.bemyplan.plan.service.dto.response.OrdersScrollResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanDetailResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanInfoResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanListResponse;
-import com.deploy.bemyplan.plan.service.dto.response.PlanResponse;
+import com.deploy.bemyplan.plan.service.dto.response.PlanMainInfoResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanScrapResponse;
 import com.deploy.bemyplan.plan.service.dto.response.ScrapsScrollResponse;
 import com.deploy.bemyplan.plan.service.dto.response.SpotMoveInfoDetailResponse;
@@ -51,12 +51,9 @@ public class PlanRetrieveService {
         return getPlanListWithPersonalStatus(planList, userId);
     }
 
-    public List<PlanResponse> getPickList() {
-        final List<Plan> plans = planRepository.findPickList();
-
-        return plans.stream()
-                .map(PlanResponse::of)
-                .collect(Collectors.toList());
+    public List<PlanMainInfoResponse> getPickList(final Long userId) {
+        final List<Plan> planList = planRepository.findPickList();
+        return getPlanMainInfoResponses(userId, planList);
     }
 
     public PlanDetailResponse getPlanDetailInfo(final Long planId) {
@@ -197,18 +194,24 @@ public class PlanRetrieveService {
         return OrderDictionary.of(orderRepository.findByUserIdAndPlanIds(planIds, userId));
     }
 
-    public List<PlanResponse> getPlansByOrder(final String sort) {
-        if ("orderCnt".equals(sort)) {
+    public List<PlanMainInfoResponse> getPlansByOrder(final Long userId, final String sort) {
+        if ("orderCnt".equals(sort)){
             final List<Plan> plans = planRepository.findAllByOrderCntDesc();
-            return getPlanMainInfoResponses(plans);
+            return getPlanMainInfoResponses(userId, plans);
         }
         List<Plan> plans = planRepository.findAllByCreatedAtDesc();
-        return getPlanMainInfoResponses(plans);
+        return getPlanMainInfoResponses(userId, plans);
     }
 
-    private List<PlanResponse> getPlanMainInfoResponses(final List<Plan> plans) {
+    private List<PlanMainInfoResponse> getPlanMainInfoResponses(final Long userId, final List<Plan> plans) {
         return plans.stream()
-                .map(PlanResponse::of)
-                .collect(Collectors.toList());
+                .map(plan -> PlanMainInfoResponse.of(
+                        plan.getId(),
+                        plan.getThumbnailUrl(),
+                        plan.getTitle(),
+                        isScraped(userId, plan.getId()),
+                        isOrdered(userId, plan.getId()),
+                        plan.getCreatedAt()
+                )).collect(Collectors.toList());
     }
 }

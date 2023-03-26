@@ -1,7 +1,6 @@
 package com.deploy.bemyplan.plan.service;
 
 import com.deploy.bemyplan.common.exception.model.NotFoundException;
-import com.deploy.bemyplan.domain.order.Order;
 import com.deploy.bemyplan.domain.order.OrderRepository;
 import com.deploy.bemyplan.domain.order.OrderStatus;
 import com.deploy.bemyplan.domain.plan.Plan;
@@ -11,8 +10,6 @@ import com.deploy.bemyplan.domain.plan.Spot;
 import com.deploy.bemyplan.domain.scrap.ScrapRepository;
 import com.deploy.bemyplan.domain.user.Creator;
 import com.deploy.bemyplan.domain.user.CreatorRepository;
-import com.deploy.bemyplan.plan.service.dto.request.RetrieveMyOrderListRequestDto;
-import com.deploy.bemyplan.plan.service.dto.response.OrdersScrollResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanDetailResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanInfoResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanListResponse;
@@ -20,7 +17,6 @@ import com.deploy.bemyplan.plan.service.dto.response.PlanMainInfoResponse;
 import com.deploy.bemyplan.plan.service.dto.response.SpotMoveInfoDetailResponse;
 import com.deploy.bemyplan.plan.service.dto.response.SpotMoveInfoResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -84,23 +80,6 @@ public class PlanRetrieveService {
         return result;
     }
 
-
-    public OrdersScrollResponse retrieveMyOrderList(final RetrieveMyOrderListRequestDto request, final Long userId, final Pageable pageable) {
-        final List<Plan> planWithNextCursor = planRepository.findMyOrderListUsingCursor(userId, pageable, request.getSize() + 1, request.getLastOrderId());
-        final ScrollPaginationCollection<Plan> plansCursor = ScrollPaginationCollection.of(planWithNextCursor, request.getSize());
-
-        final AuthorDictionary authors = AuthorDictionary.of(planWithNextCursor, creatorRepository);
-
-        final ScrapDictionary scrapDictionary = findScrapByUserIdAndPlans(userId, planWithNextCursor);
-        final OrderDictionary orderDictionary = findOrderByUserIdAndPlans(userId, planWithNextCursor);
-
-        if (plansCursor.isLastScroll()) {
-            return OrdersScrollResponse.newLastCursor(plansCursor.getCurrentScrollItems(), scrapDictionary, orderDictionary, authors);
-        }
-        final Order nextCursor = orderRepository.findByPlanIdAndUserId(plansCursor.getNextCursor().getId(), userId).get();
-        return OrdersScrollResponse.newCursorHasNext(plansCursor.getCurrentScrollItems(), scrapDictionary, orderDictionary, authors, nextCursor.getId());
-    }
-
     private PlanListResponse getPlanListWithPersonalStatus(final List<Plan> planList, final Long userId) {
         return PlanListResponse.of(planList.stream()
                 .map(plan -> PlanInfoResponse.of(plan,
@@ -121,20 +100,6 @@ public class PlanRetrieveService {
     private Creator getAuthorByPlanId(final Plan plan) {
         return creatorRepository.findById(plan.getCreatorId())
                 .orElseThrow(() -> new NotFoundException("크리에이터 정보가 존재하지 않습니다."));
-    }
-
-    private ScrapDictionary findScrapByUserIdAndPlans(final Long userId, final List<Plan> plans) {
-        final List<Long> planIds = plans.stream()
-                .map(Plan::getId)
-                .collect(Collectors.toList());
-        return ScrapDictionary.of(scrapRepository.findAllByUserIdAndPlanIdIn(userId, planIds));
-    }
-
-    private OrderDictionary findOrderByUserIdAndPlans(final Long userId, final List<Plan> plans) {
-        final List<Long> planIds = plans.stream()
-                .map(Plan::getId)
-                .collect(Collectors.toList());
-        return OrderDictionary.of(orderRepository.findByUserIdAndPlanIds(planIds, userId));
     }
 
     public List<PlanMainInfoResponse> getPlansByOrder(final Long userId, final String sort) {

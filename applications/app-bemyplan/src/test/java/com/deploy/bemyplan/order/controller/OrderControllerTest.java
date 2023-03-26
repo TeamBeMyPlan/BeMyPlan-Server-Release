@@ -27,7 +27,7 @@ class OrderControllerTest {
 
     @Test
     void getOrderedPlanListReturnsOKHttpStatus() throws Exception {
-        mockMvc.perform(get("/api/v1/order/plans"))
+        mockMvc.perform(get("/api/v1/orders"))
                 .andExpect(status().isOk());
     }
 }

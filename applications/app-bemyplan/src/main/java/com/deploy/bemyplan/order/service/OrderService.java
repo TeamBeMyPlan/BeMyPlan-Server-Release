@@ -8,9 +8,7 @@ import com.deploy.bemyplan.domain.order.OrderStatus;
 import com.deploy.bemyplan.domain.plan.OrderedPlan;
 import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.plan.PlanRepository;
-import com.deploy.bemyplan.order.service.dto.response.OrderListResponse;
 import com.deploy.bemyplan.order.service.dto.response.OrderResponseDto;
-import com.deploy.bemyplan.order.service.dto.response.OrderedPlanInfoResponse;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
@@ -19,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -53,13 +50,8 @@ public class OrderService {
     }
 
     @Transactional(readOnly = true)
-    public OrderListResponse getOrderedPlanList(final Long userId) {
-        final List<OrderedPlan> orderedPlanList = planRepository.findAllByOrderAndUserId(userId);
-
-        return OrderListResponse.of(orderedPlanList
-                .stream()
-                .map(OrderedPlanInfoResponse::of)
-                .collect(Collectors.toList()));
+    public List<OrderedPlan> getOrderedPlanList(final Long userId) {
+        return planRepository.findAllByOrderAndUserId(userId);
     }
 
     @NotNull

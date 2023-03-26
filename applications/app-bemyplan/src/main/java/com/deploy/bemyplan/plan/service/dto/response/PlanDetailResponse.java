@@ -13,8 +13,6 @@ import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +27,7 @@ public class PlanDetailResponse extends AuditingTimeResponse {
     private String title;
     private String description;
 
-    private CreatorInfoResponse user;
+    private CreatorInfoResponse creator;
 
     private List<ScheduleDetailResponse> contents = new ArrayList<>();
 
@@ -38,7 +36,7 @@ public class PlanDetailResponse extends AuditingTimeResponse {
         this.planId = planId;
         this.title = title;
         this.description = description;
-        this.user = creator;
+        this.creator = creator;
     }
 
     public static PlanDetailResponse of(@NotNull Plan plan, @NotNull Creator creator) {

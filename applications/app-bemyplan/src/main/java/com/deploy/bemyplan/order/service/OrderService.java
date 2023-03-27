@@ -8,7 +8,10 @@ import com.deploy.bemyplan.domain.order.OrderStatus;
 import com.deploy.bemyplan.domain.plan.OrderedPlan;
 import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.plan.PlanRepository;
+import com.deploy.bemyplan.domain.scrap.ScrapRepository;
+import com.deploy.bemyplan.order.controller.OrderListResponse;
 import com.deploy.bemyplan.order.service.dto.response.OrderResponseDto;
+import com.deploy.bemyplan.order.service.dto.response.OrderedPlanInfoResponse;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
@@ -17,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -24,6 +28,7 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final PlanRepository planRepository;
+    private final ScrapRepository scrapRepository;
 
     @Transactional
     public OrderResponseDto createOrder(final Long planId, final int orderPrice, final Long userId) {
@@ -50,8 +55,15 @@ public class OrderService {
     }
 
     @Transactional(readOnly = true)
-    public List<OrderedPlan> getOrderedPlanList(final Long userId) {
-        return planRepository.findAllByOrderAndUserId(userId);
+    public OrderListResponse getOrderedPlanList(final Long userId) {
+        List<OrderedPlan> planList = planRepository.findAllByOrderAndUserId(userId);
+
+        return OrderListResponse.of(planList
+                .stream()
+                .map(plan -> OrderedPlanInfoResponse.of(
+                        plan,
+                        isScraped(userId, plan.getId())))
+                .collect(Collectors.toList()));
     }
 
     @NotNull
@@ -60,5 +72,9 @@ public class OrderService {
                 .orElseThrow(() -> new NotFoundException("해당하는 일정이 없습니다."));
         if (Objects.equals(plan.getCreatorId(), userId)) throw new ConflictException("해당 일정의 크리에이터입니다.");
         return plan;
+    }
+
+    private boolean isScraped(final Long userId, final Long planId) {
+        return null != userId && scrapRepository.existsScrapByUserIdAndPlanId(userId, planId);
     }
 }

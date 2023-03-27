@@ -17,6 +17,12 @@ public interface PlanRepository extends JpaRepository<Plan, Long>, PlanRepositor
     @Query("select p from Plan p where p.regionCategory = :region and p.status = 'ACTIVE' ORDER BY p.id desc ")
     List<Plan> findAllPlanByRegionCategory(@Param("region") RegionCategory regionCategory);
 
+    @Query(value = "SELECT p.* FROM plan p\n" +
+            "LEFT JOIN scrap s ON p.id = s.plan_id WHERE region_category = 'JEJU' AND p.status = 'ACTIVE'\n" +
+            "GROUP BY p.id\n" +
+            "ORDER BY COUNT(s.id) DESC;", nativeQuery = true)
+    List<Plan> findAllPlanByRegionCategoryOrderByScrap(@Param("region") RegionCategory regionCategory);
+
     @Query("select p from Plan p where p.status = 'ACTIVE' and p.rcmndStatus = 'RECOMMENDED' order by p.id desc")
     List<Plan> findPickList();
 

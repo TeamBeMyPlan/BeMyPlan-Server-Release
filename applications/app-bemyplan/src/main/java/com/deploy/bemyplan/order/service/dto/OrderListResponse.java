@@ -1,4 +1,4 @@
-package com.deploy.bemyplan.order.controller;
+package com.deploy.bemyplan.order.service.dto;
 
 import com.deploy.bemyplan.order.service.dto.response.OrderedPlanInfoResponse;
 import lombok.AccessLevel;

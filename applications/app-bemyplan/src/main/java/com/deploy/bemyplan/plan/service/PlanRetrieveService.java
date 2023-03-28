@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -37,8 +38,8 @@ public class PlanRetrieveService {
     private final ScrapRepository scrapRepository;
     private final OrderRepository orderRepository;
 
-    public PlanListResponse retrievePlans(final Long userId, final RegionCategory region) {
-        final List<Plan> planList = planRepository.findAllPlanByRegionCategory(region);
+    public PlanListResponse retrievePlans(final Long userId, final RegionCategory region, final String sort) {
+        final List<Plan> planList = getPlanListByOrder(region, sort);
         return getPlanListWithPersonalStatus(planList, userId);
     }
 
@@ -80,6 +81,18 @@ public class PlanRetrieveService {
         return result;
     }
 
+    private List<Plan> getPlanListByOrder(RegionCategory region, String sort) {
+        if ("scrapCnt".equals(sort)) {
+            return planRepository.findAllPlanByRegionCategoryOrderByScrap(region);
+        } else if ("orderCnt".equals(sort)) {
+            return planRepository.findAllPlanByRegionCategory(region).stream()
+                    .sorted(Comparator.comparingInt(Plan::getOrderCnt).reversed())
+                    .collect(Collectors.toList());
+        }
+        return planRepository.findAllPlanByRegionCategory(region);
+    }
+
+
     private PlanListResponse getPlanListWithPersonalStatus(final List<Plan> planList, final Long userId) {
         return PlanListResponse.of(planList.stream()
                 .map(plan -> PlanInfoResponse.of(plan,
@@ -103,7 +116,7 @@ public class PlanRetrieveService {
     }
 
     public List<PlanMainInfoResponse> getPlansByOrder(final Long userId, final String sort) {
-        if ("orderCnt".equals(sort)){
+        if ("orderCnt".equals(sort)) {
             final List<Plan> plans = planRepository.findAllByOrderCntDesc();
             return getPlanMainInfoResponses(userId, plans);
         }

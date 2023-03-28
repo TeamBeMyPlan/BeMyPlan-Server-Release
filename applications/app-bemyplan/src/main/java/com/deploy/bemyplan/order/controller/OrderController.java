@@ -6,7 +6,6 @@ import com.deploy.bemyplan.config.auth.UserId;
 import com.deploy.bemyplan.order.service.OrderService;
 import com.deploy.bemyplan.order.service.dto.request.CreateOrderRequest;
 import com.deploy.bemyplan.order.service.dto.response.OrderResponseDto;
-import com.deploy.bemyplan.order.service.dto.response.OrderedPlanInfoResponse;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
@@ -45,9 +43,6 @@ public class OrderController {
     @Auth
     @GetMapping("/v1/orders")
     public OrderListResponse getMyOrderedPlanList(@UserId final Long userId) {
-        return OrderListResponse.of(orderService.getOrderedPlanList(userId)
-                .stream()
-                .map(OrderedPlanInfoResponse::of)
-                .collect(Collectors.toList()));
+        return orderService.getOrderedPlanList(userId);
     }
 }

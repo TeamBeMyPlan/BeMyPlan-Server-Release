@@ -25,12 +25,13 @@ public class PlanRetrieveController {
 
     private final PlanRetrieveService planRetrieveService;
 
-    @ApiOperation("[인증] 여행일정 목록들을 조회합니다 (여행지별 O, 정렬 O)")
+    @ApiOperation("[인증] 여행일정 목록들을 조회합니다 (여행지별 O, 정렬 기준 - 최신순(default), 구매 많은 순(orderCnt), 스크랩 많은 순(scrapCnt))")
     @GetMapping("/v1/plans")
     public PlanListResponse getPlans(@UserId final Long userId, @ModelAttribute @Valid final RetrievePlansRequest request) {
         return planRetrieveService.retrievePlans(
                 userId,
-                request.getRegion()
+                request.getRegion(),
+                request.getSort()
         );
     }
 

@@ -9,7 +9,7 @@ import com.deploy.bemyplan.domain.plan.OrderedPlan;
 import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.plan.PlanRepository;
 import com.deploy.bemyplan.domain.scrap.ScrapRepository;
-import com.deploy.bemyplan.order.controller.OrderListResponse;
+import com.deploy.bemyplan.order.service.dto.OrderListResponse;
 import com.deploy.bemyplan.order.service.dto.response.OrderResponseDto;
 import com.deploy.bemyplan.order.service.dto.response.OrderedPlanInfoResponse;
 import lombok.RequiredArgsConstructor;

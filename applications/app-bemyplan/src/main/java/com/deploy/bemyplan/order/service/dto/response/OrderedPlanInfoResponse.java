@@ -25,13 +25,13 @@ public class OrderedPlanInfoResponse extends AuditingTimeResponse {
         this.scrapStatus = scrapStatus;
     }
 
-    public static OrderedPlanInfoResponse of(OrderedPlan orderedPlan, boolean screapStatus) {
+    public static OrderedPlanInfoResponse of(OrderedPlan orderedPlan, boolean scrapStatus) {
         OrderedPlanInfoResponse response = new OrderedPlanInfoResponse(
                 orderedPlan.getId(),
                 orderedPlan.getThumbnailUrl(),
                 orderedPlan.getTitle(),
                 orderedPlan.getOrderPrice(),
-                screapStatus
+                scrapStatus
         );
 
         response.setBaseTime(orderedPlan.getCreatedAt(), orderedPlan.getUpdatedAt());

@@ -16,7 +16,7 @@ class ScrapServiceTest {
     @BeforeEach
     void setUp() {
         spyScrapRepository = mock(ScrapRepository.class);
-        scrapService = new ScrapService(spyScrapRepository);
+        scrapService = new ScrapService(spyScrapRepository, null, null);
     }
 
     @Test

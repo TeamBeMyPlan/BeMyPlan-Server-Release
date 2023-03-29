@@ -1,5 +1,6 @@
-package com.deploy.bemyplan.order.service.dto.response;
+package com.deploy.bemyplan.order.service.dto;
 
+import com.deploy.bemyplan.order.service.dto.response.OrderedPlanInfoResponse;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

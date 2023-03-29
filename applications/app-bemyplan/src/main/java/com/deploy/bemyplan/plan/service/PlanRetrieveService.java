@@ -1,35 +1,27 @@
 package com.deploy.bemyplan.plan.service;
 
 import com.deploy.bemyplan.common.exception.model.NotFoundException;
-import com.deploy.bemyplan.domain.order.Order;
 import com.deploy.bemyplan.domain.order.OrderRepository;
 import com.deploy.bemyplan.domain.order.OrderStatus;
 import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.plan.PlanRepository;
 import com.deploy.bemyplan.domain.plan.RegionCategory;
-import com.deploy.bemyplan.domain.plan.ScrapedPlan;
 import com.deploy.bemyplan.domain.plan.Spot;
-import com.deploy.bemyplan.domain.scrap.Scrap;
 import com.deploy.bemyplan.domain.scrap.ScrapRepository;
 import com.deploy.bemyplan.domain.user.Creator;
 import com.deploy.bemyplan.domain.user.CreatorRepository;
-import com.deploy.bemyplan.plan.service.dto.request.RetrieveMyBookmarkListRequestDto;
-import com.deploy.bemyplan.plan.service.dto.request.RetrieveMyOrderListRequestDto;
-import com.deploy.bemyplan.plan.service.dto.response.OrdersScrollResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanDetailResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanInfoResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanListResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanMainInfoResponse;
-import com.deploy.bemyplan.plan.service.dto.response.PlanScrapResponse;
-import com.deploy.bemyplan.plan.service.dto.response.ScrapsScrollResponse;
 import com.deploy.bemyplan.plan.service.dto.response.SpotMoveInfoDetailResponse;
 import com.deploy.bemyplan.plan.service.dto.response.SpotMoveInfoResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -46,14 +38,14 @@ public class PlanRetrieveService {
     private final ScrapRepository scrapRepository;
     private final OrderRepository orderRepository;
 
-    public PlanListResponse retrievePlans(final Long userId, final RegionCategory region) {
-        final List<Plan> planList = planRepository.findAllPlanByRegionCategory(region);
+    public PlanListResponse retrievePlans(final Long userId, final RegionCategory region, final String sort) {
+        final List<Plan> planList = getPlanListByOrder(region, sort);
         return getPlanListWithPersonalStatus(planList, userId);
     }
 
-    public List<PlanMainInfoResponse> getPickList(final Long userId) {
+    public PlanListResponse getPickList(final Long userId) {
         final List<Plan> planList = planRepository.findPickList();
-        return getPlanMainInfoResponses(userId, planList);
+        return getPlanListWithPersonalStatus(planList, userId);
     }
 
     public PlanDetailResponse getPlanDetailInfo(final Long planId) {
@@ -89,74 +81,17 @@ public class PlanRetrieveService {
         return result;
     }
 
-    public ScrapsScrollResponse retrieveMyBookmarkList(final RetrieveMyBookmarkListRequestDto request, final Long userId, final Pageable pageable) {
-        final List<Plan> planWithNextCursor = planRepository.findMyBookmarkListUsingCursor(userId, pageable, request.getSize() + 1, request.getLastScrapId());
-        final ScrollPaginationCollection<Plan> plansCursor = ScrollPaginationCollection.of(planWithNextCursor, request.getSize());
-
-        final AuthorDictionary authors = AuthorDictionary.of(planWithNextCursor, creatorRepository);
-
-        final ScrapDictionary scrapDictionary = findScrapByUserIdAndPlans(userId, planWithNextCursor);
-        final OrderDictionary orderDictionary = findOrderByUserIdAndPlans(userId, planWithNextCursor);
-
-        if (plansCursor.isLastScroll()) {
-            return ScrapsScrollResponse.newLastCursor(plansCursor.getCurrentScrollItems(), scrapDictionary, orderDictionary, authors);
-        }
-        final Scrap nextCursor = scrapRepository.findActiveByUserIdAndPlanId(plansCursor.getNextCursor().getId(), userId);
-        return ScrapsScrollResponse.newCursorHasNext(plansCursor.getCurrentScrollItems(), scrapDictionary, orderDictionary, authors, nextCursor.getId());
-    }
-
-    public List<PlanScrapResponse> getPlanWithScrap(final Long userId, final String sort) {
+    private List<Plan> getPlanListByOrder(RegionCategory region, String sort) {
         if ("scrapCnt".equals(sort)) {
-            return getScrapPlanByScrapCount(userId);
+            return planRepository.findAllPlanByRegionCategoryOrderByScrap(region);
+        } else if ("orderCnt".equals(sort)) {
+            return planRepository.findAllPlanByRegionCategory(region).stream()
+                    .sorted(Comparator.comparingInt(Plan::getOrderCnt).reversed())
+                    .collect(Collectors.toList());
         }
-        if ("orderCnt".equals(sort)) {
-            return getScrapPlanByOrderCount(userId);
-        }
-        return getScrapPlanByCreatedAt(userId);
+        return planRepository.findAllPlanByRegionCategory(region);
     }
 
-    private List<PlanScrapResponse> getScrapPlanByOrderCount(final Long userId) {
-        final List<ScrapedPlan> findPlans = planRepository.findScrapPlanOrderByOrderCount(userId);
-        return getPlanScrapResponses(userId, findPlans);
-    }
-
-    private List<PlanScrapResponse> getScrapPlanByCreatedAt(final Long userId) {
-        final List<ScrapedPlan> findPlans = planRepository.findScrapPlanOrderByCreatedAtDesc(userId);
-        return getPlanScrapResponses(userId, findPlans);
-    }
-
-    private List<PlanScrapResponse> getScrapPlanByScrapCount(final Long userId) {
-        final List<ScrapedPlan> findPlans = planRepository.findScrapPlanOrderByScrapCount(userId);
-        return getPlanScrapResponses(userId, findPlans);
-    }
-
-    private List<PlanScrapResponse> getPlanScrapResponses(final Long userId, final List<ScrapedPlan> findPlans) {
-        return findPlans.stream()
-                .map(plan -> PlanScrapResponse.of(
-                        plan.getId(),
-                        plan.getThumbnailUrl(),
-                        plan.getTitle(),
-                        isScraped(userId, plan.getId()),
-                        isOrdered(userId, plan.getId()),
-                        plan.getCreatedAt()))
-                .collect(Collectors.toList());
-    }
-
-    public OrdersScrollResponse retrieveMyOrderList(final RetrieveMyOrderListRequestDto request, final Long userId, final Pageable pageable) {
-        final List<Plan> planWithNextCursor = planRepository.findMyOrderListUsingCursor(userId, pageable, request.getSize() + 1, request.getLastOrderId());
-        final ScrollPaginationCollection<Plan> plansCursor = ScrollPaginationCollection.of(planWithNextCursor, request.getSize());
-
-        final AuthorDictionary authors = AuthorDictionary.of(planWithNextCursor, creatorRepository);
-
-        final ScrapDictionary scrapDictionary = findScrapByUserIdAndPlans(userId, planWithNextCursor);
-        final OrderDictionary orderDictionary = findOrderByUserIdAndPlans(userId, planWithNextCursor);
-
-        if (plansCursor.isLastScroll()) {
-            return OrdersScrollResponse.newLastCursor(plansCursor.getCurrentScrollItems(), scrapDictionary, orderDictionary, authors);
-        }
-        final Order nextCursor = orderRepository.findByPlanIdAndUserId(plansCursor.getNextCursor().getId(), userId).get();
-        return OrdersScrollResponse.newCursorHasNext(plansCursor.getCurrentScrollItems(), scrapDictionary, orderDictionary, authors, nextCursor.getId());
-    }
 
     private PlanListResponse getPlanListWithPersonalStatus(final List<Plan> planList, final Long userId) {
         return PlanListResponse.of(planList.stream()
@@ -180,22 +115,8 @@ public class PlanRetrieveService {
                 .orElseThrow(() -> new NotFoundException("크리에이터 정보가 존재하지 않습니다."));
     }
 
-    private ScrapDictionary findScrapByUserIdAndPlans(final Long userId, final List<Plan> plans) {
-        final List<Long> planIds = plans.stream()
-                .map(Plan::getId)
-                .collect(Collectors.toList());
-        return ScrapDictionary.of(scrapRepository.findAllByUserIdAndPlanIdIn(userId, planIds));
-    }
-
-    private OrderDictionary findOrderByUserIdAndPlans(final Long userId, final List<Plan> plans) {
-        final List<Long> planIds = plans.stream()
-                .map(Plan::getId)
-                .collect(Collectors.toList());
-        return OrderDictionary.of(orderRepository.findByUserIdAndPlanIds(planIds, userId));
-    }
-
     public List<PlanMainInfoResponse> getPlansByOrder(final Long userId, final String sort) {
-        if ("orderCnt".equals(sort)){
+        if ("orderCnt".equals(sort)) {
             final List<Plan> plans = planRepository.findAllByOrderCntDesc();
             return getPlanMainInfoResponses(userId, plans);
         }

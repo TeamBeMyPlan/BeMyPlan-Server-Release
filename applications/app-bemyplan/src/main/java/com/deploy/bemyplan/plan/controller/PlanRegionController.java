@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class PlanRegionController {
 
     @ApiOperation("현재 활성화중인 지역 카테고리 목록들을 조회합니다.")
-    @GetMapping("/v1/plan/regions")
+    @GetMapping("/v1/regions")
     public List<RegionTypeResponse> getActiveRegionTypes() {
         return Arrays.stream(RegionCategory.values())
                 .sorted(Comparator.comparingInt(RegionCategory::getDisplayOrder))

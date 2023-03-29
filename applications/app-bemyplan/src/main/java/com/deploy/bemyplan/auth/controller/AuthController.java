@@ -63,13 +63,6 @@ public class AuthController {
         return LoginResponse.of(token, "never used session id", userId, findUser.getNickname());
     }
 
-    @ApiOperation("[인증] 로그아웃을 요청합니다.")
-    @Auth
-    @PostMapping("/v1/logout")
-    public ResponseDTO logout() {
-        return ResponseDTO.of("로그아웃 성공");
-    }
-
     @ApiOperation("[인증] 회원탈퇴를 요청합니다")
     @Auth
     @DeleteMapping("/v1/signout")

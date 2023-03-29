@@ -44,13 +44,13 @@ class PreviewControllerTest {
 
     @Test
     void getPreviewContent_ReturnsOkHttpsStatus() throws Exception {
-        mockMvc.perform(get("/api/v2/preview/{planId}", 1))
+        mockMvc.perform(get("/api/v2/previews?planId=1"))
                 .andExpect(status().isOk());
     }
 
     @Test
     void getPreviewContent_PassesPlanIdToService() throws Exception {
-        mockMvc.perform(get("/api/v2/preview/{planId}", 1))
+        mockMvc.perform(get("/api/v2/previews?planId=1"))
                 .andExpect(status().isOk());
 
         verify(stubPreviewService, times(1)).getPreviewContent(1L);
@@ -66,7 +66,7 @@ class PreviewControllerTest {
         final Preview givenPreview2 = new Preview(givenPlan,"description2", spot2);
         given(stubPreviewService.getPreviewContent(any())).willReturn(PreviewContentListResponse.of(List.of(givenPreview1, givenPreview2)));
 
-        mockMvc.perform(get("/api/v2/preview/{planId}", 1))
+        mockMvc.perform(get("/api/v2/previews?planId=1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.previewContents[0].images", equalTo(List.of("image.png", "image2.png"))))
                 .andExpect(jsonPath("$.previewContents[0].description", equalTo("description")))

@@ -20,7 +20,7 @@ public class CreatorController {
     private final CreatorService creatorService;
 
     @ApiOperation("크리에이터 조회 - 크리에이터의 정보를 조회합니다.")
-    @GetMapping("/info")
+    @GetMapping
     public CreatorInfoResponse getCreatorInfo(@RequestParam("planId") final Long planId) {
         return creatorService.getCreatorInfo(planId);
     }

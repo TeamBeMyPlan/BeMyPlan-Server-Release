@@ -4,11 +4,9 @@ import com.deploy.bemyplan.preview.service.PreviewService;
 import com.deploy.bemyplan.preview.service.dto.PreviewContentListResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api")
@@ -17,8 +15,8 @@ public class PreviewController {
 
     private final PreviewService previewService;
 
-    @GetMapping("/v2/preview/{planId}")
-    public PreviewContentListResponse getPreviewContent(@Valid @PathVariable Long planId) {
+    @GetMapping("/v2/previews")
+    public PreviewContentListResponse getPreviewContent(@RequestParam("planId") final Long planId) {
         return previewService.getPreviewContent(planId);
     }
 }

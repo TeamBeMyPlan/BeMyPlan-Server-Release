@@ -20,7 +20,7 @@ public class PlanInfoResponse extends AuditingTimeResponse {
     private String thumbnailUrl;
     private String title;
 
-    private CreatorInfoResponse user;
+    private CreatorInfoResponse creator;
     private boolean scrapStatus;
     private boolean orderStatus;
 
@@ -29,7 +29,7 @@ public class PlanInfoResponse extends AuditingTimeResponse {
         this.planId = planId;
         this.thumbnailUrl = thumbnailUrl;
         this.title = title;
-        this.user = creator;
+        this.creator = creator;
         this.scrapStatus = scrapStatus;
         this.orderStatus = orderStatus;
     }

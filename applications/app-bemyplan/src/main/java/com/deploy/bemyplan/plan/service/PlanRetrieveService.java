@@ -43,9 +43,9 @@ public class PlanRetrieveService {
         return getPlanListWithPersonalStatus(planList, userId);
     }
 
-    public List<PlanMainInfoResponse> getPickList(final Long userId) {
+    public PlanListResponse getPickList(final Long userId) {
         final List<Plan> planList = planRepository.findPickList();
-        return getPlanMainInfoResponses(userId, planList);
+        return getPlanListWithPersonalStatus(planList, userId);
     }
 
     public PlanDetailResponse getPlanDetailInfo(final Long planId) {

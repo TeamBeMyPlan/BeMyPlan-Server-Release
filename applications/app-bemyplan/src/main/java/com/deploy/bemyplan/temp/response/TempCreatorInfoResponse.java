@@ -11,11 +11,11 @@ import lombok.ToString;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class TempUserInfoResponse {
+public class TempCreatorInfoResponse {
     private Long userId;
     private String nickname;
 
-    public static TempUserInfoResponse of(Long userId, String nickname) {
-        return new TempUserInfoResponse(userId, nickname);
+    public static TempCreatorInfoResponse of(Long userId, String nickname) {
+        return new TempCreatorInfoResponse(userId, nickname);
     }
 }

@@ -18,10 +18,10 @@ public class TempPlanResponse {
 
     private Long planId;
     private String title;
-    private TempUserInfoResponse user;
+    private TempCreatorInfoResponse creator;
     private List<TempScheduleDetailResponse> contents = new ArrayList<>();
 
-    public static TempPlanResponse of (Long planId, String title, TempUserInfoResponse user, List<TempScheduleDetailResponse> contents){
-        return new TempPlanResponse(planId, title, user, contents);
+    public static TempPlanResponse of(Long planId, String title, TempCreatorInfoResponse creator, List<TempScheduleDetailResponse> contents) {
+        return new TempPlanResponse(planId, title, creator, contents);
     }
 }

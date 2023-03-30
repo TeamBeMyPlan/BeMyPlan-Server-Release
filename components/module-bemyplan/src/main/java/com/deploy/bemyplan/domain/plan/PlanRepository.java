@@ -42,7 +42,7 @@ public interface PlanRepository extends JpaRepository<Plan, Long>, PlanRepositor
     List<ScrapedPlan> findScrapPlanOrderByScrapCount(@Param("userId") Long userId);
 
     @Query(value = "select p.id, p.title, p.thumbnail_url as thumbnailUrl, s.created_at as createdAt from plan p inner join scrap s on p.id = s.plan_id where s.user_id = :userId " +
-            "order by p.created_at desc", nativeQuery = true)
+            "order by s.created_at desc", nativeQuery = true)
     List<ScrapedPlan> findScrapPlanOrderByCreatedAtDesc(@Param("userId") Long userId);
 
     @Query(value = "select p.id, p.title, p.thumbnail_url as thumbnailUrl, s.created_at as createdAt from plan p inner join scrap s on p.id = s.plan_id where s.user_id = :userId " +

@@ -1,13 +1,13 @@
 package com.deploy.bemyplan.temp;
 
 
+import com.deploy.bemyplan.temp.response.TempCreatorInfoResponse;
 import com.deploy.bemyplan.temp.response.TempPlanResponse;
 import com.deploy.bemyplan.temp.response.TempScheduleDetailResponse;
 import com.deploy.bemyplan.temp.response.TempSpotDetailResponse;
 import com.deploy.bemyplan.temp.response.TempSpotImageResponse;
 import com.deploy.bemyplan.temp.response.TempSpotMoveInfoDetailResponse;
 import com.deploy.bemyplan.temp.response.TempSpotMoveInfoResponse;
-import com.deploy.bemyplan.temp.response.TempUserInfoResponse;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
@@ -51,8 +51,8 @@ public class TempPlanController {
     }
 
     @NotNull
-    private TempUserInfoResponse getTempUserInfo() {
-        return TempUserInfoResponse.of(-1L, "린지");
+    private TempCreatorInfoResponse getTempUserInfo() {
+        return TempCreatorInfoResponse.of(-1L, "린지");
     }
 
     @NotNull

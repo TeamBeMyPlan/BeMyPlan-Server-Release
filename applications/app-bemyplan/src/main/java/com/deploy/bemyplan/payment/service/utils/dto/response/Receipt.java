@@ -18,7 +18,7 @@ public class Receipt {
     @JsonAlias("bundle_id")
     private String bundleId;
     @JsonAlias("download_id")
-    private Integer downloadId;
+    private Long downloadId;
     @JsonAlias("in_app")
     private List<InApp> inApp;
     @JsonAlias("original_application_version")

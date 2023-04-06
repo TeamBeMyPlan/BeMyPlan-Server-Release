@@ -31,7 +31,7 @@ public interface PlanRepository extends JpaRepository<Plan, Long>, PlanRepositor
             "o.order_price as orderPrice " +
             "from plan p " +
             "inner join orders o on p.id = o.plan_id " +
-            "where o.user_id = :userId and o.status = 'COMPLETED'",
+            "where o.user_id = :userId and o.status = 'COMPLETED' order by o.created_at desc",
             nativeQuery = true)
     List<OrderedPlan> findAllByOrderAndUserId(@Param("userId") Long userId);
 

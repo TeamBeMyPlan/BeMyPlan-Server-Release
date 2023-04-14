@@ -23,7 +23,7 @@ public class SignUpRequestDto {
     private String token;
 
     @NotBlank(message = "{user.nickname.notBlank}")
-    @Pattern(regexp = "^[ㄱ-ㅎ가-힣a-zA-Z0-9-_]{2,15}$", message = "{user.nickname.format}")
+    @Pattern(regexp = "^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9._]{1,15}$", message = "{user.nickname.format}")
     private String nickname;
 
     @NotNull(message = "{user.email.notNull")

@@ -5,7 +5,6 @@ spring:
     username: bemyplan_admin
     password: bemyplan_pwd
   jpa:
-    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
       ddl-auto: none
     properties:

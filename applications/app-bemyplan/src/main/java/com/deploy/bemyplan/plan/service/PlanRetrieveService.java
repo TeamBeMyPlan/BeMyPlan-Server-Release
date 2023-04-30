@@ -14,6 +14,7 @@ import com.deploy.bemyplan.plan.service.dto.response.PlanDetailResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanInfoResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanListResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanMainInfoResponse;
+import com.deploy.bemyplan.plan.service.dto.response.PlanSearchResponse;
 import com.deploy.bemyplan.plan.service.dto.response.SpotMoveInfoDetailResponse;
 import com.deploy.bemyplan.plan.service.dto.response.SpotMoveInfoResponse;
 import lombok.RequiredArgsConstructor;
@@ -81,7 +82,7 @@ public class PlanRetrieveService {
         return result;
     }
 
-    private List<Plan> getPlanListByOrder(RegionCategory region, String sort) {
+    private List<Plan> getPlanListByOrder(final RegionCategory region, final String sort) {
         if ("scrapCnt".equals(sort)) {
             return planRepository.findAllPlanByRegionCategoryOrderByScrap(region);
         } else if ("orderCnt".equals(sort)) {
@@ -96,7 +97,7 @@ public class PlanRetrieveService {
     private PlanListResponse getPlanListWithPersonalStatus(final List<Plan> planList, final Long userId) {
         return PlanListResponse.of(planList.stream()
                 .map(plan -> PlanInfoResponse.of(plan,
-                        getAuthorByPlanId(plan),
+                        getAuthorByPlan(plan),
                         isScraped(userId, plan.getId()),
                         isOrdered(userId, plan.getId())))
                 .collect(Collectors.toList()));
@@ -110,7 +111,7 @@ public class PlanRetrieveService {
         return null != userId && orderRepository.existsOrderByUserIdAndPlanIdAndStatus(userId, planId, OrderStatus.COMPLETED);
     }
 
-    private Creator getAuthorByPlanId(final Plan plan) {
+    private Creator getAuthorByPlan(final Plan plan) {
         return creatorRepository.findById(plan.getCreatorId())
                 .orElseThrow(() -> new NotFoundException("크리에이터 정보가 존재하지 않습니다."));
     }
@@ -120,7 +121,7 @@ public class PlanRetrieveService {
             final List<Plan> plans = planRepository.findAllByOrderCntDesc();
             return getPlanMainInfoResponses(userId, plans);
         }
-        List<Plan> plans = planRepository.findAllByCreatedAtDesc();
+        final List<Plan> plans = planRepository.findAllByCreatedAtDesc();
         return getPlanMainInfoResponses(userId, plans);
     }
 
@@ -133,6 +134,17 @@ public class PlanRetrieveService {
                         isScraped(userId, plan.getId()),
                         isOrdered(userId, plan.getId()),
                         plan.getCreatedAt()
+                )).collect(Collectors.toList());
+    }
+
+    public List<PlanSearchResponse> getPlansSearch(final Long userId, final String search) {
+        final List<Plan> findPlans = planRepository.findBySearchKeyword(search);
+        return findPlans.stream()
+                .map(plan -> PlanSearchResponse.of(
+                        plan,
+                        getAuthorByPlan(plan),
+                        isScraped(userId, plan.getId()),
+                        isOrdered(userId, plan.getId())
                 )).collect(Collectors.toList());
     }
 }

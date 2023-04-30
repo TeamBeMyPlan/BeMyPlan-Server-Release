@@ -5,6 +5,7 @@ import com.deploy.bemyplan.plan.service.PlanRetrieveService;
 import com.deploy.bemyplan.plan.service.dto.response.PlanDetailResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanListResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanMainInfoResponse;
+import com.deploy.bemyplan.plan.service.dto.response.PlanSearchResponse;
 import com.deploy.bemyplan.plan.service.dto.response.SpotMoveInfoResponse;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -57,5 +58,11 @@ public class PlanRetrieveController {
     @GetMapping("/v2/main/plans")
     public List<PlanMainInfoResponse> getPlansByOrder(@UserId final Long userId, @RequestParam(defaultValue = "createdAt") final String sort){
         return planRetrieveService.getPlansByOrder(userId, sort);
+    }
+
+    @ApiOperation("검색 입력어에 따라 여행 일정 목록을 조회합니다.")
+    @GetMapping("/v2/plans/search/{search}")
+    public List<PlanSearchResponse> getPlansSearch(@UserId final Long userId, @PathVariable final String search){
+        return planRetrieveService.getPlansSearch(userId, search);
     }
 }

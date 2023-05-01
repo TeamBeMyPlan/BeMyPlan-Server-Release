@@ -143,8 +143,7 @@ public class PlanRetrieveService {
                 .map(plan -> PlanSearchResponse.of(
                         plan,
                         getAuthorByPlan(plan),
-                        isScraped(userId, plan.getId()),
-                        isOrdered(userId, plan.getId())
+                        isScraped(userId, plan.getId())
                 )).collect(Collectors.toList());
     }
 }

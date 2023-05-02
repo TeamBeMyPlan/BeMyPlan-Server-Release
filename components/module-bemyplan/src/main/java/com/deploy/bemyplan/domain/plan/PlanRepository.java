@@ -54,4 +54,8 @@ public interface PlanRepository extends JpaRepository<Plan, Long>, PlanRepositor
 
     @Query(value = "select * from plan p order by created_at desc limit 10", nativeQuery = true)
     List<Plan> findAllByCreatedAtDesc();
+
+    @Query(value = "select * from plan p inner join creator c on p.user_id = c.id where p.title like %:keyword% or c.name like %:keyword%", nativeQuery = true)
+    List<Plan> findBySearchKeyword(@Param("keyword") String keyword);
+
 }

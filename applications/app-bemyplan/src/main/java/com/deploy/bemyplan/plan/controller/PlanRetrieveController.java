@@ -59,10 +59,4 @@ public class PlanRetrieveController {
     public List<PlanMainInfoResponse> getPlansByOrder(@UserId final Long userId, @RequestParam(defaultValue = "createdAt") final String sort){
         return planRetrieveService.getPlansByOrder(userId, sort);
     }
-
-    @ApiOperation("검색 입력어에 따라 여행 일정 목록을 조회합니다.")
-    @GetMapping("/v2/plans/search/{search}")
-    public List<PlanSearchResponse> getPlansSearch(@UserId final Long userId, @PathVariable final String search){
-        return planRetrieveService.getPlansSearch(userId, search);
-    }
 }

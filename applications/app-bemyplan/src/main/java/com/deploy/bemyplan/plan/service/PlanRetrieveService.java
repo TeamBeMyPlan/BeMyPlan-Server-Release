@@ -136,14 +136,4 @@ public class PlanRetrieveService {
                         plan.getCreatedAt()
                 )).collect(Collectors.toList());
     }
-
-    public List<PlanSearchResponse> getPlansSearch(final Long userId, final String search) {
-        final List<Plan> findPlans = planRepository.findBySearchKeyword(search);
-        return findPlans.stream()
-                .map(plan -> PlanSearchResponse.of(
-                        plan,
-                        getAuthorByPlan(plan),
-                        isScraped(userId, plan.getId())
-                )).collect(Collectors.toList());
-    }
 }

@@ -14,7 +14,6 @@ import com.deploy.bemyplan.plan.service.dto.response.PlanDetailResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanInfoResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanListResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanMainInfoResponse;
-import com.deploy.bemyplan.plan.service.dto.response.PlanSearchResponse;
 import com.deploy.bemyplan.plan.service.dto.response.SpotMoveInfoDetailResponse;
 import com.deploy.bemyplan.plan.service.dto.response.SpotMoveInfoResponse;
 import lombok.RequiredArgsConstructor;

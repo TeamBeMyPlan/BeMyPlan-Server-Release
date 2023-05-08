@@ -2,7 +2,7 @@ package com.deploy.bemyplan.search.controller;
 
 
 import com.deploy.bemyplan.config.auth.UserId;
-import com.deploy.bemyplan.plan.service.dto.response.PlanSearchResponse;
+import com.deploy.bemyplan.search.service.PlanSearchResponse;
 import com.deploy.bemyplan.search.service.SearchService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

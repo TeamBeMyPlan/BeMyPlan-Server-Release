@@ -74,4 +74,8 @@ public class PlanService {
         return creatorRepository.findById(plan.getCreatorId())
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 크리에이터입니다."));
     }
+
+    public void getPlansByTheme(GetPlansByThemeRequest request) {
+
+    }
 }

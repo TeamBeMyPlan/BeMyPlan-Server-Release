@@ -1,8 +1,8 @@
 package com.deploy.bemyplan.plan.controller;
 
 import com.deploy.bemyplan.domain.plan.TravelTheme;
-import com.deploy.bemyplan.plan.service.GetPlansByThemeRequest;
 import com.deploy.bemyplan.plan.service.PlanService;
+import com.deploy.bemyplan.plan.service.dto.request.GetPlansByThemeRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

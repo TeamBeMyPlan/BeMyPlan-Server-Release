@@ -1,0 +1,28 @@
+package com.deploy.bemyplan.plan.service.dto.response;
+
+import com.deploy.bemyplan.domain.plan.Plan;
+import com.deploy.bemyplan.domain.user.Creator;
+import com.deploy.bemyplan.user.service.dto.response.CreatorInfoResponse;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
+public class GetPlanResponse {
+    private Long planId;
+    private String thumbnailUrl;
+    private String title;
+    private CreatorInfoResponse creator;
+    private boolean scrapStatus;
+    private boolean orderStatus;
+
+    public GetPlanResponse(Plan plan, Creator creator) {
+        this(plan.getId(),
+                plan.getThumbnailUrl(),
+                plan.getTitle(),
+                CreatorInfoResponse.of(creator),
+                false,
+                false
+        );
+    }
+}

@@ -2,8 +2,9 @@ package com.deploy.bemyplan.plan.controller;
 
 import com.deploy.bemyplan.domain.plan.RegionCategory;
 import com.deploy.bemyplan.domain.plan.TravelTheme;
-import com.deploy.bemyplan.plan.service.GetPlansByThemeRequest;
 import com.deploy.bemyplan.plan.service.PlanService;
+import com.deploy.bemyplan.plan.service.dto.request.GetPlansByThemeRequest;
+import com.deploy.bemyplan.plan.service.dto.response.GetPlanResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanListResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanPreviewResponseDto;
 import com.deploy.bemyplan.plan.service.dto.response.PlanRandomResponse;
@@ -45,9 +46,9 @@ public class PlanController {
     }
 
     @GetMapping("/theme")
-    void getPlansByTheme(@RequestParam(required = false, defaultValue = "") TravelTheme[] includes,
-                         @RequestParam(required = false, defaultValue = "") TravelTheme[] excludes) {
-        planService.getPlansByTheme(
+    List<GetPlanResponse> getPlansByTheme(@RequestParam(required = false, defaultValue = "") TravelTheme[] includes,
+                                          @RequestParam(required = false, defaultValue = "") TravelTheme[] excludes) {
+        return planService.getPlansByTheme(
                 new GetPlansByThemeRequest(
                         Arrays.stream(includes).collect(Collectors.toList()),
                         Arrays.stream(excludes).collect(Collectors.toList())));

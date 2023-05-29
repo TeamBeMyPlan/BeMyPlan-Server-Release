@@ -5,6 +5,7 @@ import com.deploy.bemyplan.domain.order.OrderRepository;
 import com.deploy.bemyplan.domain.order.OrderStatus;
 import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.plan.PlanRepository;
+import com.deploy.bemyplan.domain.plan.Region;
 import com.deploy.bemyplan.domain.plan.RegionCategory;
 import com.deploy.bemyplan.domain.plan.Spot;
 import com.deploy.bemyplan.domain.scrap.ScrapRepository;
@@ -134,5 +135,14 @@ public class PlanRetrieveService {
                         isOrdered(userId, plan.getId()),
                         plan.getCreatedAt()
                 )).collect(Collectors.toList());
+    }
+
+    public List<PlanMainInfoResponse> getPlansByRegion(final Long userId, final Region region, final String sort) {
+        if ("orderCnt".equals(sort)){
+            final List<Plan> plans = planRepository.findAllByRegionOrderByOrderCntDesc(region);
+            return getPlanMainInfoResponses(userId, plans);
+        }
+        final List<Plan> plans = planRepository.findAllByRegionOrderByCreatedAtDesc(        region);
+        return getPlanMainInfoResponses(userId, plans);
     }
 }

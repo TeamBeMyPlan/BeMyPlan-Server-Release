@@ -58,4 +58,6 @@ public interface PlanRepository extends JpaRepository<Plan, Long>, PlanRepositor
     @Query(value = "select * from plan p inner join creator c on p.user_id = c.id where p.title like %:keyword% or c.name like %:keyword%", nativeQuery = true)
     List<Plan> findBySearchKeyword(@Param("keyword") String keyword);
 
+    List<Plan> findAllByRegion(final Region region);
+
 }

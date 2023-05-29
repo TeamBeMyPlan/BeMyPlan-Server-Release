@@ -1,7 +1,10 @@
 package com.deploy.bemyplan.plan.controller;
 
 import com.deploy.bemyplan.domain.plan.RegionCategory;
+import com.deploy.bemyplan.domain.plan.TravelTheme;
 import com.deploy.bemyplan.plan.service.PlanService;
+import com.deploy.bemyplan.plan.service.dto.request.GetPlansByThemeRequest;
+import com.deploy.bemyplan.plan.service.dto.response.GetPlanResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanListResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanPreviewResponseDto;
 import com.deploy.bemyplan.plan.service.dto.response.PlanRandomResponse;
@@ -15,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
@@ -38,5 +43,14 @@ public class PlanController {
     @GetMapping
     PlanListResponse getPlans(@ModelAttribute @Valid RetrievePlansRequest request) {
         return planService.getPlans(request);
+    }
+
+    @GetMapping("/theme")
+    List<GetPlanResponse> getPlansByTheme(@RequestParam(required = false, defaultValue = "") TravelTheme[] includes,
+                                          @RequestParam(required = false, defaultValue = "") TravelTheme[] excludes) {
+        return planService.getPlansByTheme(
+                new GetPlansByThemeRequest(
+                        Arrays.stream(includes).collect(Collectors.toList()),
+                        Arrays.stream(excludes).collect(Collectors.toList())));
     }
 }

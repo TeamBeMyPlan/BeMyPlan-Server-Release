@@ -1,6 +1,7 @@
 package com.deploy.bemyplan.plan.controller;
 
 import com.deploy.bemyplan.config.auth.UserId;
+import com.deploy.bemyplan.domain.plan.Region;
 import com.deploy.bemyplan.plan.service.PlanRetrieveService;
 import com.deploy.bemyplan.plan.service.dto.response.PlanDetailResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanListResponse;
@@ -57,5 +58,13 @@ public class PlanRetrieveController {
     @GetMapping("/v2/main/plans")
     public List<PlanMainInfoResponse> getPlansByOrder(@UserId final Long userId, @RequestParam(defaultValue = "createdAt") final String sort){
         return planRetrieveService.getPlansByOrder(userId, sort);
+    }
+
+    @ApiOperation("[인증] 제주 여행지 별 여행일정 목록을 조회합니다. (정렬 기준 - 최신순, 구매 많은 순)")
+    @GetMapping("/v2/main/region")
+    public List<PlanMainInfoResponse> getPlansByRegion(@UserId final Long userId,
+                                                       @RequestParam(defaultValue = "JEJUALL") final Region region,
+                                                       @RequestParam(defaultValue = "createdAt") final String sort){
+        return planRetrieveService.getPlansByRegion(userId, region, sort);
     }
 }

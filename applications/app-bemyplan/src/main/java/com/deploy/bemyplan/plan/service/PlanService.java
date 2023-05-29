@@ -11,6 +11,8 @@ import com.deploy.bemyplan.domain.plan.SpotImage;
 import com.deploy.bemyplan.domain.user.Creator;
 import com.deploy.bemyplan.domain.user.CreatorRepository;
 import com.deploy.bemyplan.plan.controller.RetrievePlansRequest;
+import com.deploy.bemyplan.plan.service.dto.request.GetPlansByThemeRequest;
+import com.deploy.bemyplan.plan.service.dto.response.GetPlanResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanInfoResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanListResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanPreviewResponseDto;
@@ -73,5 +75,14 @@ public class PlanService {
     private Creator getCreator(final Plan plan) {
         return creatorRepository.findById(plan.getCreatorId())
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 크리에이터입니다."));
+    }
+
+    public List<GetPlanResponse> getPlansByTheme(GetPlansByThemeRequest request) {
+        return planRepository.findAll()
+                .stream()
+                .filter(plan -> request.getIncludes().contains(plan.getTagInfo().getTheme()))
+                .filter(plan -> !request.getExcludes().contains(plan.getTagInfo().getTheme()))
+                .map(plan -> new GetPlanResponse(plan, getCreator(plan)))
+                .collect(Collectors.toList());
     }
 }

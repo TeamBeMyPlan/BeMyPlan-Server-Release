@@ -132,6 +132,7 @@ public class PlanRetrieveService {
                         plan.getThumbnailUrl(),
                         plan.getTitle(),
                         isScraped(userId, plan.getId()),
+                        getAuthorByPlan(plan),
                         isOrdered(userId, plan.getId()),
                         plan.getCreatedAt()
                 )).collect(Collectors.toList());
@@ -154,6 +155,7 @@ public class PlanRetrieveService {
                         plan.getThumbnailUrl(),
                         plan.getTitle(),
                         isScraped(userId, plan.getId()),
+                        getAuthorByPlan(plan),
                         isOrdered(userId, plan.getId()),
                         plan.getCreatedAt()))
                 .collect(Collectors.toList());

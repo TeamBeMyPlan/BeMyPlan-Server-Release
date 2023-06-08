@@ -39,7 +39,7 @@ class PlanServiceTest {
         spyPlanRepository = mock(PlanRepository.class);
         spyPreviewRepository = mock(PreviewRepository.class);
 
-        planService = new PlanService(spyPreviewRepository, spyPlanRepository, null);
+        planService = new PlanService(spyPreviewRepository, spyPlanRepository, null, null);
     }
     @Test
     void getPlanPreview_callsPlanFromRepository() {

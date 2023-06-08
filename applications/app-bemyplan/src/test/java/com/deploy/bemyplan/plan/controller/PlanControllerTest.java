@@ -35,7 +35,7 @@ class PlanControllerTest {
                                 .param("includes", "HEALING,EATING,HOTPLACE"))
                 .andExpect(status().isOk());
 
-        GetPlansByThemeRequest request = new GetPlansByThemeRequest(List.of(TravelTheme.HEALING, TravelTheme.EATING, TravelTheme.HOTPLACE), List.of());
+        GetPlansByThemeRequest request = new GetPlansByThemeRequest(null, List.of(TravelTheme.HEALING, TravelTheme.EATING, TravelTheme.HOTPLACE), List.of());
         verify(spyPlanService).getPlansByTheme(request);
     }
 }

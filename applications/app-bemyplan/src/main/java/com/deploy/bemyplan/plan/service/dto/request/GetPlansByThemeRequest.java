@@ -10,10 +10,12 @@ import java.util.List;
 @Getter
 @EqualsAndHashCode
 public class GetPlansByThemeRequest {
+    private final Long userId;
     private final List<TravelTheme> includes = new ArrayList<>();
     private final List<TravelTheme> excludes = new ArrayList<>();
 
-    public GetPlansByThemeRequest(final List<TravelTheme> includes, final List<TravelTheme> excludes) {
+    public GetPlansByThemeRequest(final Long userId, final List<TravelTheme> includes, final List<TravelTheme> excludes) {
+        this.userId = userId;
         this.includes.addAll(includes);
         this.excludes.addAll(excludes);
     }

@@ -1,14 +1,11 @@
 package com.deploy.bemyplan.plan.service;
 
 import com.deploy.bemyplan.common.exception.model.NotFoundException;
-import com.deploy.bemyplan.domain.order.OrderRepository;
-import com.deploy.bemyplan.domain.order.OrderStatus;
 import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.plan.PlanRepository;
 import com.deploy.bemyplan.domain.plan.Region;
 import com.deploy.bemyplan.domain.plan.RegionCategory;
 import com.deploy.bemyplan.domain.plan.Spot;
-import com.deploy.bemyplan.domain.scrap.ScrapRepository;
 import com.deploy.bemyplan.domain.user.Creator;
 import com.deploy.bemyplan.domain.user.CreatorRepository;
 import com.deploy.bemyplan.plan.service.dto.response.PlanDetailResponse;
@@ -17,6 +14,7 @@ import com.deploy.bemyplan.plan.service.dto.response.PlanListResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanMainInfoResponse;
 import com.deploy.bemyplan.plan.service.dto.response.SpotMoveInfoDetailResponse;
 import com.deploy.bemyplan.plan.service.dto.response.SpotMoveInfoResponse;
+import com.deploy.bemyplan.scrap.service.ScrapService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,10 +32,8 @@ import static java.util.stream.Collectors.groupingBy;
 @Transactional(readOnly = true)
 public class PlanRetrieveService {
     private final CreatorRepository creatorRepository;
-
     private final PlanRepository planRepository;
-    private final ScrapRepository scrapRepository;
-    private final OrderRepository orderRepository;
+    private final ScrapService scrapService;
 
     public PlanListResponse retrievePlans(final Long userId, final RegionCategory region, final String sort) {
         final List<Plan> planList = getPlanListByOrder(region, sort);
@@ -98,19 +94,10 @@ public class PlanRetrieveService {
         return PlanListResponse.of(planList.stream()
                 .map(plan -> PlanInfoResponse.of(plan,
                         getAuthorByPlan(plan),
-                        isScraped(userId, plan.getId()),
-                        isOrdered(userId, plan.getId())))
+                        scrapService.isScraped(userId, plan.getId()),
+                        scrapService.isOrdered(userId, plan.getId())))
                 .collect(Collectors.toList()));
     }
-
-    private boolean isScraped(final Long userId, final Long planId) {
-        return null != userId && scrapRepository.existsScrapByUserIdAndPlanId(userId, planId);
-    }
-
-    private boolean isOrdered(final Long userId, final Long planId) {
-        return null != userId && orderRepository.existsOrderByUserIdAndPlanIdAndStatus(userId, planId, OrderStatus.COMPLETED);
-    }
-
     private Creator getAuthorByPlan(final Plan plan) {
         return creatorRepository.findById(plan.getCreatorId())
                 .orElseThrow(() -> new NotFoundException("크리에이터 정보가 존재하지 않습니다."));
@@ -131,9 +118,9 @@ public class PlanRetrieveService {
                         plan.getId(),
                         plan.getThumbnailUrl(),
                         plan.getTitle(),
-                        isScraped(userId, plan.getId()),
+                        scrapService.isScraped(userId, plan.getId()),
                         getAuthorByPlan(plan),
-                        isOrdered(userId, plan.getId()),
+                        scrapService.isOrdered(userId, plan.getId()),
                         plan.getCreatedAt()
                 )).collect(Collectors.toList());
     }
@@ -154,9 +141,9 @@ public class PlanRetrieveService {
                         plan.getId(),
                         plan.getThumbnailUrl(),
                         plan.getTitle(),
-                        isScraped(userId, plan.getId()),
+                        scrapService.isScraped(userId, plan.getId()),
                         getAuthorByPlan(plan),
-                        isOrdered(userId, plan.getId()),
+                        scrapService.isOrdered(userId, plan.getId()),
                         plan.getCreatedAt()))
                 .collect(Collectors.toList());
     }

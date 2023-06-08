@@ -1,5 +1,6 @@
 package com.deploy.bemyplan.plan.controller;
 
+import com.deploy.bemyplan.config.auth.UserId;
 import com.deploy.bemyplan.domain.plan.RegionCategory;
 import com.deploy.bemyplan.domain.plan.TravelTheme;
 import com.deploy.bemyplan.plan.service.PlanService;
@@ -46,10 +47,12 @@ public class PlanController {
     }
 
     @GetMapping("/theme")
-    List<GetPlanResponse> getPlansByTheme(@RequestParam(required = false, defaultValue = "") TravelTheme[] includes,
+    List<GetPlanResponse> getPlansByTheme(@UserId final Long userId,
+                                          @RequestParam(required = false, defaultValue = "") TravelTheme[] includes,
                                           @RequestParam(required = false, defaultValue = "") TravelTheme[] excludes) {
         return planService.getPlansByTheme(
                 new GetPlansByThemeRequest(
+                        userId,
                         Arrays.stream(includes).collect(Collectors.toList()),
                         Arrays.stream(excludes).collect(Collectors.toList())));
     }

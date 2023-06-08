@@ -18,14 +18,14 @@ public class GetPlanResponse {
     private boolean scrapStatus;
     private boolean orderStatus;
 
-    public GetPlanResponse(Plan plan, Creator creator) {
+    public GetPlanResponse(Plan plan, Creator creator, boolean scrapStatus, boolean orderStatus) {
         this(plan.getId(),
                 plan.getThumbnailUrl(),
                 plan.getTitle(),
                 plan.getRegion(),
                 CreatorInfoResponse.of(creator),
-                false,
-                false
+                scrapStatus,
+                orderStatus
         );
     }
 }

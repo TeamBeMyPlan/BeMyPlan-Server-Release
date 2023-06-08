@@ -17,6 +17,7 @@ import com.deploy.bemyplan.plan.service.dto.response.PlanInfoResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanListResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanPreviewResponseDto;
 import com.deploy.bemyplan.plan.service.dto.response.PlanRandomResponse;
+import com.deploy.bemyplan.scrap.service.ScrapService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +33,7 @@ public class PlanService {
     private final PreviewRepository previewRepository;
     private final PlanRepository planRepository;
     private final CreatorRepository creatorRepository;
+    private final ScrapService scrapService;
 
     public List<PlanRandomResponse> getPlanListByRandom(final Long planId, final RegionCategory region) {
         final int size = 10;
@@ -82,7 +84,8 @@ public class PlanService {
                 .stream()
                 .filter(plan -> request.getIncludes().contains(plan.getTagInfo().getTheme()))
                 .filter(plan -> !request.getExcludes().contains(plan.getTagInfo().getTheme()))
-                .map(plan -> new GetPlanResponse(plan, getCreator(plan)))
+                .map(plan -> new GetPlanResponse(plan, getCreator(plan),
+                        scrapService.isScraped(request.getUserId(), plan.getId()), scrapService.isOrdered(request.getUserId(), plan.getId())))
                 .collect(Collectors.toList());
     }
 }

@@ -84,11 +84,11 @@ public class ScrapService {
     }
 
 
-    private boolean isScraped(final Long userId, final Long planId) {
+    public boolean isScraped(final Long userId, final Long planId) {
         return null != userId && scrapRepository.existsScrapByUserIdAndPlanId(userId, planId);
     }
 
-    private boolean isOrdered(final Long userId, final Long planId) {
+    public boolean isOrdered(final Long userId, final Long planId) {
         return null != userId && orderRepository.existsOrderByUserIdAndPlanIdAndStatus(userId, planId, OrderStatus.COMPLETED);
     }
 

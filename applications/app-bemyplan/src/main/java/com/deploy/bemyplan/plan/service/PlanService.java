@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.NotNull;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -82,6 +83,7 @@ public class PlanService {
     public List<GetPlanResponse> getPlansByTheme(GetPlansByThemeRequest request) {
         return planRepository.findAll()
                 .stream()
+                .sorted(Comparator.comparing(Plan::getCreatedAt).reversed())
                 .filter(plan -> request.getIncludes().contains(plan.getTagInfo().getTheme()))
                 .filter(plan -> !request.getExcludes().contains(plan.getTagInfo().getTheme()))
                 .map(plan -> new GetPlanResponse(plan, getCreator(plan),

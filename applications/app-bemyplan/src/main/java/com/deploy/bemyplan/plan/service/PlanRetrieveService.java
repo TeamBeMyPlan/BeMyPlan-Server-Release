@@ -118,6 +118,7 @@ public class PlanRetrieveService {
                         plan.getId(),
                         plan.getThumbnailUrl(),
                         plan.getTitle(),
+                        plan.getRegion(),
                         scrapService.isScraped(userId, plan.getId()),
                         getAuthorByPlan(plan),
                         scrapService.isOrdered(userId, plan.getId()),

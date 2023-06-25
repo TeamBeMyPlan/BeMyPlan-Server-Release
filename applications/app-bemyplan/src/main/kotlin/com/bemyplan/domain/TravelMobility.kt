@@ -1,19 +1,9 @@
-package com.bemyplan.domain;
+package com.bemyplan.domain
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-
-@Getter
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public enum TravelMobility {
+enum class TravelMobility(name: String) {
     CAR("승용차"),
     PUBLIC("대중교통"),
     WALK("도보"),
     BICYCLE("자전거"),
     NONE("");
-
-    ;
-
-    private final String name;
 }

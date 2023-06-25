@@ -1,11 +1,6 @@
-package com.bemyplan.domain;
+package com.bemyplan.domain
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-
-@Getter
-@RequiredArgsConstructor
-public enum SpotCategory {
+enum class SpotCategory(name: String) {
     RESTAURANT("식당"),
     CAFE("카페"),
     MUSEUM("박물관"),
@@ -19,7 +14,4 @@ public enum SpotCategory {
     BOOKSTORE("서점"),
     MARKET("시장"),
     ARTMUSEUM("미술관"),
-    ;
-
-    private final String name;
 }

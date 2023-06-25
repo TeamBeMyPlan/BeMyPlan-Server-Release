@@ -1,4 +1,4 @@
-package com.bemyplan.auth.api
+package com.bemyplan.auth.adapter.`in`.api
 
 data class LoginResponse(
     val token: String,

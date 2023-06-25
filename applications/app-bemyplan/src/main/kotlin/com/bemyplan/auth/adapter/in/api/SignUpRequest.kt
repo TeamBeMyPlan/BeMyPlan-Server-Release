@@ -1,4 +1,4 @@
-package com.bemyplan.auth.api
+package com.bemyplan.auth.adapter.`in`.api
 
 import com.bemyplan.auth.application.port.`in`.SignUpCommand
 import com.deploy.bemyplan.domain.user.UserSocialType

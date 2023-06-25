@@ -34,7 +34,7 @@ internal class SignApi(
         val user = signUserUsecase.signIn(request.toCommand())
         val token = jwtService.issuedToken(user.id.toString(), "USER", 60 * 60 * 24 * 30)
 
-        return LoginResponse.of(token, "never used session id", user.id, user.nickname)
+        return LoginResponse.of(token, "never used session id", user.id!!, user.nickname)
     }
 
     @Auth

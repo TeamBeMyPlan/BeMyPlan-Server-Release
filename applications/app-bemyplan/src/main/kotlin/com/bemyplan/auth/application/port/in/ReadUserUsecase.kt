@@ -1,8 +1,8 @@
 package com.bemyplan.auth.application.port.`in`
 
-import com.deploy.bemyplan.domain.user.User
+import com.bemyplan.auth.domain.UserDomain
 
 interface ReadUserUsecase {
-    fun getUserById(userId: Long): User
+    fun getUserById(userId: Long): UserDomain
     fun checkIsAvailableName(command: CheckAvailableNameCommand)
 }

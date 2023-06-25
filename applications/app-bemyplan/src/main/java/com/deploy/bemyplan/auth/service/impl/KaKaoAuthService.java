@@ -2,7 +2,6 @@ package com.deploy.bemyplan.auth.service.impl;
 
 import com.bemyplan.auth.application.LoginCommand;
 import com.bemyplan.auth.application.SignUpCommand;
-import com.bemyplan.auth.application.UserService;
 import com.deploy.bemyplan.auth.remote.kakao.KaKaoAuthApiClient;
 import com.deploy.bemyplan.auth.remote.kakao.KaKaoProfileResponse;
 import com.deploy.bemyplan.auth.service.AuthService;
@@ -21,13 +20,12 @@ public class KaKaoAuthService implements AuthService {
 
     private final KaKaoAuthApiClient kakaoAuthApiCaller;
 
-    private final UserService userService;
     private final UserRepository userRepository;
 
     @Override
-    public Long signUp(SignUpCommand request) {
+    public String signUp(SignUpCommand request) {
         KaKaoProfileResponse response = kakaoAuthApiCaller.getProfileInfo("Bearer " + request.getToken());
-        return userService.registerUser(request.toCreateUserDto(response.getId()));
+        return response.getId();
     }
 
     @Override

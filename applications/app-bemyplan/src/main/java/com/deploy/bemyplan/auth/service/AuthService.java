@@ -5,6 +5,6 @@ import com.bemyplan.auth.application.SignUpCommand;
 
 public interface AuthService {
 
-    Long signUp(SignUpCommand request);
+    String signUp(SignUpCommand request);
     Long login(LoginCommand request);
 }

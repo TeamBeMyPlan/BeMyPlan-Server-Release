@@ -1,9 +1,8 @@
 package com.bemyplan.auth.api
 
 import com.bemyplan.auth.application.CheckAvailableNameCommand
-import com.bemyplan.auth.application.UserService
-import com.deploy.bemyplan.auth.service.AuthService
-import com.deploy.bemyplan.auth.service.AuthServiceProvider
+import com.bemyplan.auth.application.port.`in`.ReadUserUsecase
+import com.bemyplan.auth.application.port.`in`.SignUserUsecase
 import com.deploy.bemyplan.common.controller.ResponseDTO
 import com.deploy.bemyplan.config.auth.Auth
 import com.deploy.bemyplan.config.auth.UserId
@@ -17,15 +16,14 @@ import javax.validation.Valid
 
 @RestController
 class SignApi(
-    private val userService: UserService,
     private val jwtService: JwtService,
-    private val authServiceProvider: AuthServiceProvider
+    private val signUserUsecase: SignUserUsecase,
+    private val readUserUsecase: ReadUserUsecase,
 ) {
 
     @PostMapping("/api/signup")
     fun signUp(@Valid @RequestBody request: SignUpRequest): LoginResponse {
-        val authService: AuthService = authServiceProvider.getAuthService(request.socialType)
-        val userId = authService.signUp(request.toServiceDto())
+        val userId = signUserUsecase.signUp(request.toServiceDto())
         val token = jwtService.issuedToken(userId.toString(), "USER", 60 * 60 * 24 * 30)
 
         return LoginResponse.of(token, "never used session id", userId, request.nickname)
@@ -33,25 +31,23 @@ class SignApi(
 
     @PostMapping("/api/login")
     fun signIn(@Valid @RequestBody request: LoginRequest): LoginResponse {
-        val authService: AuthService = authServiceProvider.getAuthService(request.socialType)
-        val userId = authService.login(request.toServiceDto())
-        val token = jwtService.issuedToken(userId.toString(), "USER", 60 * 60 * 24 * 30)
-        val user = userService.getUserById(userId)
+        val user = signUserUsecase.signIn(request.toServiceDto())
+        val token = jwtService.issuedToken(user.id.toString(), "USER", 60 * 60 * 24 * 30)
 
-        return LoginResponse.of(token, "never used session id", userId, user.nickname)
+        return LoginResponse.of(token, "never used session id", user.id, user.nickname)
     }
 
     @Auth
     @DeleteMapping("/api/signout")
     fun signOut(@Valid @RequestBody request: SignOutUserRequest,
                 @UserId userId: Long): ResponseDTO {
-        userService.signOut(userId, request.reasonForWithdrawal)
+        signUserUsecase.signOut(userId, request.reasonForWithdrawal)
         return ResponseDTO.of("회원탈퇴 성공")
     }
 
     @GetMapping("/api/user/name/check")
     fun checkAvailableName(@Valid request: CheckAvailableNameCommand): ResponseDTO {
-        userService.checkIsAvailableName(request)
+        readUserUsecase.checkIsAvailableName(request)
         return ResponseDTO.of("사용 가능한 닉네임 입니다.")
     }
 }

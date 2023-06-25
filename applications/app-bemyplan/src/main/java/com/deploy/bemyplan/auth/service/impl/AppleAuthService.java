@@ -2,7 +2,6 @@ package com.deploy.bemyplan.auth.service.impl;
 
 import com.bemyplan.auth.application.LoginCommand;
 import com.bemyplan.auth.application.SignUpCommand;
-import com.bemyplan.auth.application.UserService;
 import com.deploy.bemyplan.auth.remote.apple.AppleTokenDecoder;
 import com.deploy.bemyplan.auth.service.AuthService;
 import com.deploy.bemyplan.common.exception.model.NotFoundException;
@@ -20,13 +19,11 @@ public class AppleAuthService implements AuthService {
 
     private final AppleTokenDecoder appleTokenDecoder;
 
-    private final UserService userService;
     private final UserRepository userRepository;
 
     @Override
-    public Long signUp(SignUpCommand request) {
-        String socialId = appleTokenDecoder.getSocialIdFromIdToken(request.getToken());
-        return userService.registerUser(request.toCreateUserDto(socialId));
+    public String signUp(SignUpCommand request) {
+        return appleTokenDecoder.getSocialIdFromIdToken(request.getToken());
     }
 
     @Override

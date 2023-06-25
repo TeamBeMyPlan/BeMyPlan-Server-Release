@@ -22,7 +22,7 @@ class ScrapEventSubscriberTest {
     @Test
     @DisplayName("유저 탈퇴시 스크랩 삭제 이벤트 구독")
     void handleDeleteEvent_passesRequestToService() {
-        UserDeleteEvent givenEvent = new UserDeleteEvent(this, 1L);
+        UserDeleteEvent givenEvent = new UserDeleteEvent( 1L);
         scrapEventSubscriber.handleUserDeleteEvent(givenEvent);
         verify(spyScrapService, times(1)).deleteAllScrapByUser(givenEvent.getUserId());
     }

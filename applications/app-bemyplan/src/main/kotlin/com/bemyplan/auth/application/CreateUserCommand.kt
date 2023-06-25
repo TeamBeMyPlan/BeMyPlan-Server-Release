@@ -21,7 +21,6 @@ data class CreateUserCommand(
 
 
     companion object {
-        @JvmStatic
         fun of(socialId: String, socialType: UserSocialType, name: String, email: String): CreateUserCommand {
             return CreateUserCommand(socialId, socialType, name, email)
         }

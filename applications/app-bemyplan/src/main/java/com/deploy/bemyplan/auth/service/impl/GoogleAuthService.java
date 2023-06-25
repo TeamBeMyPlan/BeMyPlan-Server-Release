@@ -2,7 +2,6 @@ package com.deploy.bemyplan.auth.service.impl;
 
 import com.bemyplan.auth.application.LoginCommand;
 import com.bemyplan.auth.application.SignUpCommand;
-import com.bemyplan.auth.application.UserService;
 import com.deploy.bemyplan.auth.remote.google.GoogleAuthApiClient;
 import com.deploy.bemyplan.auth.remote.google.GoogleProfileInfoResponse;
 import com.deploy.bemyplan.auth.service.AuthService;
@@ -21,13 +20,12 @@ public class GoogleAuthService implements AuthService {
 
     private final GoogleAuthApiClient googleAuthApiCaller;
 
-    private final UserService userService;
     private final UserRepository userRepository;
 
     @Override
-    public Long signUp(SignUpCommand request) {
+    public String signUp(SignUpCommand request) {
         GoogleProfileInfoResponse response = googleAuthApiCaller.getProfileInfo(("Bearer " + request.getToken()));
-        return userService.registerUser(request.toCreateUserDto(response.getId()));
+        return response.getId();
     }
 
     @Override

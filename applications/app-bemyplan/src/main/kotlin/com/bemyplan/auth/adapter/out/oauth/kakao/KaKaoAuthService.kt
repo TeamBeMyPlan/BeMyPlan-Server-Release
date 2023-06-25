@@ -1,7 +1,6 @@
-package com.bemyplan.auth.adapter.out.oauth
+package com.bemyplan.auth.adapter.out.oauth.kakao
 
-import com.deploy.bemyplan.auth.remote.kakao.KaKaoAuthApiClient
-import com.deploy.bemyplan.auth.remote.kakao.KaKaoProfileResponse
+import com.bemyplan.auth.adapter.out.oauth.AuthService
 import org.springframework.stereotype.Component
 
 @Component
@@ -10,6 +9,6 @@ internal class KaKaoAuthService(
 ) : AuthService {
     override fun getSocialId(token: String): String {
         val response: KaKaoProfileResponse = kakaoAuthApiCaller.getProfileInfo("Bearer " + token)
-        return response.getId()
+        return response.id
     }
 }

@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
-class SignUserService(
+internal class SignUserService(
     private val userRepository: UserRepository,
     private val withdrawalUserRepository: WithdrawalUserRepository,
     private val eventPublisher: ApplicationEventPublisher,
@@ -41,7 +41,7 @@ class SignUserService(
             command.socialType
         ))
 
-        val user = userRepository!!.findUserBySocialIdAndSocialType(userSocialId, command.socialType)
+        val user = userRepository.findUserBySocialIdAndSocialType(userSocialId, command.socialType)
             ?: throw NotFoundException("존재하지 않는 유저 (${userSocialId} - ${command.socialType}) 입니다")
 
         return userRepository.findUserById(user.id) ?: throw NotFoundException("존재하지 않는 유저 ${user.id} 입니다")

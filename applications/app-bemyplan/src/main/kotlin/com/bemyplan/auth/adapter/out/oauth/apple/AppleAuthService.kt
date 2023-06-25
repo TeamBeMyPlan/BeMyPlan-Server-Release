@@ -1,6 +1,6 @@
-package com.bemyplan.auth.adapter.out.oauth
+package com.bemyplan.auth.adapter.out.oauth.apple
 
-import com.deploy.bemyplan.auth.remote.apple.AppleTokenDecoder
+import com.bemyplan.auth.adapter.out.oauth.AuthService
 import org.springframework.stereotype.Component
 
 @Component
@@ -9,6 +9,6 @@ internal class AppleAuthService(
 ) : AuthService {
 
     override fun getSocialId(token: String): String {
-        return appleTokenDecoder!!.getSocialIdFromIdToken(token)
+        return appleTokenDecoder.getSocialIdFromIdToken(token)
     }
 }

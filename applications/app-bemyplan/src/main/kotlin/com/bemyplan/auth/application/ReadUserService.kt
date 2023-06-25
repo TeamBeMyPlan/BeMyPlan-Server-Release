@@ -8,7 +8,7 @@ import com.deploy.bemyplan.domain.user.UserRepository
 import org.springframework.stereotype.Service
 
 @Service
-class ReadUserService(
+internal class ReadUserService(
     private val userRepository: UserRepository,
 ) : ReadUserUsecase {
     override fun getUserById(userId: Long): User {

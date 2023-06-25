@@ -1,5 +1,8 @@
 package com.bemyplan.auth.adapter.out.oauth
 
+import com.bemyplan.auth.adapter.out.oauth.apple.AppleAuthService
+import com.bemyplan.auth.adapter.out.oauth.google.GoogleAuthService
+import com.bemyplan.auth.adapter.out.oauth.kakao.KaKaoAuthService
 import com.deploy.bemyplan.domain.user.UserSocialType
 import org.springframework.stereotype.Component
 
@@ -17,7 +20,7 @@ internal class AuthServiceProvider(
     }
 
     fun getAuthService(socialType: UserSocialType): AuthService {
-        return authServiceMap[socialType]
+        return authServiceMap[socialType]!!
     }
 
     companion object {

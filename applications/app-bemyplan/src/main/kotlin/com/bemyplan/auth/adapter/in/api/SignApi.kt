@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController
 import javax.validation.Valid
 
 @RestController
-class SignApi(
+internal class SignApi(
     private val jwtService: JwtService,
     private val signUserUsecase: SignUserUsecase,
     private val readUserUsecase: ReadUserUsecase,

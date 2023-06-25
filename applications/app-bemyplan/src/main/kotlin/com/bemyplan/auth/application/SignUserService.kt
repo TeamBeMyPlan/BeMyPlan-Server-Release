@@ -9,9 +9,6 @@ import com.bemyplan.auth.application.port.out.GetUserPort
 import com.bemyplan.auth.application.port.out.SaveUserPort
 import com.deploy.bemyplan.common.exception.model.NotFoundException
 import com.deploy.bemyplan.domain.user.User
-import com.deploy.bemyplan.domain.user.WithdrawalUser
-import com.deploy.bemyplan.domain.user.WithdrawalUserRepository
-import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -21,8 +18,6 @@ internal class SignUserService(
     private val getUserPort: GetUserPort,
     private val saveUserPort: SaveUserPort,
     private val getSocialIdPort: GetSocialIdPort,
-    private val withdrawalUserRepository: WithdrawalUserRepository,
-    private val eventPublisher: ApplicationEventPublisher,
 ): SignUserUsecase {
     override fun signUp(command: SignUpCommand): Long {
         val userSocialId = getSocialIdPort.getSocialId(GetSocialIdQuery(
@@ -52,8 +47,6 @@ internal class SignUserService(
     override fun signOut(userId: Long, reasonForWithdrawal: String) {
         val user = getUserPort.findById(userId) ?: throw NotFoundException("존재하지 않는 유저 ${userId} 입니다")
         user.inactive()
-        saveUserPort.delete(user)
-        withdrawalUserRepository.save(WithdrawalUser.newInstance(user, reasonForWithdrawal))
-        eventPublisher.publishEvent(UserDeleteEvent(userId))
+        saveUserPort.delete(user, reasonForWithdrawal)
     }
 }

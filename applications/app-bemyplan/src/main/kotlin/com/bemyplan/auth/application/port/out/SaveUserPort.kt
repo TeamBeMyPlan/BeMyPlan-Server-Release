@@ -5,5 +5,5 @@ import com.deploy.bemyplan.domain.user.User
 interface SaveUserPort {
 
     fun save(user: User)
-    fun delete(user: User)
+    fun delete(user: User, reasonForWithdrawal: String)
 }

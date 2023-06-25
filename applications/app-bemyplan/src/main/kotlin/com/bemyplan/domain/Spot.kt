@@ -1,20 +1,16 @@
-package com.bemyplan.domain;
+package com.bemyplan.domain
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class Spot {
-    private Long id;
-    private String title;
-    private SpotCategory category;
-    private String address;
-    private double latitude;
-    private double longitude;
-    private String tip;
-    private String review;
-    private List<SpotImage> images = new ArrayList<>();
-
-    private int day;
-    private TravelMobility vehicle;
-    private Integer spentMinute;
-}
+class Spot(
+    val id: Long,
+    val title: String,
+    val category: SpotCategory,
+    val address: String,
+    val latitude: Double,
+    val longitude: Double,
+    val tip: String,
+    val review: String,
+    val images: List<SpotImage>,
+    val day: Int,
+    val vehicle: TravelMobility,
+    val spentMinute: Int,
+)

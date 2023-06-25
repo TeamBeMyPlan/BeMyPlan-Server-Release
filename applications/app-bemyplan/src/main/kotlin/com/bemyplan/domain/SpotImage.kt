@@ -1,6 +1,6 @@
-package com.bemyplan.domain;
+package com.bemyplan.domain
 
-public class SpotImage {
-    private Long id;
-    private String url;
-}
+class SpotImage(
+    val id: Long,
+    val url: String
+)

@@ -1,24 +1,22 @@
-package com.bemyplan.domain;
+package com.bemyplan.domain
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigDecimal
 
-public class Plan {
-    private Long id;
-    private Long creatorId;
-    private Place place;
-    private String thumbnailUrl;
-    private String title;
-    private String description;
-    private Theme theme;
-    private TravelPartner partner;
-    private TravelMobility mobility;
-    private BigDecimal amount;
-    private int month;
-    private int price;
-    private boolean recommend;
-    private List<String> hashtags = new ArrayList<>();
-    private List<String> recommendTargets = new ArrayList<>();
-    private List<Spot> spots = new ArrayList<>();
-}
+class Plan (
+    val id: Long,
+    val creatorId: Long,
+    val place: Place,
+    val thumbnailUrl: String,
+    val title: String,
+    val description: String,
+    val theme: Theme,
+    val partner: TravelPartner,
+    val mobility: TravelMobility,
+    val amount: BigDecimal,
+    val month: Int,
+    val price: Int,
+    val recommend: Boolean,
+    val hashtags: List<String>,
+    val recommendTargets: List<String>,
+    val spots: List<Spot>,
+)

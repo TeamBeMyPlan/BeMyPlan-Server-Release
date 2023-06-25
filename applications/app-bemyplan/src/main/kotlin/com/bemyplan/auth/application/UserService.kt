@@ -5,8 +5,6 @@ import com.deploy.bemyplan.domain.user.User
 import com.deploy.bemyplan.domain.user.UserRepository
 import com.deploy.bemyplan.domain.user.WithdrawalUser
 import com.deploy.bemyplan.domain.user.WithdrawalUserRepository
-import com.deploy.bemyplan.user.service.dto.request.CheckAvailableNameRequestDto
-import com.deploy.bemyplan.user.service.dto.request.CreateUserDto
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

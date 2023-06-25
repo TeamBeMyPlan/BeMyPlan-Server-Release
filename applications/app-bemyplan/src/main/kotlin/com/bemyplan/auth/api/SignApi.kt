@@ -1,5 +1,6 @@
 package com.bemyplan.auth.api
 
+import com.bemyplan.auth.application.CheckAvailableNameRequestDto
 import com.bemyplan.auth.application.UserService
 import com.deploy.bemyplan.auth.service.AuthService
 import com.deploy.bemyplan.auth.service.AuthServiceProvider
@@ -7,7 +8,6 @@ import com.deploy.bemyplan.common.controller.ResponseDTO
 import com.deploy.bemyplan.config.auth.Auth
 import com.deploy.bemyplan.config.auth.UserId
 import com.deploy.bemyplan.jwt.JwtService
-import com.deploy.bemyplan.user.service.dto.request.CheckAvailableNameRequestDto
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping

@@ -1,9 +1,9 @@
 package com.bemyplan.auth.application.port.out
 
-import com.deploy.bemyplan.domain.user.User
+import com.bemyplan.auth.domain.UserDomain
 
 interface SaveUserPort {
 
-    fun save(user: User)
-    fun delete(user: User, reasonForWithdrawal: String)
+    fun save(user: UserDomain)
+    fun delete(user: UserDomain, reasonForWithdrawal: String)
 }

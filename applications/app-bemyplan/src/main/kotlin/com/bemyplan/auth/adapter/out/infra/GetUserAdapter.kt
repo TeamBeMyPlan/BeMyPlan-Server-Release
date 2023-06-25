@@ -1,7 +1,8 @@
 package com.bemyplan.auth.adapter.out.infra
 
 import com.bemyplan.auth.application.port.out.GetUserPort
-import com.deploy.bemyplan.domain.user.User
+import com.bemyplan.auth.domain.SocialDomain
+import com.bemyplan.auth.domain.UserDomain
 import com.deploy.bemyplan.domain.user.UserRepository
 import com.deploy.bemyplan.domain.user.UserSocialType
 import org.springframework.data.repository.CrudRepository
@@ -11,12 +12,28 @@ import org.springframework.stereotype.Component
 internal class GetUserAdapter(
     private val userRepository: UserRepository,
 ): GetUserPort {
-    override fun findById(userId: Long): User? {
-        return userRepository.findByIdOrNull(userId)
+    override fun findById(userId: Long): UserDomain? {
+        return userRepository.findByIdOrNull(userId)?.let {
+            UserDomain(
+                it.id,
+                it.nickname,
+                it.email,
+                it.isActive,
+                SocialDomain(it.socialId, it.socialType),
+            )
+        }
     }
 
-    override fun findBySocialIdAndSocialType(socialId: String, socialType: UserSocialType): User? {
-        return userRepository.findUserBySocialIdAndSocialType(socialId, socialType)
+    override fun findBySocialIdAndSocialType(socialId: String, socialType: UserSocialType): UserDomain? {
+        return userRepository.findUserBySocialIdAndSocialType(socialId, socialType)?.let {
+            UserDomain(
+                it.id,
+                it.nickname,
+                it.email,
+                it.isActive,
+                SocialDomain(it.socialId, it.socialType),
+            )
+        }
     }
 
     override fun existsByName(name: String): Boolean {

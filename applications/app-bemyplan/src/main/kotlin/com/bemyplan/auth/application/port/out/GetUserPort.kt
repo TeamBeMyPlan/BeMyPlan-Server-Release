@@ -1,12 +1,12 @@
 package com.bemyplan.auth.application.port.out
 
-import com.deploy.bemyplan.domain.user.User
+import com.bemyplan.auth.domain.UserDomain
 import com.deploy.bemyplan.domain.user.UserSocialType
 
 interface GetUserPort {
-    fun findById(userId: Long): User?
+    fun findById(userId: Long): UserDomain?
 
-    fun findBySocialIdAndSocialType(socialId: String, socialType: UserSocialType): User?
+    fun findBySocialIdAndSocialType(socialId: String, socialType: UserSocialType): UserDomain?
 
     fun existsByName(name: String): Boolean
 

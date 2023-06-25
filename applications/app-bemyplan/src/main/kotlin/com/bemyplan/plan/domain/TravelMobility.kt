@@ -1,4 +1,4 @@
-package com.bemyplan.domain
+package com.bemyplan.plan.domain
 
 enum class TravelMobility(name: String) {
     CAR("승용차"),

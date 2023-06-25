@@ -1,4 +1,4 @@
-package com.bemyplan.domain
+package com.bemyplan.plan.domain
 
 enum class Region(name: String) {
     JEJUWEST("제주서부"),

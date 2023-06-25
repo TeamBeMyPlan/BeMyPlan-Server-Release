@@ -1,4 +1,4 @@
-package com.bemyplan.domain
+package com.bemyplan.plan.domain
 
 enum class Theme(name: String) {
     HEALING("힐링"),

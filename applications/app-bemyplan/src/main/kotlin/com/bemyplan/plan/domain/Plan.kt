@@ -1,4 +1,4 @@
-package com.bemyplan.domain
+package com.bemyplan.plan.domain
 
 import java.math.BigDecimal
 

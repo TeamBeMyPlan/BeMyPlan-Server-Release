@@ -1,4 +1,4 @@
-package com.bemyplan.domain
+package com.bemyplan.plan.domain
 
 enum class SpotCategory(name: String) {
     RESTAURANT("식당"),

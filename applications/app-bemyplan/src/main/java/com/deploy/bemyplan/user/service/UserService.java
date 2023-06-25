@@ -47,4 +47,13 @@ public class UserService {
     public void checkIsAvailableName(CheckAvailableNameRequestDto request) {
         UserServiceUtils.validateNotExistsUserName(userRepository, request.getNickname());
     }
+
+    public User getUserById(Long userId) {
+        User findUser = userRepository.findUserById(userId);
+        if (findUser == null) {
+            throw new NotFoundException(String.format("존재하지 않는 유저 (%s) 입니다", userId));
+        }
+
+        return findUser;
+    }
 }

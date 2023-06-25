@@ -1,4 +1,4 @@
-package com.bemyplan.auth
+package com.bemyplan.auth.api
 
 import com.deploy.bemyplan.auth.service.AuthService
 import com.deploy.bemyplan.auth.service.AuthServiceProvider

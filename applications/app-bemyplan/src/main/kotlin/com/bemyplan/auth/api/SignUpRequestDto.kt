@@ -1,4 +1,4 @@
-package com.bemyplan.auth
+package com.bemyplan.auth.api
 
 import com.deploy.bemyplan.auth.service.dto.SignUpDto
 import com.deploy.bemyplan.domain.user.UserSocialType

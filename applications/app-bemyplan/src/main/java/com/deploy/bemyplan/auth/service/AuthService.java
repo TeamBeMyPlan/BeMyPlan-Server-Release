@@ -1,7 +1,7 @@
 package com.deploy.bemyplan.auth.service;
 
-import com.deploy.bemyplan.auth.service.dto.LoginDto;
-import com.deploy.bemyplan.auth.service.dto.SignUpDto;
+import com.bemyplan.auth.application.LoginDto;
+import com.bemyplan.auth.application.SignUpDto;
 
 public interface AuthService {
 

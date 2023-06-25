@@ -1,6 +1,6 @@
 package com.bemyplan.auth.api
 
-import com.deploy.bemyplan.auth.service.dto.SignUpDto
+import com.bemyplan.auth.application.SignUpDto
 import com.deploy.bemyplan.domain.user.UserSocialType
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotBlank

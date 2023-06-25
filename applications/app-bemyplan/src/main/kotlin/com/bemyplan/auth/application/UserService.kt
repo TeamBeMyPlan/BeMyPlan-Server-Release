@@ -17,7 +17,7 @@ class UserService(
 ) {
 
     @Transactional
-    fun registerUser(request: CreateUserDto): Long {
+    fun registerUser(request: CreateUserCommand): Long {
         validateNotExistsUser(userRepository, request.socialId, request.socialType)
         validateNotExistsUserName(userRepository, request.nickname)
         val user = User.newInstance(request.socialId, request.socialType, request.nickname, request.email)
@@ -35,7 +35,7 @@ class UserService(
     }
 
     @Transactional
-    fun checkIsAvailableName(request: CheckAvailableNameRequestDto) {
+    fun checkIsAvailableName(request: CheckAvailableNameCommand) {
         validateNotExistsUserName(userRepository, request.nickname)
     }
 

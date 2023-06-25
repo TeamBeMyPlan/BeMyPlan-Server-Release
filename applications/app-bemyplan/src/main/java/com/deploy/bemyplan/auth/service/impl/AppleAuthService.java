@@ -1,7 +1,7 @@
 package com.deploy.bemyplan.auth.service.impl;
 
-import com.bemyplan.auth.application.LoginDto;
-import com.bemyplan.auth.application.SignUpDto;
+import com.bemyplan.auth.application.LoginCommand;
+import com.bemyplan.auth.application.SignUpCommand;
 import com.bemyplan.auth.application.UserService;
 import com.deploy.bemyplan.auth.remote.apple.AppleTokenDecoder;
 import com.deploy.bemyplan.auth.service.AuthService;
@@ -24,13 +24,13 @@ public class AppleAuthService implements AuthService {
     private final UserRepository userRepository;
 
     @Override
-    public Long signUp(SignUpDto request) {
+    public Long signUp(SignUpCommand request) {
         String socialId = appleTokenDecoder.getSocialIdFromIdToken(request.getToken());
         return userService.registerUser(request.toCreateUserDto(socialId));
     }
 
     @Override
-    public Long login(LoginDto request) {
+    public Long login(LoginCommand request) {
         String socialId = appleTokenDecoder.getSocialIdFromIdToken(request.getToken());
         User user = userRepository.findUserBySocialIdAndSocialType(socialId, socialType);
         if (user == null) {

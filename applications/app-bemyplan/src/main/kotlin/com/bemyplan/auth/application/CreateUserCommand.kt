@@ -6,7 +6,7 @@ import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 
-data class CreateUserDto(
+data class CreateUserCommand(
     @NotBlank(message = "{user.socialId.notBlank}")
     val socialId: String,
     @NotNull(message = "{user.socialType.notNull}")
@@ -22,8 +22,8 @@ data class CreateUserDto(
 
     companion object {
         @JvmStatic
-        fun of(socialId: String, socialType: UserSocialType, name: String, email: String): CreateUserDto {
-            return CreateUserDto(socialId, socialType, name, email)
+        fun of(socialId: String, socialType: UserSocialType, name: String, email: String): CreateUserCommand {
+            return CreateUserCommand(socialId, socialType, name, email)
         }
     }
 }

@@ -1,13 +1,13 @@
 package com.bemyplan.auth.application
 
-import com.bemyplan.auth.application.CreateUserDto.Companion.of
+import com.bemyplan.auth.application.CreateUserCommand.Companion.of
 import com.deploy.bemyplan.domain.user.UserSocialType
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 
-data class SignUpDto(
+data class SignUpCommand(
     @NotBlank(message = "{auth.token.notBlank}")
     val token: String,
     @NotBlank(message = "{user.nickname.notBlank}")
@@ -20,13 +20,13 @@ data class SignUpDto(
     val socialType: UserSocialType,
 ) {
 
-    fun toCreateUserDto(socialId: String): CreateUserDto {
+    fun toCreateUserDto(socialId: String): CreateUserCommand {
         return of(socialId, socialType, nickname, email)
     }
 
     companion object {
-        fun of(token: String, nickname: String, email: String, socialType: UserSocialType): SignUpDto {
-            return SignUpDto(token, nickname, email, socialType)
+        fun of(token: String, nickname: String, email: String, socialType: UserSocialType): SignUpCommand {
+            return SignUpCommand(token, nickname, email, socialType)
         }
     }
 }

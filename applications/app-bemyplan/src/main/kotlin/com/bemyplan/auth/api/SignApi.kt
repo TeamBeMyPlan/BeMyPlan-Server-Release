@@ -1,6 +1,6 @@
 package com.bemyplan.auth.api
 
-import com.bemyplan.auth.application.CheckAvailableNameRequestDto
+import com.bemyplan.auth.application.CheckAvailableNameCommand
 import com.bemyplan.auth.application.UserService
 import com.deploy.bemyplan.auth.service.AuthService
 import com.deploy.bemyplan.auth.service.AuthServiceProvider
@@ -23,7 +23,7 @@ class SignApi(
 ) {
 
     @PostMapping("/api/signup")
-    fun signUp(@Valid @RequestBody request: SignUpRequestDto): LoginResponse {
+    fun signUp(@Valid @RequestBody request: SignUpRequest): LoginResponse {
         val authService: AuthService = authServiceProvider.getAuthService(request.socialType)
         val userId = authService.signUp(request.toServiceDto())
         val token = jwtService.issuedToken(userId.toString(), "USER", 60 * 60 * 24 * 30)
@@ -32,7 +32,7 @@ class SignApi(
     }
 
     @PostMapping("/api/login")
-    fun signIn(@Valid @RequestBody request: LoginRequestDto): LoginResponse {
+    fun signIn(@Valid @RequestBody request: LoginRequest): LoginResponse {
         val authService: AuthService = authServiceProvider.getAuthService(request.socialType)
         val userId = authService.login(request.toServiceDto())
         val token = jwtService.issuedToken(userId.toString(), "USER", 60 * 60 * 24 * 30)
@@ -50,7 +50,7 @@ class SignApi(
     }
 
     @GetMapping("/api/user/name/check")
-    fun checkAvailableName(@Valid request: CheckAvailableNameRequestDto): ResponseDTO {
+    fun checkAvailableName(@Valid request: CheckAvailableNameCommand): ResponseDTO {
         userService.checkIsAvailableName(request)
         return ResponseDTO.of("사용 가능한 닉네임 입니다.")
     }

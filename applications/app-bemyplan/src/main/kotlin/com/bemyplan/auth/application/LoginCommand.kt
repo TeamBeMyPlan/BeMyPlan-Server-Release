@@ -1,17 +1,18 @@
-package com.bemyplan.auth.api
+package com.bemyplan.auth.application
 
-import com.bemyplan.auth.application.LoginDto
 import com.deploy.bemyplan.domain.user.UserSocialType
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 
-data class LoginRequestDto(
+data class LoginCommand(
     @NotBlank(message = "{auth.token.notBlank}")
     val token: String,
     @NotNull(message = "{user.socialType.notNull}")
-    val socialType: UserSocialType,
-) {
-    fun toServiceDto(): LoginDto {
-        return LoginDto.of(token, socialType)
+    val socialType: UserSocialType
+){
+    companion object {
+        fun of(token: String, socialType: UserSocialType): LoginCommand {
+            return LoginCommand(token, socialType)
+        }
     }
 }

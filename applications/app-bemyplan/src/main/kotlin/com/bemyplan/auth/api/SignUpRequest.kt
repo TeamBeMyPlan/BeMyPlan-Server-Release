@@ -1,13 +1,13 @@
 package com.bemyplan.auth.api
 
-import com.bemyplan.auth.application.SignUpDto
+import com.bemyplan.auth.application.SignUpCommand
 import com.deploy.bemyplan.domain.user.UserSocialType
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 
-data class SignUpRequestDto(
+data class SignUpRequest(
     @NotBlank(message = "{auth.token.notBlank}")
     val token:  String,
     @NotBlank(message = "{user.nickname.notBlank}")
@@ -20,7 +20,7 @@ data class SignUpRequestDto(
     val socialType: UserSocialType,
 ) {
 
-    fun toServiceDto(): SignUpDto {
-        return SignUpDto.of(token, nickname, email, socialType)
+    fun toServiceDto(): SignUpCommand {
+        return SignUpCommand.of(token, nickname, email, socialType)
     }
 }

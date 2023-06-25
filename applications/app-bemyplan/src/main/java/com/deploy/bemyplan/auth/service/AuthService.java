@@ -1,10 +1,10 @@
 package com.deploy.bemyplan.auth.service;
 
-import com.bemyplan.auth.application.LoginDto;
-import com.bemyplan.auth.application.SignUpDto;
+import com.bemyplan.auth.application.LoginCommand;
+import com.bemyplan.auth.application.SignUpCommand;
 
 public interface AuthService {
 
-    Long signUp(SignUpDto request);
-    Long login(LoginDto request);
+    Long signUp(SignUpCommand request);
+    Long login(LoginCommand request);
 }

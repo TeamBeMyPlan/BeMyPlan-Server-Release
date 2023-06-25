@@ -1,7 +1,7 @@
 package com.deploy.bemyplan.auth.service.impl;
 
-import com.bemyplan.auth.application.LoginCommand;
-import com.bemyplan.auth.application.SignUpCommand;
+import com.bemyplan.auth.application.port.in.LoginCommand;
+import com.bemyplan.auth.application.port.in.SignUpCommand;
 import com.deploy.bemyplan.auth.remote.google.GoogleAuthApiClient;
 import com.deploy.bemyplan.auth.remote.google.GoogleProfileInfoResponse;
 import com.deploy.bemyplan.auth.service.AuthService;

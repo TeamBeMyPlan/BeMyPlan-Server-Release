@@ -1,6 +1,5 @@
-package com.bemyplan.auth.application
+package com.bemyplan.auth.application.port.`in`
 
-import com.bemyplan.auth.application.CreateUserCommand.Companion.of
 import com.deploy.bemyplan.domain.user.UserSocialType
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotBlank
@@ -19,10 +18,6 @@ data class SignUpCommand(
     @NotNull(message = "{user.socialType.notNull}")
     val socialType: UserSocialType,
 ) {
-
-    fun toCreateUserDto(socialId: String): CreateUserCommand {
-        return of(socialId, socialType, nickname, email)
-    }
 
     companion object {
         fun of(token: String, nickname: String, email: String, socialType: UserSocialType): SignUpCommand {

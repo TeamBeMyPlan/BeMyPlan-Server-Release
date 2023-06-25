@@ -1,7 +1,7 @@
 package com.deploy.bemyplan.auth.service.impl;
 
-import com.bemyplan.auth.application.LoginCommand;
-import com.bemyplan.auth.application.SignUpCommand;
+import com.bemyplan.auth.application.port.in.LoginCommand;
+import com.bemyplan.auth.application.port.in.SignUpCommand;
 import com.deploy.bemyplan.auth.remote.kakao.KaKaoAuthApiClient;
 import com.deploy.bemyplan.auth.remote.kakao.KaKaoProfileResponse;
 import com.deploy.bemyplan.auth.service.AuthService;

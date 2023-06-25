@@ -1,6 +1,6 @@
 package com.bemyplan.auth.api
 
-import com.bemyplan.auth.application.CheckAvailableNameCommand
+import com.bemyplan.auth.application.port.`in`.CheckAvailableNameCommand
 import com.bemyplan.auth.application.port.`in`.ReadUserUsecase
 import com.bemyplan.auth.application.port.`in`.SignUserUsecase
 import com.deploy.bemyplan.common.controller.ResponseDTO
@@ -23,7 +23,7 @@ class SignApi(
 
     @PostMapping("/api/signup")
     fun signUp(@Valid @RequestBody request: SignUpRequest): LoginResponse {
-        val userId = signUserUsecase.signUp(request.toServiceDto())
+        val userId = signUserUsecase.signUp(request.toCommand())
         val token = jwtService.issuedToken(userId.toString(), "USER", 60 * 60 * 24 * 30)
 
         return LoginResponse.of(token, "never used session id", userId, request.nickname)
@@ -31,7 +31,7 @@ class SignApi(
 
     @PostMapping("/api/login")
     fun signIn(@Valid @RequestBody request: LoginRequest): LoginResponse {
-        val user = signUserUsecase.signIn(request.toServiceDto())
+        val user = signUserUsecase.signIn(request.toCommand())
         val token = jwtService.issuedToken(user.id.toString(), "USER", 60 * 60 * 24 * 30)
 
         return LoginResponse.of(token, "never used session id", user.id, user.nickname)

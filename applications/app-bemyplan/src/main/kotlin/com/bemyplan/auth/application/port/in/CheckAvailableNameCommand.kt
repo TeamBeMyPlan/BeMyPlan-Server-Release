@@ -1,4 +1,4 @@
-package com.bemyplan.auth.application
+package com.bemyplan.auth.application.port.`in`
 
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Pattern

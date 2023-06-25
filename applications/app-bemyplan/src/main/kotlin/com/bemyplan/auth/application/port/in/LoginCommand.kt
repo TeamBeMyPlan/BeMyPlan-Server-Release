@@ -1,4 +1,4 @@
-package com.bemyplan.auth.application
+package com.bemyplan.auth.application.port.`in`
 
 import com.deploy.bemyplan.domain.user.UserSocialType
 import javax.validation.constraints.NotBlank

@@ -1,5 +1,7 @@
 package com.bemyplan.auth.application
 
+import com.bemyplan.auth.application.port.`in`.LoginCommand
+import com.bemyplan.auth.application.port.`in`.SignUpCommand
 import com.bemyplan.auth.application.port.`in`.SignUserUsecase
 import com.deploy.bemyplan.auth.service.AuthService
 import com.deploy.bemyplan.auth.service.AuthServiceProvider
@@ -20,20 +22,20 @@ class SignUserService(
     private val eventPublisher: ApplicationEventPublisher,
     private val authServiceProvider: AuthServiceProvider,
 ): SignUserUsecase {
-    override fun signUp(request: SignUpCommand): Long {
-        val authService: AuthService = authServiceProvider.getAuthService(request.socialType)
-        val userSocialId = authService.signUp(request)
+    override fun signUp(command: SignUpCommand): Long {
+        val authService: AuthService = authServiceProvider.getAuthService(command.socialType)
+        val userSocialId = authService.signUp(command)
 
-        validateNotExistsUser(userRepository, userSocialId, request.socialType)
-        validateNotExistsUserName(userRepository, request.nickname)
-        val user = User.newInstance(userSocialId, request.socialType, request.nickname, request.email)
+        validateNotExistsUser(userRepository, userSocialId, command.socialType)
+        validateNotExistsUserName(userRepository, command.nickname)
+        val user = User.newInstance(userSocialId, command.socialType, command.nickname, command.email)
         userRepository.save(user)
         return user.id
     }
 
-    override fun signIn(request: LoginCommand): User {
-        val authService: AuthService = authServiceProvider.getAuthService(request.socialType)
-        val userId = authService.login(request)
+    override fun signIn(command: LoginCommand): User {
+        val authService: AuthService = authServiceProvider.getAuthService(command.socialType)
+        val userId = authService.login(command)
         return userRepository.findUserById(userId) ?: throw NotFoundException("존재하지 않는 유저 ${userId} 입니다")
     }
 

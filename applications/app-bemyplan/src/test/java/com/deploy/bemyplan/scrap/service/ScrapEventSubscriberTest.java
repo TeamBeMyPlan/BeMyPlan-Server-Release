@@ -1,6 +1,6 @@
 package com.deploy.bemyplan.scrap.service;
 
-import com.deploy.bemyplan.user.service.UserDeleteEvent;
+import com.bemyplan.auth.application.UserDeleteEvent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

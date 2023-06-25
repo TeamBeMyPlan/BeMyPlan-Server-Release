@@ -1,5 +1,6 @@
 package com.deploy.bemyplan.auth.service.impl;
 
+import com.bemyplan.auth.application.UserService;
 import com.deploy.bemyplan.auth.remote.google.GoogleAuthApiClient;
 import com.deploy.bemyplan.auth.remote.google.GoogleProfileInfoResponse;
 import com.deploy.bemyplan.auth.service.AuthService;
@@ -9,7 +10,6 @@ import com.deploy.bemyplan.common.exception.model.NotFoundException;
 import com.deploy.bemyplan.domain.user.User;
 import com.deploy.bemyplan.domain.user.UserRepository;
 import com.deploy.bemyplan.domain.user.UserSocialType;
-import com.deploy.bemyplan.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,5 +1,7 @@
 package com.deploy.bemyplan.user.service;
 
+import com.bemyplan.auth.application.UserDeleteEvent;
+import com.bemyplan.auth.application.UserService;
 import com.deploy.bemyplan.domain.user.User;
 import com.deploy.bemyplan.domain.user.UserRepository;
 import com.deploy.bemyplan.domain.user.UserSocialType;
@@ -37,7 +39,7 @@ class UserServiceTest {
     @DisplayName("유저 탈퇴시 이벤트 발행 확인")
     void delete_passesUserDeleteEventToEventPublisher() {
 
-        UserDeleteEvent expected = new UserDeleteEvent(userService, 1L);
+        UserDeleteEvent expected = new UserDeleteEvent(1L);
 
         userService.signOut(1L, "reason");
 

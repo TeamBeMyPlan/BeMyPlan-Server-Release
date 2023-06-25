@@ -1,6 +1,6 @@
 package com.deploy.bemyplan.scrap.service;
 
-import com.deploy.bemyplan.user.service.UserDeleteEvent;
+import com.bemyplan.auth.application.UserDeleteEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;

@@ -31,8 +31,10 @@ public class PlanController {
 
     @ApiOperation("여행 일정을 10개씩 랜덤하게 조회합니다.")
     @GetMapping("/random")
-    public List<PlanRandomResponse> getPlanListByRandom(@RequestParam("planId") Long planId, @RequestParam("regionCategory") final RegionCategory regionCategory) {
-        return planService.getPlanListByRandom(planId, regionCategory);
+    public List<PlanRandomResponse> getPlanListByRandom(@UserId final Long userId,
+                                                        @RequestParam("planId") final Long planId,
+                                                        @RequestParam("regionCategory") final RegionCategory regionCategory) {
+        return planService.getPlanListByRandom(userId, planId, regionCategory);
     }
 
     @ApiOperation("미리보기 일정 정보를 조회합니다.")
@@ -42,14 +44,14 @@ public class PlanController {
     }
 
     @GetMapping
-    PlanListResponse getPlans(@ModelAttribute @Valid RetrievePlansRequest request) {
+    PlanListResponse getPlans(@ModelAttribute @Valid final RetrievePlansRequest request) {
         return planService.getPlans(request);
     }
 
     @GetMapping("/theme")
     List<GetPlanResponse> getPlansByTheme(@UserId final Long userId,
-                                          @RequestParam(required = false, defaultValue = "") TravelTheme[] includes,
-                                          @RequestParam(required = false, defaultValue = "") TravelTheme[] excludes) {
+                                          @RequestParam(required = false, defaultValue = "") final TravelTheme[] includes,
+                                          @RequestParam(required = false, defaultValue = "") final TravelTheme[] excludes) {
         return planService.getPlansByTheme(
                 new GetPlansByThemeRequest(
                         userId,

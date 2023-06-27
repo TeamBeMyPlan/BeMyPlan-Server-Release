@@ -10,7 +10,6 @@ import com.bemyplan.auth.application.port.out.SaveUserPort
 import com.bemyplan.auth.domain.SocialDomain
 import com.bemyplan.auth.domain.UserDomain
 import com.deploy.bemyplan.common.exception.model.NotFoundException
-import com.deploy.bemyplan.domain.user.User
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -31,8 +30,7 @@ internal class SignUserService(
 
         validateNotExistsUser(getUserPort, userSocialId, command.socialType)
         validateNotExistsUserName(getUserPort, command.nickname)
-        val user = User.newInstance(userSocialId, command.socialType, command.nickname, command.email)
-        saveUserPort.save(
+        val user = saveUserPort.save(
             UserDomain(
                 nickname = command.nickname,
                 email = command.email,
@@ -40,7 +38,7 @@ internal class SignUserService(
                 socialInfo = SocialDomain(userSocialId, command.socialType)
             )
         )
-        return user.id
+        return user.id!!
     }
 
     override fun signIn(command: LoginCommand): UserDomain {

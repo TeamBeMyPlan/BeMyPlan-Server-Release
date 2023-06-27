@@ -2,6 +2,7 @@ package com.bemyplan.auth.adapter.out.infra
 
 import com.bemyplan.auth.application.UserDeleteEvent
 import com.bemyplan.auth.application.port.out.SaveUserPort
+import com.bemyplan.auth.domain.SocialDomain
 import com.bemyplan.auth.domain.UserDomain
 import com.deploy.bemyplan.domain.user.SocialInfo
 import com.deploy.bemyplan.domain.user.User
@@ -17,12 +18,23 @@ internal class SaveUserAdapter(
     private val withdrawalUserRepository: WithdrawalUserRepository,
     private val eventPublisher: ApplicationEventPublisher,
 ): SaveUserPort{
-    override fun save(user: UserDomain) {
+    override fun save(user: UserDomain): UserDomain {
+        val newUser = User.newInstance(
+            user.socialInfo.socialId,
+            user.socialInfo.socialType,
+            user.nickname,
+            user.email
+        )
+
         userRepository.save(
-            User.newInstance(user.socialInfo.socialId,
-                user.socialInfo.socialType,
-                user.nickname,
-                user.email)
+            newUser
+        )
+
+        return UserDomain(
+            id = newUser.id,
+            nickname = newUser.nickname,
+            email = newUser.email,
+            socialInfo = SocialDomain(newUser.socialId, newUser.socialType)
         )
     }
 

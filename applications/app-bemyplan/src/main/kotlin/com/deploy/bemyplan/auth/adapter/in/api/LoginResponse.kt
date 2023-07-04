@@ -7,8 +7,8 @@ data class LoginResponse(
     val nickname: String,
 ) {
     companion object {
-        fun of(token: String, sessionId: String, userId: Long, nickname: String): com.deploy.bemyplan.auth.adapter.`in`.api.LoginResponse {
-            return com.deploy.bemyplan.auth.adapter.`in`.api.LoginResponse(token, sessionId, userId, nickname)
+        fun of(token: String, sessionId: String, userId: Long, nickname: String): LoginResponse {
+            return LoginResponse(token, sessionId, userId, nickname)
         }
     }
 }

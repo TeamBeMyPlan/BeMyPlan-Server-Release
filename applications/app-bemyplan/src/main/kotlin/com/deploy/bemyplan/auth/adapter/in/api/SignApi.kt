@@ -22,11 +22,11 @@ internal class SignApi(
 ) {
 
     @PostMapping("/api/signup")
-    fun signUp(@Valid @RequestBody request: com.deploy.bemyplan.auth.adapter.`in`.api.SignUpRequest): com.deploy.bemyplan.auth.adapter.`in`.api.LoginResponse {
+    fun signUp(@Valid @RequestBody request: SignUpRequest): LoginResponse {
         val userId = signUserUsecase.signUp(request.toCommand())
         val token = jwtService.issuedToken(userId.toString(), "USER", 60 * 60 * 24 * 30)
 
-        return com.deploy.bemyplan.auth.adapter.`in`.api.LoginResponse.Companion.of(
+        return LoginResponse.of(
             token,
             "never used session id",
             userId,
@@ -35,11 +35,11 @@ internal class SignApi(
     }
 
     @PostMapping("/api/login")
-    fun signIn(@Valid @RequestBody request: com.deploy.bemyplan.auth.adapter.`in`.api.LoginRequest): com.deploy.bemyplan.auth.adapter.`in`.api.LoginResponse {
+    fun signIn(@Valid @RequestBody request: LoginRequest): LoginResponse {
         val user = signUserUsecase.signIn(request.toCommand())
         val token = jwtService.issuedToken(user.id.toString(), "USER", 60 * 60 * 24 * 30)
 
-        return com.deploy.bemyplan.auth.adapter.`in`.api.LoginResponse.Companion.of(
+        return LoginResponse.of(
             token,
             "never used session id",
             user.id!!,
@@ -49,7 +49,7 @@ internal class SignApi(
 
     @Auth
     @DeleteMapping("/api/signout")
-    fun signOut(@Valid @RequestBody request: com.deploy.bemyplan.auth.adapter.`in`.api.SignOutUserRequest,
+    fun signOut(@Valid @RequestBody request: SignOutUserRequest,
                 @UserId userId: Long): ResponseDTO {
         signUserUsecase.signOut(userId, request.reasonForWithdrawal)
         return ResponseDTO.of("회원탈퇴 성공")

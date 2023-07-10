@@ -41,11 +41,20 @@ public class PlanService {
         this.scrapService = scrapService;
     }
 
-    public List<PlanRandomResponse> getPlanListByRandom(final Long planId, final RegionCategory region) {
+    public List<PlanRandomResponse> getPlanListByRandom(final Long userId, final Long planId, final RegionCategory region) {
         final int size = 10;
         final List<Plan> plans = planRepository.findPlansByRegionAndSize(planId, region.name(), size);
         return plans.stream()
-                .map(p -> PlanRandomResponse.of(p.getId(), p.getThumbnailUrl(), p.getTitle(), p.getRegionCategory(), p.getRegion()))
+                .map(p -> PlanRandomResponse.of(
+                        p.getId(),
+                        p.getThumbnailUrl(),
+                        p.getTitle(),
+                        p.getRegionCategory(),
+                        p.getRegion(),
+                        scrapService.isScraped(userId, p.getId()),
+                        getCreator(p),
+                        scrapService.isOrdered(userId, p.getId())
+                        ))
                 .collect(Collectors.toList());
     }
 

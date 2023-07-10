@@ -3,6 +3,9 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE' apply false
 	id 'com.ewerk.gradle.plugins.querydsl' version '1.0.10' apply false
 	id 'java-library'
+	id 'org.jetbrains.kotlin.jvm' version '1.6.21'
+	id "org.jetbrains.kotlin.plugin.spring" version "1.6.21"
+	id 'org.jetbrains.kotlin.kapt' version '1.6.21'
 }
 
 def javaProjects = [
@@ -17,6 +20,9 @@ configure(javaProjects) {
 	apply plugin: 'java-library'
 	apply plugin: 'org.springframework.boot'
 	apply plugin: 'io.spring.dependency-management'
+	apply plugin: 'org.jetbrains.kotlin.jvm'
+	apply plugin: 'org.jetbrains.kotlin.plugin.spring'
+	apply plugin: 'org.jetbrains.kotlin.kapt'
 
 
 	group = 'com.deploy'
@@ -44,5 +50,17 @@ configure(javaProjects) {
 
 	tasks.named('test') {
 		useJUnitPlatform()
+	}
+
+	compileKotlin {
+		kotlinOptions {
+			jvmTarget = "11"
+		}
+	}
+
+	compileTestKotlin {
+		kotlinOptions {
+			jvmTarget = "11"
+		}
 	}
 }

@@ -2,13 +2,11 @@ package com.deploy.bemyplan.payment.service.utils;
 
 import com.deploy.bemyplan.payment.service.dto.request.UserReceiptDto;
 import com.deploy.bemyplan.payment.service.utils.dto.response.AppStoreResponse;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
 @Component
-@RequiredArgsConstructor
 public class AppleInAppPurchaseValidator {
 
     //TODO 더 생길 시 ENUM 고려.
@@ -18,9 +16,14 @@ public class AppleInAppPurchaseValidator {
     private final AppleInAppProductionApiClient productionApiClient;
     private final AppleInAppSandboxApiClient sandboxApiClient;
 
-    public Optional<AppStoreResponse> appleInAppPurchaseVerify(final UserReceiptDto receiptRequest){
+    public AppleInAppPurchaseValidator(AppleInAppProductionApiClient productionApiClient, AppleInAppSandboxApiClient sandboxApiClient) {
+        this.productionApiClient = productionApiClient;
+        this.sandboxApiClient = sandboxApiClient;
+    }
+
+    public Optional<AppStoreResponse> appleInAppPurchaseVerify(final UserReceiptDto receiptRequest) {
         final AppStoreResponse appStoreResponse = productionApiClient.validateReceiptProduction(receiptRequest.toClientDto());
-        switch (appStoreResponse.getStatus()){
+        switch (appStoreResponse.getStatus()) {
             case RECEIPT_ERROR:
                 throw new IllegalArgumentException("receipt-data가 잘못되었습니다. 정확한 receipt-date를 다시 보내주세요 " + RECEIPT_ERROR);
             case ACCOUNT_ERROR:

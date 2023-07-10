@@ -9,14 +9,12 @@ import com.deploy.bemyplan.domain.plan.PlanRepository;
 import com.deploy.bemyplan.domain.scrap.ScrapRepository;
 import com.deploy.bemyplan.domain.user.Creator;
 import com.deploy.bemyplan.domain.user.CreatorRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
 public class SearchService {
@@ -25,6 +23,13 @@ public class SearchService {
     private final CreatorRepository creatorRepository;
     private final ScrapRepository scrapRepository;
     private final OrderRepository orderRepository;
+
+    public SearchService(PlanRepository planRepository, CreatorRepository creatorRepository, ScrapRepository scrapRepository, OrderRepository orderRepository) {
+        this.planRepository = planRepository;
+        this.creatorRepository = creatorRepository;
+        this.scrapRepository = scrapRepository;
+        this.orderRepository = orderRepository;
+    }
 
     private boolean isScraped(final Long userId, final Long planId) {
         return null != userId && scrapRepository.existsScrapByUserIdAndPlanId(userId, planId);

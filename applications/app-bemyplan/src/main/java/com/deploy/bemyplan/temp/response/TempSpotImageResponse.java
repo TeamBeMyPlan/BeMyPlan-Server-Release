@@ -1,16 +1,11 @@
 package com.deploy.bemyplan.temp.response;
 
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @ToString
 @Getter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class TempSpotImageResponse {
 
     private Long imageId;
@@ -20,4 +15,11 @@ public class TempSpotImageResponse {
         return new TempSpotImageResponse(imageId, url);
     }
 
+    private TempSpotImageResponse() {
+    }
+
+    private TempSpotImageResponse(final Long imageId, final String url) {
+        this.imageId = imageId;
+        this.url = url;
+    }
 }

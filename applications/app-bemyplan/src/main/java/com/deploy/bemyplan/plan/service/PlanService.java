@@ -18,7 +18,6 @@ import com.deploy.bemyplan.plan.service.dto.response.PlanListResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanPreviewResponseDto;
 import com.deploy.bemyplan.plan.service.dto.response.PlanRandomResponse;
 import com.deploy.bemyplan.scrap.service.ScrapService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,7 +26,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
 public class PlanService {
@@ -35,6 +33,13 @@ public class PlanService {
     private final PlanRepository planRepository;
     private final CreatorRepository creatorRepository;
     private final ScrapService scrapService;
+
+    public PlanService(PreviewRepository previewRepository, PlanRepository planRepository, CreatorRepository creatorRepository, ScrapService scrapService) {
+        this.previewRepository = previewRepository;
+        this.planRepository = planRepository;
+        this.creatorRepository = creatorRepository;
+        this.scrapService = scrapService;
+    }
 
     public List<PlanRandomResponse> getPlanListByRandom(final Long planId, final RegionCategory region) {
         final int size = 10;

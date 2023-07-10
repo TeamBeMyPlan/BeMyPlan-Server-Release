@@ -10,7 +10,6 @@ import com.deploy.bemyplan.plan.service.dto.response.PlanListResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanPreviewResponseDto;
 import com.deploy.bemyplan.plan.service.dto.response.PlanRandomResponse;
 import io.swagger.annotations.ApiOperation;
-import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,11 +22,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v2/plans")
 public class PlanController {
     private final PlanService planService;
+
+    public PlanController(PlanService planService) {
+        this.planService = planService;
+    }
 
     @ApiOperation("여행 일정을 10개씩 랜덤하게 조회합니다.")
     @GetMapping("/random")

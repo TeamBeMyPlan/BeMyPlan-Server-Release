@@ -8,7 +8,6 @@ import com.deploy.bemyplan.order.service.dto.OrderListResponse;
 import com.deploy.bemyplan.order.service.dto.request.CreateOrderRequest;
 import com.deploy.bemyplan.order.service.dto.response.OrderResponseDto;
 import io.swagger.annotations.ApiOperation;
-import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,12 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")
 public class OrderController {
 
     private final OrderService orderService;
+
+    public OrderController(final OrderService orderService) {
+        this.orderService = orderService;
+    }
 
     @ApiOperation("[인증] 여행일정 페이지 - 해당 여행일정을 구매합니다.")
     @Auth

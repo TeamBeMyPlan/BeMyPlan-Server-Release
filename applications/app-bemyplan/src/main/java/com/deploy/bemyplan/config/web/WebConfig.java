@@ -5,7 +5,6 @@ import com.deploy.bemyplan.common.logging.ErrorLogFilter;
 import com.deploy.bemyplan.common.logging.ErrorLogInterceptor;
 import com.deploy.bemyplan.config.auth.AuthInterceptor;
 import com.deploy.bemyplan.config.auth.UserIdResolver;
-import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +14,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 
-@RequiredArgsConstructor
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
@@ -23,6 +21,13 @@ public class WebConfig implements WebMvcConfigurer {
     private final DefaultLogInterceptor defaultLogInterceptor;
     private final UserIdResolver userIdResolver;
     private final ErrorLogInterceptor errorLogInterceptor;
+
+    public WebConfig(AuthInterceptor authInterceptor, DefaultLogInterceptor defaultLogInterceptor, UserIdResolver userIdResolver, ErrorLogInterceptor errorLogInterceptor) {
+        this.authInterceptor = authInterceptor;
+        this.defaultLogInterceptor = defaultLogInterceptor;
+        this.userIdResolver = userIdResolver;
+        this.errorLogInterceptor = errorLogInterceptor;
+    }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {

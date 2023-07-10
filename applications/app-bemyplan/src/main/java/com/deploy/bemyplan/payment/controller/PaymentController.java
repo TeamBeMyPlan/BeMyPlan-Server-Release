@@ -8,7 +8,6 @@ import com.deploy.bemyplan.payment.controller.dto.request.UserPurchaseReceipt;
 import com.deploy.bemyplan.payment.service.PaymentService;
 import com.deploy.bemyplan.payment.service.dto.response.InAppPurchaseResponse;
 import io.swagger.annotations.ApiOperation;
-import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,10 +16,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/api/v1/payment")
 public class PaymentController {
     private final PaymentService paymentService;
+
+    public PaymentController(PaymentService paymentService) {
+        this.paymentService = paymentService;
+    }
 
     @PostMapping("/{orderId}/verify")
     @Auth

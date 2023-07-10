@@ -1,13 +1,9 @@
 package com.deploy.bemyplan.payment.service.utils.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
-import lombok.Getter;
-import lombok.ToString;
 
 import java.util.List;
 
-@Getter
-@ToString
 public class Receipt {
     @JsonAlias("adam_id")
     private Number adamId;
@@ -45,4 +41,80 @@ public class Receipt {
     private String requestDatePst;
     @JsonAlias("version_external_identifier")
     private Integer versionExternalIdentifier;
+
+    public Number getAdamId() {
+        return this.adamId;
+    }
+
+    public Number getApp_item_id() {
+        return this.app_item_id;
+    }
+
+    public String getApplicationVersion() {
+        return this.applicationVersion;
+    }
+
+    public String getBundleId() {
+        return this.bundleId;
+    }
+
+    public Long getDownloadId() {
+        return this.downloadId;
+    }
+
+    public List<InApp> getInApp() {
+        return this.inApp;
+    }
+
+    public String getOriginalApplicationVersion() {
+        return this.originalApplicationVersion;
+    }
+
+    public String getOriginalPurchaseDate() {
+        return this.originalPurchaseDate;
+    }
+
+    public String getOriginalPurchaseDateMs() {
+        return this.originalPurchaseDateMs;
+    }
+
+    public String getOriginalPurchaseDatePst() {
+        return this.originalPurchaseDatePst;
+    }
+
+    public String getReceiptCreationDate() {
+        return this.receiptCreationDate;
+    }
+
+    public String getReceiptCreationDateMs() {
+        return this.receiptCreationDateMs;
+    }
+
+    public String getReceiptCreationDatePst() {
+        return this.receiptCreationDatePst;
+    }
+
+    public String getReceiptType() {
+        return this.receiptType;
+    }
+
+    public String getRequestDate() {
+        return this.requestDate;
+    }
+
+    public String getRequestDateMs() {
+        return this.requestDateMs;
+    }
+
+    public String getRequestDatePst() {
+        return this.requestDatePst;
+    }
+
+    public Integer getVersionExternalIdentifier() {
+        return this.versionExternalIdentifier;
+    }
+
+    public String toString() {
+        return "Receipt(adamId=" + this.getAdamId() + ", app_item_id=" + this.getApp_item_id() + ", applicationVersion=" + this.getApplicationVersion() + ", bundleId=" + this.getBundleId() + ", downloadId=" + this.getDownloadId() + ", inApp=" + this.getInApp() + ", originalApplicationVersion=" + this.getOriginalApplicationVersion() + ", originalPurchaseDate=" + this.getOriginalPurchaseDate() + ", originalPurchaseDateMs=" + this.getOriginalPurchaseDateMs() + ", originalPurchaseDatePst=" + this.getOriginalPurchaseDatePst() + ", receiptCreationDate=" + this.getReceiptCreationDate() + ", receiptCreationDateMs=" + this.getReceiptCreationDateMs() + ", receiptCreationDatePst=" + this.getReceiptCreationDatePst() + ", receiptType=" + this.getReceiptType() + ", requestDate=" + this.getRequestDate() + ", requestDateMs=" + this.getRequestDateMs() + ", requestDatePst=" + this.getRequestDatePst() + ", versionExternalIdentifier=" + this.getVersionExternalIdentifier() + ")";
+    }
 }

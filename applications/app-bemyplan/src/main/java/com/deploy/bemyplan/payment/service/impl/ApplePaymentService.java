@@ -16,20 +16,25 @@ import com.deploy.bemyplan.payment.service.dto.response.InAppPurchaseResponse;
 import com.deploy.bemyplan.payment.service.utils.AppleInAppPurchaseValidator;
 import com.deploy.bemyplan.payment.service.utils.dto.response.AppStoreResponse;
 import com.deploy.bemyplan.payment.service.utils.dto.response.InApp;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
 
-@RequiredArgsConstructor
 @Service
 public class ApplePaymentService implements PaymentService {
     private final AppleInAppPurchaseValidator appleInAppPurchaseValidator;
     private final OrderRepository orderRepository;
     private final PaymentRepository paymentRepository;
     private final UserRepository userRepository;
+
+    public ApplePaymentService(AppleInAppPurchaseValidator appleInAppPurchaseValidator, OrderRepository orderRepository, PaymentRepository paymentRepository, UserRepository userRepository) {
+        this.appleInAppPurchaseValidator = appleInAppPurchaseValidator;
+        this.orderRepository = orderRepository;
+        this.paymentRepository = paymentRepository;
+        this.userRepository = userRepository;
+    }
 
     @Transactional
     @Override

@@ -7,19 +7,22 @@ import com.deploy.bemyplan.domain.user.Creator;
 import com.deploy.bemyplan.domain.user.CreatorRepository;
 import com.deploy.bemyplan.plan.service.dto.response.CreatorPlanResponse;
 import com.deploy.bemyplan.user.service.dto.response.CreatorInfoResponse;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
 public class CreatorService {
     private final CreatorRepository creatorRepository;
     private final PlanRepository planRepository;
+
+    public CreatorService(final CreatorRepository creatorRepository, final PlanRepository planRepository) {
+        this.creatorRepository = creatorRepository;
+        this.planRepository = planRepository;
+    }
 
     public CreatorInfoResponse getCreatorInfo(final Long planId) {
         final Plan plan = planRepository.findById(planId).orElseThrow(() -> new NotFoundException("존재하지 않는 여행 일정입니다."));

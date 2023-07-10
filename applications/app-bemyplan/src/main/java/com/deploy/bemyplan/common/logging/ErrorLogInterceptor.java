@@ -1,8 +1,7 @@
 package com.deploy.bemyplan.common.logging;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.util.ContentCachingRequestWrapper;
@@ -11,12 +10,15 @@ import org.springframework.web.util.ContentCachingResponseWrapper;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@Slf4j(topic = "ERROR_FILE_LOGGER")
 @Component
-@RequiredArgsConstructor
 public class ErrorLogInterceptor implements HandlerInterceptor {
 
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger("ERROR_FILE_LOGGER");
     private final ObjectMapper objectMapper;
+
+    public ErrorLogInterceptor(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
 
     @Override
     public void afterCompletion(final HttpServletRequest request, final HttpServletResponse response, final Object handler, final Exception ex) throws Exception {

@@ -8,7 +8,6 @@ import com.deploy.bemyplan.domain.plan.ScrapedPlan;
 import com.deploy.bemyplan.domain.scrap.Scrap;
 import com.deploy.bemyplan.domain.scrap.ScrapRepository;
 import com.deploy.bemyplan.plan.service.dto.response.PlanScrapResponse;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,12 +15,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class ScrapService {
 
     private final ScrapRepository scrapRepository;
     private final PlanRepository planRepository;
     private final OrderRepository orderRepository;
+
+    public ScrapService(ScrapRepository scrapRepository, PlanRepository planRepository, OrderRepository orderRepository) {
+        this.scrapRepository = scrapRepository;
+        this.planRepository = planRepository;
+        this.orderRepository = orderRepository;
+    }
 
     @Transactional
     public void addScrap(Long planId, Long userId) {

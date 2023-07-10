@@ -15,7 +15,6 @@ import com.deploy.bemyplan.plan.service.dto.response.PlanMainInfoResponse;
 import com.deploy.bemyplan.plan.service.dto.response.SpotMoveInfoDetailResponse;
 import com.deploy.bemyplan.plan.service.dto.response.SpotMoveInfoResponse;
 import com.deploy.bemyplan.scrap.service.ScrapService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,13 +26,18 @@ import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.groupingBy;
 
-@RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
 public class PlanRetrieveService {
     private final CreatorRepository creatorRepository;
     private final PlanRepository planRepository;
     private final ScrapService scrapService;
+
+    public PlanRetrieveService(CreatorRepository creatorRepository, PlanRepository planRepository, ScrapService scrapService) {
+        this.creatorRepository = creatorRepository;
+        this.planRepository = planRepository;
+        this.scrapService = scrapService;
+    }
 
     public PlanListResponse retrievePlans(final Long userId, final RegionCategory region, final String sort) {
         final List<Plan> planList = getPlanListByOrder(region, sort);
@@ -98,6 +102,7 @@ public class PlanRetrieveService {
                         scrapService.isOrdered(userId, plan.getId())))
                 .collect(Collectors.toList()));
     }
+
     private Creator getAuthorByPlan(final Plan plan) {
         return creatorRepository.findById(plan.getCreatorId())
                 .orElseThrow(() -> new NotFoundException("크리에이터 정보가 존재하지 않습니다."));

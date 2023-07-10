@@ -2,16 +2,18 @@ package com.deploy.bemyplan.config.auth;
 
 import com.deploy.bemyplan.jwt.JwtHeader;
 import com.deploy.bemyplan.jwt.JwtService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 
-@RequiredArgsConstructor
 @Component
 public class LoginCheckHandler {
 
     private final JwtService jwtService;
+
+    public LoginCheckHandler(JwtService jwtService) {
+        this.jwtService = jwtService;
+    }
 
     Long getUserId(final HttpServletRequest request) {
         final String token = request.getHeader(JwtHeader.AUTH);

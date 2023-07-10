@@ -1,24 +1,28 @@
 package com.deploy.bemyplan.temp.response;
 
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-
 import java.util.ArrayList;
 import java.util.List;
 
-@ToString
-@Getter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class TempScheduleDetailResponse {
     private List<TempSpotDetailResponse> spots = new ArrayList<>();
 
-    public static TempScheduleDetailResponse of (List<TempSpotDetailResponse> spots){
+    private TempScheduleDetailResponse(List<TempSpotDetailResponse> spots) {
+        this.spots = spots;
+    }
+
+    private TempScheduleDetailResponse() {
+    }
+
+    public static TempScheduleDetailResponse of(List<TempSpotDetailResponse> spots) {
         return new TempScheduleDetailResponse(spots);
     }
 
+    public List<TempSpotDetailResponse> getSpots() {
+        return this.spots;
+    }
+
+    public String toString() {
+        return "TempScheduleDetailResponse(spots=" + this.getSpots() + ")";
+    }
 }

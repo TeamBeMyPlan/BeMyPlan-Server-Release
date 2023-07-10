@@ -1,11 +1,5 @@
 package com.deploy.bemyplan.common.exception;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-
-@Getter
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public enum ErrorStatusCode {
 
     /**
@@ -24,4 +18,12 @@ public enum ErrorStatusCode {
     SERVICE_UNAVAILABLE(503);
 
     private final int status;
+
+    private ErrorStatusCode(int status) {
+        this.status = status;
+    }
+
+    public int getStatus() {
+        return this.status;
+    }
 }

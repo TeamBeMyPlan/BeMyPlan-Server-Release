@@ -12,7 +12,6 @@ import com.deploy.bemyplan.domain.scrap.ScrapRepository;
 import com.deploy.bemyplan.order.service.dto.OrderListResponse;
 import com.deploy.bemyplan.order.service.dto.response.OrderResponseDto;
 import com.deploy.bemyplan.order.service.dto.response.OrderedPlanInfoResponse;
-import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,13 +21,18 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@RequiredArgsConstructor
 @Service
 public class OrderService {
 
     private final OrderRepository orderRepository;
     private final PlanRepository planRepository;
     private final ScrapRepository scrapRepository;
+
+    public OrderService(final OrderRepository orderRepository, final PlanRepository planRepository, final ScrapRepository scrapRepository) {
+        this.orderRepository = orderRepository;
+        this.planRepository = planRepository;
+        this.scrapRepository = scrapRepository;
+    }
 
     @Transactional
     public OrderResponseDto createOrder(final Long planId, final int orderPrice, final Long userId) {

@@ -4,11 +4,7 @@ import com.deploy.bemyplan.domain.plan.Plan;
 import com.deploy.bemyplan.domain.plan.Region;
 import com.deploy.bemyplan.domain.user.Creator;
 import com.deploy.bemyplan.user.service.dto.response.CreatorInfoResponse;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 
-@Getter
-@AllArgsConstructor
 public class GetPlanResponse {
     private Long planId;
     private String thumbnailUrl;
@@ -27,5 +23,43 @@ public class GetPlanResponse {
                 scrapStatus,
                 orderStatus
         );
+    }
+
+    public GetPlanResponse(Long planId, String thumbnailUrl, String title, Region region, CreatorInfoResponse creator, boolean scrapStatus, boolean orderStatus) {
+        this.planId = planId;
+        this.thumbnailUrl = thumbnailUrl;
+        this.title = title;
+        this.region = region;
+        this.creator = creator;
+        this.scrapStatus = scrapStatus;
+        this.orderStatus = orderStatus;
+    }
+
+    public Long getPlanId() {
+        return this.planId;
+    }
+
+    public String getThumbnailUrl() {
+        return this.thumbnailUrl;
+    }
+
+    public String getTitle() {
+        return this.title;
+    }
+
+    public Region getRegion() {
+        return this.region;
+    }
+
+    public CreatorInfoResponse getCreator() {
+        return this.creator;
+    }
+
+    public boolean isScrapStatus() {
+        return this.scrapStatus;
+    }
+
+    public boolean isOrderStatus() {
+        return this.orderStatus;
     }
 }

@@ -1,15 +1,16 @@
 package com.deploy.bemyplan.common.logging;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.AsyncHandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@Slf4j(topic = "DEFAULT_FILE_LOGGER")
 @Component
 public class DefaultLogInterceptor implements AsyncHandlerInterceptor {
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger("DEFAULT_FILE_LOGGER");
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         log.info("url : {}", request.getRequestURL());

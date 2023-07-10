@@ -2,20 +2,17 @@ package com.deploy.bemyplan.preview.service.dto;
 
 import com.deploy.bemyplan.domain.plan.Preview;
 import com.deploy.bemyplan.domain.plan.SpotImage;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Getter
-@ToString
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class PreviewContentListResponse {
     private final List<PreviewContentResponse> previewContents;
+
+    private PreviewContentListResponse(List<PreviewContentResponse> previewContents) {
+        this.previewContents = previewContents;
+    }
 
     public static PreviewContentListResponse of(List<Preview> previews) {
         List<PreviewContentResponse> response = toPreviewContentListResponse(previews);
@@ -32,5 +29,13 @@ public class PreviewContentListResponse {
                                 .collect(Collectors.toList()),
                         preview.getDescription()))
                 .collect(Collectors.toList());
+    }
+
+    public List<PreviewContentResponse> getPreviewContents() {
+        return this.previewContents;
+    }
+
+    public String toString() {
+        return "PreviewContentListResponse(previewContents=" + this.getPreviewContents() + ")";
     }
 }

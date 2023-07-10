@@ -1,14 +1,6 @@
 package com.deploy.bemyplan.order.service.dto.response;
 
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-
-@Getter
-@ToString
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class OrderResponseDto {
 
     private Long orderId;
@@ -17,10 +9,21 @@ public class OrderResponseDto {
         this.orderId = orderId;
     }
 
-    public static OrderResponseDto of(final Long orderId){
+    private OrderResponseDto() {
+    }
+
+    public static OrderResponseDto of(final Long orderId) {
         OrderResponseDto response = new OrderResponseDto(
                 orderId
         );
         return response;
+    }
+
+    public Long getOrderId() {
+        return this.orderId;
+    }
+
+    public String toString() {
+        return "OrderResponseDto(orderId=" + this.getOrderId() + ")";
     }
 }

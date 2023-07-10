@@ -2,14 +2,12 @@ package com.deploy.bemyplan.order.service.dto.request;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.validation.constraints.NotNull;
 
 @ToString
-@Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class CreateOrderRequest {
@@ -19,4 +17,12 @@ public class CreateOrderRequest {
 
     @NotNull
     private int orderPrice;
+
+    public Long getPlanId() {
+        return planId;
+    }
+
+    public int getOrderPrice() {
+        return orderPrice;
+    }
 }

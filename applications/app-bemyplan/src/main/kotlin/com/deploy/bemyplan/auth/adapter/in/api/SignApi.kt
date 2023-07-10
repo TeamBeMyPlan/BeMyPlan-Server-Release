@@ -21,7 +21,7 @@ internal class SignApi(
     private val readUserUsecase: ReadUserUsecase,
 ) {
 
-    @PostMapping("/api/signup")
+    @PostMapping("/api/v1/signup")
     fun signUp(@Valid @RequestBody request: SignUpRequest): LoginResponse {
         val userId = signUserUsecase.signUp(request.toCommand())
         val token = jwtService.issuedToken(userId.toString(), "USER", 60 * 60 * 24 * 30)
@@ -34,7 +34,7 @@ internal class SignApi(
         )
     }
 
-    @PostMapping("/api/login")
+    @PostMapping("/api/v1/login")
     fun signIn(@Valid @RequestBody request: LoginRequest): LoginResponse {
         val user = signUserUsecase.signIn(request.toCommand())
         val token = jwtService.issuedToken(user.id.toString(), "USER", 60 * 60 * 24 * 30)
@@ -48,14 +48,14 @@ internal class SignApi(
     }
 
     @Auth
-    @DeleteMapping("/api/signout")
+    @DeleteMapping("/api/v1/signout")
     fun signOut(@Valid @RequestBody request: SignOutUserRequest,
                 @UserId userId: Long): ResponseDTO {
         signUserUsecase.signOut(userId, request.reasonForWithdrawal)
         return ResponseDTO.of("회원탈퇴 성공")
     }
 
-    @GetMapping("/api/user/name/check")
+    @GetMapping("/api/v1/user/name/check")
     fun checkAvailableName(@Valid request: CheckAvailableNameCommand): ResponseDTO {
         readUserUsecase.checkIsAvailableName(request)
         return ResponseDTO.of("사용 가능한 닉네임 입니다.")

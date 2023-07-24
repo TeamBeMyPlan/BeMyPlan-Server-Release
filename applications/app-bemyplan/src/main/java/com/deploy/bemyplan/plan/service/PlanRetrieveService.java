@@ -6,6 +6,7 @@ import com.deploy.bemyplan.domain.plan.PlanRepository;
 import com.deploy.bemyplan.domain.plan.Region;
 import com.deploy.bemyplan.domain.plan.RegionCategory;
 import com.deploy.bemyplan.domain.plan.Spot;
+import com.deploy.bemyplan.domain.plan.TravelMobility;
 import com.deploy.bemyplan.domain.plan.TravelPartner;
 import com.deploy.bemyplan.domain.user.Creator;
 import com.deploy.bemyplan.domain.user.CreatorRepository;
@@ -42,9 +43,18 @@ public class PlanRetrieveService {
         final List<Plan> filteredPlans = planList.stream()
                 .filter(plan -> containsPartners(plan, request.getPartners()))
                 .filter(plan -> containsMoneyRange(plan, request.getTravelMoneyRange()))
+                .filter(plan -> containsVehicles(plan, request.getVehicles()))
                 .collect(Collectors.toList());
 
         return getPlanListWithPersonalStatus(filteredPlans, userId);
+    }
+
+    private boolean containsVehicles(final Plan plan, final List<TravelMobility> vehicles) {
+        if (vehicles.isEmpty()) {
+            return true;
+        }
+
+        return vehicles.contains(plan.getTagInfo().getMobility());
     }
 
     private boolean containsMoneyRange(Plan plan, int[] travelMoneyRange) {

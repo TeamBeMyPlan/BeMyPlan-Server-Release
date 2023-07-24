@@ -6,6 +6,7 @@ import com.deploy.bemyplan.domain.plan.PlanRepository;
 import com.deploy.bemyplan.domain.plan.Region;
 import com.deploy.bemyplan.domain.plan.RegionCategory;
 import com.deploy.bemyplan.domain.plan.Spot;
+import com.deploy.bemyplan.domain.plan.TravelPartner;
 import com.deploy.bemyplan.domain.user.Creator;
 import com.deploy.bemyplan.domain.user.CreatorRepository;
 import com.deploy.bemyplan.plan.service.dto.request.RetrievePlansRequest;
@@ -39,18 +40,33 @@ public class PlanRetrieveService {
     public PlanListResponse retrievePlans(final Long userId, RetrievePlansRequest request) {
         final List<Plan> planList = getPlanListByOrder(request.getRegion(), request.getSort());
         final List<Plan> filteredPlans = planList.stream()
-                .filter(plan -> containsPartners(plan, request))
+                .filter(plan -> containsPartners(plan, request.getPartners()))
+                .filter(plan -> containsMoneyRange(plan, request.getTravelMoneyRange()))
                 .collect(Collectors.toList());
 
         return getPlanListWithPersonalStatus(filteredPlans, userId);
     }
 
-    private boolean containsPartners(final Plan plan, final RetrievePlansRequest request) {
-        if (request.getPartners().isEmpty()) {
+    private boolean containsMoneyRange(Plan plan, int[] travelMoneyRange) {
+        if (travelMoneyRange.length != 2) {
             return true;
         }
 
-        return request.getPartners().contains(plan.getTagInfo().getPartner());
+        if (travelMoneyRange[0] == 0 && travelMoneyRange[1] == 0) {
+            return true;
+        }
+
+        final int money = plan.getTagInfo().getBudget().getAmount().intValue();
+        return money >= travelMoneyRange[0] &&
+                money <= travelMoneyRange[1];
+    }
+
+    private boolean containsPartners(final Plan plan, final List<TravelPartner> partners) {
+        if (partners.isEmpty()) {
+            return true;
+        }
+
+        return partners.contains(plan.getTagInfo().getPartner());
     }
 
     public PlanListResponse getPickList(final Long userId) {

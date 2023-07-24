@@ -19,4 +19,5 @@ public class RetrievePlansRequest {
     private RegionCategory region;
     private String sort = "createdAt";
     private List<TravelPartner> partners = Collections.emptyList();
+    private int[] travelMoneyRange = {0, 0};
 }

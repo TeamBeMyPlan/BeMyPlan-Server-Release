@@ -1,11 +1,15 @@
 package com.deploy.bemyplan.plan.service.dto.request;
 
 import com.deploy.bemyplan.domain.plan.RegionCategory;
+import com.deploy.bemyplan.domain.plan.TravelPartner;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
+import java.util.Collections;
+import java.util.List;
 
 @ToString
 @Getter
@@ -14,4 +18,5 @@ import lombok.ToString;
 public class RetrievePlansRequest {
     private RegionCategory region;
     private String sort = "createdAt";
+    private List<TravelPartner> partners = Collections.emptyList();
 }

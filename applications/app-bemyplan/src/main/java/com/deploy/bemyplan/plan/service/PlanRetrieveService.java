@@ -38,7 +38,19 @@ public class PlanRetrieveService {
 
     public PlanListResponse retrievePlans(final Long userId, RetrievePlansRequest request) {
         final List<Plan> planList = getPlanListByOrder(request.getRegion(), request.getSort());
-        return getPlanListWithPersonalStatus(planList, userId);
+        final List<Plan> filteredPlans = planList.stream()
+                .filter(plan -> containsPartners(plan, request))
+                .collect(Collectors.toList());
+
+        return getPlanListWithPersonalStatus(filteredPlans, userId);
+    }
+
+    private boolean containsPartners(final Plan plan, final RetrievePlansRequest request) {
+        if (request.getPartners().isEmpty()) {
+            return true;
+        }
+
+        return request.getPartners().contains(plan.getTagInfo().getPartner());
     }
 
     public PlanListResponse getPickList(final Long userId) {

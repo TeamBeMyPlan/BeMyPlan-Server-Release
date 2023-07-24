@@ -8,6 +8,7 @@ import com.deploy.bemyplan.domain.plan.RegionCategory;
 import com.deploy.bemyplan.domain.plan.Spot;
 import com.deploy.bemyplan.domain.user.Creator;
 import com.deploy.bemyplan.domain.user.CreatorRepository;
+import com.deploy.bemyplan.plan.service.dto.request.RetrievePlansRequest;
 import com.deploy.bemyplan.plan.service.dto.response.PlanDetailResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanInfoResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanListResponse;
@@ -35,8 +36,8 @@ public class PlanRetrieveService {
     private final PlanRepository planRepository;
     private final ScrapService scrapService;
 
-    public PlanListResponse retrievePlans(final Long userId, final RegionCategory region, final String sort) {
-        final List<Plan> planList = getPlanListByOrder(region, sort);
+    public PlanListResponse retrievePlans(final Long userId, RetrievePlansRequest request) {
+        final List<Plan> planList = getPlanListByOrder(request.getRegion(), request.getSort());
         return getPlanListWithPersonalStatus(planList, userId);
     }
 

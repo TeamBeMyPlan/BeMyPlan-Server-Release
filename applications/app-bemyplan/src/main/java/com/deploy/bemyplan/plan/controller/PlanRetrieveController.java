@@ -3,6 +3,7 @@ package com.deploy.bemyplan.plan.controller;
 import com.deploy.bemyplan.config.auth.UserId;
 import com.deploy.bemyplan.domain.plan.Region;
 import com.deploy.bemyplan.plan.service.PlanRetrieveService;
+import com.deploy.bemyplan.plan.service.dto.request.RetrievePlansRequest;
 import com.deploy.bemyplan.plan.service.dto.response.PlanDetailResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanListResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanMainInfoResponse;
@@ -31,8 +32,7 @@ public class PlanRetrieveController {
     public PlanListResponse getPlans(@UserId final Long userId, @ModelAttribute @Valid final RetrievePlansRequest request) {
         return planRetrieveService.retrievePlans(
                 userId,
-                request.getRegion(),
-                request.getSort()
+                request
         );
     }
 

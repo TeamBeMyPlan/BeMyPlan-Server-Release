@@ -5,6 +5,7 @@ import com.deploy.bemyplan.domain.plan.RegionCategory;
 import com.deploy.bemyplan.domain.plan.TravelTheme;
 import com.deploy.bemyplan.plan.service.PlanService;
 import com.deploy.bemyplan.plan.service.dto.request.GetPlansByThemeRequest;
+import com.deploy.bemyplan.plan.service.dto.request.RetrievePlansRequest;
 import com.deploy.bemyplan.plan.service.dto.response.GetPlanResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanListResponse;
 import com.deploy.bemyplan.plan.service.dto.response.PlanPreviewResponseDto;

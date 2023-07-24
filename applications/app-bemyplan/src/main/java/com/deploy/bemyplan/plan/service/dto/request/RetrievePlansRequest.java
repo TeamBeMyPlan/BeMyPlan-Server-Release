@@ -22,4 +22,5 @@ public class RetrievePlansRequest {
     private List<TravelPartner> partners = Collections.emptyList();
     private List<TravelMobility> vehicles = Collections.emptyList();
     private int[] travelMoneyRange = {0, 0};
+    private int[] travelPeriodRange = {0, 0};
 }

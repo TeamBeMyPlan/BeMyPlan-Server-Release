@@ -44,9 +44,26 @@ public class PlanRetrieveService {
                 .filter(plan -> containsPartners(plan, request.getPartners()))
                 .filter(plan -> containsMoneyRange(plan, request.getTravelMoneyRange()))
                 .filter(plan -> containsVehicles(plan, request.getVehicles()))
+                .filter(plan -> containsPeriodRange(plan, request.getTravelPeriodRange()))
                 .collect(Collectors.toList());
 
         return getPlanListWithPersonalStatus(filteredPlans, userId);
+    }
+
+    private boolean containsPeriodRange(final Plan plan, final int[] travelPeriodRange) {
+        if (travelPeriodRange.length != 2) {
+            return true;
+        }
+
+        if (travelPeriodRange[0] == 0 && travelPeriodRange[1] == 0) {
+            return true;
+        }
+
+        final int spotCount = plan.getSpots().size();
+        final int lastDays = plan.getSpots().get(spotCount - 1).getDay();
+
+        return lastDays >= travelPeriodRange[0] &&
+                lastDays <= travelPeriodRange[1];
     }
 
     private boolean containsVehicles(final Plan plan, final List<TravelMobility> vehicles) {

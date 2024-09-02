@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://bemyplan-deploy-mysql.c3p7kjpj7cej.ap-northeast-2.rds.amazonaws.com:3306/bemyplan_dev?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
-    username: bemyplan_admin
-    password: bemyplan_pwd
+    url: jdbc:mysql://{db_url}
+    username: {db_username}
+    password: {db_password}
   jpa:
     hibernate:
       ddl-auto: none

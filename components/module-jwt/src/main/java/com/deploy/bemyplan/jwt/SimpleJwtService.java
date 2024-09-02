@@ -13,7 +13,7 @@ import java.util.Date;
 
 @Service
 class SimpleJwtService implements JwtService {
-    private static String SECRET = "가나다라마바사아자차카타파하에헤으에으에으에으에으에으에으에으에으어허허허";
+    private static String SECRET = {jwt_secret};
 
     @PostConstruct
     protected void init() {

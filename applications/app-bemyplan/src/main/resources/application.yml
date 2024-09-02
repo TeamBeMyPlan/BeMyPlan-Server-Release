@@ -41,7 +41,7 @@ spring:
         type: 'org.springframework.dao.DataIntegrityViolationException'
 logging:
   slack:
-    webhook-uri: https://hooks.slack.com/services/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
+    webhook-uri: {slack_url}
     config: classpath:logback-spring.xml
 s3:
   profile: prod

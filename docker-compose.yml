@@ -6,5 +6,5 @@ services:
     ports:
       - "3307:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: bemyplan
+      MYSQL_ROOT_PASSWORD: {db_passoword}
+      MYSQL_DATABASE: {db_name}
